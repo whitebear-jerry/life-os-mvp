@@ -4,10 +4,12 @@
 
 ## 已做出來的 MVP
 
-- `index.html`：互動測驗 + 結果頁 + 贈品 + 低價產品 CTA。
-- `templates/人生降噪一頁表.md`：免費贈品，可轉成 PDF 或表單交付。
-- `templates/45天覺醒合約-LifeOS模板包.md`：低價產品內容雛形。
-- `templates/7天內容試行排程.md`：第一週短內容排程與 Day 1 腳本。
+- `index.html`：互動測驗、漏斗入口、書稿圖片素材與低價產品 CTA。
+- `freebie.html`：免費贈品頁，將人生降噪一頁表做成可理解的交付頁。
+- `offer.html`：低價模板包銷售頁，說明 4 個模組與對應書稿。
+- `product-ladder.html`：產品階梯頁，定義免費、低價、中價、高價路線。
+- `content-plan.html`：7 天內容測試頁，整理 Day 1 到 Day 7 的發布方向。
+- `templates/`：保留 Markdown 原稿，方便轉 PDF、Notion、Google Form 或 Gumroad 交付物。
 
 ## 本地試跑
 
@@ -27,7 +29,7 @@ life-os-mvp/index.html
 ## 下一步
 
 1. 把 `index.html` 的測驗題搬到 Google Form / Tally / Notion 表單。
-2. 把 `人生降噪一頁表.md` 轉成 PDF。
+2. 把 `freebie.html` 或 `人生降噪一頁表.md` 轉成 PDF。
 3. 先發布 Day 1 到 Day 3 內容，觀察留言「降噪」的人數。
 4. 有留言後，用人工私訊交付測驗與一頁表。
-
+5. 若 3 到 5 人願意小額購買，再把 `offer.html` 轉成正式付款頁。

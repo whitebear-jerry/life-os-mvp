@@ -7,117 +7,165 @@
     <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body>
-    <main class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html">Life OS</a>
+      <nav aria-label="主要導覽">
+        <a href="#quiz">免費測驗</a>
+        <a href="freebie.html">人生降噪一頁表</a>
+        <a href="offer.html">模板包</a>
+        <a href="product-ladder.html">產品階梯</a>
+      </nav>
+    </header>
+
+    <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="kicker">Life OS / 降噪人生 MVP</p>
+          <p class="kicker">降噪人生 / Life OS MVP</p>
           <h1 id="hero-title">你不是卡住，是人生雜訊太多。</h1>
-          <p class="lead">用 3 分鐘測出你的內耗模式，拿到一張今天就能使用的「人生降噪一頁表」。</p>
+          <p class="lead">用 3 分鐘測出你的內耗模式，先拿一張可執行的一頁表，再決定要不要進入 45 天 Life OS 模板包。</p>
           <div class="hero-actions">
             <a class="button primary" href="#quiz">開始測驗</a>
-            <a class="button ghost" href="templates/人生降噪一頁表.md">查看免費一頁表</a>
+            <a class="button ghost" href="product-ladder.html">查看產品階梯</a>
           </div>
+          <ul class="proof-list" aria-label="這次 MVP 來源">
+            <li>心想事成：願望與信念校準</li>
+            <li>化逆境為順境：事件除錯與行動重啟</li>
+            <li>降噪人生：第二大腦、界線與 Life OS</li>
+          </ul>
         </div>
-        <div class="hero-panel" aria-label="MVP 漏斗">
-          <div class="flow-step active">短內容</div>
-          <div class="flow-line"></div>
-          <div class="flow-step active">免費測驗</div>
-          <div class="flow-line"></div>
-          <div class="flow-step">一頁表</div>
-          <div class="flow-line"></div>
-          <div class="flow-step">低價模板</div>
+        <figure class="hero-visual">
+          <img src="assets/life-os-skill-tree.jpg" alt="Life OS 技能樹示意圖">
+          <figcaption>從寫滿 10 本書，到可販售的 Life OS 技能樹。</figcaption>
+        </figure>
+      </section>
+
+      <section class="funnel-band" aria-label="MVP 漏斗">
+        <div class="funnel-step is-active">
+          <span>01</span>
+          <strong>短內容</strong>
+          <p>用「你不是懶，是大腦 RAM 爆了」抓痛點。</p>
+        </div>
+        <div class="funnel-step is-active">
+          <span>02</span>
+          <strong>免費測驗</strong>
+          <p>8 題辨識 4 種人生內耗模式。</p>
+        </div>
+        <div class="funnel-step">
+          <span>03</span>
+          <strong>免費贈品</strong>
+          <p>人生降噪一頁表，讓讀者第一次體驗卸載。</p>
+        </div>
+        <div class="funnel-step">
+          <span>04</span>
+          <strong>低價模板包</strong>
+          <p>45 天覺醒合約 + Life OS 一頁模板。</p>
         </div>
       </section>
 
       <section class="pain-grid" aria-label="讀者痛點">
         <article>
-          <h2>焦慮上班族</h2>
-          <p>每天很忙，卻說不出自己真正前進了什麼。</p>
+          <span>A</span>
+          <h2>願望迷霧型</h2>
+          <p>目標很多，但沒有真正下達清楚的人生關鍵字。</p>
         </article>
         <article>
-          <h2>內耗型創作者</h2>
-          <p>想做很多事，但一直卡在腦中，分析到沒有行動。</p>
+          <span>B</span>
+          <h2>逆境加戲型</h2>
+          <p>事件本身不一定致命，腦中加演的劇情才讓人耗竭。</p>
         </article>
         <article>
+          <span>C</span>
           <h2>界線漏電型</h2>
-          <p>別人的一句話、一個情緒，就能偷走你一整天。</p>
+          <p>善良沒有權限管理，別人的情緒就會進入你的系統。</p>
         </article>
         <article>
-          <h2>財富焦慮者</h2>
-          <p>想要自由，但對金錢、未來、安全感一直不安。</p>
+          <span>D</span>
+          <h2>大腦爆滿型</h2>
+          <p>資訊、待辦、焦慮都塞在腦中，系統自然開始發燙。</p>
         </article>
+      </section>
+
+      <section class="visual-story">
+        <figure>
+          <img src="assets/empathy-switch.jpg" alt="同理心連線與情緒界線示意">
+        </figure>
+        <div>
+          <p class="kicker">為什麼不是再給更多知識？</p>
+          <h2>這個 MVP 賣的不是筆記，是「人生降噪的第一次體驗」。</h2>
+          <p>讀者先透過測驗看見自己的雜訊來源，再用一頁表把腦中的混亂倒出來。只有當他感覺到「原來我可以被整理」時，低價模板包才有購買理由。</p>
+        </div>
       </section>
 
       <section id="quiz" class="quiz-section" aria-labelledby="quiz-title">
         <div class="section-heading">
           <p class="kicker">免費測驗</p>
           <h2 id="quiz-title">你是哪一種人生內耗模式？</h2>
-          <p>每題選最像你的答案。送出後會計算 A / B / C / D 哪個最多。</p>
+          <p>每題選最像你的答案。送出後會計算 A / B / C / D 哪個最多，並推薦對應的第一個行動。</p>
         </div>
 
         <form id="quiz-form" class="quiz-form">
           <fieldset class="question">
             <legend>Q1｜你最常卡住的地方是？</legend>
-            <label><input type="radio" name="q1" value="A" required>目標很多，但不知道自己真正想要什麼</label>
-            <label><input type="radio" name="q1" value="B">遇到挫折後，會一直想「是不是我很倒楣」</label>
-            <label><input type="radio" name="q1" value="C">別人的一句話，常常影響我一整天</label>
-            <label><input type="radio" name="q1" value="D">腦袋裝太多東西，想做卻動不了</label>
+            <label><input type="radio" name="q1" value="A" required><span>目標很多，但不知道自己真正想要什麼</span></label>
+            <label><input type="radio" name="q1" value="B"><span>遇到挫折後，會一直想「是不是我很倒楣」</span></label>
+            <label><input type="radio" name="q1" value="C"><span>別人的一句話，常常影響我一整天</span></label>
+            <label><input type="radio" name="q1" value="D"><span>腦袋裝太多東西，想做卻動不了</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q2｜你最常出現的內心聲音是？</legend>
-            <label><input type="radio" name="q2" value="A" required>我真的值得擁有更好的生活嗎？</label>
-            <label><input type="radio" name="q2" value="B">為什麼事情總是發生在我身上？</label>
-            <label><input type="radio" name="q2" value="C">如果我拒絕，對方會不會討厭我？</label>
-            <label><input type="radio" name="q2" value="D">我應該先整理完所有資料再開始</label>
+            <label><input type="radio" name="q2" value="A" required><span>我真的值得擁有更好的生活嗎？</span></label>
+            <label><input type="radio" name="q2" value="B"><span>為什麼事情總是發生在我身上？</span></label>
+            <label><input type="radio" name="q2" value="C"><span>如果我拒絕，對方會不會討厭我？</span></label>
+            <label><input type="radio" name="q2" value="D"><span>我應該先整理完所有資料再開始</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q3｜面對新計畫，你通常會？</legend>
-            <label><input type="radio" name="q3" value="A" required>很興奮，但幾天後熱度下降</label>
-            <label><input type="radio" name="q3" value="B">先想到可能失敗的地方</label>
-            <label><input type="radio" name="q3" value="C">先看別人需不需要我配合</label>
-            <label><input type="radio" name="q3" value="D">開很多工具和筆記，但沒有下一步</label>
+            <label><input type="radio" name="q3" value="A" required><span>很興奮，但幾天後熱度下降</span></label>
+            <label><input type="radio" name="q3" value="B"><span>先想到可能失敗的地方</span></label>
+            <label><input type="radio" name="q3" value="C"><span>先看別人需不需要我配合</span></label>
+            <label><input type="radio" name="q3" value="D"><span>開很多工具和筆記，但沒有下一步</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q4｜你的能量最常漏在哪裡？</legend>
-            <label><input type="radio" name="q4" value="A" required>懷疑自己</label>
-            <label><input type="radio" name="q4" value="B">回想過去失敗</label>
-            <label><input type="radio" name="q4" value="C">處理別人情緒</label>
-            <label><input type="radio" name="q4" value="D">資訊太多、任務太散</label>
+            <label><input type="radio" name="q4" value="A" required><span>懷疑自己</span></label>
+            <label><input type="radio" name="q4" value="B"><span>回想過去失敗</span></label>
+            <label><input type="radio" name="q4" value="C"><span>處理別人情緒</span></label>
+            <label><input type="radio" name="q4" value="D"><span>資訊太多、任務太散</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q5｜你最需要的不是更多知識，而是？</legend>
-            <label><input type="radio" name="q5" value="A" required>一個清楚的願望與信念校準</label>
-            <label><input type="radio" name="q5" value="B">一套把逆境轉成行動的除錯法</label>
-            <label><input type="radio" name="q5" value="C">一個保護自己的界線系統</label>
-            <label><input type="radio" name="q5" value="D">一個幫大腦卸載的 Life OS</label>
+            <label><input type="radio" name="q5" value="A" required><span>一個清楚的願望與信念校準</span></label>
+            <label><input type="radio" name="q5" value="B"><span>一套把逆境轉成行動的除錯法</span></label>
+            <label><input type="radio" name="q5" value="C"><span>一個保護自己的界線系統</span></label>
+            <label><input type="radio" name="q5" value="D"><span>一個幫大腦卸載的 Life OS</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q6｜你最想改善的是？</legend>
-            <label><input type="radio" name="q6" value="A" required>目標與自信</label>
-            <label><input type="radio" name="q6" value="B">情緒與挫折復原</label>
-            <label><input type="radio" name="q6" value="C">人際與界線</label>
-            <label><input type="radio" name="q6" value="D">專注與執行</label>
+            <label><input type="radio" name="q6" value="A" required><span>目標與自信</span></label>
+            <label><input type="radio" name="q6" value="B"><span>情緒與挫折復原</span></label>
+            <label><input type="radio" name="q6" value="C"><span>人際與界線</span></label>
+            <label><input type="radio" name="q6" value="D"><span>專注與執行</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q7｜你看到哪句話最有感？</legend>
-            <label><input type="radio" name="q7" value="A" required>你不是不努力，是大腦關鍵字設錯了</label>
-            <label><input type="radio" name="q7" value="B">逆境不是懲罰，是人生系統跳出錯誤訊息</label>
-            <label><input type="radio" name="q7" value="C">你的善良，需要權限管理</label>
-            <label><input type="radio" name="q7" value="D">大腦是用來思考的，不是用來硬記所有人生雜訊</label>
+            <label><input type="radio" name="q7" value="A" required><span>你不是不努力，是大腦關鍵字設錯了</span></label>
+            <label><input type="radio" name="q7" value="B"><span>逆境不是懲罰，是人生系統跳出錯誤訊息</span></label>
+            <label><input type="radio" name="q7" value="C"><span>你的善良，需要權限管理</span></label>
+            <label><input type="radio" name="q7" value="D"><span>大腦是用來思考的，不是用來硬記所有人生雜訊</span></label>
           </fieldset>
 
           <fieldset class="question">
             <legend>Q8｜如果只給你一張工具表，你最想要？</legend>
-            <label><input type="radio" name="q8" value="A" required>45 天願望覺醒合約</label>
-            <label><input type="radio" name="q8" value="B">攝影機思維除錯卡</label>
-            <label><input type="radio" name="q8" value="C">心靈 NAS 權限表</label>
-            <label><input type="radio" name="q8" value="D">Life OS 一頁儀表板</label>
+            <label><input type="radio" name="q8" value="A" required><span>45 天願望覺醒合約</span></label>
+            <label><input type="radio" name="q8" value="B"><span>攝影機思維除錯卡</span></label>
+            <label><input type="radio" name="q8" value="C"><span>心靈 NAS 權限表</span></label>
+            <label><input type="radio" name="q8" value="D"><span>Life OS 一頁儀表板</span></label>
           </fieldset>
 
           <button class="button primary submit" type="submit">看我的內耗模式</button>
@@ -130,8 +178,8 @@
           <h2 id="result-title"></h2>
           <p id="result-body"></p>
           <div class="result-actions">
-            <a class="button primary" href="templates/人生降噪一頁表.md">領取人生降噪一頁表</a>
-            <a class="button ghost" href="templates/45天覺醒合約-LifeOS模板包.md">查看低價模板包</a>
+            <a class="button primary" href="freebie.html">領取人生降噪一頁表</a>
+            <a class="button ghost" href="offer.html">查看 45 天模板包</a>
           </div>
         </div>
       </section>
@@ -140,16 +188,20 @@
         <div>
           <p class="kicker">低價產品測試</p>
           <h2 id="offer-title">45 天覺醒合約 + Life OS 一頁模板</h2>
-          <p>如果你覺得人生很吵，不一定需要更努力；你可能只是需要一套把雜訊倒出來的系統。</p>
+          <p>如果你覺得人生很吵，不一定需要更努力；你可能只是需要一套把雜訊倒出來、把行動變小、把界線設清楚的系統。</p>
+          <div class="inline-actions">
+            <a class="button primary" href="offer.html">看模板包內容</a>
+            <a class="button ghost" href="content-plan.html">看 7 天測試內容</a>
+          </div>
         </div>
         <div class="price-box">
           <span>建議先測</span>
           <strong>NT$299</strong>
-          <p>衝量價可測 NT$199，高感知價可測 NT$499。</p>
+          <p>NT$199 測衝量，NT$499 測高感知價值。</p>
         </div>
       </section>
     </main>
+
     <script src="assets/app.js"></script>
   </body>
 </html>
-
