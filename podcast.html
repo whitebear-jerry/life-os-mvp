@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>三書播客｜Life OS MVP</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+      .podcast-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 32px;
+        margin-top: 48px;
+      }
+      .podcast-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: var(--shadow);
+      }
+      .podcast-card .ep-badge {
+        display: inline-block;
+        background: var(--soft);
+        color: var(--green);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        padding: 4px 12px;
+        border-radius: 20px;
+        width: fit-content;
+      }
+      .podcast-card h2 {
+        font-size: 1.25rem;
+        margin: 0;
+        color: var(--ink);
+      }
+      .podcast-card p {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+        flex: 1;
+      }
+      .podcast-card audio {
+        width: 100%;
+        margin-top: 8px;
+      }
+      .podcast-card .book-tag {
+        font-size: 0.8rem;
+        color: var(--muted);
+        border-left: 3px solid var(--green);
+        padding-left: 10px;
+      }
+      .theme-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+        margin-top: 32px;
+      }
+      .theme-card {
+        background: var(--soft);
+        border-radius: 12px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .theme-card .ep-num {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--green);
+        letter-spacing: 0.1em;
+      }
+      .theme-card h3 {
+        font-size: 1.05rem;
+        margin: 0;
+      }
+      .theme-card p {
+        font-size: 0.88rem;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.55;
+      }
+      .theme-card audio {
+        width: 100%;
+      }
+      .section-divider {
+        margin: 64px 0 40px;
+        border: none;
+        border-top: 1px solid var(--line);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Life OS</a>
+      <nav aria-label="主要導覽">
+        <a href="index.html#quiz">免費測驗</a>
+        <a href="freebie.html">人生降噪一頁表</a>
+        <a href="podcast.html" aria-current="page">三書播客</a>
+        <a href="offer.html">模板包</a>
+        <a href="product-ladder.html">產品階梯</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="podcast-hero-title" style="padding-top:48px;">
+        <div class="hero-copy">
+          <p class="kicker">三書播客 / Life OS Podcast</p>
+          <h1 id="podcast-hero-title">用耳朵讀三本書，把關鍵洞見帶進你的日常。</h1>
+          <p class="lead">從《人生複利》《人生遊戲》《降噪人生》萃取的音頻精華，隨時聽、隨時用，讓第二大腦真正運作起來。</p>
+        </div>
+      </section>
+
+      <!-- 三書書摘播客 -->
+      <section aria-labelledby="ep123-title" style="margin-top:48px;">
+        <div class="section-heading">
+          <p class="kicker">書摘系列</p>
+          <h2 id="ep123-title">三本書的核心洞見，各一集聽完</h2>
+          <p>每集約 10–15 分鐘，對話式音頻，直接抓出每本書最關鍵的思維轉換點。</p>
+        </div>
+
+        <div class="podcast-grid">
+          <div class="podcast-card">
+            <span class="ep-badge">EP 1</span>
+            <h2>人生複利：從信念到財富的覺醒練習</h2>
+            <p class="book-tag">《人生複利：從信念到財富的 45 個覺醒練習》</p>
+            <p>你的願望，有沒有設錯關鍵字？這集帶你聽懂信念如何影響現實，以及 45 個覺醒練習背後的核心邏輯。</p>
+            <audio controls>
+              <source src="../audio/podcast-book1-人生複利.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+
+          <div class="podcast-card">
+            <span class="ep-badge">EP 2</span>
+            <h2>人生遊戲：把逆境變成升級關卡</h2>
+            <p class="book-tag">《人生遊戲：40 堂化逆境為順境的變現攻略》</p>
+            <p>逆境不是懲罰，是人生系統跳出的錯誤訊息。這集帶你用「攝影機思維」重新解讀卡關，找到下一步行動。</p>
+            <audio controls>
+              <source src="../audio/podcast-book2-人生遊戲.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+
+          <div class="podcast-card">
+            <span class="ep-badge">EP 3</span>
+            <h2>降噪人生：幫大腦卸載、替心靈把關</h2>
+            <p class="book-tag">《降噪人生》</p>
+            <p>你的大腦是用來思考的，不是用來硬撐所有雜訊的。這集帶你聽懂 Life OS 的核心，以及如何建立你的第二大腦。</p>
+            <audio controls>
+              <source src="../audio/podcast-book3-降噪人生.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider">
+
+      <!-- 主題系列 -->
+      <section aria-labelledby="ep4567-title">
+        <div class="section-heading">
+          <p class="kicker">主題系列</p>
+          <h2 id="ep4567-title">4 個最常卡住的內耗根源，一集解決一個</h2>
+          <p>從三本書的交叉點萃取出最高頻的人生卡點，每集針對一個主題深挖。</p>
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card">
+            <span class="ep-num">EP 4</span>
+            <h3>能量審計：你的時間花在哪裡，人生就長成什麼樣</h3>
+            <p>找出你的能量漏洞，把時間從「消耗」導向「複利」。</p>
+            <audio controls>
+              <source src="../audio/ep4-能量審計.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+
+          <div class="theme-card">
+            <span class="ep-num">EP 5</span>
+            <h3>思考還是焦慮：分辨你現在是在解決問題還是在消耗自己</h3>
+            <p>真正的思考會帶來下一步；焦慮只會讓你原地打轉。學會辨別這兩者，是降噪的第一步。</p>
+            <audio controls>
+              <source src="../audio/ep5-思考還是焦慮.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+
+          <div class="theme-card">
+            <span class="ep-num">EP 6</span>
+            <h3>內心小劇場：當大腦開始自編自導，你要怎麼辦</h3>
+            <p>內心小劇場不是你的錯，但你可以選擇不當主角。這集教你用「攝影機視角」跳出劇情。</p>
+            <audio controls>
+              <source src="../audio/ep6-內心小劇場.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+
+          <div class="theme-card">
+            <span class="ep-num">EP 7</span>
+            <h3>比較心關掉：為什麼越比較越內耗，以及怎麼真正關掉它</h3>
+            <p>比較不是你意志力不夠，是大腦的預設設定。這集帶你找到屬於自己的參照系。</p>
+            <audio controls>
+              <source src="../audio/ep7-比較心關掉.mp4" type="video/mp4">
+              你的瀏覽器不支援音頻播放。
+            </audio>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="offer-section" aria-labelledby="podcast-cta-title" style="margin-top:64px;">
+        <div>
+          <p class="kicker">聽完想繼續？</p>
+          <h2 id="podcast-cta-title">用「21 天人生降噪工作本」把播客洞見變成每日行動</h2>
+          <p>播客給你的是「看見」；工作本給你的是「改變」。21 天、每天 10 分鐘，把降噪從概念變成習慣。</p>
+          <div class="inline-actions">
+            <a class="button primary" href="offer.html">NT$399 拿到工作本 + 完整工具包 →</a>
+            <a class="button ghost" href="index.html#quiz">先做免費測驗，找出你的內耗模式</a>
+          </div>
+        </div>
+        <div class="price-box">
+          <span>包含</span>
+          <strong>7 集音頻</strong>
+          <p>EP1–3 書摘精華 ＋ EP4–7 主題深挖，完全免費聆聽。</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

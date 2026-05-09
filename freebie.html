@@ -12,6 +12,7 @@
       <nav aria-label="主要導覽">
         <a href="index.html#quiz">免費測驗</a>
         <a href="freebie.html" aria-current="page">人生降噪一頁表</a>
+        <a href="podcast.html">三書播客</a>
         <a href="offer.html">模板包</a>
         <a href="product-ladder.html">產品階梯</a>
       </nav>
@@ -23,14 +24,20 @@
           <p class="kicker">免費贈品</p>
           <h1>人生降噪一頁表</h1>
           <p class="lead">免費領取「人生降噪一頁表」PDF，填入 Email 後馬上取得。它的任務是讓讀者第一次把焦慮、待辦、情緒和人際消耗倒出來。</p>
-          <form class="email-capture" data-email-form>
-            <label for="freebie-email">填 Email，馬上收到 PDF</label>
-            <div class="email-row">
-              <input id="freebie-email" type="email" name="email" placeholder="你的 Email" required>
-              <button class="button primary" type="submit">免費領取 →</button>
-            </div>
-            <p class="form-note" data-form-note>目前是 MVP 表單示範；正式串接 Tally 或 Google Form 後即可自動寄送。</p>
-          </form>
+          <div class="tally-embed" style="margin: 24px 0;">
+            <iframe
+              data-tally-src="https://tally.so/embed/Pdv6r0?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              loading="lazy"
+              width="100%"
+              height="200"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              title="免費領取「人生降噪一頁表」PDF"
+              style="border:none; min-height:160px;"
+            ></iframe>
+            <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+          </div>
           <div class="hero-actions">
             <a class="button primary" href="templates/人生降噪一頁表.md">打開可複製 Markdown</a>
             <a class="button ghost" href="offer.html">下一步：模板包</a>
