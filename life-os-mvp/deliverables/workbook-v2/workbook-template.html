@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Life OS 21 天人生降噪工作本 v2 模板</title>
+    <style>
+      :root {
+        --ink: #17201a;
+        --muted: #667066;
+        --line: #dce3d9;
+        --paper: #fbfaf6;
+        --panel: #ffffff;
+        --soft: #f3f6ee;
+        --green: #2f6b4f;
+        --gold: #c48935;
+        --rose: #a04f55;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      main {
+        width: min(980px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 40px 0 72px;
+      }
+
+      .cover,
+      .day-page,
+      .review-page {
+        min-height: 920px;
+        margin: 0 0 28px;
+        padding: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        page-break-after: always;
+      }
+
+      .cover {
+        display: grid;
+        align-content: center;
+        gap: 22px;
+        background: linear-gradient(135deg, #ffffff 0%, #eef5eb 100%);
+      }
+
+      .kicker {
+        margin: 0;
+        color: var(--green);
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      h1 { max-width: 760px; font-size: 4rem; }
+      h2 { font-size: 2rem; }
+      h3 { font-size: 1.15rem; }
+      p { line-height: 1.7; color: var(--muted); }
+
+      .meta-grid,
+      .prompt-grid,
+      .score-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .meta-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .meta-box,
+      .prompt-box,
+      .score-box {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .quote {
+        margin: 22px 0;
+        padding: 16px 18px;
+        border-left: 5px solid var(--gold);
+        border-radius: 8px;
+        background: #fff8eb;
+        color: #244432;
+        font-weight: 900;
+      }
+
+      .write-line {
+        min-height: 74px;
+        margin-top: 10px;
+        border: 1px dashed #b8c5b5;
+        border-radius: 8px;
+        background: #fbfcf8;
+      }
+
+      .write-line.large {
+        min-height: 142px;
+      }
+
+      .score-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .score-box {
+        min-height: 76px;
+        text-align: center;
+        color: var(--muted);
+        font-weight: 900;
+      }
+
+      .day-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 88px;
+        min-height: 38px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 900;
+        background: var(--green);
+      }
+
+      @media print {
+        body { background: #fff; }
+        main { width: 100%; padding: 0; }
+        .cover,
+        .day-page,
+        .review-page {
+          min-height: 100vh;
+          margin: 0;
+          border: none;
+          border-radius: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="cover">
+        <p class="kicker">Life OS Workbook v2</p>
+        <h1>21 天人生降噪工作本</h1>
+        <p>從信念校準、逆境除錯到 Life OS 系統建立。每天 10 分鐘，把腦中的雜訊移出來，把真正重要的事放回人生中央。</p>
+        <div class="meta-grid">
+          <div class="meta-box"><strong>使用者</strong><div class="write-line"></div></div>
+          <div class="meta-box"><strong>開始日</strong><div class="write-line"></div></div>
+          <div class="meta-box"><strong>完成日</strong><div class="write-line"></div></div>
+        </div>
+      </section>
+
+      <section class="review-page">
+        <p class="kicker">Day 0 / Baseline</p>
+        <h2>開始前基線測驗</h2>
+        <p>先記錄現在的狀態，21 天後才知道自己真正改變了什麼。</p>
+        <div class="prompt-grid">
+          <div class="prompt-box"><h3>我現在最大的內耗來源</h3><div class="write-line large"></div></div>
+          <div class="prompt-box"><h3>我最想在 21 天後變清楚的事</h3><div class="write-line large"></div></div>
+          <div class="prompt-box"><h3>今天能量分數</h3><div class="score-grid"><div class="score-box">1</div><div class="score-box">2</div><div class="score-box">3</div><div class="score-box">4</div><div class="score-box">5</div></div></div>
+        </div>
+      </section>
+
+      <section class="day-page"><span class="day-label">Day 1</span><h2>大腦清倉</h2><div class="quote">大腦是處理器，不是倉庫。</div><p>把所有掛念、待辦、擔憂先移出腦袋，不急著分類。</p><div class="prompt-box"><h3>我現在腦袋裡一直掛念的是</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>今天最小下一步</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 2</span><h2>願望捕捉</h2><div class="quote">願望不清楚，努力就會到處漏電。</div><p>先不要修飾，寫出你最直覺想要的生活變化。</p><div class="prompt-box"><h3>我想要</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>這件事對我重要，因為</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 3</span><h2>三次為什麼</h2><div class="quote">真正的願望，通常藏在第三個為什麼後面。</div><p>把表面願望往下追問，找到它背後的情感需求。</p><div class="prompt-box"><h3>為什麼 1 / 2 / 3</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我的底層需求是</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 4</span><h2>關鍵字改寫</h2><div class="quote">大腦會替你搜尋你反覆相信的東西。</div><p>把今天最常出現的負面句，改成可以啟動行動的句子。</p><div class="prompt-box"><h3>舊關鍵字</h3><div class="write-line"></div></div><div class="prompt-box"><h3>新關鍵字</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 5</span><h2>微行動確認</h2><div class="quote">行動，是願望訂單的確認鍵。</div><p>設計一個小到不需要意志力的行動。</p><div class="prompt-box"><h3>今天 2 分鐘可以做的是</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>完成後我會怎麼獎勵自己</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 6</span><h2>事實與腦補</h2><div class="quote">先拍事實，再處理劇情。</div><p>選一件今天讓你不舒服的事，把客觀事實和大腦加戲拆開。</p><div class="prompt-box"><h3>攝影機拍到的事實</h3><div class="write-line"></div></div><div class="prompt-box"><h3>我腦中追加的劇情</h3><div class="write-line"></div></div></section>
+      <section class="review-page"><span class="day-label">Day 7</span><h2>第一週復盤</h2><p>回看這一週，你最常見的內耗來源是哪一類？</p><div class="prompt-box"><h3>我看見的模式</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>下一週我最想練的是</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 8</span><h2>攝影機思維</h2><div class="quote">把形容詞刪掉，事情就會變小。</div><p>今天只描述行為、時間、地點，不寫猜測。</p><div class="prompt-box"><h3>客觀描述</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我可以做的下一步</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 9</span><h2>情緒暫停鍵</h2><div class="quote">情緒不是敵人，它是提醒你有需求。</div><p>在情緒升高時喊卡，先讓自己退回觀眾席。</p><div class="prompt-box"><h3>我現在的情緒在保護什麼</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我可以先做的安撫動作</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 10</span><h2>玩家視角</h2><div class="quote">你不是被劇情困住，是忘了自己是玩家。</div><p>把今天的卡關改寫成一個任務。</p><div class="prompt-box"><h3>這一關正在測試我</h3><div class="write-line"></div></div><div class="prompt-box"><h3>通關動作</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 11</span><h2>條件溝通</h2><div class="quote">沒有界線的善良，會耗掉你的專業。</div><p>把默默忍耐改成有條件的協作。</p><div class="prompt-box"><h3>我可以幫忙，但前提是</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我需要對方提供</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 12</span><h2>退回罪惡感</h2><div class="quote">別人的功課，不一定是你的責任。</div><p>分辨你是在幫忙，還是在替別人扛人生。</p><div class="prompt-box"><h3>這件事真正的責任人是</h3><div class="write-line"></div></div><div class="prompt-box"><h3>我的退件句</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 13</span><h2>能量審計</h2><div class="quote">別讓隱形吸管偷走你的電力。</div><p>找出三個消耗大於滋養的人事物。</p><div class="prompt-box"><h3>我的漏電清單</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>明天先隔離一項</h3><div class="write-line"></div></div></section>
+      <section class="review-page"><span class="day-label">Day 14</span><h2>第二週復盤</h2><p>這週你是否更能分辨事實、劇情與責任邊界？</p><div class="prompt-box"><h3>最有效的除錯工具</h3><div class="write-line"></div></div><div class="prompt-box"><h3>我想繼續保留的界線</h3><div class="write-line large"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 15</span><h2>第二大腦 Inbox</h2><div class="quote">先卸載，再前進。</div><p>建立一個固定收集匣，讓待辦不用一直住在腦裡。</p><div class="prompt-box"><h3>我的 Inbox 放在哪裡</h3><div class="write-line"></div></div><div class="prompt-box"><h3>今天要倒進 Inbox 的事項</h3><div class="write-line large"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 16</span><h2>巨石拆解</h2><div class="quote">不要搬整座山，先修眼前第一格階梯。</div><p>選一個大目標，拆成 15 分鐘內能做的行動。</p><div class="prompt-box"><h3>大目標</h3><div class="write-line"></div></div><div class="prompt-box"><h3>三個 15 分鐘行動</h3><div class="write-line large"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 17</span><h2>情境標籤</h2><div class="quote">任務有情境，大腦才不用重新開機。</div><p>把任務標成手機、電腦、走動或深度工作。</p><div class="prompt-box"><h3>手機可做</h3><div class="write-line"></div></div><div class="prompt-box"><h3>電腦深度工作</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 18</span><h2>心靈 NAS</h2><div class="quote">你的心靈需要權限管理。</div><p>畫出 Root、訪客、封鎖 IP 三層同心圓。</p><div class="prompt-box"><h3>Root 最高權限</h3><div class="write-line"></div></div><div class="prompt-box"><h3>訪客與封鎖名單</h3><div class="write-line large"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 19</span><h2>番茄單工</h2><div class="quote">一次只處理一件事，是對大腦的尊重。</div><p>設定 25 分鐘，只處理唯一任務。</p><div class="prompt-box"><h3>接下來 25 分鐘唯一任務</h3><div class="write-line"></div></div><div class="prompt-box"><h3>干擾清單與隔離方式</h3><div class="write-line"></div></div></section>
+      <section class="day-page"><span class="day-label">Day 20</span><h2>45 天合約</h2><div class="quote">慢慢來，比較快。</div><p>選一個願意繼續 45 天不斷鏈的微習慣。</p><div class="prompt-box"><h3>我的 45 天微習慣</h3><div class="write-line"></div></div><div class="prompt-box"><h3>簽名與承諾</h3><div class="write-line"></div></div></section>
+      <section class="review-page"><span class="day-label">Day 21</span><h2>Life OS 系統宣言</h2><div class="quote">善良要有防火牆，心才不會被亂寫入。</div><p>寫下你新的使用說明：你要如何管理願望、逆境、能量與注意力？</p><div class="prompt-box"><h3>我的 Life OS 使用說明</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我完成了以下改變</h3><div class="write-line"></div></div></section>
+    </main>
+  </body>
+</html>
