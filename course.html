@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Life OS 三書課程模組｜Life OS MVP</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+      .course-map {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        padding: 38px 0 18px;
+      }
+
+      .course-module {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 10px 34px rgba(27, 40, 31, 0.06);
+      }
+
+      .course-module img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+      }
+
+      .quote-strip {
+        padding: 14px 16px;
+        border-left: 4px solid var(--gold);
+        border-radius: 8px;
+        background: #fff8eb;
+        color: var(--green-dark);
+        font-weight: 900;
+        line-height: 1.55;
+      }
+
+      .tool-list {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .tool-list li {
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: var(--soft);
+        color: var(--muted);
+        font-weight: 750;
+      }
+
+      .day-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        padding: 20px 0 44px;
+      }
+
+      .week-card {
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .week-card ol {
+        display: grid;
+        gap: 8px;
+        margin: 16px 0 0;
+        padding-left: 22px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .course-proof {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        padding: 44px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      @media (max-width: 940px) {
+        .course-map,
+        .day-grid,
+        .course-proof {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Life OS</a>
+      <nav aria-label="主要導覽">
+        <a href="index.html#quiz">免費測驗</a>
+        <a href="freebie.html">人生降噪一頁表</a>
+        <a href="podcast.html">三書播客</a>
+        <a href="course.html" aria-current="page">課程模組</a>
+        <a href="offer.html">工作本</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero two-col">
+        <div>
+          <p class="kicker">Life OS Course / 三書課程模組</p>
+          <h1>把三本書，變成 21 天可執行的人生降噪課。</h1>
+          <p class="lead">這不是把書摘貼成課程，而是把《人生複利》《人生遊戲》《降噪人生》整理成三個模組：先校準願望，再除錯逆境，最後建立自己的 Life OS。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="offer.html">查看 21 天工作本 →</a>
+            <a class="button ghost" href="index.html#quiz">先做免費測驗</a>
+          </div>
+        </div>
+        <figure class="feature-image">
+          <img src="assets/life-os-skill-tree.jpg" alt="Life OS 三書課程技能樹">
+          <figcaption>三本書不是三條線，而是一套從信念、逆境到系統的練習路徑。</figcaption>
+        </figure>
+      </section>
+
+      <section class="course-map" aria-label="三書課程模組">
+        <article class="course-module">
+          <img src="assets/auto-navigation.jpg" alt="信念校準與自動導航">
+          <p class="kicker">Module 1 / 人生複利</p>
+          <h2>信念校準</h2>
+          <div class="quote-strip">願望不清楚，努力就會到處漏電。</div>
+          <p>這個模組把願望從「我想要更好」拆成清楚關鍵字。你會用 RAS 搜尋引擎、黃金圈追問與微行動確認鍵，把模糊願望轉成今天就能做的一小步。</p>
+          <ul class="tool-list">
+            <li>RAS 關鍵字改寫</li>
+            <li>三次為什麼願望校準</li>
+            <li>2 分鐘微行動確認鍵</li>
+          </ul>
+          <a class="button ghost" href="offer.html">從 Day 2 開始練習</a>
+        </article>
+
+        <article class="course-module">
+          <img src="assets/quest-complete.jpg" alt="逆境除錯與玩家視角">
+          <p class="kicker">Module 2 / 人生遊戲</p>
+          <h2>逆境除錯</h2>
+          <div class="quote-strip">先拍事實，再處理劇情。</div>
+          <p>很多痛苦不是事件本身，而是大腦追加的劇情。這個模組教你用攝影機思維、玩家視角與條件溝通，把逆境重新拆成可以處理的任務。</p>
+          <ul class="tool-list">
+            <li>事實 vs 腦補拆解</li>
+            <li>玩家視角任務轉換</li>
+            <li>「我可以，但前提是」界線句</li>
+          </ul>
+          <a class="button ghost" href="offer.html">從 Day 6 開始練習</a>
+        </article>
+
+        <article class="course-module">
+          <img src="assets/knowledge-stack.jpg" alt="第二大腦與 Life OS 系統">
+          <p class="kicker">Module 3 / 降噪人生</p>
+          <h2>系統降噪</h2>
+          <div class="quote-strip">大腦是處理器，不是倉庫。</div>
+          <p>當願望與逆境都被整理後，最後要把人生雜訊移出大腦。這個模組建立第二大腦、能量審計與心靈 NAS，讓你有一套可維護的生活系統。</p>
+          <ul class="tool-list">
+            <li>第二大腦 Inbox 清倉</li>
+            <li>能量審計與漏電清單</li>
+            <li>心靈 NAS 權限同心圓</li>
+          </ul>
+          <a class="button ghost" href="offer.html">從 Day 13 開始練習</a>
+        </article>
+      </section>
+
+      <section class="visual-story">
+        <figure>
+          <img src="assets/empathy-switch.jpg" alt="Life OS 心靈權限與情緒界線">
+        </figure>
+        <div>
+          <p class="kicker">課程路徑</p>
+          <h2>先把方向校準，再把情緒降噪，最後把系統裝起來。</h2>
+          <p>如果一開始就做第二大腦，很容易變成更漂亮的待辦清單；如果只談轉念，又可能沒有落地工具。Life OS 的順序是：先知道自己要去哪，再處理卡關劇情，最後建立每天會自動維護的生活作業系統。</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="day-title">
+        <div class="section-heading">
+          <p class="kicker">Day 1-21</p>
+          <h2 id="day-title">三週完成一輪人生降噪</h2>
+          <p>公開頁只展示課程結構；完整填寫頁、作者旁白與 PDF 美化版會放在 21 天工作本中。</p>
+        </div>
+        <div class="day-grid">
+          <article class="week-card">
+            <span>Week 1</span>
+            <h2>找出內耗根源</h2>
+            <ol>
+              <li>大腦清倉</li>
+              <li>願望捕捉</li>
+              <li>三次為什麼</li>
+              <li>關鍵字改寫</li>
+              <li>微行動確認</li>
+              <li>事實與腦補</li>
+              <li>第一週復盤</li>
+            </ol>
+          </article>
+          <article class="week-card">
+            <span>Week 2</span>
+            <h2>把逆境轉成任務</h2>
+            <ol start="8">
+              <li>攝影機思維</li>
+              <li>情緒暫停鍵</li>
+              <li>玩家視角</li>
+              <li>條件溝通</li>
+              <li>退回罪惡感</li>
+              <li>能量審計</li>
+              <li>第二週復盤</li>
+            </ol>
+          </article>
+          <article class="week-card">
+            <span>Week 3</span>
+            <h2>建立 Life OS</h2>
+            <ol start="15">
+              <li>第二大腦 Inbox</li>
+              <li>巨石拆解</li>
+              <li>情境標籤</li>
+              <li>心靈 NAS</li>
+              <li>番茄單工</li>
+              <li>45 天合約</li>
+              <li>系統宣言</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="course-proof">
+        <div class="next-step-panel" style="margin:0;">
+          <div>
+            <p class="kicker">適合誰</p>
+            <h2>適合已經知道很多道理，但缺每天操作系統的人。</h2>
+            <p>這套課程不承諾一夜改變，而是讓你在 21 天內完成一輪願望、情緒、資訊與界線的降噪。</p>
+          </div>
+        </div>
+        <div class="next-step-panel" style="margin:0;">
+          <div>
+            <p class="kicker">下一步</p>
+            <h2>先測出你的內耗模式，再選對練習入口。</h2>
+            <div class="hero-actions">
+              <a class="button primary" href="index.html#quiz">免費測驗 →</a>
+              <a class="button ghost" href="offer.html">看工作本</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 白熊 Life OS</p>
+      <nav aria-label="出版平台">
+        <a href="https://www.kobo.com/tw/zh/search?query=%E7%99%BD%E7%86%8A" target="_blank" rel="noopener">樂天 Kobo</a>
+        <a href="https://readmoo.com/search/keyword?q=%E7%99%BD%E7%86%8A" target="_blank" rel="noopener">Readmoo</a>
+        <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener">Pubu</a>
+      </nav>
+    </footer>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>
