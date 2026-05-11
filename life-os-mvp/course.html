@@ -90,10 +90,73 @@
         border-top: 1px solid var(--line);
       }
 
+      .day-preview,
+      .audience-section {
+        padding: 44px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .preview-card {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 22px;
+        align-items: start;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 10px 34px rgba(27, 40, 31, 0.06);
+      }
+
+      .preview-flow {
+        margin: 14px 0 0;
+        padding: 14px 16px;
+        border-radius: 8px;
+        background: var(--soft);
+        color: var(--green-dark);
+        font-weight: 850;
+        line-height: 1.65;
+      }
+
+      .preview-fields {
+        display: grid;
+        gap: 12px;
+      }
+
+      .preview-field {
+        min-height: 84px;
+        padding: 14px;
+        border: 1px dashed #b8c5b5;
+        border-radius: 8px;
+        background: #fbfcf8;
+      }
+
+      .audience-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .audience-card {
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .audience-card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--green-dark);
+      }
+
       @media (max-width: 940px) {
         .course-map,
         .day-grid,
-        .course-proof {
+        .course-proof,
+        .preview-card,
+        .audience-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -183,6 +246,28 @@
         </div>
       </section>
 
+      <section class="day-preview" aria-labelledby="preview-title">
+        <div class="section-heading">
+          <p class="kicker">免費預覽 / Day 1</p>
+          <h2 id="preview-title">先試做第一天：把腦中的雜訊全部倒出來。</h2>
+          <p>Day 1 不要求你立刻變自律，只要求你先把大腦從硬碟模式切回處理器模式。這一頁會出現在工作本中，讓你體驗完整格式。</p>
+        </div>
+        <div class="preview-card">
+          <div>
+            <span class="day-label">Day 1</span>
+            <h2>大腦清倉</h2>
+            <div class="quote-strip">大腦是處理器，不是倉庫。</div>
+            <p>哈囉，我是白熊。大腦是用來思考，而非死記的硬碟。瑣事塞滿腦海只會讓記憶體發燙。今天請將腦中雜事毫無保留寫下，徹底卸載焦慮。</p>
+            <div class="preview-flow">準備紙筆或筆記軟體 → 閉上眼睛掃描思緒 → 毫無保留全數寫下 → 確認腦海清空 → 感受大腦的輕盈</div>
+          </div>
+          <div class="preview-fields">
+            <div class="preview-field"><strong>我現在腦袋裡一直掛念的是</strong></div>
+            <div class="preview-field"><strong>今天最小下一步</strong></div>
+            <div class="preview-field"><strong>完成後，我的能量分數變化</strong></div>
+          </div>
+        </div>
+      </section>
+
       <section aria-labelledby="day-title">
         <div class="section-heading">
           <p class="kicker">Day 1-21</p>
@@ -228,6 +313,28 @@
               <li>45 天合約</li>
               <li>系統宣言</li>
             </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="audience-section" aria-labelledby="audience-title">
+        <div class="section-heading">
+          <p class="kicker">適合誰 / 不適合誰</p>
+          <h2 id="audience-title">這不是知識收藏課，而是每天 10 分鐘的系統重啟。</h2>
+          <p>Life OS 課程模組適合已經知道自己需要改變，但一直缺少穩定流程的人；如果你只想看更多觀念，這套練習反而會顯得太實作。</p>
+        </div>
+        <div class="audience-grid">
+          <article class="audience-card">
+            <strong>適合：腦袋長期爆滿的人</strong>
+            <p>你有很多待辦、靈感、焦慮和責任卡在腦中，常常覺得自己不是不努力，而是系統過熱。</p>
+          </article>
+          <article class="audience-card">
+            <strong>適合：讀很多書但落地很少的人</strong>
+            <p>你不缺知識，缺的是把信念、情緒、任務和界線每天整理一次的固定儀式。</p>
+          </article>
+          <article class="audience-card">
+            <strong>不適合：只想被激勵但不填寫的人</strong>
+            <p>這套工作本需要每天寫下答案。只看不做，效果會停在「有道理」，不會變成生活系統。</p>
           </article>
         </div>
       </section>
