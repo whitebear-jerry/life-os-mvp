@@ -3,16 +3,17 @@
 ## 最近一次 session
 
 - 電腦：Mac.lan
-- 日期：2026-05-11
+- 日期：2026-05-12
 - 分支：codex/life-os-mvp
-- 完成：完成 C6 兩台電腦同步協定，更新 repo 交接單與 Obsidian 三件套，並將 `course.html` 最新預覽區同步部署到 `gh-pages`。
-- 下次從：另一台 Codex 先 `git pull origin codex/life-os-mvp`，讀 `life-os-mvp/SESSION.md` 與 `AI-Checkpoint.md`，再檢查 GitHub Pages 的 `course.html` 是否顯示 Day 1 預覽與「適合誰」段落。
+- 完成：完成 Fix-Sync-1/2/3；deliverables 源稿 MD/HTML 已 commit，另一台 pull 後可直接重新生成 PDF；`.gitignore` 已加入 slides/PDF/audio/scripts 保護；`podcast.html.local-backup` 已刪除。
+- 下次從：另一台 Codex 先 `git pull origin codex/life-os-mvp`，確認 `deliverables/00-07*.md`、`deliverables/LifeOS-工具包-可列印.html`、`life-os-mvp/.gitignore` 都存在，再繼續 D1-D4 工作本 v2 重製或 PDF 生成驗收。
 
 ## 未完成但已 push 的 WIP
 
-- 無。C1-C6 已 push 到 `codex/life-os-mvp`。
-- `course.html` 已同步到 `gh-pages`（deploy commit `298e6ba`）；`workbook-v2` 仍作為 repo 內公開模板，不在 Pages 導覽主流程中單獨部署。
+- deliverables 源稿已 push：`2901768`（`docs: 加入 deliverables 源稿 MD，讓另一台電腦可重新生成 PDF`）。
+- `.gitignore` 保護規則已 push：`d6a74dc`（`chore: 更新 .gitignore，加入 deliverables/slides/ 保護`）。
+- D1-D4 工作本 v2 深度重製曾在 `/private/tmp/life-os-d1d3` 暫存 worktree 進行，尚未合併到主工作區；若要繼續，需先確認是否沿用該暫存成果。
 
 ## 需要 Google Drive 的檔案
 
-- 無。本次收工沒有生成 PDF、slide、audio 或私密腳本。
+- 無。本次 Fix-Sync 沒有生成新的 PDF、slide、audio 或私密腳本。
