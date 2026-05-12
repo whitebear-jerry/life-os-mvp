@@ -1,0 +1,21 @@
+# 書稿原始檔（私密，不推 GitHub）
+../創作1/
+../創作2/
+../創作3/
+
+# 腳本資料夾（源自未出版書稿，私密）
+scripts/
+
+# 音頻檔案（大型 MP4，透過 Google Drive 同步）
+audio/
+
+# PDF 付費產品（透過 Gumroad 交付，不放 public repo）
+deliverables/pdf/LifeOS-NT*.pdf
+deliverables/pdf/LifeOS-21天*.pdf
+
+# 課程投影片（源自書稿，私密素材）
+deliverables/slides/
+
+# 系統檔
+.DS_Store
+*.swp
