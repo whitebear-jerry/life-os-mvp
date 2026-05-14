@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>白熊人生攻略｜Life OS</title>
+  <meta name="description" content="白熊人生攻略：把人生變成可以升級的作業系統。">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    body.link-page {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(47, 107, 79, 0.38), transparent 34rem),
+        linear-gradient(180deg, #0c1511 0%, #121912 52%, #17201a 100%);
+      color: #f7f7f0;
+    }
+
+    .link-shell {
+      width: min(100%, 520px);
+      margin: 0 auto;
+      padding: 28px 18px 30px;
+    }
+
+    .link-profile {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      text-align: center;
+      padding: 12px 0 20px;
+    }
+
+    .bear-avatar {
+      width: 82px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(224, 232, 220, 0.9));
+      color: var(--green-dark);
+      font-weight: 950;
+      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+    }
+
+    .link-profile h1 {
+      max-width: 100%;
+      font-size: 1.72rem;
+      line-height: 1.12;
+    }
+
+    .link-tagline {
+      margin: 0;
+      color: rgba(247, 247, 240, 0.78);
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+
+    .link-books {
+      display: grid;
+      gap: 12px;
+    }
+
+    .link-book {
+      padding: 16px;
+      border: 1px solid rgba(220, 227, 217, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+    }
+
+    .link-book h2 {
+      font-size: 1.06rem;
+      line-height: 1.28;
+    }
+
+    .link-book p {
+      margin: 8px 0 0;
+      color: rgba(247, 247, 240, 0.72);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .link-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .link-actions a {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(220, 227, 217, 0.24);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.83rem;
+      font-weight: 850;
+      text-decoration: none;
+      background: rgba(47, 107, 79, 0.88);
+    }
+
+    .link-actions a:nth-child(2) {
+      background: rgba(196, 137, 53, 0.9);
+    }
+
+    .link-actions a:nth-child(3) {
+      background: rgba(64, 105, 132, 0.92);
+    }
+
+    .link-actions a:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.58);
+      outline-offset: 3px;
+    }
+
+    .link-more {
+      margin: 20px 0 0;
+      padding: 14px 0 0;
+      border-top: 1px solid rgba(220, 227, 217, 0.16);
+      color: rgba(247, 247, 240, 0.7);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 380px) {
+      .link-shell {
+        padding-inline: 14px;
+      }
+
+      .link-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="link-page">
+  <main class="link-shell" aria-label="白熊人生攻略連結頁">
+    <section class="link-profile">
+      <div class="bear-avatar" role="img" aria-label="白熊頭像">白熊</div>
+      <h1>白熊人生攻略</h1>
+      <p class="link-tagline">把人生變成可以升級的作業系統</p>
+    </section>
+
+    <section class="link-books" aria-label="白熊三本書">
+      <article class="link-book">
+        <h2>《人生複利》</h2>
+        <p>從信念到財富的 45 個覺醒練習，幫你重設大腦關鍵字。</p>
+        <div class="link-actions" aria-label="人生複利購買連結">
+          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ?sid=8f91595a-6e8e-46ac-8f0d-b15a35b21fa4&amp;ssid=uDXVMOxnSN-KO3wc5w8wE&amp;cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生複利">Kobo</a>
+        </div>
+      </article>
+
+      <article class="link-book">
+        <h2>《人生遊戲》</h2>
+        <p>40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
+        <div class="link-actions" aria-label="人生遊戲購買連結">
+          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ?sid=e604d607-1e7f-4d0e-92f0-8e5f17de5d0b&amp;ssid=L9KQbsIUYwRf9_-LXoh4f&amp;cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
+        </div>
+      </article>
+
+      <article class="link-book">
+        <h2>《降噪人生》</h2>
+        <p>從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
+        <div class="link-actions" aria-label="降噪人生購買連結">
+          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買降噪人生">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q?sid=da75d6a2-7689-46f9-9260-9edb9d0b42f5&amp;ssid=vnVQJb63rIXkIeWC63g7Y&amp;cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買降噪人生">Kobo</a>
+        </div>
+      </article>
+    </section>
+
+    <p class="link-more">更多內容 → IG / YouTube</p>
+  </main>
+</body>
+</html>
