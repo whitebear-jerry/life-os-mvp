@@ -3,10 +3,10 @@
 
 ## 最近一次 session
 - 電腦：baizheweideMac-mini.local
-- 日期：2026-05-13
+- 日期：2026-05-14
 - 分支：codex/life-os-mvp
-- 完成：完成 Fix-Sync 收工，deliverables 源稿、`.gitignore`、Week 1 追蹤表與 SESSION 交接單皆已 push。
-- 下次從：另一台 Codex 先 pull 最新 `codex/life-os-mvp`，確認 `deliverables/` 源稿與 `tracking/week1.md` 存在，再決定是否繼續 D1-D4 工作本 v2 深度重製。
+- 完成：U1 完成，三書 × 三通路 9 個 CTA 全站更新。功能 commit `6e5c78d` 已推到 `codex/life-os-mvp`；部署 commit `aa261c6` 已推到 `gh-pages`。Readmoo / Pubu / Kobo 連結已同步到首頁書卡、三書播客、工作本 hero、課程、入門單品、noindex 頁與全站 footer。
+- 下次從：線上驗收 GitHub Pages 是否完成部署；若 Obsidian secondbrain 的 `AI-Checkpoint.md` 同步回本機，再補寫同一筆 U1 收工紀錄。
 
 ## 未完成但已 push 的 WIP
 - `8349260`：`WIP: 加入 Week 1 數據追蹤表`
