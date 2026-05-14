@@ -186,16 +186,42 @@ p {
   margin-top: 16px;
 }
 
-.platform-note {
-  display: inline-flex;
-  min-height: 34px;
-  align-items: center;
-  padding: 5px 12px;
-  border: 1px dashed var(--line);
+.book-actions .button {
+  flex: 1 1 118px;
+  white-space: nowrap;
+}
+
+.book-purchase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 24px 0 34px;
+}
+
+.book-purchase-card {
+  min-height: 100%;
+  padding: 20px;
+  border: 1px solid var(--line);
   border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 10px 34px rgba(27, 40, 31, 0.06);
+}
+
+.book-purchase-card h3 {
+  margin: 0;
+  color: var(--green-dark);
+  font-size: 1.04rem;
+}
+
+.book-purchase-card p {
+  margin: 8px 0 0;
   color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 750;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.book-source-links {
+  margin-top: 16px;
 }
 
 .site-footer {
@@ -203,7 +229,7 @@ p {
   margin: 56px auto 0;
   padding: 18px 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
   border-top: 1px solid rgba(220, 227, 217, 0.86);
@@ -217,7 +243,10 @@ p {
 }
 
 .site-footer nav {
-  gap: 10px;
+  max-width: 760px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 14px;
 }
 
 .site-footer a {
@@ -644,7 +673,9 @@ figcaption {
   .funnel-band,
   .pain-grid,
   .module-grid,
-  .ladder {
+  .ladder,
+  .book-purchase-grid,
+  .site-footer nav {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -688,7 +719,9 @@ figcaption {
   .pain-grid,
   .module-grid,
   .ladder,
-  .check-grid {
+  .check-grid,
+  .book-purchase-grid,
+  .site-footer nav {
     grid-template-columns: 1fr;
   }
 
@@ -701,8 +734,7 @@ figcaption {
     width: 100%;
   }
 
-  .book-actions .button,
-  .site-footer .button {
+  .book-actions .button {
     width: auto;
   }
 }
