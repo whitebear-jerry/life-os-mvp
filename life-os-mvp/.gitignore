@@ -16,6 +16,11 @@ deliverables/pdf/LifeOS-21天*.pdf
 # 課程投影片（源自書稿，私密素材）
 deliverables/slides/
 
+# YouTube Pipeline 影音檔案（大型輸出，透過 Google Drive 同步）
+marketing/season1-降噪人生/**/*.mp4
+marketing/season1-降噪人生/**/*.m4a
+marketing/season1-降噪人生/**/06-shorts/
+
 # 系統檔
 .DS_Store
 *.swp

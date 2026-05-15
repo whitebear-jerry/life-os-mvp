@@ -1,0 +1,132 @@
+#!/usr/bin/env python3
+"""Remove long silences, optionally skip filler-only captions, and burn subtitles."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Auto-edit a narrated video or audio track.")
+    parser.add_argument("input", type=Path, help="Input video/audio file")
+    parser.add_argument("--srt", type=Path, default=None, help="Whisper SRT file for subtitle burn-in and filler hints")
+    parser.add_argument("--output", type=Path, default=None, help="Output MP4 path")
+    parser.add_argument("--config", type=Path, default=Path(__file__).with_name("config.json"))
+    parser.add_argument("--min-silence-ms", type=int, default=None)
+    parser.add_argument("--silence-threshold-db", type=int, default=None)
+    return parser
+
+
+def load_config(path: Path) -> dict:
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {}
+
+
+def detect_keep_ranges(audio_path: Path, silence_threshold: int, min_silence_ms: int) -> list[tuple[float, float]]:
+    try:
+        from pydub import AudioSegment
+        from pydub.silence import detect_nonsilent
+    except ImportError as exc:
+        raise SystemExit(f"Missing dependency: {exc.name}. Run: pip install -r requirements.txt") from exc
+
+    audio = AudioSegment.from_file(audio_path)
+    nonsilent = detect_nonsilent(audio, min_silence_len=min_silence_ms, silence_thresh=silence_threshold)
+    if not nonsilent:
+        return [(0.0, len(audio) / 1000)]
+    return [(start / 1000, end / 1000) for start, end in nonsilent]
+
+
+def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int, int]):
+    try:
+        import srt
+        from moviepy import TextClip
+    except ImportError:
+        try:
+            import srt
+            from moviepy.editor import TextClip
+        except ImportError as exc:
+            raise SystemExit(f"Missing dependency: {exc.name}. Run: pip install -r requirements.txt") from exc
+
+    font_size = int(config.get("subtitle_font_size", 48))
+    margin_bottom = int(config.get("subtitle_margin_bottom", 90))
+    clips = []
+    for item in srt.parse(srt_path.read_text(encoding="utf-8")):
+        text = item.content.replace("\n", " ").strip()
+        if not text:
+            continue
+        start = item.start.total_seconds()
+        duration = max(0.1, (item.end - item.start).total_seconds())
+        try:
+            clip = (
+                TextClip(text=text, font_size=font_size, color="white", stroke_color="black", stroke_width=3)
+                .with_start(start)
+                .with_duration(duration)
+                .with_position(("center", video_size[1] - margin_bottom))
+            )
+        except TypeError:
+            clip = (
+                TextClip(text, fontsize=font_size, color="white", stroke_color="black", stroke_width=3)
+                .set_start(start)
+                .set_duration(duration)
+                .set_position(("center", video_size[1] - margin_bottom))
+            )
+        clips.append(clip)
+    return clips
+
+
+def set_duration(clip, duration: float):
+    return clip.with_duration(duration) if hasattr(clip, "with_duration") else clip.set_duration(duration)
+
+
+def set_audio(clip, audio):
+    return clip.with_audio(audio) if hasattr(clip, "with_audio") else clip.set_audio(audio)
+
+
+def subclip(clip, start: float, end: float):
+    return clip.subclipped(start, end) if hasattr(clip, "subclipped") else clip.subclip(start, end)
+
+
+def main() -> None:
+    args = build_parser().parse_args()
+    source = args.input.expanduser().resolve()
+    if not source.exists():
+        raise SystemExit(f"Input not found: {source}")
+
+    config = load_config(args.config.expanduser().resolve())
+    silence_threshold = args.silence_threshold_db or int(config.get("silence_threshold_db", -42))
+    min_silence_ms = args.min_silence_ms or int(config.get("min_silence_ms", 800))
+    output = (args.output or source.with_name("05-final-video.mp4")).expanduser().resolve()
+    output.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        from moviepy import AudioFileClip, ColorClip, CompositeVideoClip, VideoFileClip, concatenate_videoclips
+    except ImportError:
+        try:
+            from moviepy.editor import AudioFileClip, ColorClip, CompositeVideoClip, VideoFileClip, concatenate_videoclips
+        except ImportError as exc:
+            raise SystemExit(f"Missing dependency: {exc.name}. Run: pip install -r requirements.txt") from exc
+
+    is_video = source.suffix.lower() in {".mp4", ".mov", ".m4v"}
+    audio_clip = AudioFileClip(str(source)) if not is_video else None
+    base_clip = VideoFileClip(str(source)) if is_video else set_duration(ColorClip((1920, 1080), color=(16, 24, 19)), audio_clip.duration)
+    if not is_video:
+        base_clip = set_audio(base_clip, audio_clip)
+
+    keep_ranges = detect_keep_ranges(source, silence_threshold, min_silence_ms)
+    clips = [subclip(base_clip, start, min(end, base_clip.duration)) for start, end in keep_ranges if end > start]
+    edited = concatenate_videoclips(clips, method="compose") if clips else base_clip
+
+    if args.srt and args.srt.exists():
+        overlays = build_subtitle_overlays(args.srt, config, tuple(edited.size))
+        if overlays:
+            edited = CompositeVideoClip([edited, *overlays])
+
+    edited.write_videofile(str(output), codec="libx264", audio_codec="aac", fps=30)
+    print(f"Wrote {output}")
+
+
+if __name__ == "__main__":
+    main()
