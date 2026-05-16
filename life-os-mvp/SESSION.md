@@ -23,18 +23,20 @@
 
 ## 🚀 下次開場白（複製這段給新 session 的 Codex）
 請讀取 SESSION.md，繼續上次工作。
-上次中斷在：Fix-1/Fix-2 已完成並推送；全站 Kobo tracking 參數已清除，footer 已簡化，EP1 仍等待錄音；2026-05-16 完成 Google Drive 內容大遷移（136 個檔案到 GDrive Life OS/）。
-下一步應該做：先執行 `git fetch origin`、`git pull origin codex/life-os-mvp`，確認 GDrive 已掛載（`ls "GDrive/Life OS/"` 應看到 audio、deliverables、marketing、scripts、templates、tracking）；確認 EP1 錄音檔 `GDrive/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/03-raw-audio.m4a` 是否已放入；若已放入，安裝 `tools/video-pipeline/requirements.txt`、`playwright install chromium`、`brew install poppler`，再依 SOP 產生 `04-subtitles.srt`、`05-slide-video.mp4`、`05-final-video.mp4`、`06-shorts/` 與 `07-quote-cards/`，**全部輸出到 GDrive 路徑**。
+上次中斷在：IG-CARDS-DESIGN 探索完成，已建立 4 個 1080×1350 HTML 字卡背景方向；Fix-1/Fix-2 已完成並推送；EP1 仍等待錄音。
+下一步應該做：先執行 `git fetch origin`、`git pull origin codex/life-os-mvp`，確認 GDrive 已掛載（`ls "GDrive/Life OS/"` 應看到 audio、deliverables、marketing、scripts、templates、tracking）；請用戶從 `marketing/ig-cards/design-explore/` 的 A/B/C/D 四個方向中選定 IG 字卡視覺方向。若要繼續 EP1 pipeline，確認錄音檔 `GDrive/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/03-raw-audio.m4a` 是否已放入；若已放入，安裝影音依賴並將字幕、影片、Shorts、金句圖卡全部輸出到 GDrive 路徑。
 
 ## 最近一次 session
 - 電腦：baizheweideMacBook-Air.local
 - 日期：2026-05-16
 - 分支：codex/life-os-mvp
 - 完成：
-  1. Fix-1/Fix-2 完成（9 個 HTML Kobo URL tracking 清除、footer 簡化），commit `5c1f874` 已 push，`gh-pages` deploy `f671771` 已 push
-  2. **Google Drive 內容遷移**：136 個檔案搬到 GDrive `Life OS/`，建立完整 marketing/deliverables/templates/tracking 結構
-  3. SESSION.md 更新含新架構說明
-- 下次從：等待用戶放入 EP1 錄音 `03-raw-audio.m4a`（路徑改為 GDrive），再跑 pipeline。
+  1. IG-CARDS-DESIGN：建立 4 個 IG 字卡背景探索 HTML，路徑 `marketing/ig-cards/design-explore/`
+  2. 四方向：A Notion 點陣工具感、B 白熊品牌浮水印、C 柔光漸層幾何弧形、D 《降噪人生》水波/書本微飾
+  3. 使用 Chrome headless 輸出 4 張 1080×1350 截圖到 `/private/tmp/ig-card-A.png` 至 `/private/tmp/ig-card-D.png` 做視覺確認
+  4. Fix-1/Fix-2 已完成（9 個 HTML Kobo URL tracking 清除、footer 簡化），commit `5c1f874` 已 push，`gh-pages` deploy `f671771` 已 push
+  5. **Google Drive 內容遷移**：136 個檔案搬到 GDrive `Life OS/`，建立完整 marketing/deliverables/templates/tracking 結構
+- 下次從：請用戶選定 IG 字卡方向 A/B/C/D，再進入批次生產；EP1 則仍等待用戶放入錄音 `03-raw-audio.m4a`（路徑改為 GDrive），再跑 pipeline。
 
 ## 未完成但已 push 的 WIP
 - `f9ec761`：V2 EP1「大腦 RAM 清倉術」簡報素材已補齊；尚未錄音、轉字幕、合成影片與剪 Shorts。
