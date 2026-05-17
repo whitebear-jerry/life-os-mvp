@@ -39,7 +39,18 @@ def detect_keep_ranges(audio_path: Path, silence_threshold: int, min_silence_ms:
     return [(start / 1000, end / 1000) for start, end in nonsilent]
 
 
-def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int, int]):
+def remap_time(seconds: float, keep_ranges: list[tuple[float, float]]) -> float | None:
+    elapsed = 0.0
+    for start, end in keep_ranges:
+        if start <= seconds <= end:
+            return elapsed + seconds - start
+        if seconds < start:
+            return None
+        elapsed += max(0.0, end - start)
+    return None
+
+
+def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int, int], keep_ranges: list[tuple[float, float]]):
     try:
         import srt
         from moviepy import TextClip
@@ -52,16 +63,33 @@ def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int,
 
     font_size = int(config.get("subtitle_font_size", 48))
     margin_bottom = int(config.get("subtitle_margin_bottom", 90))
+    max_width = int(video_size[0] * 0.86)
     clips = []
     for item in srt.parse(srt_path.read_text(encoding="utf-8")):
         text = item.content.replace("\n", " ").strip()
         if not text:
             continue
-        start = item.start.total_seconds()
-        duration = max(0.1, (item.end - item.start).total_seconds())
+        source_start = item.start.total_seconds()
+        source_end = item.end.total_seconds()
+        start = remap_time(source_start, keep_ranges)
+        end = remap_time(source_end, keep_ranges)
+        if start is None:
+            continue
+        if end is None:
+            end = start + max(0.1, source_end - source_start)
+        duration = max(0.1, end - start)
         try:
             clip = (
-                TextClip(text=text, font_size=font_size, color="white", stroke_color="black", stroke_width=3)
+                TextClip(
+                    text=text,
+                    font_size=font_size,
+                    color="white",
+                    stroke_color="black",
+                    stroke_width=3,
+                    size=(max_width, None),
+                    method="caption",
+                    text_align="center",
+                )
                 .with_start(start)
                 .with_duration(duration)
                 .with_position(("center", video_size[1] - margin_bottom))
@@ -120,7 +148,7 @@ def main() -> None:
     edited = concatenate_videoclips(clips, method="compose") if clips else base_clip
 
     if args.srt and args.srt.exists():
-        overlays = build_subtitle_overlays(args.srt, config, tuple(edited.size))
+        overlays = build_subtitle_overlays(args.srt, config, tuple(edited.size), keep_ranges)
         if overlays:
             edited = CompositeVideoClip([edited, *overlays])
 

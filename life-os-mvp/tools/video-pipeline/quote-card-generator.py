@@ -81,7 +81,7 @@ def main() -> None:
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
-        page = browser.new_page(viewport={"width": 1080, "height": 1080}, device_scale_factor=1)
+        page = browser.new_page(viewport={"width": 1080, "height": 1350}, device_scale_factor=1)
         for index, quote in enumerate(quotes, start=1):
             html_doc = template.replace("{{QUOTE}}", html.escape(quote))
             page.set_content(html_doc, wait_until="networkidle")

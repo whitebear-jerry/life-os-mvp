@@ -23,23 +23,27 @@
 
 ## 🚀 下次開場白（複製這段給新 session 的 Codex）
 請讀取 SESSION.md，繼續上次工作。
-上次中斷在：IG-CARDS-DESIGN 探索完成，已建立 4 個 1080×1350 HTML 字卡背景方向；Fix-1/Fix-2 已完成並推送；EP1 仍等待錄音。
-下一步應該做：先執行 `git fetch origin`、`git pull origin codex/life-os-mvp`，確認 GDrive 已掛載（`ls "GDrive/Life OS/"` 應看到 audio、deliverables、marketing、scripts、templates、tracking）；請用戶從 `marketing/ig-cards/design-explore/` 的 A/B/C/D 四個方向中選定 IG 字卡視覺方向。若要繼續 EP1 pipeline，確認錄音檔 `GDrive/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/03-raw-audio.m4a` 是否已放入；若已放入，安裝影音依賴並將字幕、影片、Shorts、金句圖卡全部輸出到 GDrive 路徑。
+上次中斷在：EP1 V3 影片合成已完成，成品保留在 Google Drive EP1 資料夾；影片大檔未進 Git。IG-CARDS-DESIGN 也已完成 4 個 1080×1350 HTML 字卡背景方向，等待用戶選定方向。
+下一步應該做：先執行 `git fetch origin`、`git switch codex/life-os-mvp`、`git pull origin codex/life-os-mvp`，確認 GDrive 已掛載；再到 GDrive EP1 資料夾人工檢視 `05-final-video.mp4`、三支 `06-shorts/short-*.mp4`、三張 `07-quote-cards/quote-card-*.png` 與 `08-meta-post.md`。若用戶確認 OK，協助整理 YouTube 上傳標題、描述與發布 checklist；另請用戶從 `marketing/ig-cards/design-explore/` 的 A/B/C/D 四個方向中選定 IG 字卡視覺方向。
 
 ## 最近一次 session
 - 電腦：baizheweideMacBook-Air.local
-- 日期：2026-05-16
+- 日期：2026-05-17
 - 分支：codex/life-os-mvp
 - 完成：
-  1. IG-CARDS-DESIGN：建立 4 個 IG 字卡背景探索 HTML，路徑 `marketing/ig-cards/design-explore/`
-  2. 四方向：A Notion 點陣工具感、B 白熊品牌浮水印、C 柔光漸層幾何弧形、D 《降噪人生》水波/書本微飾
-  3. 使用 Chrome headless 輸出 4 張 1080×1350 截圖到 `/private/tmp/ig-card-A.png` 至 `/private/tmp/ig-card-D.png` 做視覺確認
-  4. Fix-1/Fix-2 已完成（9 個 HTML Kobo URL tracking 清除、footer 簡化），commit `5c1f874` 已 push，`gh-pages` deploy `f671771` 已 push
-  5. **Google Drive 內容遷移**：136 個檔案搬到 GDrive `Life OS/`，建立完整 marketing/deliverables/templates/tracking 結構
-- 下次從：請用戶選定 IG 字卡方向 A/B/C/D，再進入批次生產；EP1 則仍等待用戶放入錄音 `03-raw-audio.m4a`（路徑改為 GDrive），再跑 pipeline。
+  1. EP1 V3 完整 video pipeline 已跑完；確認既有 `04-subtitles.srt` 對應目前錄音。
+  2. 使用新版 `01-slides.pdf` 重生 `05-slide-video.mp4`。
+  3. 修正 `auto-edit-video.py`：剪掉靜音後同步重映射字幕時間，避免燒字幕逐步飄移。
+  4. 輸出 `05-final-video.mp4`：1920×1080，約 5:58，已燒字幕。
+  5. 依三句金句時間點切出 3 支 9:16 Shorts：`short-01.mp4`、`short-02.mp4`、`short-03.mp4`。
+  6. 修正 `quote-card-generator.py` 讓圖卡輸出 1080×1350，並輸出 3 張水墨禪意風金句圖卡。
+  7. 完成 `08-meta-post.md`：YouTube 描述、Shorts 標題、Threads 預告、IG Reels 標題、FB 粉專長文。
+  8. 保留遠端既有成果：IG-CARDS-DESIGN 4 個方向、Google Drive 內容遷移、Fix-1/Fix-2。
+- 下次從：人工檢視 EP1 V3 GDrive 成品；用戶自行上 YouTube，Codex 可協助上架文案、縮圖/標題微調或發布檢查；IG 字卡則等待用戶選定 A/B/C/D 方向。
 
 ## 未完成但已 push 的 WIP
-- `f9ec761`：V2 EP1「大腦 RAM 清倉術」簡報素材已補齊；尚未錄音、轉字幕、合成影片與剪 Shorts。
+- IG-CARDS-DESIGN：已建立 4 個 1080×1350 HTML 字卡背景方向，等待用戶選定 A/B/C/D 後批次生產。
+- EP1 V3：成品已輸出到 GDrive，同步狀態需等 Google Drive 完成上傳；下一步是人工檢視與上架。
 
 ---
 
@@ -73,6 +77,11 @@ Life OS/
 | EP1 最終影片 | `GDrive/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/05-final-video.mp4` |
 | EP1 Shorts | `GDrive/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/06-shorts/` |
 | EP1 金句圖卡 | `GDrive/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/07-quote-cards/` |
+
+## 需要 Google Drive 的檔案
+- 成品位置：`~/Library/CloudStorage/GoogleDrive-*/我的雲端硬碟/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/`
+- 已輸出：`05-final-video.mp4`、`06-shorts/short-01.mp4`、`06-shorts/short-02.mp4`、`06-shorts/short-03.mp4`、`07-quote-cards/quote-card-01.png`、`quote-card-02.png`、`quote-card-03.png`、`08-meta-post.md`。
+- 不要提交影片大檔到 GitHub；`舊檔案/` 未動。
 
 ---
 
