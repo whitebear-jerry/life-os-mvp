@@ -4,6 +4,7 @@
   "min_silence_ms": 800,
   "video_size": [1920, 1080],
   "shorts_size": [1080, 1920],
+  "subtitle_font": "/System/Library/Fonts/STHeiti Medium.ttc",
   "subtitle_font_size": 48,
   "subtitle_margin_bottom": 90
 }

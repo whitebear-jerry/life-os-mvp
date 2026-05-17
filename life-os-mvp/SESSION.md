@@ -23,27 +23,24 @@
 
 ## 🚀 下次開場白（複製這段給新 session 的 Codex）
 請讀取 SESSION.md，繼續上次工作。
-上次中斷在：EP1 V3 影片合成已完成，成品保留在 Google Drive EP1 資料夾；影片大檔未進 Git。IG-CARDS-DESIGN 也已完成 4 個 1080×1350 HTML 字卡背景方向，等待用戶選定方向。
-下一步應該做：先執行 `git fetch origin`、`git switch codex/life-os-mvp`、`git pull origin codex/life-os-mvp`，確認 GDrive 已掛載；再到 GDrive EP1 資料夾人工檢視 `05-final-video.mp4`、三支 `06-shorts/short-*.mp4`、三張 `07-quote-cards/quote-card-*.png` 與 `08-meta-post.md`。若用戶確認 OK，協助整理 YouTube 上傳標題、描述與發布 checklist；另請用戶從 `marketing/ig-cards/design-explore/` 的 A/B/C/D 四個方向中選定 IG 字卡視覺方向。
+上次中斷在：EP1 V3.1 Fix 已完成，修掉主片/Shorts 字幕中文方框、Shorts 剪輯時間軸、Shorts 構圖裁切，並重生 3 張含白熊插圖的水墨金句圖卡；影片大檔仍只在 Google Drive。
+下一步應該做：先執行 `git fetch origin`、`git switch codex/life-os-mvp`、`git pull origin codex/life-os-mvp`，確認 GDrive 已掛載；再人工檢視 GDrive EP1 資料夾的 `05-final-video.mp4`、`06-shorts/short-*.mp4`、`07-quote-cards/quote-card-*.png`。若用戶確認 OK，協助整理 YouTube 上傳 checklist；IG 字卡仍等待用戶從 `marketing/ig-cards/design-explore/` 的 A/B/C/D 四個方向中選定。
 
 ## 最近一次 session
 - 電腦：baizheweideMacBook-Air.local
 - 日期：2026-05-17
 - 分支：codex/life-os-mvp
 - 完成：
-  1. EP1 V3 完整 video pipeline 已跑完；確認既有 `04-subtitles.srt` 對應目前錄音。
-  2. 使用新版 `01-slides.pdf` 重生 `05-slide-video.mp4`。
-  3. 修正 `auto-edit-video.py`：剪掉靜音後同步重映射字幕時間，避免燒字幕逐步飄移。
-  4. 輸出 `05-final-video.mp4`：1920×1080，約 5:58，已燒字幕。
-  5. 依三句金句時間點切出 3 支 9:16 Shorts：`short-01.mp4`、`short-02.mp4`、`short-03.mp4`。
-  6. 修正 `quote-card-generator.py` 讓圖卡輸出 1080×1350，並輸出 3 張水墨禪意風金句圖卡。
-  7. 完成 `08-meta-post.md`：YouTube 描述、Shorts 標題、Threads 預告、IG Reels 標題、FB 粉專長文。
-  8. 保留遠端既有成果：IG-CARDS-DESIGN 4 個方向、Google Drive 內容遷移、Fix-1/Fix-2。
-- 下次從：人工檢視 EP1 V3 GDrive 成品；用戶自行上 YouTube，Codex 可協助上架文案、縮圖/標題微調或發布檢查；IG 字卡則等待用戶選定 A/B/C/D 方向。
+  1. EP1 V3.1 Fix 完成：`auto-edit-video.py` 讀取 `subtitle_font`，主片字幕改用 `/System/Library/Fonts/STHeiti Medium.ttc`，並輸出 `04-subtitles-edited.srt`。
+  2. 重生 `05-final-video.mp4`：1920×1080，約 5:58；抽 3 個 frame 確認中文字幕不是方框。
+  3. `shorts-cutter.py` 改用剪輯後 SRT 定位金句，新增 `--mode letterbox` 預設，三支 Shorts 重新輸出為完整 16:9 簡報置中、上下黑邊的 1080×1920 版本。
+  4. `quote-card-generator.py` 補齊第三句金句、句尾標點、白熊姿勢圖，改用 base64 data URI 避免破圖；`marketing/quote-card-template.html` 更新為水墨禪意風。
+  5. 保留 `01-slides.pdf`、`02-script.md`、`03-raw-audio.m4a`、`04-subtitles.srt`、`08-meta-post.md` 不動；未動 `舊檔案/`。
+- 下次從：人工檢視 EP1 V3.1 GDrive 成品；若 OK，用戶自行上 YouTube，Codex 可協助上架文案、縮圖/標題微調或發布檢查；IG 字卡則等待用戶選定 A/B/C/D 方向。
 
 ## 未完成但已 push 的 WIP
 - IG-CARDS-DESIGN：已建立 4 個 1080×1350 HTML 字卡背景方向，等待用戶選定 A/B/C/D 後批次生產。
-- EP1 V3：成品已輸出到 GDrive，同步狀態需等 Google Drive 完成上傳；下一步是人工檢視與上架。
+- EP1 V3.1：成品已覆蓋輸出到 GDrive，同步狀態需等 Google Drive 完成上傳；下一步是人工檢視與上架。
 
 ---
 
@@ -80,7 +77,7 @@ Life OS/
 
 ## 需要 Google Drive 的檔案
 - 成品位置：`~/Library/CloudStorage/GoogleDrive-*/我的雲端硬碟/Life OS/marketing/season1-降噪人生/episode-01-大腦RAM清倉術/`
-- 已輸出：`05-final-video.mp4`、`06-shorts/short-01.mp4`、`06-shorts/short-02.mp4`、`06-shorts/short-03.mp4`、`07-quote-cards/quote-card-01.png`、`quote-card-02.png`、`quote-card-03.png`、`08-meta-post.md`。
+- 已輸出/覆蓋：`05-final-video.mp4`、`04-subtitles-edited.srt`、`06-shorts/short-01.mp4`、`06-shorts/short-02.mp4`、`06-shorts/short-03.mp4`、`07-quote-cards/quote-card-01.png`、`quote-card-02.png`、`quote-card-03.png`、`08-meta-post.md`。
 - 不要提交影片大檔到 GitHub；`舊檔案/` 未動。
 
 ---

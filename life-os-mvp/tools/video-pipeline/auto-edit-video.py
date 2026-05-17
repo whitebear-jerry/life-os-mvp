@@ -50,21 +50,13 @@ def remap_time(seconds: float, keep_ranges: list[tuple[float, float]]) -> float 
     return None
 
 
-def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int, int], keep_ranges: list[tuple[float, float]]):
+def remap_subtitles(srt_path: Path, keep_ranges: list[tuple[float, float]]):
     try:
         import srt
-        from moviepy import TextClip
     except ImportError:
-        try:
-            import srt
-            from moviepy.editor import TextClip
-        except ImportError as exc:
-            raise SystemExit(f"Missing dependency: {exc.name}. Run: pip install -r requirements.txt") from exc
+        raise SystemExit("Missing dependency: srt. Run: pip install -r requirements.txt")
 
-    font_size = int(config.get("subtitle_font_size", 48))
-    margin_bottom = int(config.get("subtitle_margin_bottom", 90))
-    max_width = int(video_size[0] * 0.86)
-    clips = []
+    remapped = []
     for item in srt.parse(srt_path.read_text(encoding="utf-8")):
         text = item.content.replace("\n", " ").strip()
         if not text:
@@ -77,11 +69,45 @@ def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int,
             continue
         if end is None:
             end = start + max(0.1, source_end - source_start)
+        if end <= start:
+            end = start + 0.1
+        remapped.append(
+            srt.Subtitle(
+                index=len(remapped) + 1,
+                start=srt.timedelta(seconds=start),
+                end=srt.timedelta(seconds=end),
+                content=text,
+            )
+        )
+    return remapped
+
+
+def build_subtitle_overlays(subtitles, config: dict, video_size: tuple[int, int]):
+    try:
+        from moviepy import TextClip
+    except ImportError:
+        try:
+            from moviepy.editor import TextClip
+        except ImportError as exc:
+            raise SystemExit(f"Missing dependency: {exc.name}. Run: pip install -r requirements.txt") from exc
+
+    font = str(config.get("subtitle_font", "/System/Library/Fonts/STHeiti Medium.ttc"))
+    font_size = int(config.get("subtitle_font_size", 48))
+    margin_bottom = int(config.get("subtitle_margin_bottom", 90))
+    max_width = int(video_size[0] * 0.86)
+    clips = []
+    for item in subtitles:
+        text = item.content.strip()
+        if not text:
+            continue
+        start = item.start.total_seconds()
+        end = item.end.total_seconds()
         duration = max(0.1, end - start)
         try:
             clip = (
                 TextClip(
                     text=text,
+                    font=font,
                     font_size=font_size,
                     color="white",
                     stroke_color="black",
@@ -96,7 +122,7 @@ def build_subtitle_overlays(srt_path: Path, config: dict, video_size: tuple[int,
             )
         except TypeError:
             clip = (
-                TextClip(text, fontsize=font_size, color="white", stroke_color="black", stroke_width=3)
+                TextClip(text, font=font, fontsize=font_size, color="white", stroke_color="black", stroke_width=3)
                 .set_start(start)
                 .set_duration(duration)
                 .set_position(("center", video_size[1] - margin_bottom))
@@ -148,7 +174,14 @@ def main() -> None:
     edited = concatenate_videoclips(clips, method="compose") if clips else base_clip
 
     if args.srt and args.srt.exists():
-        overlays = build_subtitle_overlays(args.srt, config, tuple(edited.size), keep_ranges)
+        remapped_subtitles = remap_subtitles(args.srt, keep_ranges)
+        if remapped_subtitles:
+            import srt
+
+            edited_srt = args.srt.with_name(f"{args.srt.stem}-edited.srt")
+            edited_srt.write_text(srt.compose(remapped_subtitles), encoding="utf-8")
+            print(f"Wrote {edited_srt}")
+        overlays = build_subtitle_overlays(remapped_subtitles, config, tuple(edited.size))
         if overlays:
             edited = CompositeVideoClip([edited, *overlays])
 

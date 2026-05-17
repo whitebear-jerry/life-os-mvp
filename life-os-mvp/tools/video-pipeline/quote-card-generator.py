@@ -1,39 +1,59 @@
 #!/usr/bin/env python3
-"""Generate 1080x1080 quote cards from ✨ quote markers in a script."""
+"""Generate 1080x1350 quote cards from ✨ quote markers in a script."""
 
 from __future__ import annotations
 
 import argparse
+import base64
 import html
+import mimetypes
 import re
 from pathlib import Path
 
 
-QUOTE_RE = re.compile(r"✨\s*(?:\*\*)?[「\"]?(.+?)[」\"]?(?:\*\*)?\s*$", re.MULTILINE)
+QUOTE_RE = re.compile(r"^\s*(?:[-*]\s*)?✨\s*(?:\*\*)?[「\"]?(.+?)[」\"]?(?:\*\*)?\s*$", re.MULTILINE)
+EXPECTED_QUOTES = [
+    "大腦是用來思考的，不是用來記憶的。",
+    "別當被瑣事追著跑的倉鼠，當開啟上帝視角的指揮官。",
+    "我已經外包記下來了，你可以停止發送警報了。",
+]
+BEAR_POSTURES = ["fishing", "mountain", "grass"]
 DEFAULT_TEMPLATE = """<!doctype html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
   <style>
-    html, body { margin: 0; width: 1080px; height: 1080px; }
+    html, body { margin: 0; width: 1080px; height: 1350px; }
     body {
       display: grid;
       place-items: center;
-      background: linear-gradient(145deg, #0c1511, #17201a 60%, #2f6b4f);
-      color: #f7f7f0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #F4EFE5;
+      color: #5D4632;
+      font-family: "Songti TC", "STSong", "Noto Serif TC", serif;
+      text-align: center;
     }
     .card { width: 820px; }
-    .brand { color: #c48935; font-weight: 900; font-size: 34px; margin-bottom: 44px; }
-    .quote { font-size: 74px; line-height: 1.24; font-weight: 900; letter-spacing: 0; }
-    .footer { margin-top: 48px; color: rgba(247,247,240,.72); font-size: 28px; }
+    .brand {
+      display: inline-block;
+      padding: 12px 34px;
+      margin-bottom: 70px;
+      background: #5D4632;
+      color: #fffaf1;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .quote { font-size: 66px; line-height: 1.36; font-weight: 700; letter-spacing: 0; }
+    .bear { width: 200px; margin: 24px auto; display: block; opacity: 0.95; }
+    .footer { color: #5D4632; font-size: 34px; }
   </style>
 </head>
 <body>
   <main class="card">
-    <div class="brand">白熊人生攻略</div>
+    <div class="brand">金句</div>
     <div class="quote">{{QUOTE}}</div>
-    <div class="footer">把人生變成可以升級的作業系統</div>
+    <img src="{{BEAR_SRC}}" class="bear" alt="{{BEAR_ALT}}" />
+    <div class="footer">《降噪人生》</div>
   </main>
 </body>
 </html>
@@ -50,7 +70,27 @@ def build_parser() -> argparse.ArgumentParser:
 
 def extract_quotes(script_path: Path) -> list[str]:
     text = script_path.read_text(encoding="utf-8")
-    return [match.group(1).strip("。 ") for match in QUOTE_RE.finditer(text)][:3]
+    quotes = []
+    for match in QUOTE_RE.finditer(text):
+        quote = match.group(1).strip()
+        if not quote.endswith(("。", "！", "？", ".", "!", "?")):
+            quote = quote + "。"
+        quotes.append(quote)
+    for quote in EXPECTED_QUOTES:
+        if quote not in quotes:
+            quotes.append(quote)
+    return quotes[:3]
+
+
+def bear_asset(index: int) -> Path:
+    posture = BEAR_POSTURES[(index - 1) % len(BEAR_POSTURES)]
+    return Path(__file__).resolve().parents[1] / "slides" / "assets" / f"bear-{posture}.png"
+
+
+def data_uri(path: Path) -> str:
+    mime_type = mimetypes.guess_type(path)[0] or "image/png"
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:{mime_type};base64,{encoded}"
 
 
 def main() -> None:
@@ -83,7 +123,12 @@ def main() -> None:
         browser = p.chromium.launch()
         page = browser.new_page(viewport={"width": 1080, "height": 1350}, device_scale_factor=1)
         for index, quote in enumerate(quotes, start=1):
-            html_doc = template.replace("{{QUOTE}}", html.escape(quote))
+            asset = bear_asset(index)
+            html_doc = (
+                template.replace("{{QUOTE}}", html.escape(quote))
+                .replace("{{BEAR_SRC}}", data_uri(asset) if asset.exists() else "")
+                .replace("{{BEAR_ALT}}", f"white bear {BEAR_POSTURES[(index - 1) % len(BEAR_POSTURES)]}")
+            )
             page.set_content(html_doc, wait_until="networkidle")
             output = output_dir / f"quote-card-{index:02d}.png"
             page.screenshot(path=str(output), full_page=True)
