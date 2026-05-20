@@ -30,7 +30,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--srt", type=Path, default=None, help="Output SRT path")
     parser.add_argument("--ass", type=Path, default=None, help="Output ASS path used by ffmpeg")
     parser.add_argument("--transcript", type=Path, default=None, help="Output plain transcript path")
-    parser.add_argument("--model", default="medium", help="Whisper model, e.g. medium or large-v3")
+    parser.add_argument("--model", default="large-v3", help="Whisper model, e.g. medium or large-v3")
     parser.add_argument("--language", default="zh", help="Whisper language code. Use zh for Chinese.")
     parser.add_argument("--font", type=Path, default=None, help="Chinese font file for subtitles")
     parser.add_argument("--font-name", default=None, help="ASS font family name")
