@@ -3,8 +3,9 @@
 
 ## 🚀 下次開場白（複製這段給新 session 的 Codex）
 請讀取 SESSION.md，繼續上次工作。
-上次中斷在：Codex 已完成 EP1 V3.3 螢幕錄影 MVP pipeline 驗證，並將 `tools/video-pipeline/screen-record-to-youtube.py` 的 Whisper 預設模型升級為 `large-v3`。已另產出 GDrive 測試字幕 `04-subtitles-large-v3-test.srt`，但測試結果顯示 large-v3 在本素材上只命中指定關鍵詞 2/5，且有簡體、英文幻覺與片段錯亂；現存 `04-subtitles-screen-MVP.srt` 反而命中 5/5。
-下一步應該做：先 `git fetch origin && git switch codex/life-os-mvp && git pull origin codex/life-os-mvp`，再讀 Obsidian `AI-Checkpoint.md`、`CLAUDE/工作日誌.md`、`我的思維框架/Life OS 營銷總控台.md`；請使用者或 Claude 決定是否真的採用 large-v3。若要發布，目前建議以 `04-subtitles-screen-MVP.srt` 為底人工修，而不是直接採用 `04-subtitles-large-v3-test.srt`。
+**本次任務：建立 EP 影片自動化 pipeline。** 完整規格在 `tools/video-pipeline/EPISODE-PIPELINE-BRIEF.md`，請先讀它，照規格在 `tools/video-pipeline/` 新建 `episode-pipeline.py`。
+重點：把 EP1 已人工驗證的三項突破固化成腳本 —— (A) auto-editor 剪靜音 margin 0.4；(B) Whisper word_timestamps + 語意分段「合併、絕不切斷」，預設模型改回 `medium`（large-v3 在本素材命中率較差）；(C) 輸出乾淨影片 + 獨立 SRT，不燒字幕。現存 `screen-record-to-youtube.py` 是淘汰的舊版（燒字幕＋字元硬切），可重用工具函式但不要沿用其字幕邏輯。
+下一步應該做：先 `git fetch origin && git switch codex/life-os-mvp && git pull origin codex/life-os-mvp`，讀 `EPISODE-PIPELINE-BRIEF.md` 與 Obsidian `AI-Checkpoint.md`、`CLAUDE/工作日誌.md`；建好 `episode-pipeline.py` 後用 EP1 原始檔 `episode-01-大腦RAM清倉術/03-screen-recording-MVP.mov` 跑驗收 Gate（時長≈7:01、SRT≈120 段、關鍵詞拼寫正確、無斷字、無燒字幕），通過再 push。
 
 ## 最近一次 session
 - 電腦：baizheweideMacBook-Air.local
