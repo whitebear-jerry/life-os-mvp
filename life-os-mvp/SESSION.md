@@ -20,7 +20,7 @@
 - 分支：codex/life-os-mvp
 - 完成：新增 `tools/video-pipeline/episode-pipeline.py`；`vocab.json` 增加 `REIT DOMO` / `REITDOMO` → `Readmoo`。
 - EP1 回歸：用 `03-screen-recording-MVP.mov` 跑出 `05-final-video-autocut-regen.mp4`、`EP01-字幕-zh-TW-autocut-regen.srt`、`transcript-autocut-regen.txt`。驗收通過：影片 422.058s（約 7:02）、1920x1080/30fps、SRT 120 段、0 重疊、0 多行/超長段、關鍵詞 8/8 命中（蔡加尼克、Readmoo、房貸、瑣事、第二大腦、Pubu、Notion、Obsidian），影片只有 video/audio stream，未燒字幕。
-- 注意：本機找不到 Obsidian `AI-Checkpoint.md` 與 `CLAUDE/工作日誌.md`，所以本次只更新 repo 內 `SESSION.md`。
+- 收工 SOP：已定位並更新 Obsidian `AI-Checkpoint.md` 與 `CLAUDE/工作日誌.md`；`link.html` 有安全的樣式調整，需隨本次收工 commit/push，並同步部署 `gh-pages`。
 - 下次從：用 `episode-pipeline.py` 處理 EP2；若 EP2 原始檔已在 GDrive 該集資料夾，直接跑上方命令即可。
 
 ## 未完成但已 push 的 WIP
