@@ -34,17 +34,21 @@
     }
 
     .bear-avatar {
-      width: 82px;
+      width: 92px;
       aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.25);
       border-radius: 50%;
-      background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(224, 232, 220, 0.9));
-      color: var(--green-dark);
-      font-weight: 950;
-      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+      background: url('assets/bear-avatar.jpg') no-repeat center 20%;
+      background-size: 135%;
+      image-rendering: pixelated;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.48), 0 0 16px rgba(47, 107, 79, 0.4);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bear-avatar:hover {
+      transform: scale(1.08) rotate(3deg);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.58), 0 0 24px rgba(47, 107, 79, 0.7);
     }
 
     .link-profile h1 {
@@ -195,7 +199,7 @@
 <body class="link-page">
   <main class="link-shell" aria-label="白熊人生攻略連結頁">
     <section class="link-profile">
-      <div class="bear-avatar" role="img" aria-label="白熊頭像">白熊</div>
+      <div class="bear-avatar" role="img" aria-label="白熊頭像"></div>
       <h1>白熊人生攻略</h1>
       <p class="link-tagline">把人生變成可以升級的作業系統</p>
     </section>
