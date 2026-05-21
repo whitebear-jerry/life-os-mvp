@@ -66,11 +66,31 @@
     }
 
     .link-book {
-      padding: 16px;
+      padding: 18px 16px;
       border: 1px solid rgba(220, 227, 217, 0.16);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .link-book:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .link-book.book-fuli:hover {
+      border-color: rgba(196, 137, 53, 0.35);
+      box-shadow: 0 16px 48px rgba(196, 137, 53, 0.06);
+    }
+
+    .link-book.book-game:hover {
+      border-color: rgba(160, 79, 85, 0.35);
+      box-shadow: 0 16px 48px rgba(160, 79, 85, 0.06);
+    }
+
+    .link-book.book-noise:hover {
+      border-color: rgba(64, 105, 132, 0.35);
+      box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06);
     }
 
     .link-book h2 {
@@ -93,29 +113,62 @@
     }
 
     .link-actions a {
-      min-height: 42px;
+      min-height: 48px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(220, 227, 217, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
       color: #ffffff;
-      font-size: 0.83rem;
-      font-weight: 850;
+      font-size: 0.9rem;
+      font-weight: 800;
       text-decoration: none;
-      background: rgba(47, 107, 79, 0.88);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .link-actions a:nth-child(2) {
-      background: rgba(196, 137, 53, 0.9);
+    .book-fuli .link-actions a {
+      background: var(--gold);
+      box-shadow: 0 4px 12px rgba(196, 137, 53, 0.15);
     }
 
-    .link-actions a:nth-child(3) {
-      background: rgba(64, 105, 132, 0.92);
+    .book-game .link-actions a {
+      background: var(--rose);
+      box-shadow: 0 4px 12px rgba(160, 79, 85, 0.15);
+    }
+
+    .book-noise .link-actions a {
+      background: var(--blue);
+      box-shadow: 0 4px 12px rgba(64, 105, 132, 0.15);
+    }
+
+    .link-actions a:hover {
+      filter: brightness(1.12);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.32);
+    }
+
+    .book-fuli .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(196, 137, 53, 0.35);
+    }
+
+    .book-game .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(160, 79, 85, 0.35);
+    }
+
+    .book-noise .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(64, 105, 132, 0.35);
+    }
+
+    .link-actions a:active {
+      transform: translateY(0);
+      filter: brightness(0.95);
     }
 
     .link-actions a:focus-visible {
-      outline: 3px solid rgba(255, 255, 255, 0.58);
+      outline: 3px solid rgba(255, 255, 255, 0.6);
       outline-offset: 3px;
     }
 
@@ -128,7 +181,7 @@
       text-align: center;
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 480px) {
       .link-shell {
         padding-inline: 14px;
       }
@@ -148,7 +201,7 @@
     </section>
 
     <section class="link-books" aria-label="白熊三本書">
-      <article class="link-book">
+      <article class="link-book book-fuli">
         <h2>《人生複利》</h2>
         <p>從信念到財富的 45 個覺醒練習，幫你重設大腦關鍵字。</p>
         <div class="link-actions" aria-label="人生複利購買連結">
@@ -158,7 +211,7 @@
         </div>
       </article>
 
-      <article class="link-book">
+      <article class="link-book book-game">
         <h2>《人生遊戲》</h2>
         <p>40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
         <div class="link-actions" aria-label="人生遊戲購買連結">
@@ -168,7 +221,7 @@
         </div>
       </article>
 
-      <article class="link-book">
+      <article class="link-book book-noise">
         <h2>《降噪人生》</h2>
         <p>從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
         <div class="link-actions" aria-label="降噪人生購買連結">
