@@ -9,16 +9,19 @@
 
 ## 🚀 下次開場白（複製這段給新 session 的 Codex）
 請讀取 SESSION.md，繼續上次工作。
-**本次任務：建立 EP 影片自動化 pipeline。** 完整規格在 `tools/video-pipeline/EPISODE-PIPELINE-BRIEF.md`，請先讀它，照規格在 `tools/video-pipeline/` 新建 `episode-pipeline.py`。
-重點：把 EP1 已人工驗證的三項突破固化成腳本 —— (A) auto-editor 剪靜音 margin 0.4；(B) Whisper word_timestamps + 語意分段「合併、絕不切斷」，預設模型改回 `medium`（large-v3 在本素材命中率較差）；(C) 輸出乾淨影片 + 獨立 SRT，不燒字幕。現存 `screen-record-to-youtube.py` 是淘汰的舊版（燒字幕＋字元硬切），可重用工具函式但不要沿用其字幕邏輯。
-下一步應該做：先 `git fetch origin && git switch codex/life-os-mvp && git pull origin codex/life-os-mvp`，讀 `EPISODE-PIPELINE-BRIEF.md` 與 Obsidian `AI-Checkpoint.md`、`CLAUDE/工作日誌.md`；建好 `episode-pipeline.py` 後用 EP1 原始檔 `episode-01-大腦RAM清倉術/03-screen-recording-MVP.mov` 跑驗收 Gate（時長≈7:01、SRT≈120 段、關鍵詞拼寫正確、無斷字、無燒字幕），通過再 push。
+**本次任務：EP 影片自動化 pipeline 已建立並通過 EP1 回歸。**
+下一步可直接用 `tools/video-pipeline/episode-pipeline.py` 跑 EP2-12。EP2 範例：
+`python tools/video-pipeline/episode-pipeline.py "<EP2 資料夾>/03-screen-recording-MVP.mov" --out-dir "<EP2 資料夾>" --ep 02 --model medium --margin 0.4`
+重點：pipeline 會 auto-editor 剪靜音（margin 0.4）、正規化成 1920x1080/30fps、對剪後影片用 Whisper `medium` + `word_timestamps` 轉錄、用完整 Whisper segment 合併字幕（不切字）、輸出乾淨 MP4 + 獨立 SRT/TXT，不燒字幕。中間檔預設放本機 temp，避免 GDrive I/O 拖慢。
 
 ## 最近一次 session
-- 電腦：baizheweideMacBook-Air.local
-- 日期：2026-05-20
+- 電腦：baizheweideMac-mini.local
+- 日期：2026-05-21
 - 分支：codex/life-os-mvp
-- 完成：`screen-record-to-youtube.py` 預設 Whisper model 已是 `large-v3`；已用 EP1 螢幕錄影只重跑 Whisper 測試，輸出 `04-subtitles-large-v3-test.srt`，未覆蓋正式影片或正式字幕。
-- 下次從：檢查 `04-subtitles-large-v3-test.srt` 是否值得採用；目前測試結論是 large-v3 關鍵詞命中率 2/5，現存 medium 版 `04-subtitles-screen-MVP.srt` 命中率 5/5。
+- 完成：新增 `tools/video-pipeline/episode-pipeline.py`；`vocab.json` 增加 `REIT DOMO` / `REITDOMO` → `Readmoo`。
+- EP1 回歸：用 `03-screen-recording-MVP.mov` 跑出 `05-final-video-autocut-regen.mp4`、`EP01-字幕-zh-TW-autocut-regen.srt`、`transcript-autocut-regen.txt`。驗收通過：影片 422.058s（約 7:02）、1920x1080/30fps、SRT 120 段、0 重疊、0 多行/超長段、關鍵詞 8/8 命中（蔡加尼克、Readmoo、房貸、瑣事、第二大腦、Pubu、Notion、Obsidian），影片只有 video/audio stream，未燒字幕。
+- 注意：本機找不到 Obsidian `AI-Checkpoint.md` 與 `CLAUDE/工作日誌.md`，所以本次只更新 repo 內 `SESSION.md`。
+- 下次從：用 `episode-pipeline.py` 處理 EP2；若 EP2 原始檔已在 GDrive 該集資料夾，直接跑上方命令即可。
 
 ## 未完成但已 push 的 WIP
 - EP1 V3.1 pipeline 修正已 push：`auto-edit-video.py`、`shorts-cutter.py`、`quote-card-generator.py`、`config.json`、`quote-card-template.html`。
@@ -26,7 +29,6 @@
 - Claude 工作日誌已標註 V3.3 螢幕錄影模式為後續方向，需等使用者提供 `03-screen-recording-MVP.mov` 或完整螢幕錄影。
 
 ## 需要 Google Drive 的檔案
-- 已在 GDrive 輸出 EP1 V3.3 MVP 成品：`05-final-video-MVP.mp4`、`04-subtitles-screen-MVP.srt`、`04-subtitles-screen-MVP.ass`、`transcript-screen-MVP.txt`。
-- large-v3 測試字幕：`04-subtitles-large-v3-test.srt`，只供比對，不是正式成品。
-- 沒有需要手動搬到 GDrive 的新檔案。
-- 下一步若修字幕，直接修改 GDrive EP1 的 `04-subtitles-screen-MVP.srt`，再跑 `screen-record-to-youtube.py --skip-transcribe` 重新燒錄，不要跑廢棄的 `auto-edit-video.py`、`shorts-cutter.py`。
+- EP1 回歸輸出在 GDrive episode-01 資料夾：`05-final-video-autocut-regen.mp4`、`EP01-字幕-zh-TW-autocut-regen.srt`、`transcript-autocut-regen.txt`。
+- 舊版 `screen-record-to-youtube.py`、`auto-edit-video.py`、`shorts-cutter.py` 不再作為 EP 主流程；保留作歷史工具參考。
+- 下一步若要正式替換 EP1 autocut 成品，先人工快速看過 `*-regen` 檔，再決定是否覆蓋無 `-regen` 的正式檔名。
