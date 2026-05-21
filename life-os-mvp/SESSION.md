@@ -1,6 +1,12 @@
 # ⚡ Codex Session 協定
 **每次開始必讀，每次結束必更新。**
 
+## 🔄 Git 同步協定（標準・2026-05-21 起）
+使用者**不手動跑 git**。AI（Claude / Codex）全程代勞：
+- **開工**：自動 `git fetch && git switch codex/life-os-mvp && git pull`（抓最新）。
+- **收工**：自動 `git add <相關檔> && git commit && git push`（上傳，讓另一台電腦與雲端同步）。
+- 使用者只講中文，不需被問「要不要 push」。內容檔（mp4/srt/pdf）走 GDrive 自動同步、筆記走 iCloud 自動同步；**只有程式碼**走這條 git 流程。
+
 ## 🚀 下次開場白（複製這段給新 session 的 Codex）
 請讀取 SESSION.md，繼續上次工作。
 **本次任務：建立 EP 影片自動化 pipeline。** 完整規格在 `tools/video-pipeline/EPISODE-PIPELINE-BRIEF.md`，請先讀它，照規格在 `tools/video-pipeline/` 新建 `episode-pipeline.py`。

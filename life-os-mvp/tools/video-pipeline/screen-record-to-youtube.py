@@ -8,6 +8,7 @@ It keeps the original recording timing intact and only adds Chinese subtitles.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import shutil
 import subprocess
@@ -21,6 +22,8 @@ FONT_CANDIDATES = [
     "/Library/Fonts/SourceHanSansTC-Normal.otf",
     "/System/Library/Fonts/STHeiti Medium.ttc",
 ]
+DEFAULT_VOCAB_PATH = Path(__file__).with_name("vocab.json")
+BREAK_PUNCTUATION = "，。？！,?!"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -36,8 +39,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--font-name", default=None, help="ASS font family name")
     parser.add_argument("--font-size", type=int, default=54, help="ASS subtitle font size")
     parser.add_argument("--margin-v", type=int, default=92, help="ASS bottom margin")
+    parser.add_argument("--max-chars", type=int, default=14, help="Target max chars per subtitle segment")
+    parser.add_argument("--vocab", type=Path, default=DEFAULT_VOCAB_PATH, help="Vocabulary replacement JSON path")
     parser.add_argument("--initial-prompt", default=None, help="Optional Whisper initial prompt")
     parser.add_argument("--skip-transcribe", action="store_true", help="Reuse existing SRT and ASS if present")
+    parser.add_argument("--transcribe-only", action="store_true", help="Only write SRT/transcript, do not burn video")
     return parser
 
 
@@ -90,11 +96,170 @@ def ass_escape(text: str) -> str:
     return text.replace("\\", "\\\\").replace("{", "（").replace("}", "）")
 
 
-def write_srt(segments: list[dict], srt_path: Path) -> None:
+def load_vocab(vocab_path: Path | None) -> dict[str, str]:
+    if not vocab_path:
+        return {}
+    path = vocab_path.expanduser()
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    replacements = data.get("replacements", data) if isinstance(data, dict) else {}
+    return {str(wrong): str(correct) for wrong, correct in replacements.items()}
+
+
+def apply_vocab(text: str, replacements: dict[str, str]) -> str:
+    corrected = text
+    for wrong, correct in sorted(replacements.items(), key=lambda item: len(item[0]), reverse=True):
+        corrected = corrected.replace(wrong, correct)
+    return corrected
+
+
+def display_len(text: str) -> int:
+    return len(re.sub(r"\s+", "", text))
+
+
+def should_break(text: str) -> bool:
+    return text.rstrip().endswith(tuple(BREAK_PUNCTUATION))
+
+
+def join_piece(left: str, right: str) -> str:
+    if not left:
+        return right
+    if not right:
+        return left
+    if re.search(r"[A-Za-z0-9]$", left) and re.match(r"[A-Za-z0-9]", right):
+        return f"{left} {right}"
+    return left + right
+
+
+def split_long_word(word: dict, max_chars: int) -> list[dict]:
+    text = str(word.get("word", "")).strip()
+    if not text or display_len(text) <= max_chars:
+        return [word]
+
+    start = float(word.get("start", 0))
+    end = float(word.get("end", start))
+    chars = list(text)
+    chunks = ["".join(chars[index : index + max_chars]) for index in range(0, len(chars), max_chars)]
+    duration = max(end - start, 0.01)
+    total_chars = max(len(chars), 1)
+
+    split_words = []
+    cursor = start
+    elapsed_chars = 0
+    for chunk in chunks:
+        elapsed_chars += len(chunk)
+        chunk_end = start + duration * elapsed_chars / total_chars
+        split_words.append({"word": chunk, "start": cursor, "end": chunk_end})
+        cursor = chunk_end
+    return split_words
+
+
+def collect_words(segments: list[dict], replacements: dict[str, str], max_chars: int) -> list[dict]:
+    words = []
+    for segment in segments:
+        segment_words = segment.get("words") or []
+        if not segment_words:
+            text = apply_vocab(str(segment.get("text", "")).strip(), replacements)
+            if text:
+                segment_words = [
+                    {
+                        "word": text,
+                        "start": float(segment["start"]),
+                        "end": float(segment["end"]),
+                    }
+                ]
+        for word in segment_words:
+            text = apply_vocab(str(word.get("word", "")).strip(), replacements)
+            if not text:
+                continue
+            normalized = {
+                "word": text,
+                "start": float(word.get("start", segment.get("start", 0))),
+                "end": float(word.get("end", segment.get("end", word.get("start", 0)))),
+            }
+            words.extend(split_long_word(normalized, max_chars))
+    return words
+
+
+def resegment_words(words: list[dict], max_chars: int, min_duration: float = 1.0) -> list[dict]:
+    segments = []
+    current_words = []
+
+    def flush() -> None:
+        nonlocal current_words
+        if not current_words:
+            return
+        text = ""
+        for item in current_words:
+            text = join_piece(text, item["word"])
+        segments.append(
+            {
+                "start": float(current_words[0]["start"]),
+                "end": float(current_words[-1]["end"]),
+                "text": text.strip(),
+            }
+        )
+        current_words = []
+
+    for word in words:
+        candidate_text = ""
+        for item in current_words:
+            candidate_text = join_piece(candidate_text, item["word"])
+        candidate_text = join_piece(candidate_text, word["word"])
+        over_limit = current_words and display_len(candidate_text) > max_chars
+        punct_break = current_words and should_break(current_words[-1]["word"]) and display_len(candidate_text) >= 8
+        if over_limit or punct_break:
+            flush()
+        current_words.append(word)
+    flush()
+
+    return merge_short_segments(segments, min_duration, max_chars)
+
+
+def merge_short_segments(segments: list[dict], min_duration: float, max_chars: int) -> list[dict]:
+    merged = []
+    for segment in segments:
+        duration = float(segment["end"]) - float(segment["start"])
+        if (
+            merged
+            and duration < min_duration
+            and display_len(merged[-1]["text"]) + display_len(segment["text"]) <= max_chars + 2
+        ):
+            merged[-1]["text"] = join_piece(merged[-1]["text"], segment["text"])
+            merged[-1]["end"] = segment["end"]
+        else:
+            merged.append(segment)
+
+    index = 0
+    while index < len(merged) - 1:
+        duration = float(merged[index]["end"]) - float(merged[index]["start"])
+        if duration < min_duration and display_len(merged[index]["text"]) + display_len(merged[index + 1]["text"]) <= max_chars + 2:
+            merged[index]["text"] = join_piece(merged[index]["text"], merged[index + 1]["text"])
+            merged[index]["end"] = merged[index + 1]["end"]
+            del merged[index + 1]
+        else:
+            index += 1
+    return merged
+
+
+def prepare_subtitle_segments(segments: list[dict], replacements: dict[str, str], max_chars: int) -> list[dict]:
+    words = collect_words(segments, replacements, max_chars)
+    if not words:
+        return [
+            {**segment, "text": apply_vocab(str(segment.get("text", "")).strip(), replacements)}
+            for segment in segments
+            if str(segment.get("text", "")).strip()
+        ]
+    return resegment_words(words, max_chars=max_chars)
+
+
+def write_srt(segments: list[dict], srt_path: Path, replacements: dict[str, str] | None = None) -> None:
+    replacements = replacements or {}
     entries = []
     index = 1
     for segment in segments:
-        text = segment.get("text", "").strip()
+        text = apply_vocab(segment.get("text", "").strip(), replacements)
         if not text:
             continue
         entries.append(
@@ -167,7 +332,9 @@ def write_ass(
     margin_v: int,
     play_res_x: int,
     play_res_y: int,
+    replacements: dict[str, str] | None = None,
 ) -> None:
+    replacements = replacements or {}
     header = f"""[Script Info]
 ScriptType: v4.00+
 ScaledBorderAndShadow: yes
@@ -183,7 +350,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     lines = [header]
     for segment in segments:
-        text = segment.get("text", "").strip()
+        text = apply_vocab(segment.get("text", "").strip(), replacements)
         if not text:
             continue
         wrapped = ass_escape(wrap_cjk(text))
@@ -200,14 +367,37 @@ def transcribe(input_path: Path, model_name: str, language: str, initial_prompt:
     except ImportError as exc:
         raise SystemExit("Missing dependency: openai-whisper. Run: pip install -r tools/video-pipeline/requirements.txt") from exc
 
-    model = whisper.load_model(model_name)
+    device, fp16 = select_whisper_device()
+    try:
+        model = whisper.load_model(model_name, device=device)
+    except NotImplementedError:
+        if device == "mps":
+            print("MPS backend is unavailable for this Whisper model; falling back to CPU.")
+            device, fp16 = "cpu", False
+            model = whisper.load_model(model_name, device=device)
+        else:
+            raise
     result = model.transcribe(
         str(input_path),
         language=language,
         verbose=False,
         initial_prompt=initial_prompt,
+        word_timestamps=True,
+        fp16=fp16,
     )
     return list(result.get("segments", [])), str(result.get("text", "")).strip()
+
+
+def select_whisper_device() -> tuple[str, bool]:
+    try:
+        import torch
+    except ImportError:
+        return "cpu", False
+    if torch.cuda.is_available():
+        return "cuda", True
+    if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+        return "mps", True
+    return "cpu", False
 
 
 def burn_subtitles(input_path: Path, output_path: Path, ass_path: Path, fonts_dir: Path) -> None:
@@ -262,6 +452,7 @@ def main() -> None:
     for path in (output_path, srt_path, ass_path, transcript_path):
         path.parent.mkdir(parents=True, exist_ok=True)
 
+    replacements = load_vocab(args.vocab)
     font_path, detected_font_name = pick_font(args.font)
     font_name = args.font_name or detected_font_name
     play_res_x, play_res_y = probe_video_resolution(input_path)
@@ -269,16 +460,20 @@ def main() -> None:
     if args.skip_transcribe and srt_path.exists() and ass_path.exists():
         print(f"Reusing {srt_path}")
         segments = read_srt(srt_path)
-        write_ass(segments, ass_path, font_name, args.font_size, args.margin_v, play_res_x, play_res_y)
+        write_ass(segments, ass_path, font_name, args.font_size, args.margin_v, play_res_x, play_res_y, replacements)
         print(f"Regenerated {ass_path}")
     else:
-        segments, transcript = transcribe(input_path, args.model, args.language, args.initial_prompt)
-        if not segments:
+        raw_segments, transcript = transcribe(input_path, args.model, args.language, args.initial_prompt)
+        if not raw_segments:
             raise SystemExit("Whisper returned no segments.")
-        write_srt(segments, srt_path)
-        write_ass(segments, ass_path, font_name, args.font_size, args.margin_v, play_res_x, play_res_y)
+        segments = prepare_subtitle_segments(raw_segments, replacements, args.max_chars)
+        write_srt(segments, srt_path, replacements)
         transcript_path.write_text(transcript + "\n", encoding="utf-8")
         print(f"Wrote {srt_path}")
+        if args.transcribe_only:
+            print(f"Wrote {transcript_path}")
+            return
+        write_ass(segments, ass_path, font_name, args.font_size, args.margin_v, play_res_x, play_res_y, replacements)
         print(f"Wrote {ass_path}")
         print(f"Wrote {transcript_path}")
 
