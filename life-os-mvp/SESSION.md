@@ -1,6 +1,13 @@
 # ⚡ Codex Session 協定
 **每次開始必讀，每次結束必更新。**
 
+## 📍 交接檔位置（2026-05-21 改版・重要）
+Obsidian 交接已重新整理。**開工先讀、收工更新「你自己的」交接檔**（絕對路徑）：
+- 你的交接：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/secondbrain/🤝 AI協作/Codex 交接.md`
+- 全局現況＋跨 AI 留言區：同資料夾的 `📋 共用看板.md`（要跟 Claude/Antigravity 講話寫這裡）
+- ⚠️ 舊的 `AI-Checkpoint.md`、`CLAUDE/工作日誌.md` **已搬走，不要再寫那兩個**。`Claude 交接`（原工作日誌）是 Claude 的、不是你的——你只更新 `Codex 交接.md`。
+- 這個 repo `SESSION.md` 保留作 git 同步用的精簡指標；詳細交接以上面 Obsidian 那份為準。
+
 ## 🔄 Git 同步協定（標準・2026-05-21 起）
 使用者**不手動跑 git**。AI（Claude / Codex）全程代勞：
 - **開工**：自動 `git fetch && git switch codex/life-os-mvp && git pull`（抓最新）。
