@@ -150,7 +150,7 @@
 
     .link-actions a:hover {
       filter: brightness(1.12);
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.05);
       border-color: rgba(255, 255, 255, 0.32);
     }
 
@@ -167,7 +167,7 @@
     }
 
     .link-actions a:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.97);
       filter: brightness(0.95);
     }
 
@@ -183,6 +183,19 @@
       color: rgba(247, 247, 240, 0.7);
       font-size: 0.9rem;
       text-align: center;
+    }
+
+    .link-more a {
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .link-more a:hover {
+      transform: scale(1.1) translateY(-1px);
+    }
+
+    .link-more a:active {
+      transform: scale(0.95);
     }
 
     @media (max-width: 480px) {
