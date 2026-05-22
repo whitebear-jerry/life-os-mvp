@@ -248,11 +248,20 @@
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       touch-action: pan-y;
       user-select: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carousel-track-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9; /* 完美比例，不裁剪圖片 */
+      overflow: hidden;
     }
 
     .carousel-track {
       display: flex;
-      height: 172px;
+      height: 100%;
       transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -261,10 +270,6 @@
       width: 100%;
       height: 100%;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 16px 20px 18px;
       cursor: grab;
       background-size: cover;
       background-position: center;
@@ -276,70 +281,48 @@
       cursor: grabbing;
     }
 
-    /* 移除暗色遮罩，呈現 100% 原圖清晰像素色彩與內嵌文字 */
+    /* 呈現 100% 原圖清晰像素色彩與內嵌文字，無暗色遮罩 */
     .carousel-slide::before {
       display: none;
     }
 
-    /* 預設雙背景 (前景色層次 + Fallback 圖片路徑) */
+    /* 預設雙背景 (無遮罩，100% 清晰原圖) */
     .slide-book1 {
-      background-image: linear-gradient(to top, rgba(12, 21, 17, 0.96) 20%, rgba(196, 137, 53, 0.08) 100%), url('assets/book1.jpg');
+      background-image: url('assets/book1.jpg');
     }
 
     .slide-book2 {
-      background-image: linear-gradient(to top, rgba(12, 21, 17, 0.96) 20%, rgba(160, 79, 85, 0.12) 100%), url('assets/book2.jpg');
+      background-image: url('assets/book2.jpg');
     }
 
     .slide-book3 {
-      background-image: linear-gradient(to top, rgba(12, 21, 17, 0.96) 20%, rgba(64, 105, 132, 0.12) 100%), url('assets/book3.jpg');
+      background-image: url('assets/book3.jpg');
     }
 
-    .slide-badge {
-      position: absolute;
-      top: 14px;
-      left: 16px;
-      padding: 3px 10px;
-      border-radius: 99px;
-      font-size: 0.7rem;
-      font-weight: 900;
+    .carousel-control-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      height: 38px;
+      background: rgba(12, 21, 17, 0.65);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .carousel-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: rgba(247, 247, 240, 0.85);
       letter-spacing: 0.5px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 2;
-    }
-
-    .slide-book1 .slide-badge { background: rgba(196, 137, 53, 0.35); color: #ffe3b8; }
-    .slide-book2 .slide-badge { background: rgba(160, 79, 85, 0.38); color: #ffd6d9; }
-    .slide-book3 .slide-badge { background: rgba(64, 105, 132, 0.42); color: #d6eeff; }
-
-    .slide-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .slide-content h3 {
-      margin: 0 0 4px;
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
-    }
-
-    .slide-content p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: rgba(247, 247, 240, 0.82);
-      line-height: 1.45;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      font-family: inherit;
     }
 
     .carousel-dots {
-      position: absolute;
-      bottom: 15px;
-      right: 20px;
       display: flex;
       gap: 6px;
+      align-items: center;
       z-index: 3;
     }
 
@@ -620,10 +603,6 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 6px;
       }
-
-      .carousel-track {
-        height: 165px;
-      }
     }
   </style>
 </head>
@@ -638,17 +617,22 @@
       <p class="link-tagline">把人生變成可以升級的作業系統</p>
     </section>
 
-    <!-- 📚 書籍故事動態橫幅 Carousel (精緻像素無字版，不遮擋插畫與內嵌文字) -->
+    <!-- 📚 書籍故事動態橫幅 Carousel (16:9 完美無遮擋、控制列版面設計) -->
     <section class="link-carousel" aria-label="創作理念輪播">
-      <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-slide slide-book1" aria-label="創作 #1 ｜ 人生複利"></div>
-        <div class="carousel-slide slide-book2" aria-label="創作 #2 ｜ 人生遊戲"></div>
-        <div class="carousel-slide slide-book3" aria-label="創作 #3 ｜ 降噪人生"></div>
+      <div class="carousel-track-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide slide-book1" aria-label="創作 #1 ｜ 人生複利"></div>
+          <div class="carousel-slide slide-book2" aria-label="創作 #2 ｜ 人生遊戲"></div>
+          <div class="carousel-slide slide-book3" aria-label="創作 #3 ｜ 降噪人生"></div>
+        </div>
       </div>
-      <div class="carousel-dots" id="carouselDots">
-        <span class="carousel-dot active" data-slide="0"></span>
-        <span class="carousel-dot" data-slide="1"></span>
-        <span class="carousel-dot" data-slide="2"></span>
+      <div class="carousel-control-bar">
+        <span class="carousel-title" id="carouselTitle">創作 #1 ｜ 人生複利</span>
+        <div class="carousel-dots" id="carouselDots">
+          <span class="carousel-dot active" data-slide="0"></span>
+          <span class="carousel-dot" data-slide="1"></span>
+          <span class="carousel-dot" data-slide="2"></span>
+        </div>
       </div>
     </section>
 
@@ -750,9 +734,20 @@
     let currentSlide = 0;
     let slideTimer = null;
 
+    const slideTitles = [
+      "創作 #1 ｜ 人生複利",
+      "創作 #2 ｜ 人生遊戲",
+      "創作 #3 ｜ 降噪人生"
+    ];
+    const carouselTitle = document.getElementById('carouselTitle');
+
     function showSlide(index) {
       currentSlide = index;
       track.style.transform = `translateX(-${index * 100}%)`;
+      
+      if (carouselTitle) {
+        carouselTitle.textContent = slideTitles[index];
+      }
       
       dots.forEach((dot, idx) => {
         if (idx === index) {
@@ -988,38 +983,117 @@
       const liveUsersEl = document.getElementById('liveUsers');
       const totalUsersEl = document.getElementById('totalUsers');
       
-      // 1. 動態模擬當前在線人數 (隨時間波動)
+      // 數字滾動動畫 (Ease Out Quad 效果，提供極致流暢視覺體驗)
+      function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const easeProgress = progress * (2 - progress);
+          const current = Math.floor(easeProgress * (end - start) + start);
+          obj.innerText = current.toLocaleString();
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            obj.innerText = end.toLocaleString();
+          }
+        };
+        window.requestAnimationFrame(step);
+      }
+
+      // 1. 動態模擬當前在線人數 (隨時間波動) + 微幅滾動效果
+      let prevLive = 0;
       function updateLiveUsers() {
         const hours = new Date().getHours();
         let base = 6;
         if (hours >= 19 && hours <= 23) base = 14;      // 晚上尖峰時段
         else if (hours >= 1 && hours <= 6) base = 2;    // 深夜時段
-        const live = base + Math.floor(Math.random() * 5);
-        liveUsersEl.innerText = live;
+        const targetLive = base + Math.floor(Math.random() * 5);
+        
+        // 使用動畫過渡在線人數
+        if (prevLive === 0) {
+          liveUsersEl.innerText = targetLive;
+        } else if (prevLive !== targetLive) {
+          animateValue(liveUsersEl, prevLive, targetLive, 800);
+        }
+        prevLive = targetLive;
       }
       updateLiveUsers();
-      setInterval(updateLiveUsers, 8000);
+      setInterval(updateLiveUsers, 6000); // 每 6 秒更新一次在線人數，增強活力感
 
       // 2. 串接 CounterAPI 總來訪人數並支援本地 Fallback
       const namespace = "baixiong-lifeos";
       const key = "visits";
-      
-      try {
-        const res = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
-        if (res.ok) {
-          const data = await res.json();
-          totalUsersEl.innerText = data.value.toLocaleString();
-          return;
+      let currentVisits = 0;
+      let usingFallback = false;
+
+      async function fetchRealCount() {
+        try {
+          const res = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+          if (res.ok) {
+            const data = await res.json();
+            // 修正欄位 Bug: CounterAPI 回傳的是 .count 而不是 .value
+            const cloudCount = parseInt(data.count);
+            if (!isNaN(cloudCount)) {
+              return cloudCount;
+            }
+          }
+        } catch (err) {
+          console.warn("Counter API 讀取失敗，使用本地備用統計。");
         }
-      } catch (err) {
-        console.warn("Counter API 離線，啟用本地備用統計模式。");
+        return null;
       }
+
+      // 啟動加載並觸行動畫
+      let initialCount = 0;
+      const cloudVisits = await fetchRealCount();
       
-      // 本地 Fallback 機制 (基底 1842 + 本地重訪遞增)
-      let localVisits = parseInt(localStorage.getItem('baixiong_simulated_visits') || '1842');
-      localVisits += 1 + Math.floor(Math.random() * 2);
-      localStorage.setItem('baixiong_simulated_visits', localVisits);
-      totalUsersEl.innerText = localVisits.toLocaleString();
+      if (cloudVisits !== null) {
+        initialCount = cloudVisits;
+        usingFallback = false;
+      } else {
+        // 本地 Fallback 機制 (基底 1842 + 本地重訪遞增)
+        usingFallback = true;
+        let localVisits = parseInt(localStorage.getItem('baixiong_simulated_visits') || '1842');
+        localVisits += 1 + Math.floor(Math.random() * 2);
+        localStorage.setItem('baixiong_simulated_visits', localVisits);
+        initialCount = localVisits;
+      }
+
+      currentVisits = initialCount;
+      // 從 initialCount - 35 開始平滑向上滾動載入，讓玩家進來時感到儀式感與真實感
+      const startCount = Math.max(0, initialCount - 35);
+      animateValue(totalUsersEl, startCount, initialCount, 1200);
+
+      // 3. 背景自動定時更新（模擬真實世界中的即時增加）
+      setInterval(async () => {
+        if (!usingFallback) {
+          // 如果串接雲端成功，每 15 秒重新獲取一次最新雲端人數，並平滑增加
+          try {
+            const res = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`);
+            if (res.ok) {
+              const data = await res.json();
+              const latestCount = parseInt(data.count);
+              if (!isNaN(latestCount) && latestCount > currentVisits) {
+                animateValue(totalUsersEl, currentVisits, latestCount, 800);
+                currentVisits = latestCount;
+                return;
+              }
+            }
+          } catch (e) {}
+        }
+        
+        // 為了增加網頁的動態生機，如果雲端沒有更新，或使用本地 Fallback，
+        // 我們有 40% 的機率在停留期間微幅增加 1 人（模擬全球其他人登錄），並平滑滾動！
+        if (Math.random() < 0.4) {
+          const nextCount = currentVisits + 1;
+          if (usingFallback) {
+            localStorage.setItem('baixiong_simulated_visits', nextCount);
+          }
+          animateValue(totalUsersEl, currentVisits, nextCount, 500);
+          currentVisits = nextCount;
+        }
+      }, 15000); // 每 15 秒更新一次
     }
 
     initCounter();
