@@ -276,12 +276,9 @@
       cursor: grabbing;
     }
 
+    /* 移除暗色遮罩，呈現 100% 原圖清晰像素色彩與內嵌文字 */
     .carousel-slide::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(12, 21, 17, 0.1) 0%, rgba(12, 21, 17, 0.85) 68%, rgba(12, 21, 17, 0.98) 100%);
-      z-index: 1;
+      display: none;
     }
 
     /* 預設雙背景 (前景色層次 + Fallback 圖片路徑) */
@@ -641,30 +638,12 @@
       <p class="link-tagline">把人生變成可以升級的作業系統</p>
     </section>
 
-    <!-- 📚 書籍故事動態橫幅 Carousel -->
+    <!-- 📚 書籍故事動態橫幅 Carousel (精緻像素無字版，不遮擋插畫與內嵌文字) -->
     <section class="link-carousel" aria-label="創作理念輪播">
       <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-slide slide-book1">
-          <div class="slide-badge">創作 #1 ｜ 人生複利</div>
-          <div class="slide-content">
-            <h3>重設大腦「關鍵字」</h3>
-            <p>信念決定資源配置。建立複利微習慣，讓成長自動導航。</p>
-          </div>
-        </div>
-        <div class="carousel-slide slide-book2">
-          <div class="slide-badge">創作 #2 ｜ 人生遊戲</div>
-          <div class="slide-content">
-            <h3>重寫人生程式碼</h3>
-            <p>生活中的所有逆境，皆是系統的 Bug，用玩家視角除錯升級。</p>
-          </div>
-        </div>
-        <div class="carousel-slide slide-book3">
-          <div class="slide-badge">創作 #3 ｜ 降噪人生</div>
-          <div class="slide-content">
-            <h3>卸載大腦記憶體</h3>
-            <p>建立第二大腦與心靈防火牆，當個優雅的宇宙觀光客。</p>
-          </div>
-        </div>
+        <div class="carousel-slide slide-book1" aria-label="創作 #1 ｜ 人生複利"></div>
+        <div class="carousel-slide slide-book2" aria-label="創作 #2 ｜ 人生遊戲"></div>
+        <div class="carousel-slide slide-book3" aria-label="創作 #3 ｜ 降噪人生"></div>
       </div>
       <div class="carousel-dots" id="carouselDots">
         <span class="carousel-dot active" data-slide="0"></span>
