@@ -11,4 +11,4 @@
 ## 🔄 Git 同步協定
 - 開工：`git fetch && git switch codex/life-os-mvp && git pull`
 - 收工：`git add <相關檔> && git commit && git push`（使用者不手動跑 git，AI 代勞）
-- **禁推（私密，永遠不上 git）**：`創作1/2/3`、`scripts/`、`audio/`、`deliverables/pdf|slides`、大檔（m4a/mp4/docx）
+- **禁推（私密，永遠不上 git）**：`創作1/2/3`、`scripts/`、`audio/`、`deliverables/pdf|slides`、大檔（m4a/mp4/mov/docx）

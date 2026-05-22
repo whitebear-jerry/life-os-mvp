@@ -26,7 +26,7 @@ TARGET_CHARS = 12
 MAX_CHARS = 16
 OUTPUT_WIDTH = 1920
 OUTPUT_HEIGHT = 1080
-OUTPUT_FPS = 30
+OUTPUT_FPS = 60
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -164,12 +164,6 @@ def probe_video(input_path: Path) -> dict[str, float | int | str]:
     }
 
 
-def has_encoder(encoder: str) -> bool:
-    ffmpeg = find_ffmpeg()
-    result = subprocess.run([str(ffmpeg), "-hide_banner", "-encoders"], capture_output=True, text=True, check=True)
-    return encoder in result.stdout
-
-
 def cut_silence(input_path: Path, cut_path: Path, margin: float, force: bool) -> None:
     ensure_writable(cut_path, force)
     auto_editor = find_auto_editor()
@@ -190,11 +184,6 @@ def cut_silence(input_path: Path, cut_path: Path, margin: float, force: bool) ->
 def normalize_video(input_path: Path, output_path: Path, force: bool) -> None:
     ensure_writable(output_path, force)
     ffmpeg = find_ffmpeg()
-    encoder = "h264_videotoolbox" if has_encoder("h264_videotoolbox") else "libx264"
-    if encoder == "h264_videotoolbox":
-        video_args = ["-c:v", encoder, "-b:v", "6000k"]
-    else:
-        video_args = ["-c:v", encoder, "-crf", "18", "-preset", "medium"]
     cmd = [
         str(ffmpeg),
         "-y",
@@ -203,7 +192,16 @@ def normalize_video(input_path: Path, output_path: Path, force: bool) -> None:
         "-vf",
         f"scale={OUTPUT_WIDTH}:{OUTPUT_HEIGHT}:force_original_aspect_ratio=decrease,"
         f"pad={OUTPUT_WIDTH}:{OUTPUT_HEIGHT}:(ow-iw)/2:(oh-ih)/2,fps={OUTPUT_FPS}",
-        *video_args,
+        "-fps_mode",
+        "cfr",
+        "-c:v",
+        "libx264",
+        "-crf",
+        "18",
+        "-preset",
+        "medium",
+        "-pix_fmt",
+        "yuv420p",
         "-c:a",
         "aac",
         "-b:a",
