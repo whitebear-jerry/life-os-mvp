@@ -241,7 +241,7 @@
       margin: 0 0 24px;
       border-radius: 16px;
       border: 1px solid rgba(220, 227, 217, 0.14);
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(12, 21, 17, 0.55);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       overflow: hidden;
@@ -255,38 +255,36 @@
     .carousel-track-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9; /* 完美比例，不裁剪圖片 */
       overflow: hidden;
     }
 
     .carousel-track {
       display: flex;
-      height: 100%;
       transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .carousel-slide {
       flex: 0 0 100%;
       width: 100%;
-      height: 100%;
-      position: relative;
+      display: flex;
+      flex-direction: column;
       cursor: grab;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      transition: filter 0.3s ease;
     }
 
     .carousel-slide:active {
       cursor: grabbing;
     }
 
-    /* 呈現 100% 原圖清晰像素色彩與內嵌文字，無暗色遮罩 */
-    .carousel-slide::before {
-      display: none;
+    /* 頂部圖片區域：完美 16:9 比例，100% 原圖無遮擋，無暗色漸層 */
+    .slide-image-area {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    /* 預設雙背景 (無遮罩，100% 清晰原圖) */
     .slide-book1 {
       background-image: url('assets/book1.jpg');
     }
@@ -299,31 +297,63 @@
       background-image: url('assets/book3.jpg');
     }
 
-    .carousel-control-bar {
+    /* 下方文字區域：深綠色系半透明毛玻璃質感 */
+    .slide-text-area {
+      padding: 14px 18px 16px;
+      padding-right: 80px; /* 留出空間給右下角固定的 carousel-dots */
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-      height: 38px;
-      background: rgba(12, 21, 17, 0.65);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      flex-direction: column;
+      gap: 5px;
+      text-align: left;
     }
 
-    .carousel-title {
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: rgba(247, 247, 240, 0.85);
-      letter-spacing: 0.5px;
-      font-family: inherit;
+    /* 頂部控制列文字 & 標籤樣式 */
+    .slide-badge {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
+      padding: 2px 8px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
+    .badge-fuli {
+      background: rgba(196, 137, 53, 0.2);
+      color: #ffd89c;
+      border: 1px solid rgba(196, 137, 53, 0.4);
+    }
+
+    .badge-game {
+      background: rgba(160, 79, 85, 0.25);
+      color: #ffa8ae;
+      border: 1px solid rgba(160, 79, 85, 0.4);
+    }
+
+    .badge-noise {
+      background: rgba(64, 105, 132, 0.25);
+      color: #9cd4ff;
+      border: 1px solid rgba(64, 105, 132, 0.4);
+    }
+
+    .slide-description {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: rgba(247, 247, 240, 0.75);
+    }
+
+    /* 固定於右下角的 Dots 指示器 */
     .carousel-dots {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
       display: flex;
       gap: 6px;
       align-items: center;
-      z-index: 3;
+      z-index: 10;
     }
 
     .carousel-dot {
@@ -617,22 +647,41 @@
       <p class="link-tagline">把人生變成可以升級的作業系統</p>
     </section>
 
-    <!-- 📚 書籍故事動態橫幅 Carousel (16:9 完美無遮擋、控制列版面設計) -->
+    <!-- 📚 書籍故事動態橫幅 Carousel (雙區塊垂直堆疊版面設計) -->
     <section class="link-carousel" aria-label="創作理念輪播">
       <div class="carousel-track-wrapper">
         <div class="carousel-track" id="carouselTrack">
-          <div class="carousel-slide slide-book1" aria-label="創作 #1 ｜ 人生複利"></div>
-          <div class="carousel-slide slide-book2" aria-label="創作 #2 ｜ 人生遊戲"></div>
-          <div class="carousel-slide slide-book3" aria-label="創作 #3 ｜ 降噪人生"></div>
+          <!-- 幻燈片 #1 ｜ 人生複利 -->
+          <div class="carousel-slide" aria-label="創作 #1 ｜ 人生複利">
+            <div class="slide-image-area slide-book1"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-fuli">創作 #1 ｜ 人生複利</span>
+              <p class="slide-description">從信念到財富的 45 個覺醒練習，幫你重設大腦關鍵字。</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #2 ｜ 人生遊戲 -->
+          <div class="carousel-slide" aria-label="創作 #2 ｜ 人生遊戲">
+            <div class="slide-image-area slide-book2"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-game">創作 #2 ｜ 人生遊戲</span>
+              <p class="slide-description">40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #3 ｜ 降噪人生 -->
+          <div class="carousel-slide" aria-label="創作 #3 ｜ 降噪人生">
+            <div class="slide-image-area slide-book3"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-noise">創作 #3 ｜ 降噪人生</span>
+              <p class="slide-description">從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="carousel-control-bar">
-        <span class="carousel-title" id="carouselTitle">創作 #1 ｜ 人生複利</span>
-        <div class="carousel-dots" id="carouselDots">
-          <span class="carousel-dot active" data-slide="0"></span>
-          <span class="carousel-dot" data-slide="1"></span>
-          <span class="carousel-dot" data-slide="2"></span>
-        </div>
+      <!-- 固定於右下角的點狀指示器 -->
+      <div class="carousel-dots" id="carouselDots">
+        <span class="carousel-dot active" data-slide="0"></span>
+        <span class="carousel-dot" data-slide="1"></span>
+        <span class="carousel-dot" data-slide="2"></span>
       </div>
     </section>
 
@@ -734,20 +783,9 @@
     let currentSlide = 0;
     let slideTimer = null;
 
-    const slideTitles = [
-      "創作 #1 ｜ 人生複利",
-      "創作 #2 ｜ 人生遊戲",
-      "創作 #3 ｜ 降噪人生"
-    ];
-    const carouselTitle = document.getElementById('carouselTitle');
-
     function showSlide(index) {
       currentSlide = index;
       track.style.transform = `translateX(-${index * 100}%)`;
-      
-      if (carouselTitle) {
-        carouselTitle.textContent = slideTitles[index];
-      }
       
       dots.forEach((dot, idx) => {
         if (idx === index) {
