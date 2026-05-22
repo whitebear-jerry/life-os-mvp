@@ -620,6 +620,213 @@
       }
     }
 
+    /* 屬性網格 */
+    .guild-attributes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .attribute-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 6px 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: all 0.3s ease;
+    }
+    .attribute-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .attr-label {
+      font-size: 0.65rem;
+      color: rgba(247, 247, 240, 0.5);
+      font-weight: 700;
+    }
+    .attr-val {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #ffd89c;
+      font-family: monospace;
+    }
+
+    /* 修煉按鈕 */
+    .train-container {
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .btn-train {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 10px;
+      border: 1px solid rgba(78, 240, 114, 0.3);
+      background: linear-gradient(135deg, rgba(47, 107, 79, 0.6) 0%, rgba(18, 30, 24, 0.8) 100%);
+      color: #ffd89c;
+      font-size: 0.88rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-train:hover {
+      border-color: rgba(78, 240, 114, 0.6);
+      background: linear-gradient(135deg, rgba(47, 107, 79, 0.8) 0%, rgba(20, 36, 28, 0.9) 100%);
+      box-shadow: 0 6px 20px rgba(78, 240, 114, 0.15);
+      transform: translateY(-2px);
+    }
+    .btn-train:active {
+      transform: translateY(0) scale(0.97);
+      background: linear-gradient(135deg, rgba(47, 107, 79, 0.5) 0%, rgba(12, 21, 17, 0.9) 100%);
+    }
+
+    /* 傳奇裝備面板 */
+    .guild-equip-panel {
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(220, 227, 217, 0.08);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .equip-title {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: rgba(247, 247, 240, 0.6);
+      margin: 0 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .equip-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 6px;
+    }
+    .equip-slot {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      position: relative;
+      cursor: help;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .equip-slot.locked {
+      opacity: 0.3;
+      filter: grayscale(1);
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .equip-slot.unlocked {
+      opacity: 1;
+      filter: none;
+      border-color: rgba(196, 137, 53, 0.25);
+      background: radial-gradient(circle at center, rgba(196, 137, 53, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%);
+      box-shadow: 0 2px 8px rgba(196, 137, 53, 0.1);
+    }
+    .equip-slot.unlocked:hover {
+      border-color: #ffd89c;
+      transform: scale(1.15) translateY(-2px);
+      box-shadow: 0 4px 14px rgba(196, 137, 53, 0.35);
+      z-index: 5;
+    }
+    
+    /* Tooltip 彈出提示樣式 */
+    .equip-slot .tooltip {
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%) translateY(5px);
+      width: 160px;
+      background: rgba(12, 21, 17, 0.96);
+      border: 1.5px solid #ffd89c;
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: #f7f7f0;
+      font-size: 0.65rem;
+      line-height: 1.45;
+      text-align: left;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 10px rgba(196, 137, 53, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+    }
+    .equip-slot:hover .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .tooltip-name {
+      font-weight: 900;
+      color: #ffd89c;
+      margin-bottom: 3px;
+      display: block;
+      font-size: 0.72rem;
+    }
+    .tooltip-lore {
+      color: rgba(247, 247, 240, 0.6);
+      font-style: italic;
+      display: block;
+      margin-top: 3px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 3px;
+    }
+
+    /* 氣泡對話框標題與刷新按鈕 */
+    .bubble-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .bubble-title {
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #ffd89c;
+      margin-bottom: 0 !important;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-refresh {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 2px 10px;
+      color: rgba(247, 247, 240, 0.85);
+      font-size: 0.65rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.25s ease;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      transform: scale(1.03);
+    }
+    .btn-refresh:active {
+      transform: scale(0.96);
+    }
+
     @media (max-width: 640px) {
       .link-shell {
         padding-inline: 14px;
@@ -631,6 +838,16 @@
 
       .avatar-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .guild-attributes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .equip-grid {
+        grid-template-columns: repeat(5, 1fr);
         gap: 6px;
       }
     }
@@ -736,10 +953,30 @@
       <div class="guild-xp-container" id="xpContainer">
         <div class="xp-label-group">
           <span class="xp-level" id="adventurerLevel">LV.1 新手冒險者</span>
-          <span class="xp-value" id="adventurerXP">0 / 100 XP</span>
+          <span class="xp-value" id="adventurerXP">0 / 50 XP</span>
         </div>
         <div class="xp-bar-outer">
           <div class="xp-bar-inner" id="xpBar"></div>
+        </div>
+      </div>
+
+      <!-- 📊 冒險者屬性數值面板 -->
+      <div class="guild-attributes" aria-label="冒險者屬性面板">
+        <div class="attribute-card">
+          <span class="attr-label">🧠 智慧 (INT)</span>
+          <span class="attr-val" id="attrInt">5</span>
+        </div>
+        <div class="attribute-card">
+          <span class="attr-label">🛡️ 韌性 (VIT)</span>
+          <span class="attr-val" id="attrVit">5</span>
+        </div>
+        <div class="attribute-card">
+          <span class="attr-label">⚡ 專注 (FOC)</span>
+          <span class="attr-val" id="attrFoc">5</span>
+        </div>
+        <div class="attribute-card">
+          <span class="attr-label">🪓 執行 (AGI)</span>
+          <span class="attr-val" id="attrAgi">5</span>
         </div>
       </div>
 
@@ -763,9 +1000,53 @@
         </button>
       </div>
 
+      <!-- 🪓 公會修煉 Grind 按鈕 -->
+      <div class="train-container">
+        <button class="btn-train" id="btnTrain" aria-label="開始公會修煉，獲得屬性加點與十點經驗值">
+          🪓 公會修煉 (+10 XP)
+        </button>
+      </div>
+
+      <!-- 🛡️ 已解鎖公會神裝庫 -->
+      <div class="guild-equip-panel">
+        <h3 class="equip-title">🛡️ 已解鎖公會神裝</h3>
+        <div class="equip-grid" id="equipGrid">
+          <div class="equip-slot locked" id="equip-0" data-level="10">
+            🔒<div class="tooltip"><span class="tooltip-name">💻 大腦除錯鍵盤 [LV.10]</span>重設你的核心信念，隨手將挫折改寫成可除錯的人生代碼任務。<span class="tooltip-lore">《人生遊戲》：重新 Debug 你的底層思維。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-1" data-level="20">
+            🔒<div class="tooltip"><span class="tooltip-name">📓 Notion 第二大腦 [LV.20]</span>徹底將心靈記憶卸載至外部儲存，釋放高頻思考的珍貴運算 RAM。<span class="tooltip-lore">《降噪人生》：大腦是用來思考，非記憶。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-2" data-level="30">
+            🔒<div class="tooltip"><span class="tooltip-name">🔋 意志力蓄電池 [LV.30]</span>監測並守護你的每日核心電量，拒絕在低價值的雜事中無謂空轉。<span class="tooltip-lore">《人生複利》：意志力是限量的珍貴耗材。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-3" data-level="40">
+            🔒<div class="tooltip"><span class="tooltip-name">☕ NPC 覺醒藥水 [LV.40]</span>瞬間看穿身旁所有情緒拉扯的 NPC，奪回屬於自己的大腦主導權。<span class="tooltip-lore">《人生遊戲》：NPC 理論助你通關地球遊戲。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-4" data-level="50">
+            🔒<div class="tooltip"><span class="tooltip-name">🧱 知識印刷術字模 [LV.50]</span>持續將細微的智慧累積加深，雕刻大腦字模，迎來驚人的複利時代。<span class="tooltip-lore">《人生複利》：印刷術般的複利效應。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-5" data-level="60">
+            🔒<div class="tooltip"><span class="tooltip-name">🛡️ 降噪防護力場 [LV.60]</span>設定心靈 NAS 防火牆邊界，對無謂消耗你的人事物，開啟 IP 封鎖。<span class="tooltip-lore">《降噪人生》：主動過濾背景環境的噪音干擾。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-6" data-level="70">
+            🔒<div class="tooltip"><span class="tooltip-name">🪓 白熊極意之斧 [LV.70]</span>神聖之斧，無情砍掉生命中 90% 的贅音與噪音，專注核心。<span class="tooltip-lore">《降噪人生》：砍掉 90% 噪音，只留 10% 核心。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-7" data-level="80">
+            🔒<div class="tooltip"><span class="tooltip-name">🔮 心靈意識重塑鏡 [LV.80]</span>反射一切外部負能量，在任何逆境中看見「這樣也好」的逆轉奇蹟。<span class="tooltip-lore">《人生複利/遊戲》：轉念一想的奇蹟魔法。</span></div>
+          </div>
+          <div class="equip-slot locked" id="equip-8" data-level="90">
+            🔒<div class="tooltip"><span class="tooltip-name">👑 人生OS最高核心 [LV.90]</span>終極神器，使每日 1% 的微小前行產生高頻顯化，主宰你的複利宇宙。<span class="tooltip-lore">《白熊人生攻略》：把人生重設為最強作業系統。</span></div>
+          </div>
+        </div>
+      </div>
+
       <!-- 動物指引對話框 -->
       <div class="bubble-container">
-        <div class="bubble-title" id="bubbleTitle">📢 公會告示板</div>
+        <div class="bubble-header">
+          <div class="bubble-title" id="bubbleTitle">📢 公會告示板</div>
+          <button class="btn-refresh" id="btnRefresh" aria-label="祈求新的人生指引小語">🔮 祈求新指引</button>
+        </div>
         <p class="bubble-text" id="bubbleText">歡迎來到白熊人生攻略！點選上方的一個動物代表你自己，來領取你的每日人生指引與冒險裝備吧！</p>
       </div>
     </section>
@@ -854,50 +1135,110 @@
     startAutoSlide();
 
     // ----------------------------------------------------
-    // 2. 經驗值 (XP) 與等級系統 & 點擊 +5 XP 動態特效
+    // 2. 經驗值 (XP) 與等級系統 & 點擊 +5 XP 動態特效 & 屬性加點
     // ----------------------------------------------------
     let userXP = parseInt(localStorage.getItem('baixiong_adventurer_xp') || '0');
+    let userAttrs = {
+      int: parseInt(localStorage.getItem('baixiong_adventurer_int') || '5'),
+      vit: parseInt(localStorage.getItem('baixiong_adventurer_vit') || '5'),
+      foc: parseInt(localStorage.getItem('baixiong_adventurer_foc') || '5'),
+      agi: parseInt(localStorage.getItem('baixiong_adventurer_agi') || '5')
+    };
 
-    const levelThresholds = [
-      { xp: 500, title: "LV.4 人生造物主 👑" },
-      { xp: 250, title: "LV.3 時光魔術師 ⌛" },
-      { xp: 100, title: "LV.2 大腦除錯師 💻" },
-      { xp: 0,   title: "LV.1 新手冒險者 🏕️" }
-    ];
+    const equipEmojis = ["💻", "📓", "🔋", "☕", "🧱", "🛡️", "🪓", "🔮", "👑"];
 
-    function updateXPUI() {
-      // 尋找當前等級與進度
-      let currentLevel = levelThresholds[levelThresholds.length - 1];
-      let nextLevelXP = 100;
-      let prevLevelXP = 0;
-
-      for (let i = 0; i < levelThresholds.length; i++) {
-        if (userXP >= levelThresholds[i].xp) {
-          currentLevel = levelThresholds[i];
-          if (i > 0) {
-            nextLevelXP = levelThresholds[i-1].xp;
-            prevLevelXP = levelThresholds[i].xp;
-          } else {
-            // 已達最高等級
-            nextLevelXP = userXP; 
-            prevLevelXP = levelThresholds[i].xp;
-          }
+    function getLevelInfo(totalXP) {
+      let level = 1;
+      let currentLevelXPStart = 0;
+      let nextLevelXPEnd = 50;
+      
+      while (level < 99) {
+        let xpNeededForNext = level * 50;
+        if (totalXP >= currentLevelXPStart + xpNeededForNext) {
+          currentLevelXPStart += xpNeededForNext;
+          level++;
+          nextLevelXPEnd = level * 50;
+        } else {
           break;
         }
       }
-
-      document.getElementById('adventurerLevel').innerText = currentLevel.title;
       
-      // 計算進度條百分比
-      let percent = 100;
-      if (nextLevelXP > prevLevelXP) {
-        percent = ((userXP - prevLevelXP) / (nextLevelXP - prevLevelXP)) * 100;
-        document.getElementById('adventurerXP').innerText = `${userXP} / ${nextLevelXP} XP`;
+      let xpInCurrentLevel = totalXP - currentLevelXPStart;
+      return {
+        level: level,
+        prevXP: currentLevelXPStart,
+        nextXP: level === 99 ? currentLevelXPStart : currentLevelXPStart + nextLevelXPEnd,
+        xpInLevel: xpInCurrentLevel,
+        xpNeeded: nextLevelXPEnd
+      };
+    }
+
+    function getLevelTitle(level) {
+      if (level >= 99) return `LV.99 🌟 終極人生主宰 (MAX)`;
+      if (level >= 80) return `LV.${level} 👑 人生造物主`;
+      if (level >= 60) return `LV.${level} 🔮 命運顯化者`;
+      if (level >= 40) return `LV.${level} ⌛ 時光魔術師`;
+      if (level >= 20) return `LV.${level} 💻 大腦除錯師`;
+      if (level >= 10) return `LV.${level} 🗡️ 公會精銳兵`;
+      return `LV.${level} 🏕️ 新手冒險者`;
+    }
+
+    function updateEquipmentUI(level) {
+      const equipGrid = document.getElementById('equipGrid');
+      if (!equipGrid) return;
+      const slots = equipGrid.querySelectorAll('.equip-slot');
+      slots.forEach((slot, index) => {
+        const requiredLevel = parseInt(slot.getAttribute('data-level') || '0');
+        if (level >= requiredLevel) {
+          if (slot.classList.contains('locked')) {
+            slot.classList.remove('locked');
+            if (slot.firstChild && slot.firstChild.nodeType === 3) {
+              slot.firstChild.textContent = equipEmojis[index] + " ";
+            }
+          }
+        } else {
+          if (!slot.classList.contains('locked')) {
+            slot.classList.add('locked');
+            if (slot.firstChild && slot.firstChild.nodeType === 3) {
+              slot.firstChild.textContent = "🔒 ";
+            }
+          }
+        }
+      });
+    }
+
+    function updateAttributesUI() {
+      const attrIntEl = document.getElementById('attrInt');
+      const attrVitEl = document.getElementById('attrVit');
+      const attrFocEl = document.getElementById('attrFoc');
+      const attrAgiEl = document.getElementById('attrAgi');
+      
+      if (attrIntEl) attrIntEl.innerText = userAttrs.int;
+      if (attrVitEl) attrVitEl.innerText = userAttrs.vit;
+      if (attrFocEl) attrFocEl.innerText = userAttrs.foc;
+      if (attrAgiEl) attrAgiEl.innerText = userAttrs.agi;
+    }
+
+    function updateXPUI() {
+      const info = getLevelInfo(userXP);
+      const levelEl = document.getElementById('adventurerLevel');
+      const xpEl = document.getElementById('adventurerXP');
+      const xpBarEl = document.getElementById('xpBar');
+      
+      if (levelEl) levelEl.innerText = getLevelTitle(info.level);
+      
+      if (info.level === 99) {
+        if (xpEl) xpEl.innerText = `${userXP} XP (MAX)`;
+        if (xpBarEl) xpBarEl.style.width = '100%';
       } else {
-        document.getElementById('adventurerXP').innerText = `${userXP} XP (MAX)`;
+        const levelProgressXP = userXP - info.prevXP;
+        const levelNeededXP = info.nextXP - info.prevXP;
+        const percent = (levelProgressXP / levelNeededXP) * 100;
+        if (xpEl) xpEl.innerText = `${userXP} / ${info.nextXP} XP`;
+        if (xpBarEl) xpBarEl.style.width = `${Math.min(100, percent)}%`;
       }
       
-      document.getElementById('xpBar').style.width = `${Math.min(100, percent)}%`;
+      updateEquipmentUI(info.level);
     }
 
     function addXP(amount, x, y) {
@@ -906,16 +1247,20 @@
       updateXPUI();
       
       if (x !== undefined && y !== undefined) {
-        spawnXPFloat(amount, x, y);
+        spawnXPFloat(`+${amount} XP`, x, y);
       }
     }
 
-    function spawnXPFloat(amount, x, y) {
+    function spawnXPFloat(text, x, y, isCustom = false) {
       const floatTag = document.createElement('div');
       floatTag.className = 'xp-floating';
-      floatTag.innerText = `+${amount} XP`;
+      floatTag.innerText = text;
       floatTag.style.left = `${x}px`;
       floatTag.style.top = `${y}px`;
+      if (isCustom) {
+        floatTag.style.color = '#ffd700';
+        floatTag.style.textShadow = '0 0 8px rgba(255, 215, 0, 0.6)';
+      }
       document.body.appendChild(floatTag);
 
       setTimeout(() => {
@@ -923,45 +1268,107 @@
       }, 800);
     }
 
-    // 全網頁互動點擊 +5 XP 特效
+    // 全網頁互動點擊 +5 XP 與 20% 機率加屬性特權
     document.addEventListener('click', (e) => {
-      // 只對互動元素（連結、按鈕、輪播、XP條）點擊時回饋特效，避免到處亂點干擾
+      if (e.target.closest('#btnTrain, #btnRefresh')) return;
+      
       const isInteractive = e.target.closest('a, button, .carousel-slide, .guild-xp-container');
       if (isInteractive) {
         addXP(5, e.pageX, e.pageY);
+        
+        // 20% 機率隨機獎勵屬性點
+        if (Math.random() < 0.2) {
+          const attrKeys = ['int', 'vit', 'foc', 'agi'];
+          const attrNames = { int: '智慧', vit: '韌性', foc: '專注', agi: '執行' };
+          const randomAttr = attrKeys[Math.floor(Math.random() * attrKeys.length)];
+          
+          userAttrs[randomAttr] += 1;
+          localStorage.setItem(`baixiong_adventurer_${randomAttr}`, userAttrs[randomAttr]);
+          updateAttributesUI();
+          
+          setTimeout(() => {
+            spawnXPFloat(`+1 ${attrNames[randomAttr]} ✨`, e.pageX + 35, e.pageY - 15, true);
+          }, 150);
+        }
       }
     });
 
     // ----------------------------------------------------
-    // 3. 代表動物選擇與指引小遊戲
+    // 3. 代表動物選擇與指引小遊戲 (40條深刻金句隨機刷新庫)
     // ----------------------------------------------------
-    const animalGuides = {
-      bear: {
-        emoji: "🐻",
-        title: "智者白熊的每日指引",
-        text: "「每天進步 1% 的複利效應，是熬過沉澱期、迎來毛竹般爆發性成長的關鍵。別急，慢慢來，比較快。🌲」"
-      },
-      cat: {
-        emoji: "🐱",
-        title: "除錯小貓的每日指引",
-        text: "「遇到生活逆境？這只是主線劇本裡的 NPC 在磨練你的情緒值。重新 Debug 大腦代碼，去享受這場地球遊戲吧！🎮」"
-      },
-      bunny: {
-        emoji: "🐰",
-        title: "降噪小兔的每日指引",
-        text: "「大腦是用來『思考』的，不是用來『記憶』的。戴上降噪耳機，把焦慮與細節卸載到你的 Notion 第二大腦吧。🎧」"
-      },
-      monkey: {
-        emoji: "🐵",
-        title: "理智小猴的每日指引",
-        text: "「運用第一性原理，像剝洋蔥般層層追問為什麼。停止修補短板，專注於擴大你的『不公平優勢』！🧠」"
-      }
+    const animalQuotes = {
+      bear: [
+        "「每天進步 1% 的複利效應，是熬過沉澱期、迎來毛竹般爆發性成長的關鍵。別急，慢慢來，比較快。🌲」",
+        "「當下的每一項小習慣，都是你在為自己未來的理想模樣投票。別小看每天一頁的閱讀。📚」",
+        "「複利不是直線，而是拐點前的漫長等待。在臨界點來臨前，專注於系統而非目標。📈」",
+        "「人生最昂貴的成本，是試圖走捷徑。唯有將行為自動化，才能把精力留給最重要的決策。⚙️」",
+        "「不要期待奇蹟，要期待系統。設計一個讓你無法輕易放棄的環境，就是最強大的智慧。🏛️」",
+        "「每一次重複正確的微小行為，都在微調你的大腦神經迴路。耐心，是時間最好的朋友。⏳」",
+        "「將龐大的遠景拆解成今日立即可執行的最小單位。今天的一步，是明天複利的基石。🧱」",
+        "「卓越不是一種行為，而是一種習慣。每天多走一小步，Compounding 就會為你工作。🔋」",
+        "「沉澱期是為了積攢破土的力量。當你看不到成果時，請記住，根部正在地底下瘋狂蔓延。🌱」",
+        "「用複利思維看世界的人，不會為了一時的得失焦慮。把眼光放到五年後，答案自然浮現。🔮」"
+      ],
+      cat: [
+        "「遇到生活逆境？這只是主線劇本裡的 NPC 在磨練你的情緒值。重新 Debug 大腦代碼，去享受這場地球遊戲吧！🎮」",
+        "「所有的失敗，都只是代碼報錯（Bug）。每一次 Crash 都是在提醒你：該重構你的心靈模組了。💻」",
+        "「別把路上的 NPC 隨機發言當成個人攻擊。他們只是背景板，而你是這場遊戲的主角。🎭」",
+        "「這不是悲劇，這是一場高自由度的 Sandbox 遊戲。今天搞砸了，明天重新載入存檔再試一次！🛡️」",
+        "「如果一個關卡卡了很久，代表你需要去升級你的認知裝備，而不是用同樣的方法硬撞南牆。🧗」",
+        "「情緒起伏只是大腦的一種系統警告。深呼吸，按下重啟鍵，把混亂重新 Debug 乾淨。☕」",
+        "「在人生的遊戲裡，最重要的一條守則就是：保持好奇心。看看下一個拐角，編程了什麼驚喜！🗺️」",
+        "「不要害怕代碼出現異常。沒有 Bug 的程序是不存在的，優秀的工程師是在 Debug 中成長的。🔧」",
+        "「當你學會以『玩家』的視角看待困境，痛苦就會縮小，取而代之的是通關的興奮感。⚔️」",
+        "「生活中的每位導師，有時偽裝成給你出難題的 Boss。擊敗它，你就能獲得核心天賦點！💎」"
+      ],
+      bunny: [
+        "「大腦是用來『思考』的，不是用來『記憶』的。戴上降噪耳機，把焦慮與細節卸載到你的 Notion 第二大腦吧。🎧」",
+        "「主動切斷資訊超載的噪音，保護你的注意力。只有極致的降噪，才能聽見內心深處的真正願望。🔇」",
+        "「如果你同時追兩隻兔子，你一隻也抓不到。將你的聚焦光束收束在今天唯一的焦點上。🕯️」",
+        "「拒絕不重要的事，是維護內心秩序的第一步。你的心靈 NAS 不需要為垃圾郵件敞開大門。🛡️」",
+        "「把所有未盡事項寫進外部清單，大腦的 RAM 才能被徹底清空，去全神貫注地享受當下。📓」",
+        "「在喧囂的世界裡，安靜是一種超能力。關掉不必要的通知，開啟你的心靈降噪防護罩。🔌」",
+        "「專注力是稀缺的每日電量。別把珍營的能量浪費在圍觀與你無關的網絡熱點上。⚡」",
+        "「精簡你的環境，精簡你的行程，精簡你的大腦。少，但是更好。💎」",
+        "「當外界的聲音太大時，試著退回你自己的第二大腦圖書館，在那裡重新梳理你的認知秩序。🏛️」",
+        "「只留下 10% 的核心任務，勇敢砍掉其餘 90% 的干擾。唯有極簡，才能讓專注發揮極致威力。🪓」"
+      ],
+      monkey: [
+        "「運用第一性原理，像剝洋蔥般層層追問為什麼。停止修補短板，專注於擴大你的『不公平優勢』！🧠」",
+        "「別等準備好再開始，因為『完成』遠比『完美』更重要。立刻執行，然後在半路上調整姿態！🚀」",
+        "「打破常規路徑，直擊問題的核心本質。這不是投機，這是第一性原理的思維穿透力。🎯」",
+        "「知識如果不付諸行動，就只是大腦硬碟裡的死數據。今天就去寫第一行代碼、跨出第一步！💻」",
+        "「專注於擴大你的天賦槓桿，而不是把時間花在修補你不擅長的事。讓優勢成為你的王牌。🪓」",
+        "「將複雜的系統拆解成最基礎的物理規律。當你掌握了底層規律，你就能重構任何遊戲規則。🔧」",
+        "「執行的最大障礙是過度思考。拋棄內心的小劇場，按下啟動鈕，讓身體的慣性帶你前行。🔋」",
+        "「像黑客一樣尋找效率的漏洞。能自動化的絕不手動，能用槓桿的絕不用蠻力。⚙️」",
+        "「每一次落實行動，都是對拖延症的有力回擊。別說了，直接動手做，結果會給你最好的答案。👊」",
+        "「把你的核心不公平優勢放大十倍。在這個分工細緻的時代，單點極致勝過平庸的全面。🌟」"
+      ]
+    };
+
+    const animalTitles = {
+      bear: "智者白熊的每日指引",
+      cat: "除錯小貓的每日指引",
+      bunny: "降噪小兔的每日指引",
+      monkey: "理智小猴的每日指引"
+    };
+
+    const animalEmojis = {
+      bear: "🐻",
+      cat: "🐱",
+      bunny: "🐰",
+      monkey: "🐵"
     };
 
     const avatarBadge = document.getElementById('avatarBadge');
     const cards = document.querySelectorAll('.avatar-card');
+    let currentActiveAnimal = localStorage.getItem('baixiong_adventurer_animal') || null;
 
     function selectAnimal(animalKey, event) {
+      currentActiveAnimal = animalKey;
+      localStorage.setItem('baixiong_adventurer_animal', animalKey);
+
       // 點選卡片排他
       cards.forEach(card => {
         if (card.getAttribute('data-animal') === animalKey) {
@@ -973,7 +1380,10 @@
         }
       });
 
-      const guide = animalGuides[animalKey];
+      // 初始化載入或手動點選時，皆隨機抽取一條指引
+      const quotesList = animalQuotes[animalKey];
+      const randomIdx = Math.floor(Math.random() * quotesList.length);
+      const quoteText = quotesList[randomIdx];
       
       // 更新指引泡泡，伴隨漸變效果
       const bubbleText = document.getElementById('bubbleText');
@@ -981,17 +1391,16 @@
       
       bubbleText.style.opacity = '0';
       setTimeout(() => {
-        bubbleTitle.innerText = guide.title;
-        bubbleText.innerText = guide.text;
+        bubbleTitle.innerText = animalTitles[animalKey];
+        bubbleText.innerText = quoteText;
         bubbleText.style.opacity = '1';
       }, 150);
 
       // 同步更新頂端頭像掛件
-      avatarBadge.innerText = guide.emoji;
-      avatarBadge.style.display = 'flex';
-
-      // 儲存狀態
-      localStorage.setItem('baixiong_adventurer_animal', animalKey);
+      if (avatarBadge) {
+        avatarBadge.innerText = animalEmojis[animalKey];
+        avatarBadge.style.display = 'flex';
+      }
 
       // 額外獲得較多經驗
       if (event) {
@@ -1007,12 +1416,68 @@
       });
     });
 
-    // 載入 localStorage 初始狀態
+    // 🔮 「祈求新指引」刷新按鈕綁定
+    const btnRefresh = document.getElementById('btnRefresh');
+    if (btnRefresh) {
+      btnRefresh.addEventListener('click', (e) => {
+        if (!currentActiveAnimal) {
+          spawnXPFloat("請先選擇代表動物！", e.pageX, e.pageY, true);
+          return;
+        }
+        const quotesList = animalQuotes[currentActiveAnimal];
+        const randomIdx = Math.floor(Math.random() * quotesList.length);
+        const quoteText = quotesList[randomIdx];
+
+        const bubbleText = document.getElementById('bubbleText');
+        bubbleText.style.opacity = '0';
+        setTimeout(() => {
+          bubbleText.innerText = quoteText;
+          bubbleText.style.opacity = '1';
+        }, 150);
+
+        // 刷新特效
+        spawnXPFloat("🔮 祈求指引...", e.pageX, e.pageY, true);
+      });
+    }
+
+    // 🪓 「公會修煉」Grind 按鈕綁定
+    const btnTrain = document.getElementById('btnTrain');
+    if (btnTrain) {
+      btnTrain.addEventListener('click', (e) => {
+        if (!currentActiveAnimal) {
+          spawnXPFloat("請先選擇代表動物！", e.pageX, e.pageY, true);
+          return;
+        }
+        
+        let attrKey = "";
+        let attrName = "";
+        if (currentActiveAnimal === 'bear') { attrKey = 'int'; attrName = '智慧'; }
+        else if (currentActiveAnimal === 'cat') { attrKey = 'vit'; attrName = '韌性'; }
+        else if (currentActiveAnimal === 'bunny') { attrKey = 'foc'; attrName = '專注'; }
+        else if (currentActiveAnimal === 'monkey') { attrKey = 'agi'; attrName = '執行'; }
+        
+        // 屬性點提升
+        userAttrs[attrKey] += 1;
+        localStorage.setItem(`baixiong_adventurer_${attrKey}`, userAttrs[attrKey]);
+        updateAttributesUI();
+        
+        // 獲得 10 XP
+        addXP(10, e.pageX, e.pageY);
+        
+        // 額外發出金色屬性提升字體
+        setTimeout(() => {
+          spawnXPFloat(`+1 ${attrName} ✨`, e.pageX - 40, e.pageY - 20, true);
+        }, 120);
+      });
+    }
+
+    // 載入 localStorage 初始狀態與更新 UI
     const savedAnimal = localStorage.getItem('baixiong_adventurer_animal');
-    if (savedAnimal && animalGuides[savedAnimal]) {
+    if (savedAnimal && animalQuotes[savedAnimal]) {
       selectAnimal(savedAnimal);
     }
     updateXPUI();
+    updateAttributesUI();
 
     // ----------------------------------------------------
     // 4. 即時與模擬訪客統計 Counter
