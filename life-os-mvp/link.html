@@ -198,7 +198,419 @@
       transform: scale(0.95);
     }
 
-    @media (max-width: 480px) {
+    /* === 🚀 互動升級全新視覺樣式 (Carousel & Guild) === */
+    .avatar-container {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      margin: 0 auto;
+    }
+
+    .avatar-container .bear-avatar {
+      width: 100%;
+      height: 100%;
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 28px;
+      height: 28px;
+      background: rgba(12, 21, 17, 0.95);
+      border: 1.5px solid #ffd89c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 8px rgba(196, 137, 53, 0.3);
+      animation: popBadge 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 2;
+      user-select: none;
+    }
+
+    @keyframes popBadge {
+      0% { transform: scale(0) rotate(-45deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+
+    /* 書籍動態橫幅 Carousel */
+    .link-carousel {
+      position: relative;
+      margin: 0 0 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(220, 227, 217, 0.14);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow: hidden;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 172px;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px 20px 18px;
+      cursor: grab;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: filter 0.3s ease;
+    }
+
+    .carousel-slide:active {
+      cursor: grabbing;
+    }
+
+    .carousel-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 21, 17, 0.1) 0%, rgba(12, 21, 17, 0.85) 68%, rgba(12, 21, 17, 0.98) 100%);
+      z-index: 1;
+    }
+
+    /* 預設雙背景 (前景色層次 + Fallback 圖片路徑) */
+    .slide-book1 {
+      background-image: linear-gradient(to top, rgba(12, 21, 17, 0.96) 20%, rgba(196, 137, 53, 0.08) 100%), url('assets/book1.jpg');
+    }
+
+    .slide-book2 {
+      background-image: linear-gradient(to top, rgba(12, 21, 17, 0.96) 20%, rgba(160, 79, 85, 0.12) 100%), url('assets/book2.jpg');
+    }
+
+    .slide-book3 {
+      background-image: linear-gradient(to top, rgba(12, 21, 17, 0.96) 20%, rgba(64, 105, 132, 0.12) 100%), url('assets/book3.jpg');
+    }
+
+    .slide-badge {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2;
+    }
+
+    .slide-book1 .slide-badge { background: rgba(196, 137, 53, 0.35); color: #ffe3b8; }
+    .slide-book2 .slide-badge { background: rgba(160, 79, 85, 0.38); color: #ffd6d9; }
+    .slide-book3 .slide-badge { background: rgba(64, 105, 132, 0.42); color: #d6eeff; }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide-content h3 {
+      margin: 0 0 4px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .slide-content p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: rgba(247, 247, 240, 0.82);
+      line-height: 1.45;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      z-index: 3;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.32);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .carousel-dot.active {
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+    }
+
+    /* 冒險者公會 & 代表動物小遊戲 */
+    .link-guild {
+      margin-top: 24px;
+      padding: 20px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(220, 227, 217, 0.16);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .guild-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .guild-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .visitor-stats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: 0.72rem;
+      color: rgba(247, 247, 240, 0.62);
+      gap: 2px;
+      font-weight: 600;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stat-row strong {
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .live-indicator {
+      width: 6px;
+      height: 6px;
+      background: #4ef072;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #4ef072;
+      animation: pulse 2s infinite;
+      display: inline-block;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #4ef072; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    /* XP 經驗值系統 */
+    .guild-xp-container {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .guild-xp-container:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .xp-label-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 84px;
+      gap: 1px;
+    }
+
+    .xp-level {
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: #ffd89c;
+    }
+
+    .xp-value {
+      font-size: 0.64rem;
+      color: rgba(247, 247, 240, 0.48);
+    }
+
+    .xp-bar-outer {
+      flex-grow: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .xp-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2f6b4f 0%, #4ef072 100%);
+      border-radius: 99px;
+      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 8px rgba(78, 240, 114, 0.3);
+    }
+
+    /* 動物卡片選擇器 */
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .avatar-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .avatar-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .avatar-card.active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #ffd89c;
+      box-shadow: 0 0 16px rgba(196, 137, 53, 0.22);
+    }
+
+    .avatar-emoji {
+      font-size: 1.65rem;
+      line-height: 1;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .avatar-card:hover .avatar-emoji {
+      transform: scale(1.2) rotate(4deg);
+    }
+
+    .avatar-card.active .avatar-emoji {
+      animation: bounce 0.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0) scale(1.05); }
+      100% { transform: translateY(-4px) scale(1.1); }
+    }
+
+    .avatar-name {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: rgba(247, 247, 240, 0.72);
+      white-space: nowrap;
+    }
+
+    .avatar-card.active .avatar-name {
+      color: #ffd89c;
+    }
+
+    /* 氣泡對話框 */
+    .bubble-container {
+      position: relative;
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 16px;
+      min-height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: border-color 0.3s ease;
+    }
+
+    .bubble-title {
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #ffd89c;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bubble-text {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: rgba(247, 247, 240, 0.9);
+      transition: opacity 0.25s ease;
+    }
+
+    /* 彈出 +5 XP 浮動動畫 */
+    .xp-floating {
+      position: absolute;
+      color: #4ef072;
+      font-weight: 900;
+      font-size: 0.95rem;
+      text-shadow: 0 0 6px rgba(78, 240, 114, 0.8), 0 2px 4px rgba(0,0,0,0.6);
+      pointer-events: none;
+      z-index: 9999;
+      animation: floatUp 0.85s ease-out forwards;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(-50%, -50%) translateY(0) scale(0.8);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(-10px) scale(1.15);
+      }
+      100% {
+        transform: translate(-50%, -50%) translateY(-54px) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
       .link-shell {
         padding-inline: 14px;
       }
@@ -206,15 +618,59 @@
       .link-actions {
         grid-template-columns: 1fr;
       }
+
+      .avatar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .carousel-track {
+        height: 165px;
+      }
     }
   </style>
 </head>
 <body class="link-page">
   <main class="link-shell" aria-label="白熊人生攻略連結頁">
     <section class="link-profile">
-      <div class="bear-avatar" role="img" aria-label="白熊頭像"></div>
+      <div class="avatar-container">
+        <div class="bear-avatar" role="img" aria-label="白熊頭像"></div>
+        <div class="avatar-badge" id="avatarBadge" style="display: none;">🐻</div>
+      </div>
       <h1>白熊人生攻略</h1>
       <p class="link-tagline">把人生變成可以升級的作業系統</p>
+    </section>
+
+    <!-- 📚 書籍故事動態橫幅 Carousel -->
+    <section class="link-carousel" aria-label="創作理念輪播">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide slide-book1">
+          <div class="slide-badge">創作 #1 ｜ 人生複利</div>
+          <div class="slide-content">
+            <h3>重設大腦「關鍵字」</h3>
+            <p>信念決定資源配置。建立複利微習慣，讓成長自動導航。</p>
+          </div>
+        </div>
+        <div class="carousel-slide slide-book2">
+          <div class="slide-badge">創作 #2 ｜ 人生遊戲</div>
+          <div class="slide-content">
+            <h3>重寫人生程式碼</h3>
+            <p>生活中的所有逆境，皆是系統的 Bug，用玩家視角除錯升級。</p>
+          </div>
+        </div>
+        <div class="carousel-slide slide-book3">
+          <div class="slide-badge">創作 #3 ｜ 降噪人生</div>
+          <div class="slide-content">
+            <h3>卸載大腦記憶體</h3>
+            <p>建立第二大腦與心靈防火牆，當個優雅的宇宙觀光客。</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-dots" id="carouselDots">
+        <span class="carousel-dot active" data-slide="0"></span>
+        <span class="carousel-dot" data-slide="1"></span>
+        <span class="carousel-dot" data-slide="2"></span>
+      </div>
     </section>
 
     <section class="link-books" aria-label="白熊三本書">
@@ -249,7 +705,345 @@
       </article>
     </section>
 
+    <!-- 🎮 冒險者公會 & 代表動物小遊戲 -->
+    <section class="link-guild" aria-label="冒險者公會">
+      <div class="guild-header">
+        <h2 class="guild-title">🎮 冒險者公會</h2>
+        <div class="visitor-stats">
+          <div class="stat-row">
+            <span class="live-indicator"></span>
+            <span>在線冒險者: <strong id="liveUsers">--</strong> 人</span>
+          </div>
+          <div class="stat-row">
+            <span>已登錄公會: <strong id="totalUsers">--</strong> 人</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- XP 等級進度條 -->
+      <div class="guild-xp-container" id="xpContainer">
+        <div class="xp-label-group">
+          <span class="xp-level" id="adventurerLevel">LV.1 新手冒險者</span>
+          <span class="xp-value" id="adventurerXP">0 / 100 XP</span>
+        </div>
+        <div class="xp-bar-outer">
+          <div class="xp-bar-inner" id="xpBar"></div>
+        </div>
+      </div>
+
+      <!-- 動物選擇格 -->
+      <div class="avatar-grid" role="radiogroup" aria-label="選擇你的代表動物">
+        <button class="avatar-card" role="radio" aria-checked="false" data-animal="bear" id="btnBear">
+          <span class="avatar-emoji">🐻</span>
+          <span class="avatar-name">智者白熊</span>
+        </button>
+        <button class="avatar-card" role="radio" aria-checked="false" data-animal="cat" id="btnCat">
+          <span class="avatar-emoji">🐱</span>
+          <span class="avatar-name">除錯小貓</span>
+        </button>
+        <button class="avatar-card" role="radio" aria-checked="false" data-animal="bunny" id="btnBunny">
+          <span class="avatar-emoji">🐰</span>
+          <span class="avatar-name">降噪小兔</span>
+        </button>
+        <button class="avatar-card" role="radio" aria-checked="false" data-animal="monkey" id="btnMonkey">
+          <span class="avatar-emoji">🐵</span>
+          <span class="avatar-name">理智小猴</span>
+        </button>
+      </div>
+
+      <!-- 動物指引對話框 -->
+      <div class="bubble-container">
+        <div class="bubble-title" id="bubbleTitle">📢 公會告示板</div>
+        <p class="bubble-text" id="bubbleText">歡迎來到白熊人生攻略！點選上方的一個動物代表你自己，來領取你的每日人生指引與冒險裝備吧！</p>
+      </div>
+    </section>
+
     <p class="link-more">更多內容 → <a href="https://www.instagram.com/baixiong.lifeos/" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:underline;">IG</a> / <a href="https://www.youtube.com/@白熊人生攻略" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:underline;">YouTube</a></p>
   </main>
+
+  <!-- === 🛠️ 互動邏輯 JavaScript === -->
+  <script>
+    // ----------------------------------------------------
+    // 1. 書籍橫幅輪播 (Carousel)
+    // ----------------------------------------------------
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    let slideTimer = null;
+
+    function showSlide(index) {
+      currentSlide = index;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      
+      dots.forEach((dot, idx) => {
+        if (idx === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function startAutoSlide() {
+      stopAutoSlide();
+      slideTimer = setInterval(() => {
+        showSlide((currentSlide + 1) % 3);
+      }, 5000);
+    }
+
+    function stopAutoSlide() {
+      if (slideTimer) clearInterval(slideTimer);
+    }
+
+    // 點擊 Dots 切換
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        startAutoSlide();
+      });
+    });
+
+    // 觸控滑動支援 (Swipe)
+    let startX = 0;
+    let isSwiping = false;
+
+    track.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      isSwiping = true;
+      stopAutoSlide();
+    });
+
+    track.addEventListener('touchmove', e => {
+      if (!isSwiping) return;
+      const diff = e.touches[0].clientX - startX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          // 往右滑 -> 上一張
+          showSlide((currentSlide - 1 + 3) % 3);
+        } else {
+          // 往左滑 -> 下一張
+          showSlide((currentSlide + 1) % 3);
+        }
+        isSwiping = false;
+      }
+    });
+
+    track.addEventListener('touchend', () => {
+      isSwiping = false;
+      startAutoSlide();
+    });
+
+    // 滑鼠懸停暫停輪播
+    const carouselSection = document.querySelector('.link-carousel');
+    carouselSection.addEventListener('mouseenter', stopAutoSlide);
+    carouselSection.addEventListener('mouseleave', startAutoSlide);
+
+    // 啟動輪播
+    startAutoSlide();
+
+    // ----------------------------------------------------
+    // 2. 經驗值 (XP) 與等級系統 & 點擊 +5 XP 動態特效
+    // ----------------------------------------------------
+    let userXP = parseInt(localStorage.getItem('baixiong_adventurer_xp') || '0');
+
+    const levelThresholds = [
+      { xp: 500, title: "LV.4 人生造物主 👑" },
+      { xp: 250, title: "LV.3 時光魔術師 ⌛" },
+      { xp: 100, title: "LV.2 大腦除錯師 💻" },
+      { xp: 0,   title: "LV.1 新手冒險者 🏕️" }
+    ];
+
+    function updateXPUI() {
+      // 尋找當前等級與進度
+      let currentLevel = levelThresholds[levelThresholds.length - 1];
+      let nextLevelXP = 100;
+      let prevLevelXP = 0;
+
+      for (let i = 0; i < levelThresholds.length; i++) {
+        if (userXP >= levelThresholds[i].xp) {
+          currentLevel = levelThresholds[i];
+          if (i > 0) {
+            nextLevelXP = levelThresholds[i-1].xp;
+            prevLevelXP = levelThresholds[i].xp;
+          } else {
+            // 已達最高等級
+            nextLevelXP = userXP; 
+            prevLevelXP = levelThresholds[i].xp;
+          }
+          break;
+        }
+      }
+
+      document.getElementById('adventurerLevel').innerText = currentLevel.title;
+      
+      // 計算進度條百分比
+      let percent = 100;
+      if (nextLevelXP > prevLevelXP) {
+        percent = ((userXP - prevLevelXP) / (nextLevelXP - prevLevelXP)) * 100;
+        document.getElementById('adventurerXP').innerText = `${userXP} / ${nextLevelXP} XP`;
+      } else {
+        document.getElementById('adventurerXP').innerText = `${userXP} XP (MAX)`;
+      }
+      
+      document.getElementById('xpBar').style.width = `${Math.min(100, percent)}%`;
+    }
+
+    function addXP(amount, x, y) {
+      userXP += amount;
+      localStorage.setItem('baixiong_adventurer_xp', userXP);
+      updateXPUI();
+      
+      if (x !== undefined && y !== undefined) {
+        spawnXPFloat(amount, x, y);
+      }
+    }
+
+    function spawnXPFloat(amount, x, y) {
+      const floatTag = document.createElement('div');
+      floatTag.className = 'xp-floating';
+      floatTag.innerText = `+${amount} XP`;
+      floatTag.style.left = `${x}px`;
+      floatTag.style.top = `${y}px`;
+      document.body.appendChild(floatTag);
+
+      setTimeout(() => {
+        floatTag.remove();
+      }, 800);
+    }
+
+    // 全網頁互動點擊 +5 XP 特效
+    document.addEventListener('click', (e) => {
+      // 只對互動元素（連結、按鈕、輪播、XP條）點擊時回饋特效，避免到處亂點干擾
+      const isInteractive = e.target.closest('a, button, .carousel-slide, .guild-xp-container');
+      if (isInteractive) {
+        addXP(5, e.pageX, e.pageY);
+      }
+    });
+
+    // ----------------------------------------------------
+    // 3. 代表動物選擇與指引小遊戲
+    // ----------------------------------------------------
+    const animalGuides = {
+      bear: {
+        emoji: "🐻",
+        title: "智者白熊的每日指引",
+        text: "「每天進步 1% 的複利效應，是熬過沉澱期、迎來毛竹般爆發性成長的關鍵。別急，慢慢來，比較快。🌲」"
+      },
+      cat: {
+        emoji: "🐱",
+        title: "除錯小貓的每日指引",
+        text: "「遇到生活逆境？這只是主線劇本裡的 NPC 在磨練你的情緒值。重新 Debug 大腦代碼，去享受這場地球遊戲吧！🎮」"
+      },
+      bunny: {
+        emoji: "🐰",
+        title: "降噪小兔的每日指引",
+        text: "「大腦是用來『思考』的，不是用來『記憶』的。戴上降噪耳機，把焦慮與細節卸載到你的 Notion 第二大腦吧。🎧」"
+      },
+      monkey: {
+        emoji: "🐵",
+        title: "理智小猴的每日指引",
+        text: "「運用第一性原理，像剝洋蔥般層層追問為什麼。停止修補短板，專注於擴大你的『不公平優勢』！🧠」"
+      }
+    };
+
+    const avatarBadge = document.getElementById('avatarBadge');
+    const cards = document.querySelectorAll('.avatar-card');
+
+    function selectAnimal(animalKey, event) {
+      // 點選卡片排他
+      cards.forEach(card => {
+        if (card.getAttribute('data-animal') === animalKey) {
+          card.classList.add('active');
+          card.setAttribute('aria-checked', 'true');
+        } else {
+          card.classList.remove('active');
+          card.setAttribute('aria-checked', 'false');
+        }
+      });
+
+      const guide = animalGuides[animalKey];
+      
+      // 更新指引泡泡，伴隨漸變效果
+      const bubbleText = document.getElementById('bubbleText');
+      const bubbleTitle = document.getElementById('bubbleTitle');
+      
+      bubbleText.style.opacity = '0';
+      setTimeout(() => {
+        bubbleTitle.innerText = guide.title;
+        bubbleText.innerText = guide.text;
+        bubbleText.style.opacity = '1';
+      }, 150);
+
+      // 同步更新頂端頭像掛件
+      avatarBadge.innerText = guide.emoji;
+      avatarBadge.style.display = 'flex';
+
+      // 儲存狀態
+      localStorage.setItem('baixiong_adventurer_animal', animalKey);
+
+      // 額外獲得較多經驗
+      if (event) {
+        addXP(10, event.pageX, event.pageY);
+      }
+    }
+
+    // 卡片點擊事件監聽
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        const animal = card.getAttribute('data-animal');
+        selectAnimal(animal, e);
+      });
+    });
+
+    // 載入 localStorage 初始狀態
+    const savedAnimal = localStorage.getItem('baixiong_adventurer_animal');
+    if (savedAnimal && animalGuides[savedAnimal]) {
+      selectAnimal(savedAnimal);
+    }
+    updateXPUI();
+
+    // ----------------------------------------------------
+    // 4. 即時與模擬訪客統計 Counter
+    // ----------------------------------------------------
+    async function initCounter() {
+      const liveUsersEl = document.getElementById('liveUsers');
+      const totalUsersEl = document.getElementById('totalUsers');
+      
+      // 1. 動態模擬當前在線人數 (隨時間波動)
+      function updateLiveUsers() {
+        const hours = new Date().getHours();
+        let base = 6;
+        if (hours >= 19 && hours <= 23) base = 14;      // 晚上尖峰時段
+        else if (hours >= 1 && hours <= 6) base = 2;    // 深夜時段
+        const live = base + Math.floor(Math.random() * 5);
+        liveUsersEl.innerText = live;
+      }
+      updateLiveUsers();
+      setInterval(updateLiveUsers, 8000);
+
+      // 2. 串接 CounterAPI 總來訪人數並支援本地 Fallback
+      const namespace = "baixiong-lifeos";
+      const key = "visits";
+      
+      try {
+        const res = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+        if (res.ok) {
+          const data = await res.json();
+          totalUsersEl.innerText = data.value.toLocaleString();
+          return;
+        }
+      } catch (err) {
+        console.warn("Counter API 離線，啟用本地備用統計模式。");
+      }
+      
+      // 本地 Fallback 機制 (基底 1842 + 本地重訪遞增)
+      let localVisits = parseInt(localStorage.getItem('baixiong_simulated_visits') || '1842');
+      localVisits += 1 + Math.floor(Math.random() * 2);
+      localStorage.setItem('baixiong_simulated_visits', localVisits);
+      totalUsersEl.innerText = localVisits.toLocaleString();
+    }
+
+    initCounter();
+  </script>
 </body>
 </html>
