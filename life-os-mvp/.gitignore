@@ -21,6 +21,14 @@ marketing/season1-降噪人生/**/*.mp4
 marketing/season1-降噪人生/**/*.m4a
 marketing/season1-降噪人生/**/06-shorts/
 
+# 聲音克隆 venv（1.7GB，每台電腦自建，絕不推 git）
+tools/voice-pipeline/.venv-f5tts/
+tools/voice-pipeline/outputs/
+tools/voice-pipeline/samples/
+
+# Claude Code 本機預覽設定（機器專屬）
+.claude/
+
 # 系統檔
 .DS_Store
 *.swp
