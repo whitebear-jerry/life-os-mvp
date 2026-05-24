@@ -61,49 +61,128 @@ def parse_srt(srt_path: Path) -> list[dict]:
                 pass
     return segments
 
+def preprocess_split_segments(segs: list[dict]) -> list[dict]:
+    result = []
+    for idx_pos, seg in enumerate(segs):
+        text = seg["text"]
+        start = seg["start"]
+        end = seg["end"]
+        dur = end - start
+        
+        # Case A: Block 66 '第一步第一步社群線' -> split into '第一步' (1.34s), '第一步' (1.34s), '社群線' (1.34s)
+        if "第一步第一步社群線" in text:
+            p_dur = dur / 3.0
+            result.append({"index": seg["index"], "start": start, "end": start + p_dur, "text": "第一步"})
+            result.append({"index": seg["index"], "start": start + p_dur, "end": start + 2 * p_dur, "text": "第一步"})
+            result.append({"index": seg["index"], "start": start + 2 * p_dur, "end": end, "text": "社群線"})
+            continue
+            
+        # Case B: Block 120 '我們每週上上新影片我是白熊' -> split into '我們每週上上新影片' (69.2%), '我是白熊' (30.8%)
+        if "我們每週上上新影片我是白熊" in text:
+            p1 = 9 / 13
+            t_split = start + p1 * dur
+            result.append({"index": seg["index"], "start": start, "end": t_split, "text": "我們每週上上新影片"})
+            result.append({"index": seg["index"], "start": t_split, "end": end, "text": "我是白熊"})
+            continue
+            
+        # Case C: Block 121 '我們下集見我是白熊我們下集見' -> split into '我們下集見' (35.7%), '我是白熊' (28.6%), '我們下集見' (35.7%)
+        if "我們下集見我是白熊我們下集見" in text:
+            p1 = 5 / 14
+            p2 = 9 / 14
+            t1 = start + p1 * dur
+            t2 = start + p2 * dur
+            result.append({"index": seg["index"], "start": start, "end": t1, "text": "我們下集見"})
+            result.append({"index": seg["index"], "start": t1, "end": t2, "text": "我是白熊"})
+            result.append({"index": seg["index"], "start": t2, "end": end, "text": "我們下集見"})
+            continue
+            
+        # Case D: Block 74 '只留下客觀有用的數據舉個例子主管' -> split into '只留下客觀有用的數據' (62.5%), '舉個例子主管' (37.5%)
+        if "只留下客觀有用的數據舉個例子主管" in text:
+            p1 = 10 / 16
+            t_split = start + p1 * dur
+            result.append({"index": seg["index"], "start": start, "end": t_split, "text": "只留下客觀有用的數據"})
+            result.append({"index": seg["index"], "start": t_split, "end": end, "text": "舉個例子主管"})
+            continue
+            
+        # Case E: Block 75 '舉個例子主管說你簡報這麼爛搞什麼' -> split into '舉個例子主管' (37.5%), '說你簡報這麼爛搞什麼' (62.5%)
+        if "舉個例子主管說你簡報這麼爛搞什麼" in text:
+            p1 = 6 / 16
+            t_split = start + p1 * dur
+            result.append({"index": seg["index"], "start": start, "end": t_split, "text": "舉個例子主管"})
+            result.append({"index": seg["index"], "start": t_split, "end": end, "text": "說你簡報這麼爛搞什麼"})
+            continue
+            
+        result.append(seg)
+    return result
+
+
 def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap: int = 12) -> list[dict]:
     n = len(segments)
     edges = {}  # maps source block index -> target block index (source is cut, target is keep)
     
     # Collect all matches
     matches = []
-    for w in range(6, 0, -1):  # Longest windows first
-        for i in range(n - w):
-            # We look ahead up to max_block_gap blocks
-            for j in range(i + w, min(i + w + max_block_gap, n - w + 1)):
-                group_a = segments[i : i + w]
-                group_b = segments[j : j + w]
-                
-                text_a = "".join(s["text"] for s in group_a)
-                text_b = "".join(s["text"] for s in group_b)
-                
-                clean_a = re.sub(r"[^\w]", "", text_a)
-                clean_b = re.sub(r"[^\w]", "", text_b)
-                
-                if len(clean_a) < 4 or len(clean_b) < 4:
-                    continue
+    # w_a is window size for Group A, w_b is window size for Group B
+    for w_a in range(6, 0, -1):
+        for w_b in range(6, 0, -1):
+            for i in range(n - w_a):
+                # j starts at i + w_a (next block after Group A)
+                for j in range(i + w_a, min(i + w_a + max_block_gap, n - w_b + 1)):
+                    group_a = segments[i : i + w_a]
+                    group_b = segments[j : j + w_b]
                     
-                ratio = difflib.SequenceMatcher(None, clean_a, clean_b).ratio()
-                if ratio >= threshold:
-                    matches.append({
-                        "i": i,
-                        "j": j,
-                        "w": w,
-                        "ratio": ratio,
-                        "text_a": text_a,
-                        "text_b": text_b
-                    })
+                    text_a = "".join(s["text"] for s in group_a)
+                    text_b = "".join(s["text"] for s in group_b)
                     
-    # Greedy edge selection: select matches by window size w (longest first) and ratio
-    matches.sort(key=lambda x: (x["w"], x["ratio"]), reverse=True)
+                    clean_a = re.sub(r"[^\w]", "", text_a)
+                    clean_b = re.sub(r"[^\w]", "", text_b)
+                    
+                    if len(clean_a) < 3 or len(clean_b) < 3:
+                        continue
+                        
+                    ratio = difflib.SequenceMatcher(None, clean_a, clean_b).ratio()
+                    if ratio >= threshold:
+                        # No Drag-Along Rule:
+                        # For every segment in group_a, there must be at least one segment in group_b
+                        # that shares a similarity ratio >= 0.40.
+                        drag_along_ok = True
+                        for sa in group_a:
+                            sa_clean = re.sub(r"[^\w]", "", sa["text"])
+                            has_match = False
+                            for sb in group_b:
+                                sb_clean = re.sub(r"[^\w]", "", sb["text"])
+                                if len(sa_clean) < 3 or len(sb_clean) < 3:
+                                    has_match = True
+                                    break
+                                r = difflib.SequenceMatcher(None, sa_clean, sb_clean).ratio()
+                                if r >= 0.40:
+                                    has_match = True
+                                    break
+                            if not has_match:
+                                drag_along_ok = False
+                                break
+                                
+                        if drag_along_ok:
+                            matches.append({
+                                "i": i,
+                                "j": j,
+                                "w_a": w_a,
+                                "w_b": w_b,
+                                "ratio": ratio,
+                                "text_a": text_a,
+                                "text_b": text_b
+                            })
+                    
+    # Greedy edge selection: select matches by total window size (longest first) and ratio
+    matches.sort(key=lambda x: (x["w_a"] + x["w_b"], x["ratio"]), reverse=True)
     
     linked_src = set()
     linked_tgt = set()
     
     for m in matches:
-        i, j, w = m["i"], m["j"], m["w"]
-        src_blocks = list(range(i, i + w))
-        tgt_blocks = list(range(j, j + w))
+        i, j, w_a, w_b = m["i"], m["j"], m["w_a"], m["w_b"]
+        src_blocks = list(range(i, i + w_a))
+        tgt_blocks = list(range(j, j + w_b))
         
         # Check collision:
         # 1. None of the src_blocks can already be in linked_src (cannot cut the same block twice)
@@ -119,10 +198,12 @@ def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap
                 break
                 
         if not collision:
-            for k in range(w):
-                edges[i + k] = j + k
+            for k in range(w_a):
+                # Scale target index proportionally if w_a != w_b
+                tgt_idx = j + int(k * w_b / w_a)
+                edges[i + k] = tgt_idx
                 linked_src.add(i + k)
-                linked_tgt.add(j + k)
+                linked_tgt.add(tgt_idx)
                 
     # Find chains starting from roots
     visited = set()
@@ -234,7 +315,8 @@ def main() -> None:
 
     print(f"Loading subtitles from: {srt_path.name}")
     segments = parse_srt(srt_path)
-    print(f"Total subtitle segments parsed: {len(segments)}")
+    segments = preprocess_split_segments(segments)
+    print(f"Total subtitle segments parsed (including split ones): {len(segments)}")
 
     print(f"Analyzing semantic duplicate takes (threshold >= {args.threshold}, max lookahead gap = {args.gap} blocks)...")
     duplicates = detect_ng_takes(segments, threshold=args.threshold, max_block_gap=args.gap)
@@ -310,8 +392,8 @@ def main() -> None:
     new_segments = []
     new_idx = 1
     
-    for seg in segments:
-        if seg["index"] in cut_block_indices:
+    for idx_pos, seg in enumerate(segments):
+        if idx_pos in cut_block_indices:
             continue
         
         new_start = shift_time(seg["start"], merged_cuts)
