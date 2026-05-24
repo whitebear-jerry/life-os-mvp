@@ -19,6 +19,7 @@ deliverables/slides/
 # YouTube Pipeline 影音檔案（大型輸出，透過 Google Drive 同步）
 marketing/season1-降噪人生/**/*.mp4
 marketing/season1-降噪人生/**/*.m4a
+marketing/season1-降噪人生/**/*.mov
 marketing/season1-降噪人生/**/06-shorts/
 
 # 聲音克隆 venv（1.7GB，每台電腦自建，絕不推 git）

@@ -409,11 +409,11 @@ def main() -> None:
             transient_paths.append(normalized_work_path)
             transcribe_input = normalized_work_path
     else:
-        cut_silence(input_path, cut_path, args.margin, force=True)
-        transient_paths.append(cut_path)
-        normalize_video(cut_path, normalized_work_path, force=True)
+        normalize_video(input_path, normalized_work_path, force=True)
         transient_paths.append(normalized_work_path)
-        transcribe_input = normalized_work_path
+        cut_silence(normalized_work_path, cut_path, args.margin, force=True)
+        transient_paths.append(cut_path)
+        transcribe_input = cut_path
 
     raw_segments, transcript = transcribe(transcribe_input, args.model, args.language, prompt)
     if not raw_segments:
