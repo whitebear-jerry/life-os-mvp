@@ -10,6 +10,7 @@ segment or burns subtitles into the video.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import re
 import shutil
@@ -42,6 +43,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--suffix", default="", help="Suffix before extensions, e.g. -regen for regression tests")
     parser.add_argument("--skip-cut", action="store_true", help="Use an existing clean output video for transcription")
     parser.add_argument("--skip-transcribe", action="store_true", help="Reuse an existing SRT/transcript if present")
+    parser.add_argument("--skip-trim", action="store_true", help="Skip semantic duplicate trimming and stop at autocut outputs")
+    parser.add_argument("--trim-threshold", type=float, default=0.78, help="Duplicate trim similarity threshold. Default: 0.78")
+    parser.add_argument("--trim-gap", type=int, default=12, help="Duplicate trim max lookahead gap in subtitle blocks. Default: 12")
+    parser.add_argument("--trim-dry-run", action="store_true", help="Print duplicate trim cuts without writing trimmed outputs")
     parser.add_argument("--transcribe-only", action="store_true", help="Only write SRT + transcript, not the final MP4")
     parser.add_argument("--force", action="store_true", help="Overwrite existing output files")
     parser.add_argument("--work-dir", type=Path, default=None, help="Local directory for intermediate files")
@@ -93,6 +98,16 @@ def apply_vocab(text: str, replacements: dict[str, str]) -> str:
     for wrong, correct in sorted(replacements.items(), key=lambda item: len(item[0]), reverse=True):
         corrected = corrected.replace(wrong, correct)
     return corrected
+
+
+def load_trim_duplicate_takes():
+    trim_path = Path(__file__).with_name("trim-duplicates.py")
+    spec = importlib.util.spec_from_file_location("trim_duplicates_cli", trim_path)
+    if not spec or not spec.loader:
+        raise SystemExit(f"Unable to load trim duplicate module: {trim_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.trim_duplicate_takes
 
 
 def find_auto_editor() -> Path:
@@ -257,13 +272,13 @@ def select_whisper_device() -> tuple[str, bool]:
     return "cpu", False
 
 
-def atomize_whisper_segments(raw_segments: list[dict], replacements: dict[str, str]) -> list[dict]:
+def atomize_whisper_segments(raw_segments: list[dict]) -> list[dict]:
     atoms = []
     for segment in raw_segments:
         words = [word for word in segment.get("words", []) if str(word.get("word", "")).strip()]
-        text = apply_vocab(str(segment.get("text", "")).strip(), replacements)
+        text = str(segment.get("text", "")).strip()
         if not text:
-            text = apply_vocab("".join(str(word.get("word", "")).strip() for word in words), replacements)
+            text = "".join(str(word.get("word", "")).strip() for word in words)
         if not text:
             continue
 
@@ -308,6 +323,16 @@ def merge_segments(atoms: list[dict]) -> list[dict]:
     return clean_timing(merged)
 
 
+def apply_vocab_to_segments(segments: list[dict], replacements: dict[str, str]) -> list[dict]:
+    corrected = []
+    for segment in segments:
+        text = apply_vocab(segment["text"].strip(), replacements)
+        if not text:
+            continue
+        corrected.append({**segment, "text": text})
+    return corrected
+
+
 def clean_timing(segments: list[dict]) -> list[dict]:
     cleaned = []
     cursor = 0.0
@@ -322,10 +347,10 @@ def clean_timing(segments: list[dict]) -> list[dict]:
     return cleaned
 
 
-def write_srt(segments: list[dict], srt_path: Path, replacements: dict[str, str]) -> None:
+def write_srt(segments: list[dict], srt_path: Path) -> None:
     entries = []
     for index, segment in enumerate(segments, start=1):
-        text = apply_vocab(segment["text"].strip(), replacements)
+        text = segment["text"].strip()
         if not text:
             continue
         entries.append(
@@ -348,6 +373,14 @@ def output_paths(out_dir: Path, ep: str, suffix: str) -> tuple[Path, Path, Path]
     video_path = out_dir / f"05-final-video-autocut{suffix}.mp4"
     srt_path = out_dir / f"EP{ep_number}-字幕-zh-TW-autocut{suffix}.srt"
     transcript_path = out_dir / f"transcript-autocut{suffix}.txt"
+    return video_path, srt_path, transcript_path
+
+
+def trimmed_output_paths(out_dir: Path, ep: str, suffix: str) -> tuple[Path, Path, Path]:
+    ep_number = ep.zfill(2) if ep.isdigit() else ep
+    video_path = out_dir / f"05-final-video-autocut{suffix}-trimmed.mp4"
+    srt_path = out_dir / f"EP{ep_number}-字幕-zh-TW-autocut{suffix}-trimmed.srt"
+    transcript_path = out_dir / f"transcript-autocut{suffix}-trimmed.txt"
     return video_path, srt_path, transcript_path
 
 
@@ -383,6 +416,8 @@ def main() -> None:
     work_dir.mkdir(parents=True, exist_ok=True)
 
     video_path, srt_path, transcript_path = output_paths(out_dir, args.ep, args.suffix)
+    trimmed_video_path, trimmed_srt_path, trimmed_transcript_path = trimmed_output_paths(out_dir, args.ep, args.suffix)
+    trim_enabled = not args.skip_trim and not args.transcribe_only
     replacements = load_vocab(args.vocab)
     prompt = args.initial_prompt if args.initial_prompt is not None else default_prompt(replacements)
 
@@ -390,12 +425,36 @@ def main() -> None:
         if not srt_path.exists():
             raise SystemExit(f"--skip-transcribe requested but SRT does not exist: {srt_path}")
         print(f"Reusing {srt_path}")
+        if trim_enabled:
+            trim_duplicate_takes = load_trim_duplicate_takes()
+            if not args.trim_dry_run:
+                ensure_writable(trimmed_video_path, args.force)
+                ensure_writable(trimmed_srt_path, args.force)
+                ensure_writable(trimmed_transcript_path, args.force)
+            trim_duplicate_takes(
+                video_path=video_path,
+                srt_path=srt_path,
+                out_video=trimmed_video_path,
+                out_srt=trimmed_srt_path,
+                out_txt=trimmed_transcript_path,
+                threshold=args.trim_threshold,
+                gap=args.trim_gap,
+                apply=not args.trim_dry_run,
+                force=args.force,
+                ffmpeg_path=find_ffmpeg(),
+                text_transform=lambda text: apply_vocab(text, replacements),
+            )
         return
 
     if not args.transcribe_only:
         ensure_writable(video_path, args.force)
+        if trim_enabled and not args.trim_dry_run:
+            ensure_writable(trimmed_video_path, args.force)
     ensure_writable(srt_path, args.force)
     ensure_writable(transcript_path, args.force)
+    if trim_enabled and not args.trim_dry_run:
+        ensure_writable(trimmed_srt_path, args.force)
+        ensure_writable(trimmed_transcript_path, args.force)
 
     transient_paths: list[Path] = []
     cut_path = work_dir / f"{input_path.stem}{args.suffix or '-work'}-cut.mp4"
@@ -418,19 +477,39 @@ def main() -> None:
     raw_segments, transcript = transcribe(transcribe_input, args.model, args.language, prompt)
     if not raw_segments:
         raise SystemExit("Whisper returned no segments.")
-    atoms = atomize_whisper_segments(raw_segments, replacements)
-    segments = merge_segments(atoms)
-    write_srt(segments, srt_path, replacements)
+    atoms = atomize_whisper_segments(raw_segments)
+    segments = apply_vocab_to_segments(merge_segments(atoms), replacements)
+    write_srt(segments, srt_path)
     write_transcript(transcript, segments, transcript_path, replacements)
     video_info = probe_video(transcribe_input)
     if not args.transcribe_only and transcribe_input != video_path:
         shutil.copy2(transcribe_input, video_path)
+    if trim_enabled:
+        trim_duplicate_takes = load_trim_duplicate_takes()
+        trim_duplicate_takes(
+            video_path=video_path,
+            srt_path=srt_path,
+            out_video=trimmed_video_path,
+            out_srt=trimmed_srt_path,
+            out_txt=trimmed_transcript_path,
+            threshold=args.trim_threshold,
+            gap=args.trim_gap,
+            apply=not args.trim_dry_run,
+            force=args.force,
+            ffmpeg_path=find_ffmpeg(),
+        )
     cleanup(transient_paths, args.keep_work)
 
     print(f"Wrote {srt_path}")
     print(f"Wrote {transcript_path}")
     if not args.transcribe_only:
         print(f"Wrote {video_path}")
+        if trim_enabled and not args.trim_dry_run:
+            print(f"Wrote {trimmed_video_path}")
+            print(f"Wrote {trimmed_srt_path}")
+            print(f"Wrote {trimmed_transcript_path}")
+        elif trim_enabled:
+            print("Trim dry-run only: no trimmed outputs were written.")
     print(f"Subtitle segments: {len(segments)}")
     print(f"Clean video duration: {video_info['duration']:.1f}s")
 

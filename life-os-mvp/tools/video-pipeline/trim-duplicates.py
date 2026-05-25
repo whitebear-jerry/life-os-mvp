@@ -11,8 +11,10 @@ from __future__ import annotations
 import argparse
 import difflib
 import re
+import shutil
 import subprocess
 from pathlib import Path
+from typing import Callable
 
 def parse_timestamp(ts_str: str) -> float:
     ts_str = ts_str.strip().replace(',', '.')
@@ -119,7 +121,7 @@ def preprocess_split_segments(segs: list[dict]) -> list[dict]:
 def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap: int = 12) -> list[dict]:
     n = len(segments)
     edges = {}  # maps source block index -> target block index (source is cut, target is keep)
-    
+
     # Collect all matches
     matches = []
     # w_a is window size for Group A, w_b is window size for Group B
@@ -293,33 +295,39 @@ def probe_duration(input_path: Path) -> float:
     result = subprocess.run(cmd, check=True, capture_output=True, text=True)
     return float(result.stdout.strip())
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Semantically trim duplicate NG takes from video and SRT.")
-    parser.add_argument("video", type=Path, help="Input cut video, e.g. 05-final-video-autocut.mp4")
-    parser.add_argument("srt", type=Path, help="Input subtitle file, e.g. EP02-字幕-zh-TW-autocut.srt")
-    parser.add_argument("--threshold", type=float, default=0.78, help="Similarity threshold. Default: 0.78")
-    parser.add_argument("--gap", type=int, default=12, help="Max lookahead gap in blocks. Default: 12")
-    parser.add_argument("--apply", action="store_true", help="Perform the actual trim and write output files")
-    parser.add_argument("--out-video", type=Path, default=None, help="Output video path. Defaults to input with '-trimmed'")
-    parser.add_argument("--out-srt", type=Path, default=None, help="Output srt path. Defaults to input with '-trimmed'")
-    parser.add_argument("--force", action="store_true", help="Overwrite existing files")
-    args = parser.parse_args()
 
-    video_path = args.video.expanduser().resolve()
-    srt_path = args.srt.expanduser().resolve()
-    
-    if not video_path.exists():
-        raise SystemExit(f"Video file not found: {video_path}")
-    if not srt_path.exists():
-        raise SystemExit(f"SRT file not found: {srt_path}")
+def write_segments_srt(segments: list[dict], out_srt: Path) -> None:
+    srt_entries = []
+    for seg in segments:
+        srt_entries.append(
+            f"{seg['index']}\n"
+            f"{format_timestamp(seg['start'])} --> {format_timestamp(seg['end'])}\n"
+            f"{seg['text']}\n"
+        )
+    out_srt.write_text("\n".join(srt_entries) + "\n", encoding="utf-8")
 
-    print(f"Loading subtitles from: {srt_path.name}")
-    segments = parse_srt(srt_path)
-    segments = preprocess_split_segments(segments)
+
+def analyze_duplicate_takes(srt_path: Path, threshold: float = 0.78, gap: int = 12) -> dict:
+    segments = preprocess_split_segments(parse_srt(srt_path))
+    duplicates = detect_ng_takes(segments, threshold=threshold, max_block_gap=gap)
+    merged_cuts = merge_intervals([(d["cut_start"], d["cut_end"]) for d in duplicates])
+    total_cut_duration = sum(end - start for start, end in merged_cuts)
+    return {
+        "segments": segments,
+        "duplicates": duplicates,
+        "merged_cuts": merged_cuts,
+        "total_cut_duration": total_cut_duration,
+    }
+
+
+def print_duplicate_report(analysis: dict, threshold: float, gap: int) -> None:
+    segments = analysis["segments"]
+    duplicates = analysis["duplicates"]
+    merged_cuts = analysis["merged_cuts"]
+    total_cut_duration = analysis["total_cut_duration"]
+
     print(f"Total subtitle segments parsed (including split ones): {len(segments)}")
-
-    print(f"Analyzing semantic duplicate takes (threshold >= {args.threshold}, max lookahead gap = {args.gap} blocks)...")
-    duplicates = detect_ng_takes(segments, threshold=args.threshold, max_block_gap=args.gap)
+    print(f"Analyzing semantic duplicate takes (threshold >= {threshold}, max lookahead gap = {gap} blocks)...")
 
     if not duplicates:
         print("🎉 No duplicate/NG takes detected! Your video looks clean!")
@@ -335,94 +343,154 @@ def main() -> None:
         cut_snippet = d['cut_text'][:45] + "..." if len(d['cut_text']) > 45 else d['cut_text']
         print(f"{cut_range:<22} | {keep_range:<22} | {d['ratio']:.2f} | {cut_snippet}")
     print("-" * 110)
-
-    # Calculate cut intervals
-    raw_cuts = [(d["cut_start"], d["cut_end"]) for d in duplicates]
-    merged_cuts = merge_intervals(raw_cuts)
-    
-    total_cut_duration = sum(end - start for start, end in merged_cuts)
     print(f"\n👉 Detected {len(merged_cuts)} contiguous cut intervals.")
     print(f"👉 Estimated duration savings: {total_cut_duration:.2f} seconds.")
 
-    if not args.apply:
-        print("\n💡 This is a DRY-RUN. To perform the actual trim and generate new files, run:")
-        print(f"   python3 tools/video-pipeline/{Path(__file__).name} \"{args.video}\" \"{args.srt}\" --apply")
-        return
 
-    # Execute cuts
-    out_video = args.out_video or video_path.with_name(video_path.stem + "-trimmed" + video_path.suffix)
-    out_srt = args.out_srt or srt_path.with_name(srt_path.stem + "-trimmed" + srt_path.suffix)
-    out_txt = out_srt.with_name("transcript-autocut-trimmed.txt")
+def trim_duplicate_takes(
+    video_path: Path,
+    srt_path: Path,
+    out_video: Path,
+    out_srt: Path,
+    out_txt: Path,
+    threshold: float = 0.78,
+    gap: int = 12,
+    apply: bool = False,
+    force: bool = False,
+    ffmpeg_path: Path | None = None,
+    text_transform: Callable[[str], str] | None = None,
+) -> dict:
+    video_path = video_path.expanduser().resolve()
+    srt_path = srt_path.expanduser().resolve()
+    out_video = out_video.expanduser().resolve()
+    out_srt = out_srt.expanduser().resolve()
+    out_txt = out_txt.expanduser().resolve()
 
-    if out_video.exists() and not args.force:
+    if not video_path.exists():
+        raise SystemExit(f"Video file not found: {video_path}")
+    if not srt_path.exists():
+        raise SystemExit(f"SRT file not found: {srt_path}")
+
+    print(f"Loading subtitles from: {srt_path.name}")
+    analysis = analyze_duplicate_takes(srt_path, threshold=threshold, gap=gap)
+    print_duplicate_report(analysis, threshold=threshold, gap=gap)
+
+    duplicates = analysis["duplicates"]
+    merged_cuts = analysis["merged_cuts"]
+    segments = analysis["segments"]
+
+    if not apply:
+        print("\n💡 This is a DRY-RUN. No trimmed files were written.")
+        return analysis
+
+    if out_video.exists() and not force:
         raise SystemExit(f"Output video exists: {out_video}. Use --force to overwrite.")
-    if out_srt.exists() and not args.force:
+    if out_srt.exists() and not force:
         raise SystemExit(f"Output SRT exists: {out_srt}. Use --force to overwrite.")
+    if out_txt.exists() and not force:
+        raise SystemExit(f"Output transcript exists: {out_txt}. Use --force to overwrite.")
 
-    print(f"\n🎥 Slicing video using FFmpeg select filters...")
-    duration = probe_duration(video_path)
-    keep_intervals = get_keep_intervals(duration, merged_cuts)
-    
-    v_expr = "+".join(f"between(t,{start:.3f},{end:.3f})" for start, end in keep_intervals)
-    a_expr = "+".join(f"between(t,{start:.3f},{end:.3f})" for start, end in keep_intervals)
-    filter_complex = f"[0:v]select='{v_expr}',setpts=N/FRAME_RATE/TB[outv];[0:a]aselect='{a_expr}',asetpts=N/SR/TB[outa]"
-    
-    ffmpeg_cmd = [
-        "ffmpeg",
-        "-y" if args.force else "-n",
-        "-i", str(video_path),
-        "-filter_complex", filter_complex,
-        "-map", "[outv]",
-        "-map", "[outa]",
-        "-c:v", "libx264",
-        "-crf", "18",
-        "-preset", "medium",
-        "-c:a", "aac",
-        "-b:a", "192k",
-        str(out_video)
-    ]
-    
-    print(f"+ {' '.join(ffmpeg_cmd)}")
-    subprocess.run(ffmpeg_cmd, check=True)
-    print(f"🎉 Wrote trimmed video: {out_video.name}")
-
-    # Re-build subtitles
-    print(f"⏳ Recalculating subtitle timestamps...")
     cut_block_indices = {d["cut_index"] for d in duplicates}
     new_segments = []
     new_idx = 1
-    
     for idx_pos, seg in enumerate(segments):
         if idx_pos in cut_block_indices:
             continue
-        
-        new_start = shift_time(seg["start"], merged_cuts)
-        new_end = shift_time(seg["end"], merged_cuts)
-        
-        new_segments.append({
-            "index": new_idx,
-            "start": new_start,
-            "end": new_end,
-            "text": seg["text"]
-        })
+
+        new_text = seg["text"]
+        if text_transform:
+            new_text = text_transform(new_text)
+        new_segments.append(
+            {
+                "index": new_idx,
+                "start": shift_time(seg["start"], merged_cuts),
+                "end": shift_time(seg["end"], merged_cuts),
+                "text": new_text,
+            }
+        )
         new_idx += 1
 
-    # Write SRT
-    srt_entries = []
-    for seg in new_segments:
-        srt_entries.append(
-            f"{seg['index']}\n"
-            f"{format_timestamp(seg['start'])} --> {format_timestamp(seg['end'])}\n"
-            f"{seg['text']}\n"
+    if not duplicates:
+        print("\n🎥 No duplicate intervals to cut; copying video and writing normalized subtitle outputs.")
+        shutil.copy2(video_path, out_video)
+    else:
+        print(f"\n🎥 Slicing video using FFmpeg select filters...")
+        duration = probe_duration(video_path)
+        keep_intervals = get_keep_intervals(duration, merged_cuts)
+
+        v_expr = "+".join(f"between(t,{start:.3f},{end:.3f})" for start, end in keep_intervals)
+        a_expr = "+".join(f"between(t,{start:.3f},{end:.3f})" for start, end in keep_intervals)
+        filter_complex = (
+            f"[0:v]select='{v_expr}',setpts=N/FRAME_RATE/TB[outv];"
+            f"[0:a]aselect='{a_expr}',asetpts=N/SR/TB[outa]"
         )
-    out_srt.write_text("\n".join(srt_entries) + "\n", encoding="utf-8")
+
+        ffmpeg = str(ffmpeg_path or "ffmpeg")
+        ffmpeg_cmd = [
+            ffmpeg,
+            "-y" if force else "-n",
+            "-i", str(video_path),
+            "-filter_complex", filter_complex,
+            "-map", "[outv]",
+            "-map", "[outa]",
+            "-c:v", "libx264",
+            "-crf", "18",
+            "-preset", "medium",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            str(out_video)
+        ]
+
+        print(f"+ {' '.join(ffmpeg_cmd)}")
+        subprocess.run(ffmpeg_cmd, check=True)
+    print(f"🎉 Wrote trimmed video: {out_video.name}")
+
+    print(f"⏳ Recalculating subtitle timestamps...")
+    write_segments_srt(new_segments, out_srt)
     print(f"🎉 Wrote adjusted subtitles: {out_srt.name}")
 
-    # Write transcript
     transcript_text = "\n".join(seg["text"] for seg in new_segments)
     out_txt.write_text(transcript_text.strip() + "\n", encoding="utf-8")
     print(f"🎉 Wrote adjusted transcript: {out_txt.name}")
     print("\n✅ All operations completed successfully! Enjoy your duplicate-free video!")
+    return analysis
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Semantically trim duplicate NG takes from video and SRT.")
+    parser.add_argument("video", type=Path, help="Input cut video, e.g. 05-final-video-autocut.mp4")
+    parser.add_argument("srt", type=Path, help="Input subtitle file, e.g. EP02-字幕-zh-TW-autocut.srt")
+    parser.add_argument("--threshold", type=float, default=0.78, help="Similarity threshold. Default: 0.78")
+    parser.add_argument("--gap", type=int, default=12, help="Max lookahead gap in blocks. Default: 12")
+    parser.add_argument("--apply", action="store_true", help="Perform the actual trim and write output files")
+    parser.add_argument("--out-video", type=Path, default=None, help="Output video path. Defaults to input with '-trimmed'")
+    parser.add_argument("--out-srt", type=Path, default=None, help="Output srt path. Defaults to input with '-trimmed'")
+    parser.add_argument("--force", action="store_true", help="Overwrite existing files")
+    args = parser.parse_args()
+
+    video_path = args.video.expanduser().resolve()
+    srt_path = args.srt.expanduser().resolve()
+
+    if not video_path.exists():
+        raise SystemExit(f"Video file not found: {video_path}")
+    if not srt_path.exists():
+        raise SystemExit(f"SRT file not found: {srt_path}")
+
+    out_video = args.out_video or video_path.with_name(video_path.stem + "-trimmed" + video_path.suffix)
+    out_srt = args.out_srt or srt_path.with_name(srt_path.stem + "-trimmed" + srt_path.suffix)
+    out_txt = out_srt.with_name("transcript-autocut-trimmed.txt")
+    trim_duplicate_takes(
+        video_path=video_path,
+        srt_path=srt_path,
+        out_video=out_video,
+        out_srt=out_srt,
+        out_txt=out_txt,
+        threshold=args.threshold,
+        gap=args.gap,
+        apply=args.apply,
+        force=args.force,
+    )
 
 if __name__ == "__main__":
     main()
