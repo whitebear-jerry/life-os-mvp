@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
-"""
-CDP (Chrome DevTools Protocol) ChatGPT Batch Image Generator.
-This script reads the image-prompts.md file in the EP03 GDrive directory,
-connects to the running Chrome instance at port 9222,
-submits the style anchor, then generates, downloads, and saves
-each image to the correct local GDrive images/ directory.
-"""
+"""CDP (Chrome DevTools Protocol) ChatGPT Batch Image Generator."""
 
-import os
 import re
 import sys
 import time
@@ -17,49 +10,89 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright, Error as PlaywrightError
 
 CDP_URL = "http://127.0.0.1:9222"
-EP03_DIR = Path("/Users/baizhewei/Library/CloudStorage/GoogleDrive-0927136551jerry@gmail.com/我的雲端硬碟/Life OS/marketing/season1-降噪人生/episode-03-第二大腦-Notion-外接硬碟")
-PROMPTS_FILE = EP03_DIR / "image-prompts.md"
-IMAGES_DIR = EP03_DIR / "images"
+DEFAULT_EP_DIR = Path.cwd()
 
-def parse_prompts(prompts_file_path: Path) -> dict:
-    """Parses style anchors and individual image specs from the markdown file."""
-    if not prompts_file_path.exists():
-        raise FileNotFoundError(f"找不到提示詞輸入檔: {prompts_file_path}")
-        
-    content = prompts_file_path.read_text(encoding="utf-8")
-    
-    # Parse Style Anchor
-    style_match = re.search(r"風格錨點:\s*(.+)", content)
-    style_anchor = style_match.group(1).strip() if style_match else ""
-    
-    # Parse individual image blocks
-    # Looking for blocks starting with - 檔名: story-X.png
+
+def extract_style_anchor(content: str) -> str:
+    """Extracts the style anchor from either legacy or table-based prompt files."""
+    direct_match = re.search(r"風格錨點:\s*(.+)", content)
+    if direct_match:
+        return direct_match.group(1).strip()
+
+    quoted_match = re.search(r"風格鎖定錨點.*?\n>\s*[「\"]?(.+?)[」\"]?\s*$", content, re.MULTILINE)
+    if quoted_match:
+        return quoted_match.group(1).strip()
+
+    return ""
+
+
+def parse_legacy_blocks(content: str) -> list[dict]:
+    """Parses blocks that start with '- 檔名: story-X.png'."""
     image_specs = []
     blocks = content.split("- 檔名:")
     for block in blocks[1:]:
         lines = block.strip().split("\n")
         filename = lines[0].strip()
-        
+
         prompt = ""
         type_str = ""
-        for line in lines[1:]:
+        for idx, line in enumerate(lines[1:]):
             line_strip = line.strip()
             if line_strip.startswith("類型:"):
                 type_str = line_strip.replace("類型:", "").strip()
             elif line_strip.startswith("提示詞:"):
                 prompt = line_strip.replace("提示詞:", "").strip()
-                # If prompt spreads across multiple lines (yaml block style)
-                idx = lines.index(line)
                 if prompt == "|" or prompt == "":
-                    prompt = "\n".join(l.strip() for l in lines[idx+1:] if l.strip() and not l.strip().startswith("-"))
-        
+                    prompt = "\n".join(
+                        later.strip()
+                        for later in lines[idx + 2 :]
+                        if later.strip() and not later.strip().startswith("-")
+                    )
+
         if filename and prompt:
-            image_specs.append({
-                "filename": filename,
-                "type": type_str,
-                "prompt": prompt.strip()
-            })
-            
+            image_specs.append({"filename": filename, "type": type_str, "prompt": prompt.strip()})
+    return image_specs
+
+
+def parse_markdown_table(content: str) -> list[dict]:
+    """Parses prompt tables with columns for filename, storyboard, and prompt."""
+    image_specs = []
+    for raw_line in content.splitlines():
+        line = raw_line.strip()
+        if not line.startswith("|") or "story-" not in line or "`" not in line:
+            continue
+        if re.search(r"\|\s*:?-+", line):
+            continue
+
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if len(cells) < 3:
+            continue
+
+        filename_match = re.search(r"`([^`]+\.png)`", cells[0])
+        prompt_match = re.search(r"`(.+)`", cells[-1])
+        if not filename_match or not prompt_match:
+            continue
+
+        image_specs.append(
+            {
+                "filename": filename_match.group(1).strip(),
+                "type": cells[1].strip(),
+                "prompt": prompt_match.group(1).strip(),
+            }
+        )
+    return image_specs
+
+def parse_prompts(prompts_file_path: Path) -> dict:
+    """Parses style anchors and individual image specs from the markdown file."""
+    if not prompts_file_path.exists():
+        raise FileNotFoundError(f"找不到提示詞輸入檔: {prompts_file_path}")
+
+    content = prompts_file_path.read_text(encoding="utf-8")
+    style_anchor = extract_style_anchor(content)
+    image_specs = parse_legacy_blocks(content) or parse_markdown_table(content)
+    if not image_specs:
+        raise ValueError("找不到任何圖片提示詞；目前支援 '- 檔名:' 區塊與 Markdown 表格格式。")
+
     return {
         "style_anchor": style_anchor,
         "images": image_specs
@@ -194,22 +227,43 @@ def submit_prompt(page, prompt_text: str):
 def main():
     parser = argparse.ArgumentParser(description="Batch CDP Image Generator")
     parser.add_argument("--skip", type=int, default=0, help="Skip the first N images in markdown.")
+    parser.add_argument(
+        "--ep-dir",
+        type=Path,
+        default=DEFAULT_EP_DIR,
+        help="Episode directory containing image-prompts.md and images/. Default: current directory.",
+    )
+    parser.add_argument("--prompts-file", type=Path, help="Override the prompt markdown path.")
+    parser.add_argument("--images-dir", type=Path, help="Override the image output directory.")
+    parser.add_argument("--timeout", type=int, default=180, help="Seconds to wait for each generated image.")
+    parser.add_argument("--skip-existing", action="store_true", help="Do not regenerate images already present on disk.")
+    parser.add_argument("--dry-run", action="store_true", help="Parse prompts and print the plan without touching Chrome.")
     args = parser.parse_args()
 
+    ep_dir = args.ep_dir.expanduser().resolve()
+    prompts_file = args.prompts_file.expanduser().resolve() if args.prompts_file else ep_dir / "image-prompts.md"
+    images_dir = args.images_dir.expanduser().resolve() if args.images_dir else ep_dir / "images"
+
     print("🚀 啟動 CDP ChatGPT 批次自動生圖與歸位程序 🚀\n")
-    print(f"📂 專案輸入檔: {PROMPTS_FILE}")
-    print(f"📂 圖片輸出路徑: {IMAGES_DIR}\n")
-    
+    print(f"📂 集數目錄: {ep_dir}")
+    print(f"📂 專案輸入檔: {prompts_file}")
+    print(f"📂 圖片輸出路徑: {images_dir}\n")
+
     # Parse markdown file
     try:
-        specs = parse_prompts(PROMPTS_FILE)
+        specs = parse_prompts(prompts_file)
         print(f"✅ 成功解析提示詞！")
-        print(f"🎨 全片風格鎖定: {specs['style_anchor'][:60]}...")
+        print(f"🎨 全片風格鎖定: {specs['style_anchor'][:80]}...")
         print(f"📊 待生圖總數: {len(specs['images'])} 張")
     except Exception as e:
         print(f"❌ 解析 markdown 失敗: {e}")
         sys.exit(1)
-        
+
+    if args.dry_run:
+        for idx, img_spec in enumerate(specs["images"], start=1):
+            print(f"{idx}. {img_spec['filename']} -> {images_dir / img_spec['filename']}")
+        return
+
     with sync_playwright() as playwright:
         try:
             print("\n📡 正在嘗試連線至本機已開的 Chrome (port 9222)...")
@@ -240,7 +294,12 @@ def main():
                 if idx < args.skip:
                     print(f"⏭️ 略過第 {idx+1} 張圖片: {img_spec['filename']}")
                     continue
-                    
+
+                output_path = images_dir / img_spec["filename"]
+                if args.skip_existing and output_path.exists():
+                    print(f"⏭️ 已存在，略過不覆蓋: {output_path}")
+                    continue
+
                 print(f"\n🎨 Step {idx+1}/{len(specs['images'])}: 正在生成 [{img_spec['filename']}]...")
                 print(f"💬 提示詞: {img_spec['prompt'][:80]}...")
                 
@@ -253,9 +312,8 @@ def main():
                 
                 # Wait and discover image
                 try:
-                    img_element = find_generated_image(page, known_sources, img_spec["filename"], timeout_sec=180)
-                    output_path = IMAGES_DIR / img_spec["filename"]
-                    
+                    img_element = find_generated_image(page, known_sources, img_spec["filename"], timeout_sec=args.timeout)
+
                     # Save image
                     success = save_image(page, img_element, output_path)
                     if success:
@@ -275,7 +333,7 @@ def main():
         except Exception as exc:
             print(f"\n❌ 批次執行出錯: {exc}")
         finally:
-            browser.close()
+            print("🔌 CDP 連線結束；保留使用者開啟的 Chrome 視窗。")
 
 if __name__ == "__main__":
     main()
