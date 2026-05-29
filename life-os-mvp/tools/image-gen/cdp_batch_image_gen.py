@@ -59,7 +59,7 @@ def parse_markdown_table(content: str) -> list[dict]:
     image_specs = []
     for raw_line in content.splitlines():
         line = raw_line.strip()
-        if not line.startswith("|") or "story-" not in line or "`" not in line:
+        if not line.startswith("|") or (".png" not in line) or "`" not in line:
             continue
         if re.search(r"\|\s*:?-+", line):
             continue
