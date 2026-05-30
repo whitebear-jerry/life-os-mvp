@@ -867,6 +867,313 @@
         gap: 6px;
       }
     }
+
+    /* === 🎮 勇者冒險 JRPG 復古視覺樣式 === */
+    .guild-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 10px;
+    }
+    .guild-tab-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(247, 247, 240, 0.6);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 800;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .guild-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(247, 247, 240, 0.9);
+    }
+    .guild-tab-btn.active {
+      background: linear-gradient(135deg, rgba(47, 107, 79, 0.6) 0%, rgba(18, 30, 24, 0.8) 100%);
+      border-color: rgba(78, 240, 114, 0.4);
+      color: #ffd89c;
+      box-shadow: 0 0 10px rgba(78, 240, 114, 0.15);
+    }
+
+    .retro-game-screen {
+      background: #000000;
+      border: 4px double #ffffff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #ffffff;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+      image-rendering: pixelated;
+    }
+
+    .retro-stats-area {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .retro-player-stats, .retro-enemy-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 46%;
+    }
+
+    .retro-enemy-stats {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .retro-name {
+      font-weight: bold;
+      color: #ffd89c;
+      font-size: 0.82rem;
+    }
+
+    .retro-hp-container {
+      width: 100%;
+      height: 8px;
+      background: #333333;
+      border: 1px solid #ffffff;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 3px;
+      position: relative;
+    }
+
+    .retro-hp-fill {
+      height: 100%;
+      background: #ff4d4d;
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+    .retro-hp-fill.player-hp {
+      background: #4ef072;
+    }
+
+    .retro-hp-text {
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-family: monospace;
+    }
+
+    .retro-visual-area {
+      height: 160px;
+      background: #050505;
+      border: 2px solid #ffffff;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .retro-monster-sprite {
+      max-height: 130px;
+      max-width: 130px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      transition: transform 0.1s ease, filter 0.1s ease, opacity 0.5s ease;
+    }
+
+    .retro-monster-sprite.hit {
+      animation: monster-hit-shake 0.3s ease-in-out, monster-hit-flash 0.3s ease-in-out;
+    }
+
+    .retro-game-screen.shake {
+      animation: screen-shake 0.3s ease-in-out;
+    }
+
+    @keyframes monster-hit-shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    @keyframes monster-hit-flash {
+      0%, 50%, 100% { filter: brightness(1) sepia(0); }
+      25%, 75% { filter: brightness(1.8) sepia(1) saturate(10) hue-rotate(-50deg); }
+    }
+
+    @keyframes screen-shake {
+      0%, 100% { transform: translate(0, 0); }
+      10%, 30%, 50%, 70%, 90% { transform: translate(-3px, 2px); }
+      20%, 40%, 60%, 80% { transform: translate(3px, -2px); }
+    }
+
+    .retro-log-area {
+      border: 2px solid #ffffff;
+      border-radius: 4px;
+      padding: 8px 12px;
+      height: 66px;
+      background: #000000;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      color: #f7f7f0;
+      scrollbar-width: none;
+    }
+    .retro-log-area::-webkit-scrollbar {
+      display: none;
+    }
+
+    .retro-commands {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .btn-retro {
+      background: #000000;
+      border: 2px solid #ffffff;
+      color: #ffffff;
+      padding: 8px 6px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.78rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      text-align: left;
+      outline: none;
+      border-radius: 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-retro:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+    .btn-retro:hover .btn-retro-cursor {
+      color: #000000;
+    }
+
+    .btn-retro:active {
+      transform: scale(0.96);
+    }
+
+    .btn-retro-cursor {
+      color: #ffd89c;
+      font-weight: bold;
+      font-size: 0.72rem;
+    }
+
+    .damage-text {
+      position: absolute;
+      font-size: 1.4rem;
+      font-weight: 900;
+      font-family: monospace;
+      pointer-events: none;
+      animation: damage-float-up 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+      z-index: 10;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    }
+
+    .damage-text.enemy-dmg {
+      color: #ff4d4d;
+    }
+    .damage-text.player-dmg {
+      color: #ff4d4d;
+    }
+    .damage-text.heal-txt {
+      color: #4ef072;
+    }
+
+    @keyframes damage-float-up {
+      0% { transform: scale(0.5) translateY(0) translate(-50%, -50%); opacity: 0; }
+      15% { transform: scale(1.25) translateY(-10px) translate(-50%, -50%); opacity: 1; }
+      100% { transform: scale(0.9) translateY(-40px) translate(-50%, -50%); opacity: 0; }
+    }
+
+    .retro-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 20;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .retro-overlay-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #ff4d4d;
+      text-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+    .retro-overlay-title.victory {
+      color: #ffd89c;
+      text-shadow: 0 0 10px rgba(255, 216, 156, 0.6);
+    }
+
+    .btn-continue {
+      background: #000000;
+      border: 2px solid #ffd89c;
+      color: #ffd89c;
+      padding: 6px 16px;
+      font-family: monospace;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+    .btn-continue:hover {
+      background: #ffd89c;
+      color: #000000;
+    }
+
+    @media (max-width: 640px) {
+      .link-shell {
+        padding-inline: 14px;
+      }
+
+      .link-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .avatar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .guild-attributes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .equip-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+      }
+    }
   </style>
 </head>
 <body class="link-page">
@@ -952,118 +1259,187 @@
 
     <!-- 🎮 冒險者公會 & 代表動物小遊戲 -->
     <section class="link-guild" aria-label="冒險者公會">
-      <div class="guild-header">
-        <h2 class="guild-title">🎮 冒險者公會</h2>
-        <div class="visitor-stats">
-          <div class="stat-row">
-            <span class="live-indicator"></span>
-            <span>今日登錄人數: <strong id="liveUsers">--</strong> 人</span>
-          </div>
-          <div class="stat-row">
-            <span>累計登錄人數: <strong id="totalUsers">--</strong> 人</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- XP 等級進度條 -->
-      <div class="guild-xp-container" id="xpContainer">
-        <div class="xp-label-group">
-          <span class="xp-level" id="adventurerLevel">LV.1 新手冒險者</span>
-          <span class="xp-value" id="adventurerXP">0 / 50 XP</span>
-        </div>
-        <div class="xp-bar-outer">
-          <div class="xp-bar-inner" id="xpBar"></div>
-        </div>
-      </div>
-
-      <!-- 📊 冒險者屬性數值面板 -->
-      <div class="guild-attributes" aria-label="冒險者屬性面板">
-        <div class="attribute-card">
-          <span class="attr-label">🧠 智慧 (INT)</span>
-          <span class="attr-val" id="attrInt">5</span>
-        </div>
-        <div class="attribute-card">
-          <span class="attr-label">🛡️ 韌性 (VIT)</span>
-          <span class="attr-val" id="attrVit">5</span>
-        </div>
-        <div class="attribute-card">
-          <span class="attr-label">⚡ 專注 (FOC)</span>
-          <span class="attr-val" id="attrFoc">5</span>
-        </div>
-        <div class="attribute-card">
-          <span class="attr-label">🪓 執行 (AGI)</span>
-          <span class="attr-val" id="attrAgi">5</span>
-        </div>
-      </div>
-
-      <!-- 動物選擇格 -->
-      <div class="avatar-grid" role="radiogroup" aria-label="選擇你的代表動物">
-        <button class="avatar-card" role="radio" aria-checked="false" data-animal="bear" id="btnBear">
-          <span class="avatar-emoji">🐻</span>
-          <span class="avatar-name">智者白熊</span>
+      <!-- 頁籤導覽 Tabs -->
+      <div class="guild-tabs" role="tablist">
+        <button class="guild-tab-btn active" id="tabBtnBoard" role="tab" aria-selected="true" onclick="switchGuildTab('board')">
+          📝 公會日常
         </button>
-        <button class="avatar-card" role="radio" aria-checked="false" data-animal="cat" id="btnCat">
-          <span class="avatar-emoji">🐱</span>
-          <span class="avatar-name">除錯小貓</span>
-        </button>
-        <button class="avatar-card" role="radio" aria-checked="false" data-animal="bunny" id="btnBunny">
-          <span class="avatar-emoji">🐰</span>
-          <span class="avatar-name">降噪小兔</span>
-        </button>
-        <button class="avatar-card" role="radio" aria-checked="false" data-animal="monkey" id="btnMonkey">
-          <span class="avatar-emoji">🐵</span>
-          <span class="avatar-name">理智小猴</span>
+        <button class="guild-tab-btn" id="tabBtnAdventure" role="tab" aria-selected="false" onclick="switchGuildTab('adventure')">
+          ⚔️ 勇者冒險
         </button>
       </div>
 
-      <!-- 🪓 公會修煉 Grind 按鈕 -->
-      <div class="train-container">
-        <button class="btn-train" id="btnTrain" aria-label="開始公會修煉，獲得屬性加點與十點經驗值">
-          🪓 公會修煉 (+10 XP)
-        </button>
-      </div>
+      <!-- 分頁一：公會日常看板 -->
+      <div id="guildBoardContent">
+        <div class="guild-header">
+          <h2 class="guild-title">🎮 冒險者公會</h2>
+          <div class="visitor-stats">
+            <div class="stat-row">
+              <span class="live-indicator"></span>
+              <span>今日登錄人數: <strong id="liveUsers">--</strong> 人</span>
+            </div>
+            <div class="stat-row">
+              <span>累計登錄人數: <strong id="totalUsers">--</strong> 人</span>
+            </div>
+          </div>
+        </div>
 
-      <!-- 🛡️ 已解鎖公會神裝庫 -->
-      <div class="guild-equip-panel">
-        <h3 class="equip-title">🛡️ 已解鎖公會神裝</h3>
-        <div class="equip-grid" id="equipGrid">
-          <div class="equip-slot locked" id="equip-0" data-level="10">
-            🔒<div class="tooltip"><span class="tooltip-name">💻 大腦除錯鍵盤 [LV.10]</span>重設你的核心信念，隨手將挫折改寫成可除錯的人生代碼任務。<span class="tooltip-lore">《人生遊戲》：重新 Debug 你的底層思維。</span></div>
+        <!-- XP 等級進度條 -->
+        <div class="guild-xp-container" id="xpContainer">
+          <div class="xp-label-group">
+            <span class="xp-level" id="adventurerLevel">LV.1 新手冒險者</span>
+            <span class="xp-value" id="adventurerXP">0 / 50 XP</span>
           </div>
-          <div class="equip-slot locked" id="equip-1" data-level="20">
-            🔒<div class="tooltip"><span class="tooltip-name">📓 Notion 第二大腦 [LV.20]</span>徹底將心靈記憶卸載至外部儲存，釋放高頻思考的珍貴運算 RAM。<span class="tooltip-lore">《降噪人生》：大腦是用來思考，非記憶。</span></div>
+          <div class="xp-bar-outer">
+            <div class="xp-bar-inner" id="xpBar"></div>
           </div>
-          <div class="equip-slot locked" id="equip-2" data-level="30">
-            🔒<div class="tooltip"><span class="tooltip-name">🔋 意志力蓄電池 [LV.30]</span>監測並守護你的每日核心電量，拒絕在低價值的雜事中無謂空轉。<span class="tooltip-lore">《人生複利》：意志力是限量的珍貴耗材。</span></div>
+        </div>
+
+        <!-- 📊 冒險者屬性數值面板 -->
+        <div class="guild-attributes" aria-label="冒險者屬性面板">
+          <div class="attribute-card">
+            <span class="attr-label">🧠 智慧 (INT)</span>
+            <span class="attr-val" id="attrInt">5</span>
           </div>
-          <div class="equip-slot locked" id="equip-3" data-level="40">
-            🔒<div class="tooltip"><span class="tooltip-name">☕ NPC 覺醒藥水 [LV.40]</span>瞬間看穿身旁所有情緒拉扯的 NPC，奪回屬於自己的大腦主導權。<span class="tooltip-lore">《人生遊戲》：NPC 理論助你通關地球遊戲。</span></div>
+          <div class="attribute-card">
+            <span class="attr-label">🛡️ 韌性 (VIT)</span>
+            <span class="attr-val" id="attrVit">5</span>
           </div>
-          <div class="equip-slot locked" id="equip-4" data-level="50">
-            🔒<div class="tooltip"><span class="tooltip-name">🧱 知識印刷術字模 [LV.50]</span>持續將細微的智慧累積加深，雕刻大腦字模，迎來驚人的複利時代。<span class="tooltip-lore">《人生複利》：印刷術般的複利效應。</span></div>
+          <div class="attribute-card">
+            <span class="attr-label">⚡ 專注 (FOC)</span>
+            <span class="attr-val" id="attrFoc">5</span>
           </div>
-          <div class="equip-slot locked" id="equip-5" data-level="60">
-            🔒<div class="tooltip"><span class="tooltip-name">🛡️ 降噪防護力場 [LV.60]</span>設定心靈 NAS 防火牆邊界，對無謂消耗你的人事物，開啟 IP 封鎖。<span class="tooltip-lore">《降噪人生》：主動過濾背景環境的噪音干擾。</span></div>
+          <div class="attribute-card">
+            <span class="attr-label">🪓 執行 (AGI)</span>
+            <span class="attr-val" id="attrAgi">5</span>
           </div>
-          <div class="equip-slot locked" id="equip-6" data-level="70">
-            🔒<div class="tooltip"><span class="tooltip-name">🪓 白熊極意之斧 [LV.70]</span>神聖之斧，無情砍掉生命中 90% 的贅音與噪音，專注核心。<span class="tooltip-lore">《降噪人生》：砍掉 90% 噪音，只留 10% 核心。</span></div>
+        </div>
+
+        <!-- 動物選擇格 -->
+        <div class="avatar-grid" role="radiogroup" aria-label="選擇你的代表動物">
+          <button class="avatar-card" role="radio" aria-checked="false" data-animal="bear" id="btnBear">
+            <span class="avatar-emoji">🐻</span>
+            <span class="avatar-name">智者白熊</span>
+          </button>
+          <button class="avatar-card" role="radio" aria-checked="false" data-animal="cat" id="btnCat">
+            <span class="avatar-emoji">🐱</span>
+            <span class="avatar-name">除錯小貓</span>
+          </button>
+          <button class="avatar-card" role="radio" aria-checked="false" data-animal="bunny" id="btnBunny">
+            <span class="avatar-emoji">🐰</span>
+            <span class="avatar-name">降噪小兔</span>
+          </button>
+          <button class="avatar-card" role="radio" aria-checked="false" data-animal="monkey" id="btnMonkey">
+            <span class="avatar-emoji">🐵</span>
+            <span class="avatar-name">理智小猴</span>
+          </button>
+        </div>
+
+        <!-- 🪓 公會修煉 Grind 按鈕 -->
+        <div class="train-container">
+          <button class="btn-train" id="btnTrain" aria-label="開始公會修煉，獲得屬性加點與十點經驗值">
+            🪓 公會修煉 (+10 XP)
+          </button>
+        </div>
+
+        <!-- 🛡️ 已解鎖公會神裝庫 -->
+        <div class="guild-equip-panel">
+          <h3 class="equip-title">🛡️ 已解鎖公會神裝</h3>
+          <div class="equip-grid" id="equipGrid">
+            <div class="equip-slot locked" id="equip-0" data-level="10">
+              🔒<div class="tooltip"><span class="tooltip-name">💻 大腦除錯鍵盤 [LV.10]</span>重設你的核心信念，隨手將挫折改寫成可除錯的人生代碼任務。<span class="tooltip-lore">《人生遊戲》：重新 Debug 你的底層思維。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-1" data-level="20">
+              🔒<div class="tooltip"><span class="tooltip-name">📓 Notion 第二大腦 [LV.20]</span>徹底將心靈記憶卸載至外部儲存，釋放高頻思考的珍貴運算 RAM。<span class="tooltip-lore">《降噪人生》：大腦是用來思考，非記憶。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-2" data-level="30">
+              🔒<div class="tooltip"><span class="tooltip-name">🔋 意志力蓄電池 [LV.30]</span>監測並守護你的每日核心電量，拒絕在低價值的雜事中無謂空轉。<span class="tooltip-lore">《人生複利》：意志力是限量的珍貴耗材。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-3" data-level="40">
+              🔒<div class="tooltip"><span class="tooltip-name">☕ NPC 覺醒藥水 [LV.40]</span>瞬間看穿身旁所有情緒拉扯的 NPC，奪回屬於自己的大腦主導權。<span class="tooltip-lore">《人生遊戲》：NPC 理論助你通關地球遊戲。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-4" data-level="50">
+              🔒<div class="tooltip"><span class="tooltip-name">🧱 知識印刷術字模 [LV.50]</span>持續將細微的智慧累積加深，雕刻大腦字模，迎來驚人的複利時代。<span class="tooltip-lore">《人生複利》：印刷術般的複利效應。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-5" data-level="60">
+              🔒<div class="tooltip"><span class="tooltip-name">🛡️ 降噪防護力場 [LV.60]</span>設定心靈 NAS 防火牆邊界，對無謂消耗你的人事物，開啟 IP 封鎖。<span class="tooltip-lore">《降噪人生》：主動過濾背景環境的噪音干擾。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-6" data-level="70">
+              🔒<div class="tooltip"><span class="tooltip-name">🪓 白熊極意之斧 [LV.70]</span>神聖之斧，無情砍掉生命中 90% 的贅音與噪音，專注核心。<span class="tooltip-lore">《降噪人生》：砍掉 90% 噪音，只留 10% 核心。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-7" data-level="80">
+              🔒<div class="tooltip"><span class="tooltip-name">🔮 心靈意識重塑鏡 [LV.80]</span>反射一切外部負能量，在任何逆境中看見「這樣也好」的逆轉奇蹟。<span class="tooltip-lore">《人生複利/遊戲》：轉念一想的奇蹟魔法。</span></div>
+            </div>
+            <div class="equip-slot locked" id="equip-8" data-level="90">
+              🔒<div class="tooltip"><span class="tooltip-name">👑 人生OS最高核心 [LV.90]</span>終極神器，使每日 1% 的微小前行產生高頻顯化，主宰你的複利宇宙。<span class="tooltip-lore">《白熊人生攻略》：把人生重設為最強作業系統。</span></div>
+            </div>
           </div>
-          <div class="equip-slot locked" id="equip-7" data-level="80">
-            🔒<div class="tooltip"><span class="tooltip-name">🔮 心靈意識重塑鏡 [LV.80]</span>反射一切外部負能量，在任何逆境中看見「這樣也好」的逆轉奇蹟。<span class="tooltip-lore">《人生複利/遊戲》：轉念一想的奇蹟魔法。</span></div>
+        </div>
+
+        <!-- 動物指引對話框 -->
+        <div class="bubble-container">
+          <div class="bubble-header">
+            <div class="bubble-title" id="bubbleTitle">📢 公會告示板</div>
+            <button class="btn-refresh" id="btnRefresh" aria-label="祈求新的人生指引小語">🔮 祈求新指引</button>
           </div>
-          <div class="equip-slot locked" id="equip-8" data-level="90">
-            🔒<div class="tooltip"><span class="tooltip-name">👑 人生OS最高核心 [LV.90]</span>終極神器，使每日 1% 的微小前行產生高頻顯化，主宰你的複利宇宙。<span class="tooltip-lore">《白熊人生攻略》：把人生重設為最強作業系統。</span></div>
-          </div>
+          <p class="bubble-text" id="bubbleText">歡迎來到白熊人生攻略！點選上方的一個動物代表你自己，來領取你的每日人生指引與冒險裝備吧！</p>
         </div>
       </div>
 
-      <!-- 動物指引對話框 -->
-      <div class="bubble-container">
-        <div class="bubble-header">
-          <div class="bubble-title" id="bubbleTitle">📢 公會告示板</div>
-          <button class="btn-refresh" id="btnRefresh" aria-label="祈求新的人生指引小語">🔮 祈求新指引</button>
+      <!-- 分頁二：勇者冒險 JRPG 戰鬥系統 -->
+      <div id="guildAdventureContent" style="display: none;">
+        <div class="retro-game-screen" id="retroGameScreen">
+          <!-- 戰鬥頂部狀態欄 -->
+          <div class="retro-stats-area">
+            <div class="retro-player-stats">
+              <span class="retro-name" id="pBattleName">🐻 白熊勇者</span>
+              <span class="retro-hp-text" id="pHPText">HP: 100 / 100</span>
+              <div class="retro-hp-container">
+                <div class="retro-hp-fill player-hp" id="pHPFill" style="width: 100%;"></div>
+              </div>
+            </div>
+            <div class="retro-enemy-stats">
+              <span class="retro-name" id="eBattleName">👾 雜念史萊姆</span>
+              <span class="retro-hp-text" id="eHPText">HP: 50 / 50</span>
+              <div class="retro-hp-container">
+                <div class="retro-hp-fill" id="eHPFill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 戰鬥視覺展示區 -->
+          <div class="retro-visual-area" id="retroVisualArea">
+            <img src="assets/monster_slime.png" class="retro-monster-sprite" id="retroMonsterSprite" alt="戰鬥怪物">
+          </div>
+
+          <!-- 戰鬥紀錄對話框 -->
+          <div class="retro-log-area" id="retroLogArea">
+            「野生的【雜念史萊姆】出現了！白熊勇者，請下達冒險決策！」
+          </div>
+
+          <!-- 指令區 -->
+          <div class="retro-commands">
+            <button class="btn-retro" onclick="handleBattleAction('agi')" aria-label="執行斬攻擊">
+              <span class="btn-retro-cursor">▶</span> ⚔️ 執行斬 (AGI)
+            </button>
+            <button class="btn-retro" onclick="handleBattleAction('int')" aria-label="智慧雷擊魔攻">
+              <span class="btn-retro-cursor">▶</span> 🧠 智慧雷擊 (INT)
+            </button>
+            <button class="btn-retro" onclick="handleBattleAction('vit')" aria-label="降噪防護回血與防禦">
+              <span class="btn-retro-cursor">▶</span> 🛡️ 降噪防護 (VIT)
+            </button>
+            <button class="btn-retro" onclick="handleBattleAction('foc')" aria-label="專注突刺高暴擊攻擊">
+              <span class="btn-retro-cursor">▶</span> ⚡ 專注突刺 (FOC)
+            </button>
+          </div>
+          
+          <!-- 逃跑按鈕 -->
+          <div style="margin-top: 10px; display: flex; justify-content: center;">
+            <button class="btn-retro" onclick="switchGuildTab('board')" style="width: 100%; justify-content: center;" aria-label="撤退回公會">
+              <span class="btn-retro-cursor">▶</span> 🏃 撤退 (返回公會)
+            </button>
+          </div>
         </div>
-        <p class="bubble-text" id="bubbleText">歡迎來到白熊人生攻略！點選上方的一個動物代表你自己，來領取你的每日人生指引與冒險裝備吧！</p>
       </div>
     </section>
 
@@ -1073,6 +1449,325 @@
   <!-- === 🛠️ 互動邏輯 JavaScript === -->
   <script src="assets/guidance_quotes.js"></script>
   <script>
+    // ----------------------------------------------------
+    // JRPG 復古勇者冒險戰鬥引擎 JavaScript
+    // ----------------------------------------------------
+    let currentTab = 'board'; // 'board' or 'adventure'
+    let playerHP = 100;
+    let playerMaxHP = 100;
+    let enemyHP = 50;
+    let enemyMaxHP = 50;
+    let enemyIndex = 0; // 0: Slime, 1: Noise, 2: Dragon
+    let isBattleBusy = false;
+    let isDefending = false;
+
+    const monsters = [
+      {
+        name: "雜念史萊姆",
+        hp: 50,
+        atk: 7,
+        xp: 20,
+        img: "assets/monster_slime.png",
+        attrChance: 0.15, // 15% 隨機屬性提升
+        deathDesc: "👾【雜念史萊姆】發出啵的一聲，化作無效的噪音封包消失了！"
+      },
+      {
+        name: "混亂噪音怪",
+        hp: 130,
+        atk: 14,
+        xp: 45,
+        img: "assets/monster_noise.png",
+        attrChance: 0.30, // 30% 隨機屬性提升
+        deathDesc: "👾【混亂噪音怪】劇烈抖動閃爍，直接被 NAS 防火牆封鎖切斷！"
+      },
+      {
+        name: "焦慮紫晶龍",
+        hp: 360,
+        atk: 26,
+        xp: 120,
+        img: "assets/monster_dragon.png",
+        attrChance: 1.0, // 100% 隨機屬性提升
+        deathDesc: "🐉【焦慮紫晶龍】發出一聲悲鳴，碎裂成萬千璀璨的複利水晶！"
+      }
+    ];
+
+    function switchGuildTab(tabId) {
+      if (isBattleBusy && tabId === 'board') {
+        return;
+      }
+      
+      currentTab = tabId;
+      const tabBtnBoard = document.getElementById('tabBtnBoard');
+      const tabBtnAdventure = document.getElementById('tabBtnAdventure');
+      const boardContent = document.getElementById('guildBoardContent');
+      const adventureContent = document.getElementById('guildAdventureContent');
+      
+      if (tabId === 'board') {
+        tabBtnBoard.classList.add('active');
+        tabBtnBoard.setAttribute('aria-selected', 'true');
+        tabBtnAdventure.classList.remove('active');
+        tabBtnAdventure.setAttribute('aria-selected', 'false');
+        
+        boardContent.style.display = 'block';
+        adventureContent.style.display = 'none';
+      } else {
+        tabBtnAdventure.classList.add('active');
+        tabBtnAdventure.setAttribute('aria-selected', 'true');
+        tabBtnBoard.classList.remove('active');
+        tabBtnBoard.setAttribute('aria-selected', 'false');
+        
+        boardContent.style.display = 'none';
+        adventureContent.style.display = 'block';
+        
+        initBattle(enemyIndex);
+      }
+    }
+
+    function initBattle(monsterIdx) {
+      isBattleBusy = false;
+      isDefending = false;
+      enemyIndex = monsterIdx;
+      
+      const screen = document.getElementById('retroGameScreen');
+      const existingOverlay = screen.querySelector('.retro-overlay');
+      if (existingOverlay) existingOverlay.remove();
+
+      const pNameEl = document.getElementById('pBattleName');
+      const savedAnimal = localStorage.getItem('baixiong_adventurer_animal') || 'bear';
+      const animalEmojis = { bear: "🐻", cat: "🐱", bunny: "🐰", monkey: "🐵" };
+      const animalTitles = { bear: "白熊勇者", cat: "小貓勇者", bunny: "小兔勇者", monkey: "小猴勇者" };
+      
+      const pName = `${animalEmojis[savedAnimal]} ${animalTitles[savedAnimal]}`;
+      pNameEl.innerText = pName;
+
+      playerMaxHP = 100 + userAttrs.vit * 10;
+      playerHP = playerMaxHP;
+
+      const monster = monsters[enemyIndex];
+      const eNameEl = document.getElementById('eBattleName');
+      const monsterSprite = document.getElementById('retroMonsterSprite');
+      
+      eNameEl.innerText = `👾 ${monster.name}`;
+      enemyMaxHP = monster.hp;
+      enemyHP = enemyMaxHP;
+      
+      monsterSprite.src = monster.img;
+      monsterSprite.style.opacity = '1';
+      monsterSprite.style.filter = 'none';
+
+      updateBattleHPUI();
+
+      const logArea = document.getElementById('retroLogArea');
+      logArea.innerHTML = `「野生的【${monster.name}】出現了！<br>${pName}，請下達冒險決策！」`;
+    }
+
+    function updateBattleHPUI() {
+      const pHPText = document.getElementById('pHPText');
+      const pHPFill = document.getElementById('pHPFill');
+      const eHPText = document.getElementById('eHPText');
+      const eHPFill = document.getElementById('eHPFill');
+
+      pHPText.innerText = `HP: ${playerHP} / ${playerMaxHP}`;
+      const pPct = (playerHP / playerMaxHP) * 100;
+      pHPFill.style.width = `${Math.max(0, pPct)}%`;
+
+      eHPText.innerText = `HP: ${enemyHP} / ${enemyMaxHP}`;
+      const ePct = (enemyHP / enemyMaxHP) * 100;
+      eHPFill.style.width = `${Math.max(0, ePct)}%`;
+    }
+
+    function writeBattleLog(htmlText) {
+      const logArea = document.getElementById('retroLogArea');
+      logArea.innerHTML += `<br>▶ ${htmlText}`;
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    function spawnDamageText(text, offsetType) {
+      const screen = document.getElementById('retroGameScreen');
+      const dmgEl = document.createElement('div');
+      
+      if (text.startsWith('+')) {
+        dmgEl.className = 'damage-text heal-txt';
+      } else {
+        dmgEl.className = 'damage-text enemy-dmg';
+      }
+      dmgEl.innerText = text;
+      
+      if (offsetType === 'monster') {
+        dmgEl.style.left = '50%';
+        dmgEl.style.top = '45%';
+      } else if (offsetType === 'player') {
+        dmgEl.style.left = '25%';
+        dmgEl.style.top = '15%';
+      }
+      
+      screen.appendChild(dmgEl);
+      setTimeout(() => dmgEl.remove(), 800);
+    }
+
+    async function handleBattleAction(actionType) {
+      if (isBattleBusy) return;
+      isBattleBusy = true;
+
+      const monster = monsters[enemyIndex];
+      let dmg = 0;
+      let logMsg = "";
+      let isCrit = false;
+
+      if (actionType === 'agi') {
+        dmg = Math.floor(10 + userAttrs.agi * 1.6 + Math.random() * 5);
+        if (Math.random() < 0.95) {
+          logMsg = `勇者使出【執行斬】！對【${monster.name}】造成 ${dmg} 點物理傷害！`;
+        } else {
+          dmg = 0;
+          logMsg = `勇者使出【執行斬】！但行動不夠果斷，被怪物閃開了！`;
+        }
+      } else if (actionType === 'int') {
+        dmg = Math.floor(6 + userAttrs.int * 2.5 + Math.random() * 8);
+        if (Math.random() < 0.90) {
+          if (Math.random() < 0.18) {
+            dmg = Math.floor(dmg * 2.2);
+            isCrit = true;
+            logMsg = `🧠 觸發「思維爆脹」！【智慧雷擊】產生大暴擊！對【${monster.name}】造成 ${dmg} 點精神暴擊！`;
+          } else {
+            logMsg = `勇者使出【智慧雷擊】！智慧火花閃爍，對【${monster.name}】造成 ${dmg} 點腦波衝擊！`;
+          }
+        } else {
+          dmg = 0;
+          logMsg = `勇者使出【智慧雷擊】！但大腦瞬間當機，雷擊未能釋放！`;
+        }
+      } else if (actionType === 'foc') {
+        const critRate = 0.22 + userAttrs.foc * 0.035;
+        if (Math.random() < 0.85) {
+          if (Math.random() < critRate) {
+            dmg = Math.floor((8 + userAttrs.foc * 1.8 + Math.random() * 4) * 2.6);
+            isCrit = true;
+            logMsg = `⚡ 專注力極致聚焦！【專注突刺】命中了心靈破綻！對【${monster.name}】造成了 ${dmg} 點真實傷害！`;
+          } else {
+            dmg = Math.floor(5 + userAttrs.foc * 1.0 + Math.random() * 3);
+            logMsg = `勇者使出【專注突刺】，但未能擊中弱點，造成了微弱的 ${dmg} 點傷害。`;
+          }
+        } else {
+          dmg = 0;
+          logMsg = `勇者試圖進行【專注突刺】，但受到外部噪音干擾，未能命中目標！`;
+        }
+      } else if (actionType === 'vit') {
+        const heal = Math.floor(18 + userAttrs.vit * 2.8 + Math.random() * 7);
+        playerHP = Math.min(playerMaxHP, playerHP + heal);
+        isDefending = true;
+        logMsg = `🛡️ 勇者啟動【降噪防護罩】！阻絕環境雜音，回復了 ${heal} 點生命，並進入雙倍防禦姿態！`;
+        spawnDamageText(`+${heal}`, 'player');
+        updateBattleHPUI();
+      }
+
+      if (actionType !== 'vit' && dmg > 0) {
+        const sprite = document.getElementById('retroMonsterSprite');
+        sprite.classList.add('hit');
+        spawnDamageText(`-${dmg}`, 'monster');
+        enemyHP = Math.max(0, enemyHP - dmg);
+        updateBattleHPUI();
+        
+        setTimeout(() => {
+          sprite.classList.remove('hit');
+        }, 300);
+      }
+
+      writeBattleLog(logMsg);
+
+      if (enemyHP <= 0) {
+        setTimeout(handleVictory, 1000);
+        return;
+      }
+
+      setTimeout(handleEnemyTurn, 1200);
+    }
+
+    function handleEnemyTurn() {
+      if (enemyHP <= 0 || playerHP <= 0) return;
+
+      const monster = monsters[enemyIndex];
+      const screen = document.getElementById('retroGameScreen');
+      
+      let mDmg = Math.floor(monster.atk * 0.75 + Math.random() * (monster.atk * 0.5));
+      let logMsg = "";
+
+      if (isDefending) {
+        mDmg = Math.floor(mDmg * 0.45);
+        isDefending = false;
+        logMsg = `【${monster.name}】使出了【噪音干擾】！被降噪盾阻擋，勇者僅受到 ${mDmg} 點精神挫折！`;
+      } else {
+        logMsg = `【${monster.name}】發動了【分心咆哮】！對勇者造成 ${mDmg} 點精神內耗！`;
+      }
+
+      screen.classList.add('shake');
+      spawnDamageText(`-${mDmg}`, 'player');
+      playerHP = Math.max(0, playerHP - mDmg);
+      updateBattleHPUI();
+
+      setTimeout(() => {
+        screen.classList.remove('shake');
+      }, 300);
+
+      writeBattleLog(logMsg);
+
+      if (playerHP <= 0) {
+        setTimeout(handleDefeat, 1000);
+      } else {
+        isBattleBusy = false;
+      }
+    }
+
+    function handleVictory() {
+      const monster = monsters[enemyIndex];
+      const sprite = document.getElementById('retroMonsterSprite');
+      
+      sprite.style.opacity = '0';
+      sprite.style.filter = 'grayscale(1)';
+      
+      writeBattleLog(monster.deathDesc);
+
+      setTimeout(() => {
+        const oldXP = userXP;
+        addXP(monster.xp);
+        
+        let attrMsg = "";
+        if (Math.random() < monster.attrChance) {
+          const attrKeys = ['int', 'vit', 'foc', 'agi'];
+          const attrNames = { int: '智慧', vit: '韌性', foc: '專注', agi: '執行' };
+          const randomAttr = attrKeys[Math.floor(Math.random() * attrKeys.length)];
+          
+          userAttrs[randomAttr] += 1;
+          localStorage.setItem(`baixiong_adventurer_${randomAttr}`, userAttrs[randomAttr]);
+          updateAttributesUI();
+          attrMsg = `額外獲得：【${attrNames[randomAttr]}】屬性 +1 ✨`;
+        }
+
+        const screen = document.getElementById('retroGameScreen');
+        const overlay = document.createElement('div');
+        overlay.className = 'retro-overlay';
+        
+        overlay.innerHTML = `
+          <span class="retro-overlay-title victory">⚔️ BATTLE VICTORY!</span>
+          <span style="font-size:0.82rem; color:#f7f7f0; font-family: monospace;">擊敗了【${monster.name}】</span>
+          <span style="font-size:0.78rem; color:#4ef072; font-family: monospace; font-weight:bold;">獲得了 +${monster.xp} XP！</span>
+          ${attrMsg ? `<span style="font-size:0.75rem; color:#ffd89c; font-family: monospace; font-weight:bold;">${attrMsg}</span>` : ''}
+          <button class="btn-continue" onclick="handleVictoryContinue()" style="margin-top: 10px;">${enemyIndex === 2 ? '繼續冒險 (迴圈挑戰)' : '前進下一關 ➡️'}</button>
+        `;
+        
+        screen.appendChild(overlay);
+        isBattleBusy = false;
+      }, 800);
+    }
+
+    function handleVictoryContinue() {
+      enemyIndex = (enemyIndex + 1) % 3;
+      initBattle(enemyIndex);
+    }
+
+    window.switchGuildTab = switchGuildTab;
+    window.handleVictoryContinue = handleVictoryContinue;
+    window.handleBattleAction = handleBattleAction;
+
     // ----------------------------------------------------
     // 1. 書籍橫幅輪播 (Carousel)
     // ----------------------------------------------------
@@ -1287,7 +1982,7 @@
 
     // 全網頁互動點擊 +5 XP 與 20% 機率加屬性特權
     document.addEventListener('click', (e) => {
-      if (e.target.closest('#btnTrain, #btnRefresh')) return;
+      if (e.target.closest('#btnTrain, #btnRefresh, .btn-retro, .btn-continue')) return;
       
       const isInteractive = e.target.closest('a, button, .carousel-slide, .guild-xp-container');
       if (isInteractive) {
