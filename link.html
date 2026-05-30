@@ -922,6 +922,7 @@
     .retro-stats-area {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       border-bottom: 2px solid #ffffff;
       padding-bottom: 8px;
       margin-bottom: 12px;
@@ -929,14 +930,49 @@
       line-height: 1.4;
     }
 
-    .retro-player-stats, .retro-enemy-stats {
+    .retro-party-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px 6px;
+      width: 58%;
+    }
+
+    .retro-member-row {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
-      width: 46%;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: #ffffff;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+
+    .retro-member-row.ko {
+      text-decoration: line-through;
+      color: #ff4d4d;
+      opacity: 0.5;
+      background: rgba(255, 77, 77, 0.1);
+      border-color: rgba(255, 77, 77, 0.2);
+    }
+
+    .retro-member-hp {
+      font-family: monospace;
+      font-weight: bold;
+      color: #4ef072;
+    }
+
+    .retro-member-row.ko .retro-member-hp {
+      color: #ff4d4d;
     }
 
     .retro-enemy-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 38%;
       align-items: flex-end;
       text-align: right;
     }
@@ -1079,6 +1115,42 @@
       color: #ffd89c;
       font-weight: bold;
       font-size: 0.72rem;
+    }
+
+    .retro-stage-select {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 4px 0;
+    }
+
+    .retro-stage-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 2px solid #ffffff;
+      background: #000000;
+      color: #ffffff;
+      padding: 8px 12px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.76rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+      text-align: left;
+    }
+
+    .retro-stage-item.locked {
+      border-color: #555555;
+      color: #777777;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .retro-stage-item:not(.locked):hover {
+      background: #ffffff;
+      color: #000000;
     }
 
     .damage-text {
@@ -1389,102 +1461,318 @@
       <!-- 分頁二：勇者冒險 JRPG 戰鬥系統 -->
       <div id="guildAdventureContent" style="display: none;">
         <div class="retro-game-screen" id="retroGameScreen">
-          <!-- 戰鬥頂部狀態欄 -->
-          <div class="retro-stats-area">
-            <div class="retro-player-stats">
-              <span class="retro-name" id="pBattleName">🐻 白熊勇者</span>
-              <span class="retro-hp-text" id="pHPText">HP: 100 / 100</span>
-              <div class="retro-hp-container">
-                <div class="retro-hp-fill player-hp" id="pHPFill" style="width: 100%;"></div>
-              </div>
-            </div>
-            <div class="retro-enemy-stats">
-              <span class="retro-name" id="eBattleName">👾 雜念史萊姆</span>
-              <span class="retro-hp-text" id="eHPText">HP: 50 / 50</span>
-              <div class="retro-hp-container">
-                <div class="retro-hp-fill" id="eHPFill" style="width: 100%;"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 戰鬥視覺展示區 -->
-          <div class="retro-visual-area" id="retroVisualArea">
-            <img src="assets/monster_slime.png" class="retro-monster-sprite" id="retroMonsterSprite" alt="戰鬥怪物">
-          </div>
-
-          <!-- 戰鬥紀錄對話框 -->
-          <div class="retro-log-area" id="retroLogArea">
-            「野生的【雜念史萊姆】出現了！白熊勇者，請下達冒險決策！」
-          </div>
-
-          <!-- 指令區 -->
-          <div class="retro-commands">
-            <button class="btn-retro" onclick="handleBattleAction('agi')" aria-label="執行斬攻擊">
-              <span class="btn-retro-cursor">▶</span> ⚔️ 執行斬 (AGI)
-            </button>
-            <button class="btn-retro" onclick="handleBattleAction('int')" aria-label="智慧雷擊魔攻">
-              <span class="btn-retro-cursor">▶</span> 🧠 智慧雷擊 (INT)
-            </button>
-            <button class="btn-retro" onclick="handleBattleAction('vit')" aria-label="降噪防護回血與防禦">
-              <span class="btn-retro-cursor">▶</span> 🛡️ 降噪防護 (VIT)
-            </button>
-            <button class="btn-retro" onclick="handleBattleAction('foc')" aria-label="專注突刺高暴擊攻擊">
-              <span class="btn-retro-cursor">▶</span> ⚡ 專注突刺 (FOC)
-            </button>
-          </div>
           
-          <!-- 逃跑按鈕 -->
-          <div style="margin-top: 10px; display: flex; justify-content: center;">
-            <button class="btn-retro" onclick="switchGuildTab('board')" style="width: 100%; justify-content: center;" aria-label="撤退回公會">
-              <span class="btn-retro-cursor">▶</span> 🏃 撤退 (返回公會)
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <p class="link-more">更多內容 → <a href="https://www.instagram.com/baixiong.lifeos/" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:underline;">IG</a> / <a href="https://www.youtube.com/@白熊人生攻略" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:underline;">YouTube</a></p>
-  </main>
-
-  <!-- === 🛠️ 互動邏輯 JavaScript === -->
-  <script src="assets/guidance_quotes.js"></script>
-  <script>
+          <!-- 討伐任務選擇區 Stage Select -->
+          <div id="adventureStageSelectArea">
+            <div style="text-align: center; border-bottom: 2px solid #ffffff; padding-bottom: 8px; margin-bottom: 12px;">
+              <span style="font-size: 0.9rem; font-weight: bold; color: #ffd89c; font-family: monospace;">⚔️ 冒險者公會：討伐任務選擇 ⚔️</span>
+            </div>
+            <p style="font-size: 0.72rem; color: rgba(255,255,255,0.7); line-height: 1.4; margin-bottom: 12px; font-family: monospace;">
     // ----------------------------------------------------
     // JRPG 復古勇者冒險戰鬥引擎 JavaScript
     // ----------------------------------------------------
     let currentTab = 'board'; // 'board' or 'adventure'
-    let playerHP = 100;
-    let playerMaxHP = 100;
     let enemyHP = 50;
     let enemyMaxHP = 50;
-    let enemyIndex = 0; // 0: Slime, 1: Noise, 2: Dragon
+    let enemyIndex = 0; // 0 to 4
     let isBattleBusy = false;
     let isDefending = false;
+
+    let party = [
+      { name: "智者白熊", emoji: "🐻", attr: "int", hp: 100, maxHp: 100 },
+      { name: "除錯小貓", emoji: "🐱", attr: "vit", hp: 100, maxHp: 100 },
+      { name: "降噪小兔", emoji: "🐰", attr: "foc", hp: 100, maxHp: 100 },
+      { name: "理智小猴", emoji: "🐵", attr: "agi", hp: 100, maxHp: 100 }
+    ];
+
+    // ==========================================
+    // 8-bit 復古 Web Audio API 音效與配樂引擎
+    // ==========================================
+    let audioCtx = null;
+    let bgmInterval = null;
+    let bgmTempo = 135; // BPM
+    let bgmBeat = 0;
+    let isRetroMuted = localStorage.getItem('baixiong_retro_muted') === 'true';
+
+    // 經典勇者鬥惡龍/最終幻想風格的復古戰鬥小調 (NES Chiptune Style)
+    const bgmMelody = [
+      "A3", "E4", "A4", "B4", "C5", "B4", "A4", "E4",
+      "G3", "D4", "G4", "A4", "B4", "A4", "G4", "D4",
+      "F3", "C4", "F4", "G4", "A4", "G4", "F4", "C4",
+      "E3", "B3", "E4", "F#4", "G#4", "F#4", "E4", "B3"
+    ];
+    const bgmNoteFreqs = {
+      "A3": 220.00, "B3": 246.94, "C4": 261.63, "D4": 293.66, "E4": 329.63, "F4": 349.23, "F#4": 369.99, "G4": 392.00, "G#4": 415.30,
+      "A4": 440.00, "B4": 493.88, "C5": 523.25, "D5": 587.33, "E5": 659.25
+    };
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleRetroMute() {
+      initAudioContext();
+      isRetroMuted = !isRetroMuted;
+      localStorage.setItem('baixiong_retro_muted', isRetroMuted);
+      
+      const muteBtn = document.getElementById('btnRetroMute');
+      if (isRetroMuted) {
+        muteBtn.innerText = '🔇 靜音';
+        stopBgm();
+      } else {
+        muteBtn.innerText = '🔊 聲音';
+        if (currentTab === 'adventure' && document.getElementById('adventureBattleArea').style.display === 'block') {
+          startBgm();
+        }
+      }
+    }
+
+    function startBgm() {
+      if (isRetroMuted) return;
+      initAudioContext();
+      stopBgm();
+      bgmBeat = 0;
+      
+      const stepDuration = 60 / bgmTempo / 2; // 八分音符
+      
+      bgmInterval = setInterval(() => {
+        if (!audioCtx || audioCtx.state === 'suspended' || isRetroMuted) return;
+        
+        const noteName = bgmMelody[bgmBeat % bgmMelody.length];
+        const freq = bgmNoteFreqs[noteName];
+        
+        if (freq) {
+          playBgmNote(freq, stepDuration * 0.95);
+        }
+        
+        bgmBeat++;
+      }, stepDuration * 1000);
+    }
+
+    function stopBgm() {
+      if (bgmInterval) {
+        clearInterval(bgmInterval);
+        bgmInterval = null;
+      }
+    }
+
+    function playBgmNote(freq, duration) {
+      if (isRetroMuted || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc.type = 'square'; // 復古 NES 矩形波
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    // AGI / FOC / INT 攻擊音效 (Sawtooth 劈砍)
+    function playSlashSFX() {
+      if (isRetroMuted || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(900, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.14);
+      
+      gainNode.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.14);
+      
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.14);
+    }
+
+    // VIT 降噪治療音效 (Arpeggio 上行和弦)
+    function playHealSFX() {
+      if (isRetroMuted || !audioCtx) return;
+      const now = audioCtx.currentTime;
+      const notes = [261.63, 329.63, 392.00, 523.25]; // C 和弦上行 arpeggio
+      
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'triangle'; // 三角波暖音
+        osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+        
+        gainNode.gain.setValueAtTime(0.05, now + idx * 0.05);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.18);
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.start(now + idx * 0.05);
+        osc.stop(now + idx * 0.05 + 0.18);
+      });
+    }
+
+    // 玩家被怪物攻擊音效 (低沉 Noise 撞擊)
+    function playHitSFX() {
+      if (isRetroMuted || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(60, audioCtx.currentTime + 0.06);
+      
+      gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+      
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.12);
+    }
+
+    // 勝利樂章 (Classic JRPG Victory Fanfare)
+    function playVictorySFX() {
+      if (isRetroMuted || !audioCtx) return;
+      stopBgm();
+      const now = audioCtx.currentTime;
+      const notes = [
+        { f: 523.25, d: 0.09 }, // C5
+        { f: 523.25, d: 0.09 }, // C5
+        { f: 523.25, d: 0.09 }, // C5
+        { f: 523.25, d: 0.22 }, // C5
+        { f: 415.30, d: 0.18 }, // Ab4
+        { f: 466.16, d: 0.18 }, // Bb4
+        { f: 523.25, d: 0.45 }  // C5
+      ];
+      
+      let t = now;
+      notes.forEach(note => {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(note.f, t);
+        
+        gainNode.gain.setValueAtTime(0.04, t);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, t + note.d);
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.start(t);
+        osc.stop(t + note.d);
+        t += note.d * 1.08;
+      });
+    }
+
+    // 戰敗悲鳴 (Minor Fall Down)
+    function playDefeatSFX() {
+      if (isRetroMuted || !audioCtx) return;
+      stopBgm();
+      const now = audioCtx.currentTime;
+      const notes = [
+        { f: 392.00, d: 0.25 }, // G4
+        { f: 369.99, d: 0.25 }, // F#4
+        { f: 349.23, d: 0.25 }, // F4
+        { f: 311.13, d: 0.6 }   // Eb4
+      ];
+      
+      let t = now;
+      notes.forEach(note => {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(note.f, t);
+        
+        gainNode.gain.setValueAtTime(0.04, t);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, t + note.d);
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.start(t);
+        osc.stop(t + note.d);
+        t += note.d * 1.12;
+      });
+    }
+
+    // 鎖定錯誤音效 (Low beep)
+    function playErrorSFX() {
+      if (isRetroMuted || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(110, audioCtx.currentTime);
+      
+      gainNode.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+      
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.15);
+    }
 
     const monsters = [
       {
         name: "雜念史萊姆",
-        hp: 50,
-        atk: 7,
+        hp: 45,
+        atk: 6,
         xp: 20,
+        reqLevel: 1,
         img: "assets/monster_slime.png",
         attrChance: 0.15, // 15% 隨機屬性提升
         deathDesc: "👾【雜念史萊姆】發出啵的一聲，化作無效的噪音封包消失了！"
       },
       {
+        name: "拖延症蝸牛",
+        hp: 95,
+        atk: 11,
+        xp: 40,
+        reqLevel: 10,
+        img: "assets/monster_snail.png",
+        attrChance: 0.25, // 25% 隨機屬性提升
+        deathDesc: "🐌【拖延症蝸牛】縮進了硬殼，隨後在全隊的果斷執行力下被徹底蒸發！"
+      },
+      {
         name: "混亂噪音怪",
-        hp: 130,
-        atk: 14,
-        xp: 45,
+        hp: 170,
+        atk: 17,
+        xp: 65,
+        reqLevel: 30,
         img: "assets/monster_noise.png",
-        attrChance: 0.30, // 30% 隨機屬性提升
+        attrChance: 0.40, // 40% 隨機屬性提升
         deathDesc: "👾【混亂噪音怪】劇烈抖動閃爍，直接被 NAS 防火牆封鎖切斷！"
       },
       {
+        name: "完美主義魔像",
+        hp: 290,
+        atk: 24,
+        xp: 110,
+        reqLevel: 50,
+        img: "assets/monster_golem.png",
+        attrChance: 0.60, // 60% 隨機屬性提升
+        deathDesc: "🤖【完美主義魔像】發出咔嚓咔嚓的斷裂聲，碎裂成十幾個不完美的微小代碼塊！"
+      },
+      {
         name: "焦慮紫晶龍",
-        hp: 360,
-        atk: 26,
-        xp: 120,
+        hp: 520,
+        atk: 35,
+        xp: 250,
+        reqLevel: 80,
         img: "assets/monster_dragon.png",
         attrChance: 1.0, // 100% 隨機屬性提升
         deathDesc: "🐉【焦慮紫晶龍】發出一聲悲鳴，碎裂成萬千璀璨的複利水晶！"
@@ -1510,6 +1798,7 @@
         
         boardContent.style.display = 'block';
         adventureContent.style.display = 'none';
+        stopBgm();
       } else {
         tabBtnAdventure.classList.add('active');
         tabBtnAdventure.setAttribute('aria-selected', 'true');
@@ -1519,8 +1808,48 @@
         boardContent.style.display = 'none';
         adventureContent.style.display = 'block';
         
-        initBattle(enemyIndex);
+        showStageSelect();
       }
+    }
+
+    function showStageSelect() {
+      stopBgm();
+      const stageSelectArea = document.getElementById('adventureStageSelectArea');
+      const battleArea = document.getElementById('adventureBattleArea');
+      stageSelectArea.style.display = 'block';
+      battleArea.style.display = 'none';
+
+      const info = getLevelInfo(userXP);
+      const userLevel = info.level;
+
+      const selectContainer = document.getElementById('retroStageSelect');
+      selectContainer.innerHTML = '';
+
+      monsters.forEach((m, idx) => {
+        const isLocked = userLevel < m.reqLevel;
+        const item = document.createElement('div');
+        item.className = `retro-stage-item ${isLocked ? 'locked' : ''}`;
+        
+        if (isLocked) {
+          item.innerHTML = `
+            <span>🔒 討伐：${m.name}</span>
+            <span style="font-size: 0.68rem; color: #ff4d4d; font-family: monospace;">需要等級 LV.${m.reqLevel}</span>
+          `;
+          item.onclick = (e) => {
+            e.stopPropagation();
+            playErrorSFX();
+          };
+        } else {
+          item.innerHTML = `
+            <span>⚔️ 討伐：${m.name} (LV.${m.reqLevel})</span>
+            <span style="font-size: 0.68rem; color: #4ef072; font-family: monospace;">HP: ${m.hp} | 獎勵: +${m.xp} XP</span>
+          `;
+          item.onclick = () => {
+            initBattle(idx);
+          };
+        }
+        selectContainer.appendChild(item);
+      });
     }
 
     function initBattle(monsterIdx) {
@@ -1529,19 +1858,26 @@
       enemyIndex = monsterIdx;
       
       const screen = document.getElementById('retroGameScreen');
-      const existingOverlay = screen.querySelector('.retro-overlay');
-      if (existingOverlay) existingOverlay.remove();
+      const existingOverlay = screen.querySelectorAll('.retro-overlay');
+      existingOverlay.forEach(el => el.remove());
 
-      const pNameEl = document.getElementById('pBattleName');
-      const savedAnimal = localStorage.getItem('baixiong_adventurer_animal') || 'bear';
-      const animalEmojis = { bear: "🐻", cat: "🐱", bunny: "🐰", monkey: "🐵" };
-      const animalTitles = { bear: "白熊勇者", cat: "小貓勇者", bunny: "小兔勇者", monkey: "小猴勇者" };
-      
-      const pName = `${animalEmojis[savedAnimal]} ${animalTitles[savedAnimal]}`;
-      pNameEl.innerText = pName;
+      const stageSelectArea = document.getElementById('adventureStageSelectArea');
+      const battleArea = document.getElementById('adventureBattleArea');
+      stageSelectArea.style.display = 'none';
+      battleArea.style.display = 'block';
 
-      playerMaxHP = 100 + userAttrs.vit * 10;
-      playerHP = playerMaxHP;
+      const info = getLevelInfo(userXP);
+      const userLevel = info.level;
+
+      // HP scales with current level and respective attributes
+      party[0].maxHp = 60 + userLevel * 3 + userAttrs.int * 8;
+      party[1].maxHp = 60 + userLevel * 3 + userAttrs.vit * 10;
+      party[2].maxHp = 60 + userLevel * 3 + userAttrs.foc * 8;
+      party[3].maxHp = 60 + userLevel * 3 + userAttrs.agi * 8;
+
+      party.forEach(m => {
+        m.hp = m.maxHp;
+      });
 
       const monster = monsters[enemyIndex];
       const eNameEl = document.getElementById('eBattleName');
@@ -1555,21 +1891,79 @@
       monsterSprite.style.opacity = '1';
       monsterSprite.style.filter = 'none';
 
-      updateBattleHPUI();
+      const muteBtn = document.getElementById('btnRetroMute');
+      if (muteBtn) {
+        muteBtn.innerText = isRetroMuted ? '🔇 靜音' : '🔊 聲音';
+      }
+
+      updatePartyUI();
+      updateCommandsUI();
+      updateBattleHPUIOnlyEnemy();
+      startBgm();
 
       const logArea = document.getElementById('retroLogArea');
-      logArea.innerHTML = `「野生的【${monster.name}】出現了！<br>${pName}，請下達冒險決策！」`;
+      logArea.innerHTML = `「野生的【${monster.name}】出現了！<br>白熊勇者小隊，請下達冒險決策！」`;
     }
 
-    function updateBattleHPUI() {
-      const pHPText = document.getElementById('pHPText');
-      const pHPFill = document.getElementById('pHPFill');
+    function updatePartyUI() {
+      const grid = document.getElementById('retroPartyGrid');
+      grid.innerHTML = '';
+      
+      party.forEach((member, idx) => {
+        const row = document.createElement('div');
+        row.id = `pMember-${idx}`;
+        row.className = `retro-member-row ${member.hp <= 0 ? 'ko' : ''}`;
+        
+        const emoji = member.hp <= 0 ? '⚰️' : member.emoji;
+        
+        row.innerHTML = `
+          <span class="retro-member-emoji">${emoji}</span>
+          <span class="retro-member-name" style="margin-left: 4px; font-weight: bold;">${member.name}</span>
+          <span class="retro-member-hp" style="margin-left: auto;">${member.hp}/${member.maxHp}</span>
+        `;
+        grid.appendChild(row);
+      });
+    }
+
+    function updateCommandsUI() {
+      const container = document.getElementById('retroCommands');
+      container.innerHTML = '';
+
+      const actions = [
+        { key: 'agi', charIdx: 3, label: '⚔️ 執行斬 (小猴)', desc: 'AGI 物理單體攻擊' },
+        { key: 'int', charIdx: 0, label: '🧠 智慧雷擊 (白熊)', desc: 'INT 魔法大暴擊' },
+        { key: 'vit', charIdx: 1, label: '🛡️ 降噪防護 (小貓)', desc: 'VIT 全員恢復+防禦' },
+        { key: 'foc', charIdx: 2, label: '⚡ 專注突刺 (小兔)', desc: 'FOC 心靈真實傷害' }
+      ];
+
+      actions.forEach(act => {
+        const char = party[act.charIdx];
+        const isDead = char.hp <= 0;
+        const btn = document.createElement('button');
+        btn.className = 'btn-retro';
+        btn.style.width = '100%';
+        
+        if (isDead) {
+          btn.innerHTML = `<span class="btn-retro-cursor">❌</span> 💀 已力竭 (${char.name})`;
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+          btn.onclick = () => {
+            playErrorSFX();
+            writeBattleLog(`「💀【${char.name}】已力竭退場化作防禦棺材，無法行動！」`);
+          };
+        } else {
+          btn.innerHTML = `<span class="btn-retro-cursor">▶</span> ${act.label}`;
+          btn.onclick = () => {
+            handleBattleAction(act.key);
+          };
+        }
+        container.appendChild(btn);
+      });
+    }
+
+    function updateBattleHPUIOnlyEnemy() {
       const eHPText = document.getElementById('eHPText');
       const eHPFill = document.getElementById('eHPFill');
-
-      pHPText.innerText = `HP: ${playerHP} / ${playerMaxHP}`;
-      const pPct = (playerHP / playerMaxHP) * 100;
-      pHPFill.style.width = `${Math.max(0, pPct)}%`;
 
       eHPText.innerText = `HP: ${enemyHP} / ${enemyMaxHP}`;
       const ePct = (enemyHP / enemyMaxHP) * 100;
@@ -1582,7 +1976,7 @@
       logArea.scrollTop = logArea.scrollHeight;
     }
 
-    function spawnDamageText(text, offsetType) {
+    function spawnDamageText(text, offsetType, memberIdx) {
       const screen = document.getElementById('retroGameScreen');
       const dmgEl = document.createElement('div');
       
@@ -1594,11 +1988,16 @@
       dmgEl.innerText = text;
       
       if (offsetType === 'monster') {
-        dmgEl.style.left = '50%';
+        dmgEl.style.left = '75%';
         dmgEl.style.top = '45%';
       } else if (offsetType === 'player') {
-        dmgEl.style.left = '25%';
-        dmgEl.style.top = '15%';
+        if (memberIdx !== undefined) {
+          dmgEl.style.left = '25%';
+          dmgEl.style.top = `${15 + memberIdx * 10}%`;
+        } else {
+          dmgEl.style.left = '25%';
+          dmgEl.style.top = '30%';
+        }
       }
       
       screen.appendChild(dmgEl);
@@ -1613,51 +2012,68 @@
       let dmg = 0;
       let logMsg = "";
       let isCrit = false;
+      const info = getLevelInfo(userXP);
+      const userLevel = info.level;
 
       if (actionType === 'agi') {
-        dmg = Math.floor(10 + userAttrs.agi * 1.6 + Math.random() * 5);
+        // 小猴攻擊
+        dmg = Math.floor(10 + userLevel * 0.4 + userAttrs.agi * 1.8 + Math.random() * 5);
         if (Math.random() < 0.95) {
-          logMsg = `勇者使出【執行斬】！對【${monster.name}】造成 ${dmg} 點物理傷害！`;
+          playSlashSFX();
+          logMsg = `🐵【理智小猴】使出【執行斬】！敏捷劈砍，對【${monster.name}】造成 ${dmg} 點物理傷害！`;
         } else {
+          playErrorSFX();
           dmg = 0;
-          logMsg = `勇者使出【執行斬】！但行動不夠果斷，被怪物閃開了！`;
+          logMsg = `🐵【理智小猴】使出【執行斬】！但行動猶豫了，被怪物閃開！`;
         }
       } else if (actionType === 'int') {
-        dmg = Math.floor(6 + userAttrs.int * 2.5 + Math.random() * 8);
+        // 白熊攻擊
+        dmg = Math.floor(6 + userLevel * 0.5 + userAttrs.int * 2.8 + Math.random() * 8);
         if (Math.random() < 0.90) {
+          playSlashSFX();
           if (Math.random() < 0.18) {
             dmg = Math.floor(dmg * 2.2);
             isCrit = true;
-            logMsg = `🧠 觸發「思維爆脹」！【智慧雷擊】產生大暴擊！對【${monster.name}】造成 ${dmg} 點精神暴擊！`;
+            logMsg = `🧠 觸發「思維爆脹」！🐻【智者白熊】的【智慧雷擊】產生精神暴擊！對【${monster.name}】造成 ${dmg} 點大暴擊！💥`;
           } else {
-            logMsg = `勇者使出【智慧雷擊】！智慧火花閃爍，對【${monster.name}】造成 ${dmg} 點腦波衝擊！`;
+            logMsg = `🐻【智者白熊】使出【智慧雷擊】！智慧火花閃爍，對【${monster.name}】造成 ${dmg} 點腦波衝擊！`;
           }
         } else {
+          playErrorSFX();
           dmg = 0;
-          logMsg = `勇者使出【智慧雷擊】！但大腦瞬間當機，雷擊未能釋放！`;
+          logMsg = `🐻【智者白熊】使出【智慧雷擊】！但大腦瞬間當機，雷擊未能釋放！`;
         }
       } else if (actionType === 'foc') {
+        // 小兔攻擊
         const critRate = 0.22 + userAttrs.foc * 0.035;
         if (Math.random() < 0.85) {
+          playSlashSFX();
           if (Math.random() < critRate) {
-            dmg = Math.floor((8 + userAttrs.foc * 1.8 + Math.random() * 4) * 2.6);
+            dmg = Math.floor((8 + userLevel * 0.4 + userAttrs.foc * 2.2 + Math.random() * 4) * 2.5);
             isCrit = true;
-            logMsg = `⚡ 專注力極致聚焦！【專注突刺】命中了心靈破綻！對【${monster.name}】造成了 ${dmg} 點真實傷害！`;
+            logMsg = `⚡ 專注力極致聚焦！🐰【降噪小兔】使出【專注突刺】命中心靈破綻！對【${monster.name}】造成了 ${dmg} 點真實傷害！`;
           } else {
-            dmg = Math.floor(5 + userAttrs.foc * 1.0 + Math.random() * 3);
-            logMsg = `勇者使出【專注突刺】，但未能擊中弱點，造成了微弱的 ${dmg} 點傷害。`;
+            dmg = Math.floor(5 + userLevel * 0.3 + userAttrs.foc * 1.2 + Math.random() * 3);
+            logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，造成了微弱的 ${dmg} 點傷害。`;
           }
         } else {
+          playErrorSFX();
           dmg = 0;
-          logMsg = `勇者試圖進行【專注突刺】，但受到外部噪音干擾，未能命中目標！`;
+          logMsg = `🐰【降噪小兔】試圖進行【專注突刺】，但受到外部噪音干擾，未能命中！`;
         }
       } else if (actionType === 'vit') {
-        const heal = Math.floor(18 + userAttrs.vit * 2.8 + Math.random() * 7);
-        playerHP = Math.min(playerMaxHP, playerHP + heal);
+        // 小貓治療與防禦
+        playHealSFX();
+        const heal = Math.floor(15 + userLevel * 0.3 + userAttrs.vit * 2.2 + Math.random() * 5);
+        party.forEach((m, idx) => {
+          if (m.hp > 0) {
+            m.hp = Math.min(m.maxHp, m.hp + heal);
+            spawnDamageText(`+${heal}`, 'player', idx);
+          }
+        });
         isDefending = true;
-        logMsg = `🛡️ 勇者啟動【降噪防護罩】！阻絕環境雜音，回復了 ${heal} 點生命，並進入雙倍防禦姿態！`;
-        spawnDamageText(`+${heal}`, 'player');
-        updateBattleHPUI();
+        logMsg = `🛡️ 🐱【除錯小貓】啟動【降噪防護罩】！為全員阻絕雜音，全隊回復了 ${heal} 點生命，並進入雙倍防禦姿態！`;
+        updatePartyUI();
       }
 
       if (actionType !== 'vit' && dmg > 0) {
@@ -1665,7 +2081,7 @@
         sprite.classList.add('hit');
         spawnDamageText(`-${dmg}`, 'monster');
         enemyHP = Math.max(0, enemyHP - dmg);
-        updateBattleHPUI();
+        updateBattleHPUIOnlyEnemy();
         
         setTimeout(() => {
           sprite.classList.remove('hit');
@@ -1683,26 +2099,38 @@
     }
 
     function handleEnemyTurn() {
-      if (enemyHP <= 0 || playerHP <= 0) return;
+      if (enemyHP <= 0) return;
+
+      const living = party.filter(m => m.hp > 0);
+      if (living.length === 0) {
+        setTimeout(handleDefeat, 500);
+        return;
+      }
 
       const monster = monsters[enemyIndex];
       const screen = document.getElementById('retroGameScreen');
       
+      const target = living[Math.floor(Math.random() * living.length)];
+      const targetIdx = party.indexOf(target);
+      
       let mDmg = Math.floor(monster.atk * 0.75 + Math.random() * (monster.atk * 0.5));
       let logMsg = "";
+
+      playHitSFX();
 
       if (isDefending) {
         mDmg = Math.floor(mDmg * 0.45);
         isDefending = false;
-        logMsg = `【${monster.name}】使出了【噪音干擾】！被降噪盾阻擋，勇者僅受到 ${mDmg} 點精神挫折！`;
+        logMsg = `【${monster.name}】使出了【噪音干擾】！被降噪盾阻擋，【${target.name}】僅受到 ${mDmg} 點精神挫折！`;
       } else {
-        logMsg = `【${monster.name}】發動了【分心咆哮】！對勇者造成 ${mDmg} 點精神內耗！`;
+        logMsg = `【${monster.name}】發動了【分心咆哮】！【${target.name}】心靈震盪，受到 ${mDmg} 點精神內耗！`;
       }
 
       screen.classList.add('shake');
-      spawnDamageText(`-${mDmg}`, 'player');
-      playerHP = Math.max(0, playerHP - mDmg);
-      updateBattleHPUI();
+      spawnDamageText(`-${mDmg}`, 'player', targetIdx);
+      target.hp = Math.max(0, target.hp - mDmg);
+      updatePartyUI();
+      updateCommandsUI();
 
       setTimeout(() => {
         screen.classList.remove('shake');
@@ -1710,7 +2138,12 @@
 
       writeBattleLog(logMsg);
 
-      if (playerHP <= 0) {
+      if (target.hp <= 0) {
+        writeBattleLog(`💀【${target.name}】心靈被噪音擊碎力竭，退場化作了防禦棺材！⚰️`);
+      }
+
+      const stillLiving = party.filter(m => m.hp > 0);
+      if (stillLiving.length === 0) {
         setTimeout(handleDefeat, 1000);
       } else {
         isBattleBusy = false;
@@ -1724,10 +2157,10 @@
       sprite.style.opacity = '0';
       sprite.style.filter = 'grayscale(1)';
       
+      playVictorySFX();
       writeBattleLog(monster.deathDesc);
 
       setTimeout(() => {
-        const oldXP = userXP;
         addXP(monster.xp);
         
         let attrMsg = "";
@@ -1751,7 +2184,7 @@
           <span style="font-size:0.82rem; color:#f7f7f0; font-family: monospace;">擊敗了【${monster.name}】</span>
           <span style="font-size:0.78rem; color:#4ef072; font-family: monospace; font-weight:bold;">獲得了 +${monster.xp} XP！</span>
           ${attrMsg ? `<span style="font-size:0.75rem; color:#ffd89c; font-family: monospace; font-weight:bold;">${attrMsg}</span>` : ''}
-          <button class="btn-continue" onclick="handleVictoryContinue()" style="margin-top: 10px;">${enemyIndex === 2 ? '繼續冒險 (迴圈挑戰)' : '前進下一關 ➡️'}</button>
+          <button class="btn-continue" onclick="handleVictoryContinue()" style="margin-top: 10px;">返回討伐任務選擇</button>
         `;
         
         screen.appendChild(overlay);
@@ -1760,13 +2193,42 @@
     }
 
     function handleVictoryContinue() {
-      enemyIndex = (enemyIndex + 1) % 3;
-      initBattle(enemyIndex);
+      showStageSelect();
+    }
+
+    function handleDefeat() {
+      const screen = document.getElementById('retroGameScreen');
+      const overlay = document.createElement('div');
+      overlay.className = 'retro-overlay';
+      
+      playDefeatSFX();
+      overlay.innerHTML = `
+        <span class="retro-overlay-title">💀 BATTLE DEFEAT</span>
+        <span style="font-size:0.82rem; color:#f7f7f0; font-family: monospace;">白熊勇者小隊全員力竭...</span>
+        <span style="font-size:0.75rem; color:#ff4d4d; font-family: monospace;">精神內耗過大，退回公會休整！</span>
+        <button class="btn-continue" onclick="handleDefeatContinue()" style="margin-top: 10px; border-color:#ff4d4d; color:#ff4d4d;">返回討伐任務選擇</button>
+      `;
+      
+      screen.appendChild(overlay);
+      isBattleBusy = false;
+    }
+
+    function handleDefeatContinue() {
+      showStageSelect();
+    }
+
+    function handleFlee() {
+      if (isBattleBusy) return;
+      playErrorSFX();
+      showStageSelect();
     }
 
     window.switchGuildTab = switchGuildTab;
     window.handleVictoryContinue = handleVictoryContinue;
     window.handleBattleAction = handleBattleAction;
+    window.handleFlee = handleFlee;
+    window.handleDefeatContinue = handleDefeatContinue;
+    window.toggleRetroMute = toggleRetroMute;
 
     // ----------------------------------------------------
     // 1. 書籍橫幅輪播 (Carousel)
