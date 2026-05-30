@@ -1524,6 +1524,10 @@
         </div>
       </div>
 
+    <!-- === 🔗 社群連結與頁尾 === -->
+    <p class="link-more" style="margin-top: 24px;">更多內容 → <a href="https://www.instagram.com/baixiong.lifeos/" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:underline;">IG</a> / <a href="https://www.youtube.com/@白熊人生攻略" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:underline;">YouTube</a></p>
+  </main>
+
   <!-- === 🛠️ 互動邏輯 JavaScript === -->
   <script src="assets/guidance_quotes.js"></script>
   <script>
@@ -1549,21 +1553,42 @@
     // ==========================================
     let audioCtx = null;
     let bgmInterval = null;
-    let bgmTempo = 135; // BPM
     let bgmBeat = 0;
     let isRetroMuted = localStorage.getItem('baixiong_retro_muted') === 'true';
 
-    // 經典勇者鬥惡龍/最終幻想風格的復古戰鬥小調 (NES Chiptune Style)
-    const bgmMelody = [
+    // 擴展 8-bit 音調頻率字典 (C3 到 B5 完整音域)
+    const bgmNoteFreqs = {
+      // 3度音
+      "C3": 130.81, "C#3": 138.59, "D3": 146.83, "D#3": 155.56, "E3": 164.81, "F3": 174.61, "F#3": 185.00, "G3": 196.00, "G#3": 207.65, "A3": 220.00, "A#3": 233.08, "B3": 246.94,
+      // 4度音
+      "C4": 261.63, "C#4": 277.18, "D4": 293.66, "D#4": 311.13, "E4": 329.63, "F4": 349.23, "F#4": 369.99, "G4": 392.00, "G#4": 415.30, "A4": 440.00, "A#4": 466.16, "B4": 493.88,
+      // 5度音
+      "C5": 523.25, "C#5": 554.37, "D5": 587.33, "D#5": 622.25, "E5": 659.25, "F5": 698.46, "F#5": 739.99, "G5": 783.99, "G#5": 830.61, "A5": 880.00, "A#5": 932.33, "B5": 987.77
+    };
+
+    // 1. 🟢 普通戰鬥音樂 (經典 JRPG 戰鬥小調 - 130 BPM)
+    const bgmMelodyNormal = [
       "A3", "E4", "A4", "B4", "C5", "B4", "A4", "E4",
       "G3", "D4", "G4", "A4", "B4", "A4", "G4", "D4",
       "F3", "C4", "F4", "G4", "A4", "G4", "F4", "C4",
       "E3", "B3", "E4", "F#4", "G#4", "F#4", "E4", "B3"
     ];
-    const bgmNoteFreqs = {
-      "A3": 220.00, "B3": 246.94, "C4": 261.63, "D4": 293.66, "E4": 329.63, "F4": 349.23, "F#4": 369.99, "G4": 392.00, "G#4": 415.30,
-      "A4": 440.00, "B4": 493.88, "C5": 523.25, "D5": 587.33, "E5": 659.25
-    };
+
+    // 2. 🟡 中級頭目音樂 (半音階急促前行 - 145 BPM)
+    const bgmMelodyMediumBoss = [
+      "D3", "D4", "F4", "A4", "G#4", "F4", "G#4", "F4",
+      "D#3", "D#4", "F#4", "A#4", "A4", "F#4", "A4", "F#4",
+      "E3", "E4", "G4", "B4", "A#4", "G4", "A#4", "G4",
+      "F3", "F4", "G#4", "C5", "B4", "G#4", "B4", "G#4"
+    ];
+
+    // 3. 🔴 巨型/最終魔王音樂 (狂躁琶音超快節奏 - 160 BPM)
+    const bgmMelodyFinalBoss = [
+      "A3", "A4", "C5", "E5", "D#5", "C5", "D#5", "C5",
+      "G3", "G4", "A#4", "D5", "C#5", "A#4", "C#5", "A#4",
+      "F#3", "F#4", "A4", "C#5", "C5", "A4", "C5", "A4",
+      "F3", "F4", "G#4", "B4", "A#4", "G#5", "A#4", "G#4"
+    ];
 
     function initAudioContext() {
       if (!audioCtx) {
@@ -1597,12 +1622,27 @@
       stopBgm();
       bgmBeat = 0;
       
-      const stepDuration = 60 / bgmTempo / 2; // 八分音符
+      // 根據當前怪物的要求等級，動態切換不同的戰鬥 BGM 與節奏！
+      const monster = monsters[enemyIndex];
+      let melody = bgmMelodyNormal;
+      let tempo = 130;
+      
+      if (monster) {
+        if (monster.reqLevel >= 65) {
+          melody = bgmMelodyFinalBoss;
+          tempo = 165; // 最終 Boss 狂暴超快節奏！
+        } else if (monster.reqLevel >= 30) {
+          melody = bgmMelodyMediumBoss;
+          tempo = 148; // 中級 Boss 緊張中快節奏！
+        }
+      }
+      
+      const stepDuration = 60 / tempo / 2; // 八分音符
       
       bgmInterval = setInterval(() => {
         if (!audioCtx || audioCtx.state === 'suspended' || isRetroMuted) return;
         
-        const noteName = bgmMelody[bgmBeat % bgmMelody.length];
+        const noteName = melody[bgmBeat % melody.length];
         const freq = bgmNoteFreqs[noteName];
         
         if (freq) {
