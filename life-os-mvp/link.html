@@ -1734,7 +1734,8 @@
         xp: 20,
         reqLevel: 1,
         img: "assets/monster_slime.png",
-        attrChance: 0.15, // 15% 隨機屬性提升
+        filter: "none",
+        attrChance: 0.15,
         deathDesc: "👾【雜念史萊姆】發出啵的一聲，化作無效的噪音封包消失了！"
       },
       {
@@ -1744,38 +1745,97 @@
         xp: 40,
         reqLevel: 10,
         img: "assets/monster_snail.png",
-        attrChance: 0.25, // 25% 隨機屬性提升
+        filter: "none",
+        attrChance: 0.25,
         deathDesc: "🐌【拖延症蝸牛】縮進了硬殼，隨後在全隊的果斷執行力下被徹底蒸發！"
       },
       {
+        name: "焦慮紅泥怪",
+        hp: 140,
+        atk: 15,
+        xp: 60,
+        reqLevel: 20,
+        img: "assets/monster_slime.png",
+        filter: "hue-rotate(90deg) saturate(1.8)",
+        attrChance: 0.35,
+        deathDesc: "🔴【焦慮紅泥怪】劇烈收縮，最終在大腦解壓釋放後化作無害的水蒸氣！"
+      },
+      {
         name: "混亂噪音怪",
-        hp: 170,
-        atk: 17,
-        xp: 65,
+        hp: 195,
+        atk: 19,
+        xp: 80,
         reqLevel: 30,
         img: "assets/monster_noise.png",
-        attrChance: 0.40, // 40% 隨機屬性提升
+        filter: "none",
+        attrChance: 0.45,
         deathDesc: "👾【混亂噪音怪】劇烈抖動閃爍，直接被 NAS 防火牆封鎖切斷！"
       },
       {
+        name: "比較心毒蝸牛",
+        hp: 260,
+        atk: 23,
+        xp: 105,
+        reqLevel: 40,
+        img: "assets/monster_snail.png",
+        filter: "hue-rotate(180deg) saturate(1.8)",
+        attrChance: 0.55,
+        deathDesc: "🐌【比較心毒蝸牛】的劇毒黏液被「做自己的主人」信念中和，虛弱倒下！"
+      },
+      {
         name: "完美主義魔像",
-        hp: 290,
-        atk: 24,
-        xp: 110,
+        hp: 340,
+        atk: 27,
+        xp: 130,
         reqLevel: 50,
         img: "assets/monster_golem.png",
-        attrChance: 0.60, // 60% 隨機屬性提升
+        filter: "none",
+        attrChance: 0.65,
         deathDesc: "🤖【完美主義魔像】發出咔嚓咔嚓的斷裂聲，碎裂成十幾個不完美的微小代碼塊！"
       },
       {
+        name: "資訊超載邪眼",
+        hp: 430,
+        atk: 32,
+        xp: 160,
+        reqLevel: 60,
+        img: "assets/monster_noise.png",
+        filter: "hue-rotate(120deg) sepia(0.3) saturate(1.5)",
+        attrChance: 0.75,
+        deathDesc: "👁️【資訊超載邪眼】眼瞳失焦，無法再用資訊洪流癱瘓你的大腦運算核心！"
+      },
+      {
+        name: "三分鐘熱度石像",
+        hp: 530,
+        atk: 37,
+        xp: 200,
+        reqLevel: 70,
+        img: "assets/monster_golem.png",
+        filter: "hue-rotate(240deg) brightness(1.2) saturate(1.5)",
+        attrChance: 0.85,
+        deathDesc: "👹【三分鐘熱度石像】的短暫熱情冷卻收縮，化作了能持續耕耘的複利地基！"
+      },
+      {
         name: "焦慮紫晶龍",
-        hp: 520,
-        atk: 35,
+        hp: 650,
+        atk: 44,
         xp: 250,
         reqLevel: 80,
         img: "assets/monster_dragon.png",
-        attrChance: 1.0, // 100% 隨機屬性提升
+        filter: "none",
+        attrChance: 1.0,
         deathDesc: "🐉【焦慮紫晶龍】發出一聲悲鳴，碎裂成萬千璀璨的複利水晶！"
+      },
+      {
+        name: "終極命運虛無神",
+        hp: 999,
+        atk: 68,
+        xp: 500,
+        reqLevel: 99,
+        img: "assets/monster_dragon.png",
+        filter: "hue-rotate(300deg) brightness(0.5) saturate(2.5)",
+        attrChance: 1.0,
+        deathDesc: "👑【終極命運虛無神】發出最後的震怒低鳴，在人生OS的終極神聖光芒下消散成純淨的虛無意義！✨"
       }
     ];
 
@@ -1889,7 +1949,7 @@
       
       monsterSprite.src = monster.img;
       monsterSprite.style.opacity = '1';
-      monsterSprite.style.filter = 'none';
+      monsterSprite.style.filter = monster.filter || 'none';
 
       const muteBtn = document.getElementById('btnRetroMute');
       if (muteBtn) {
