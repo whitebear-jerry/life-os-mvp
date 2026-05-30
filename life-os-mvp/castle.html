@@ -906,9 +906,12 @@ function generateEnemies() {
       hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52; def = 20;
     }
 
-    // Apply difficulty scaling, V6 10x multiplier, and V7 player adaptive scaling!
+    // Scale speed by activeStageIdx (higher stage = faster monsters!)
+    spd = spd * (1 + activeStageIdx * 0.15);
+
+    // Apply difficulty scaling, V6 10x multiplier, and V8 linear player adaptive scaling!
     hp = Math.floor(hp * scale * 10.0 * playerLvlScale);
-    atk = Math.floor(atk * scale * 10.0 * Math.sqrt(playerLvlScale));
+    atk = Math.floor(atk * scale * 10.0 * playerLvlScale);
     def = Math.floor(def * scale * 10.0 * playerLvlScale);
     xpVal = Math.floor(xpVal * scale);
 
