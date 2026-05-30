@@ -77,20 +77,114 @@
     }
     .char-back:hover { color: #ffd89c; border-color: #ffd89c; }
 
-    /* ===== GAME CONTAINER ===== */
-    #gameContainer {
+    /* ===== RESPONSIVE GAME LAYOUT ===== */
+    #gameLayout {
       display: none;
-      flex-direction: column;
-      align-items: center;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
       width: 100%;
       height: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px;
+      gap: 16px;
+    }
+
+    /* ===== DESKTOP GUIDE SIDEBAR ===== */
+    #desktopGuide {
+      width: 320px;
+      background: rgba(15, 15, 27, 0.95);
+      border: 3px solid #ffd89c;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      font-size: 0.38rem;
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+    .guide-title {
+      font-size: 0.55rem;
+      color: #ffd89c;
+      text-align: center;
+      border-bottom: 2px solid rgba(255,216,156,0.3);
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 10px rgba(255,216,156,0.3);
+    }
+    .guide-section {
+      border: 1px solid rgba(255,216,156,0.2);
+      border-radius: 6px;
+      padding: 10px;
+      background: rgba(255,255,255,0.02);
+    }
+    .guide-section-title {
+      color: #ffd89c;
+      font-size: 0.42rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: bold;
+    }
+    .guide-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .guide-row:last-child { margin-bottom: 0; }
+    kbd {
+      background: #1a1a2e;
+      border: 1px solid #ffd89c;
+      border-radius: 4px;
+      box-shadow: 0 2px 0 #ffd89c;
+      color: #ffd89c;
+      padding: 2px 6px;
+      font-family: inherit;
+      font-size: 0.35rem;
+      display: inline-block;
+      margin: 1px;
+    }
+    .guide-skill-item {
+      margin-top: 8px;
+      border-top: 1px dashed rgba(255,216,156,0.15);
+      padding-top: 6px;
+    }
+    .guide-skill-name {
+      color: #ba4dff;
+      font-size: 0.4rem;
+      font-weight: bold;
+    }
+    .guide-skill-desc {
+      font-size: 0.33rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    /* ===== GAME CONTAINER ===== */
+    #gameContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      height: 100%;
       position: relative;
+      background: #0a0a12;
+      border: 3px solid #ffd89c;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      overflow: hidden;
     }
 
     /* ===== HUD ===== */
     #hud {
       width: 100%;
-      max-width: 800px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -106,7 +200,7 @@
     .hud-avatar { font-size: 1.2rem; }
     .hud-bars { display: flex; flex-direction: column; gap: 3px; }
     .hud-bar-row { display: flex; align-items: center; gap: 4px; }
-    .hud-bar-label { width: 20px; text-align: right; font-size: 0.35rem; color: rgba(255,255,255,0.6); }
+    .hud-bar-label { width: 22px; text-align: right; font-size: 0.35rem; color: rgba(255,255,255,0.6); }
     .hud-bar-outer {
       width: 80px; height: 6px;
       background: #1a1a2e; border: 1px solid rgba(255,255,255,0.3);
@@ -151,7 +245,6 @@
       image-rendering: pixelated;
       flex: 1;
       width: 100%;
-      max-width: 800px;
     }
 
     /* ===== MOBILE CONTROLS ===== */
@@ -188,25 +281,37 @@
     .m-actions {
       position: absolute;
       bottom: 20px; right: 20px;
-      display: flex; gap: 10px;
+      display: flex; gap: 8px;
       pointer-events: auto;
+      align-items: center;
     }
     .m-action {
-      width: 58px; height: 58px;
+      width: 54px; height: 54px;
       border-radius: 50%;
       border: 2px solid rgba(255,216,156,0.4);
       background: rgba(255,216,156,0.08);
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.4rem;
+      font-size: 0.35rem;
       color: #ffd89c;
       font-family: inherit;
       pointer-events: auto;
       touch-action: none;
       -webkit-tap-highlight-color: transparent;
+      text-align: center;
     }
     .m-action:active, .m-action.pressed {
       background: rgba(255,216,156,0.3);
       box-shadow: 0 0 12px rgba(255,216,156,0.4);
+    }
+    .m-skill-btn {
+      border-color: #ba4dff;
+      background: rgba(186,77,255,0.08);
+      color: #e0a3ff;
+      width: 58px; height: 58px;
+    }
+    .m-skill-btn:active, .m-skill-btn.pressed {
+      background: rgba(186,77,255,0.25);
+      box-shadow: 0 0 12px rgba(186,77,255,0.4);
     }
 
     /* ===== OVERLAYS ===== */
@@ -244,6 +349,12 @@
     }
     .pause-btn:hover { background: rgba(255,216,156,0.25); }
 
+    /* ===== RESPONSIVE HUD / GRID ===== */
+    @media (max-width: 1000px) {
+      #desktopGuide { display: none !important; }
+      #gameLayout { padding: 0; max-width: 800px; }
+      #gameContainer { border: none; border-radius: 0; }
+    }
     @media (max-width: 600px) {
       #hud { font-size: 0.35rem; padding: 4px 6px; }
       .hud-bar-outer { width: 55px; }
@@ -259,72 +370,126 @@
     <div class="char-title">🏰 深淵降噪之城</div>
     <div class="char-subtitle">選擇你的冒險角色</div>
     <div class="char-grid">
-      <div class="char-card" onclick="selectCharacter('bear')">
+      <div class="char-card" id="card_bear" onclick="selectCharacter('bear')">
         <span class="char-emoji">🐻</span>
         <span class="char-name">智者白熊</span>
-        <span class="char-desc">高HP 重裝近戰<br>強力擊退</span>
+        <span class="char-desc">高HP 重裝近戰<br>擊退與下墜砸地</span>
+        <span id="rec_bear" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
-      <div class="char-card" onclick="selectCharacter('monkey')">
+      <div class="char-card" id="card_monkey" onclick="selectCharacter('monkey')">
         <span class="char-emoji">🐵</span>
         <span class="char-name">理智小猴</span>
-        <span class="char-desc">高速跑 二段跳<br>敏捷劈砍</span>
+        <span class="char-desc">高速跑 二段跳<br>無敵影分身閃衝</span>
+        <span id="rec_monkey" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
-      <div class="char-card" onclick="selectCharacter('bunny')">
+      <div class="char-card" id="card_bunny" onclick="selectCharacter('bunny')">
         <span class="char-emoji">🐰</span>
         <span class="char-name">降噪小兔</span>
-        <span class="char-desc">遠程弓箭<br>極速射擊</span>
+        <span class="char-desc">遠程極速弓箭<br>五向穿透極光雨</span>
+        <span id="rec_bunny" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
-      <div class="char-card" onclick="selectCharacter('cat')">
+      <div class="char-card" id="card_cat" onclick="selectCharacter('cat')">
         <span class="char-emoji">🐱</span>
         <span class="char-name">除錯小貓</span>
-        <span class="char-desc">魔法追蹤彈<br>自動瞄準</span>
+        <span class="char-desc">魔法追蹤法杖<br>萬象雷暴轟擊</span>
+        <span id="rec_cat" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
     </div>
     <button class="char-back" onclick="location.href='link.html'">← 返回冒險者公會</button>
   </div>
 
-  <!-- GAME -->
-  <div id="gameContainer">
-    <!-- HUD -->
-    <div id="hud">
-      <div class="hud-left">
-        <span class="hud-avatar" id="hudAvatar">🐻</span>
-        <div class="hud-bars">
-          <div class="hud-bar-row">
-            <span class="hud-bar-label">HP</span>
-            <div class="hud-bar-outer"><div class="hud-bar-inner hp-fill" id="hudHpBar" style="width:100%"></div></div>
-            <span id="hudHpText" style="font-size:0.35rem;color:#ff8888;width:50px">100/100</span>
-          </div>
-          <div class="hud-bar-row">
-            <span class="hud-bar-label">XP</span>
-            <div class="hud-bar-outer"><div class="hud-bar-inner xp-fill" id="hudXpBar" style="width:0%"></div></div>
-            <span class="hud-level" id="hudLevel">LV.1</span>
-          </div>
+  <!-- GAME LAYOUT -->
+  <div id="gameLayout">
+    <!-- Desktop Keyboard Guide Sidebar -->
+    <div id="desktopGuide">
+      <div class="guide-title">🏰 冒險手冊</div>
+      
+      <div class="guide-section">
+        <div class="guide-section-title">⌨️ 鍵盤操作指南</div>
+        <div class="guide-row"><span>向左移動</span><kbd>A</kbd> 或 <kbd>←</kbd></div>
+        <div class="guide-row"><span>向右移動</span><kbd>D</kbd> 或 <kbd>→</kbd></div>
+        <div class="guide-row"><span>跳躍動作</span><kbd>Space</kbd> 或 <kbd>W</kbd></div>
+        <div class="guide-row"><span>下跳平台</span><kbd>S</kbd> 或 <kbd>↓</kbd></div>
+        <div class="guide-row"><span>普通攻擊</span><kbd>J</kbd> 或 <kbd>X</kbd></div>
+        <div class="guide-row"><span>主動技能 🌟</span><kbd>K</kbd> 或 <kbd>C</kbd></div>
+        <div class="guide-row"><span>切換武器</span><kbd>Q</kbd> / <kbd>E</kbd> 或 <kbd>1-5</kbd></div>
+        <div class="guide-row"><span>暫停/選單</span><kbd>ESC</kbd> 或 <kbd>P</kbd></div>
+      </div>
+
+      <div class="guide-section">
+        <div class="guide-section-title">🛡️ 主角代表動物</div>
+        
+        <div class="guide-skill-item" style="border-top:none; padding-top:0;">
+          <div class="guide-skill-name">🐻 智者白熊</div>
+          <div class="guide-skill-desc">【主動技能：深淵震擊】砸地擊出兩側震波粒子，造成巨幅擊退與高額傷害。</div>
+        </div>
+
+        <div class="guide-skill-item">
+          <div class="guide-skill-name">🐵 理智小猴</div>
+          <div class="guide-skill-desc">【主動技能：影分身擊】高速衝刺並獲得無敵判定，連續斬擊沿路所有敵人和蠟燭。支援二段跳！</div>
+        </div>
+
+        <div class="guide-skill-item">
+          <div class="guide-skill-name">🐰 降噪小兔</div>
+          <div class="guide-skill-desc">【主動技能：極光箭雨】呈扇形一次射出5支帶霓虹拖尾的穿透性射擊。</div>
+        </div>
+
+        <div class="guide-skill-item">
+          <div class="guide-skill-name">🐱 除錯小貓</div>
+          <div class="guide-skill-desc">【主動技能：萬象雷暴】天降3道藍色雷電自動鎖定並轟擊視野內的隨機怪物。</div>
         </div>
       </div>
-      <div class="hud-weapons" id="hudWeapons">
-        <div class="weapon-slot active" data-w="0" onclick="switchWeapon(0)" title="短鐵劍">⚔️</div>
-        <div class="weapon-slot" data-w="1" onclick="switchWeapon(1)" title="聖光之鞭">⛓️</div>
-        <div class="weapon-slot" data-w="2" onclick="switchWeapon(2)" title="霓虹弓">🏹</div>
-        <div class="weapon-slot" data-w="3" onclick="switchWeapon(3)" title="雷霆法杖">🔮</div>
-        <div class="weapon-slot" data-w="4" onclick="switchWeapon(4)" title="複利大劍">🪓</div>
-      </div>
-      <div class="hud-right">
-        <button class="hud-btn" id="hudMute" onclick="toggleMute()">🔊</button>
-        <button class="hud-btn" onclick="togglePause()">⏸️</button>
-        <button class="hud-btn" onclick="exitGame()">🚪</button>
-      </div>
     </div>
-    <canvas id="gameCanvas"></canvas>
-    <!-- Mobile -->
-    <div id="mobileControls">
-      <div class="m-dpad">
-        <div class="m-btn" id="mLeft">◀</div>
-        <div class="m-btn" id="mRight">▶</div>
+
+    <!-- GAME CONTAINER -->
+    <div id="gameContainer">
+      <!-- HUD -->
+      <div id="hud">
+        <div class="hud-left">
+          <span class="hud-avatar" id="hudAvatar">🐻</span>
+          <div class="hud-bars">
+            <div class="hud-bar-row">
+              <span class="hud-bar-label">HP</span>
+              <div class="hud-bar-outer"><div class="hud-bar-inner hp-fill" id="hudHpBar" style="width:100%"></div></div>
+              <span id="hudHpText" style="font-size:0.35rem;color:#ff8888;width:50px">100/100</span>
+            </div>
+            <div class="hud-bar-row">
+              <span class="hud-bar-label">XP</span>
+              <div class="hud-bar-outer"><div class="hud-bar-inner xp-fill" id="hudXpBar" style="width:0%"></div></div>
+              <span class="hud-level" id="hudLevel">LV.1</span>
+            </div>
+            <div class="hud-bar-row">
+              <span class="hud-bar-label">SKL</span>
+              <div class="hud-bar-outer"><div class="hud-bar-inner" id="hudSkillBar" style="height:100%;width:100%;background:linear-gradient(90deg, #ba4dff, #e0a3ff);"></div></div>
+              <span id="hudSkillText" style="font-size:0.35rem;color:#ba4dff;width:50px">READY</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-weapons" id="hudWeapons">
+          <div class="weapon-slot active" data-w="0" onclick="switchWeapon(0)" title="短鐵劍">⚔️</div>
+          <div class="weapon-slot" data-w="1" onclick="switchWeapon(1)" title="聖光之鞭">⛓️</div>
+          <div class="weapon-slot" data-w="2" onclick="switchWeapon(2)" title="霓虹弓">🏹</div>
+          <div class="weapon-slot" data-w="3" onclick="switchWeapon(3)" title="雷霆法杖">🔮</div>
+          <div class="weapon-slot" data-w="4" onclick="switchWeapon(4)" title="複利大劍">🪓</div>
+        </div>
+        <div class="hud-right">
+          <button class="hud-btn" id="hudMute" onclick="toggleMute()">🔊</button>
+          <button class="hud-btn" onclick="togglePause()">⏸️</button>
+          <button class="hud-btn" onclick="exitGame()">🚪</button>
+        </div>
       </div>
-      <div class="m-actions">
-        <div class="m-action" id="mJump">JUMP</div>
-        <div class="m-action" id="mAtk">ATK</div>
+      <canvas id="gameCanvas"></canvas>
+      <!-- Mobile -->
+      <div id="mobileControls">
+        <div class="m-dpad">
+          <div class="m-btn" id="mLeft">◀</div>
+          <div class="m-btn" id="mRight">▶</div>
+        </div>
+        <div class="m-actions">
+          <div class="m-action m-skill-btn" id="mSkill">SKILL</div>
+          <div class="m-action" id="mAtk">ATK</div>
+          <div class="m-action" id="mJump">JUMP</div>
+        </div>
       </div>
     </div>
   </div>
@@ -345,25 +510,72 @@
 
 // --- CONSTANTS ---
 const TILE = 32;
-const GRAVITY = 0.55;
+const GRAVITY = 0.42; // Upgraded: lighter gravity for smoother jumps
 const MAX_FALL = 12;
 const FRICTION = 0.82;
 
+// --- MONSTER PNG IMAGE LOADING & CACHE ---
+const MONSTER_IMAGES = {};
+const MONSTER_SRC = {
+  slime: 'assets/monster_slime.png',
+  snail: 'assets/monster_snail.png',
+  golem: 'assets/monster_golem.png',
+  noise: 'assets/monster_noise.png',
+  eye: 'assets/monster_eye.png',
+  ghost: 'assets/monster_ghost.png',
+  wizard: 'assets/monster_wizard.png',
+  knight: 'assets/monster_knight.png',
+  dragon: 'assets/monster_dragon.png',
+  reaper: 'assets/monster_reaper.png',
+};
+
+function preloadMonsterImages() {
+  Object.keys(MONSTER_SRC).forEach(key => {
+    const img = new Image();
+    img.src = MONSTER_SRC[key];
+    img.onload = () => {
+      MONSTER_IMAGES[key] = img;
+    };
+  });
+}
+// Run preload immediately
+preloadMonsterImages();
+
 // --- CHARACTERS ---
 const CHARACTERS = {
-  bear:   { emoji:'🐻', name:'智者白熊', color:'#8B5E3C', hpMul:1.4, spdMul:0.9, atkMul:1.3, canDoubleJump:false, jumpPow:11 },
-  monkey: { emoji:'🐵', name:'理智小猴', color:'#D4A76A', hpMul:0.9, spdMul:1.35, atkMul:1.0, canDoubleJump:true,  jumpPow:10 },
-  bunny:  { emoji:'🐰', name:'降噪小兔', color:'#E8D5C4', hpMul:0.85,spdMul:1.15,atkMul:1.1, canDoubleJump:false, jumpPow:11.5 },
-  cat:    { emoji:'🐱', name:'除錯小貓', color:'#FFA94D', hpMul:0.95,spdMul:1.05,atkMul:1.2, canDoubleJump:false, jumpPow:10.5 }
+  bear: { 
+    emoji:'🐻', name:'智者白熊', color:'#f2f2f7', hpMul:1.4, spdMul:0.9, atkMul:1.3, 
+    canDoubleJump:false, jumpPow:11.5,
+    skillName: '深淵震擊', skillCD: 240,
+    skillDesc: '向左右擊出震地波，造成高額擊退與傷害。空中使用時會急速墜地砸擊！'
+  },
+  monkey: { 
+    emoji:'🐵', name:'理智小猴', color:'#965a38', hpMul:0.9, spdMul:1.35, atkMul:1.0, 
+    canDoubleJump:true,  jumpPow:10.5,
+    skillName: '影分身擊', skillCD: 180,
+    skillDesc: '向前無敵極速衝刺，揮舞無影分身撕裂路徑上的所有敵人和蠟燭！'
+  },
+  bunny: { 
+    emoji:'🐰', name:'降噪小兔', color:'#fbfbfb', hpMul:0.85,spdMul:1.15,atkMul:1.1, 
+    canDoubleJump:false, jumpPow:12.5,
+    skillName: '極光箭雨', skillCD: 150,
+    skillDesc: '向前方發射5支呈扇形擴散的穿透性霓虹極光箭，進行大面積掃蕩！'
+  },
+  cat: { 
+    emoji:'🐱', name:'除錯小貓', color:'#ffa94d', hpMul:0.95,spdMul:1.05,atkMul:1.2, 
+    canDoubleJump:false, jumpPow:11.0,
+    skillName: '萬象雷暴', skillCD: 300,
+    skillDesc: '召喚3道神聖雷擊自動追蹤並轟炸視野內隨機怪獸，造成毀滅性範圍感電！'
+  }
 };
 
 // --- WEAPONS ---
 const WEAPONS = [
   { name:'短鐵劍',   emoji:'⚔️', range:38, dmgMul:1.0, speed:12, arc:90,  color:'#cccccc', trail:'#ffffff', type:'melee' },
   { name:'聖光之鞭', emoji:'⛓️', range:72, dmgMul:0.85,speed:18, arc:30,  color:'#ffd89c', trail:'#fff5d4', type:'melee' },
-  { name:'霓虹弓',   emoji:'🏹', range:250,dmgMul:0.7, speed:8,  arc:0,   color:'#00ffff', trail:'#004466', type:'ranged' },
+  { name:'魔力霓虹弓', emoji:'🏹', range:250,dmgMul:0.7, speed:8,  arc:0,   color:'#00ffff', trail:'#004466', type:'ranged' },
   { name:'雷霆法杖', emoji:'🔮', range:180,dmgMul:1.1, speed:14, arc:0,   color:'#ba4dff', trail:'#440088', type:'ranged' },
-  { name:'複利大劍', emoji:'🪓', range:52, dmgMul:2.0, speed:28, arc:180, color:'#ff4d4d', trail:'#ff8800', type:'melee' }
+  { name:'人生複利大劍', emoji:'🪓', range:52, dmgMul:2.0, speed:28, arc:180, color:'#ff4d4d', trail:'#ff8800', type:'melee' }
 ];
 
 // --- MAP DATA (tile-based: 0=air, 1=stone, 2=candle, 3=portal, 4=spike) ---
@@ -402,6 +614,17 @@ function generateMap() {
   // Small steps
   for (let x = 2; x < 5; x++) m[14][x] = 1;
 
+  // Add intermediate step blocks to guarantee smooth navigating of all high gaps
+  const extraSteps = [
+    [13,11],[21,11],[30,11],[34,14],[44,11],[50,11],[58,11],[68,11],[70,14],
+    [10,12],[22,12],[36,11],[54,12],[66,11],[75,11]
+  ];
+  extraSteps.forEach(([sx, sy]) => {
+    if (sx >= 0 && sx < MAP_W && sy >= 0 && sy < MAP_H) {
+      m[sy][sx] = 1;
+    }
+  });
+
   // Spikes in pits
   [20,21,44,45,68,69].forEach(x => m[MAP_H-3][x] = 4);
 
@@ -424,27 +647,64 @@ function generateCandles(map) {
 
 function generateEnemies() {
   const enemies = [];
+  // Chronological level deployment from left to right corresponding to JRPG monsters list
   const defs = [
     // [x, y, type, patrolW]
-    [6,14,'slime',4], [16,11,'slime',3], [33,11,'knight',3], [41,12,'slime',5],
-    [53,11,'knight',4], [61,12,'slime',4], [71,11,'knight',3],
-    [10,8,'eye',5], [28,8,'eye',4], [46,8,'slime',3], [56,7,'eye',4],
-    [64,8,'knight',3], [72,7,'eye',3],
-    [13,4,'eye',3], [38,3,'knight',4], [50,4,'eye',3], [65,3,'knight',3],
+    [6, 14, 'slime', 4],
+    [10, 11, 'snail', 3],
+    [16, 11, 'slime', 3],
+    [24, 12, 'golem', 5], // Zone 2 Golem
+    [32, 12, 'noise', 4], // Zone 3 Noise shoots waves
+    [38, 7,  'eye', 4],   // Zone 4 Floating eye
+    [42, 8,  'ghost', 4], // Zone 5 Ghost floats through walls
+    [48, 12, 'wizard', 4], // Zone 6 Wizard teleports/shoots tracking fireballs
+    [54, 11, 'knight', 4], // Zone 7 Knight shields/charges
+    [62, 12, 'knight', 3],
+    [66, 3,  'dragon', 4], // Zone 8 Dragon midboss spits fire diagonal
+    [74, 12, 'reaper', 3], // Zone 9 Reaper final boss guarding the portal
   ];
+  
   defs.forEach(([ex,ey,type,pw],i) => {
-    const hp = type==='slime'?30 : type==='knight'?60 : 40;
-    const atk = type==='slime'?8 : type==='knight'?15 : 12;
-    const spd = type==='slime'?0.8 : type==='knight'?0.5 : 1.2;
-    const xpVal = type==='slime'?8 : type==='knight'?18 : 12;
+    // Stat balances matching JRPG stats scaling
+    let hp = 30;
+    let maxHp = 30;
+    let atk = 8;
+    let spd = 0.8;
+    let xpVal = 8;
+    let w = 28;
+    let h = 24;
+
+    if (type === 'slime') {
+      hp = 30; atk = 8; spd = 0.8; xpVal = 8; w = 28; h = 24;
+    } else if (type === 'snail') {
+      hp = 45; atk = 10; spd = 0.5; xpVal = 12; w = 32; h = 28;
+    } else if (type === 'golem') {
+      hp = 120; atk = 22; spd = 0.4; xpVal = 35; w = 48; h = 48;
+    } else if (type === 'noise') {
+      hp = 60; atk = 14; spd = 0.9; xpVal = 20; w = 36; h = 36;
+    } else if (type === 'eye') {
+      hp = 40; atk = 12; spd = 1.1; xpVal = 15; w = 24; h = 24;
+    } else if (type === 'ghost') {
+      hp = 50; atk = 13; spd = 0.7; xpVal = 18; w = 32; h = 32;
+    } else if (type === 'wizard') {
+      hp = 70; atk = 16; spd = 1.0; xpVal = 25; w = 32; h = 40;
+    } else if (type === 'knight') {
+      hp = 90; atk = 18; spd = 0.6; xpVal = 30; w = 36; h = 44;
+    } else if (type === 'dragon') {
+      hp = 180; atk = 26; spd = 0.8; xpVal = 60; w = 56; h = 56;
+    } else if (type === 'reaper') {
+      hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52;
+    }
+
     enemies.push({
-      id: i, x: ex*TILE, y: (ey-1)*TILE, w: type==='eye'?24:28, h: type==='eye'?24:30,
+      id: i, x: ex*TILE, y: (ey-1)*TILE, w, h,
       type, hp, maxHp:hp, atk, spd, xpVal,
       patrolLeft: ex*TILE - pw*TILE/2, patrolRight: ex*TILE + pw*TILE,
       vx: spd, vy: 0, dir: 1, alive: true,
       hitTimer: 0, flashTimer: 0,
       color: type==='slime'?'#44cc66' : type==='knight'?'#8888cc' : '#cc4466',
-      eyeColor: type==='eye'?'#ff0000':'#ffffff'
+      eyeColor: type==='eye'?'#ff0000':'#ffffff',
+      shootCooldown: Math.random() * 60, // AI shoot timer
     });
   });
   return enemies;
@@ -472,7 +732,7 @@ let items = [];
 
 // Input
 let keys = {};
-let mobileInput = { left:false, right:false, jump:false, attack:false };
+let mobileInput = { left:false, right:false, jump:false, attack:false, skill:false };
 
 // LocalStorage sync
 let userXP = 0, userAttrs = {int:5,vit:5,foc:5,agi:5};
@@ -484,18 +744,30 @@ let audioCtx = null;
 // ============================================================
 // LOCALSTORAGE SYNC
 // ============================================================
+let defaultAnimalKey = null;
 function loadFromRPG() {
   try {
-    const xp = localStorage.getItem('lifeOS_xp');
+    const xp = localStorage.getItem('baixiong_adventurer_xp');
     if (xp !== null) userXP = parseInt(xp) || 0;
-    const attrs = localStorage.getItem('lifeOS_attrs');
-    if (attrs) userAttrs = JSON.parse(attrs);
+    
+    userAttrs = {
+      int: parseInt(localStorage.getItem('baixiong_adventurer_int') || '5'),
+      vit: parseInt(localStorage.getItem('baixiong_adventurer_vit') || '5'),
+      foc: parseInt(localStorage.getItem('baixiong_adventurer_foc') || '5'),
+      agi: parseInt(localStorage.getItem('baixiong_adventurer_agi') || '5')
+    };
+
+    // Auto-detect JRPG representative animal
+    const savedAnimal = localStorage.getItem('baixiong_adventurer_animal');
+    if (savedAnimal && CHARACTERS[savedAnimal]) {
+      defaultAnimalKey = savedAnimal;
+    }
   } catch(e) {}
 }
 function saveToRPG() {
   try {
     const totalXP = userXP + castleXPEarned;
-    localStorage.setItem('lifeOS_xp', totalXP.toString());
+    localStorage.setItem('baixiong_adventurer_xp', totalXP.toString());
   } catch(e) {}
 }
 
@@ -601,6 +873,30 @@ function playDamageSFX() {
   o.connect(g); g.connect(audioCtx.destination);
   o.start(); o.stop(audioCtx.currentTime + 0.15);
 }
+function playSkillSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(300, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.15);
+  g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.2);
+}
+function playEnemyShootSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'triangle';
+  o.frequency.setValueAtTime(400, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.12);
+  g.gain.setValueAtTime(0.04, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.15);
+}
 
 // BGM — simple looping gothic arpeggio
 let bgmInterval = null;
@@ -633,7 +929,7 @@ function selectCharacter(key) {
   charKey = key;
   charDef = CHARACTERS[key];
   document.getElementById('charSelectScreen').style.display = 'none';
-  document.getElementById('gameContainer').style.display = 'flex';
+  document.getElementById('gameLayout').style.display = 'flex';
   document.getElementById('hudAvatar').textContent = charDef.emoji;
   startGame();
 }
@@ -664,6 +960,10 @@ function startGame() {
     invincible: 0,
     speed: 3.2 * charDef.spdMul + userAttrs.agi * 0.08,
     baseDmg: 12 + info.level * 1.5 + userAttrs.int * 0.8,
+    // Skill systems
+    skillCooldown: 0,
+    dashing: false, dashTimer: 0,
+    pendingSlam: false
   };
 
   map = generateMap();
@@ -711,6 +1011,7 @@ document.addEventListener('keydown', e => {
   if (e.key >= '1' && e.key <= '5') switchWeapon(parseInt(e.key)-1);
   if (e.key === 'q') switchWeapon((weaponIdx-1+5)%5);
   if (e.key === 'e') switchWeapon((weaponIdx+1)%5);
+  if (e.key === 'k' || e.key === 'c') triggerSkill();
 });
 document.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
@@ -732,11 +1033,20 @@ let atkPressed = false;
 function setupMobileControls() {
   function bind(id, field) {
     const el = document.getElementById(id);
-    el.addEventListener('touchstart', e => { e.preventDefault(); mobileInput[field]=true; el.classList.add('pressed'); }, {passive:false});
+    if (!el) return;
+    el.addEventListener('touchstart', e => { 
+      e.preventDefault(); 
+      if (field === 'skill') {
+        triggerSkill();
+      } else {
+        mobileInput[field]=true; 
+      }
+      el.classList.add('pressed'); 
+    }, {passive:false});
     el.addEventListener('touchend', e => { e.preventDefault(); mobileInput[field]=false; el.classList.remove('pressed'); }, {passive:false});
     el.addEventListener('touchcancel', e => { mobileInput[field]=false; el.classList.remove('pressed'); });
   }
-  bind('mLeft','left'); bind('mRight','right'); bind('mJump','jump'); bind('mAtk','attack');
+  bind('mLeft','left'); bind('mRight','right'); bind('mJump','jump'); bind('mAtk','attack'); bind('mSkill','skill');
 }
 
 // ============================================================
@@ -766,27 +1076,199 @@ function rectOverlap(a, b) {
 }
 
 // ============================================================
-// PHYSICS & UPDATE
+// ACTIVE SKILLS EMISSION
+// ============================================================
+function triggerSkill() {
+  if (!gameRunning || gamePaused || player.hp <= 0) return;
+  if (player.skillCooldown > 0) return;
+
+  const baseCD = charDef.skillCD;
+  // Reduce CD slightly based on agility/focus
+  player.skillCooldown = Math.max(60, Math.floor(baseCD * (1 - userAttrs.agi * 0.02)));
+
+  // Play skill SFX
+  playSkillSFX();
+
+  if (charKey === 'bear') {
+    // 🐻 Bear Skill: Abyss Slam
+    if (!player.onGround) {
+      player.vy = 15; // Rapid dive slam down
+      player.vx = 0;
+      player.pendingSlam = true;
+    } else {
+      executeBearSlam();
+    }
+  } else if (charKey === 'monkey') {
+    // 🐵 Monkey Skill: Shadow Dash
+    player.dashing = true;
+    player.dashTimer = 18;
+    player.vx = player.dir * 12;
+    player.vy = 0;
+    player.invincible = Math.max(player.invincible, 20); // Invincible during dash
+  } else if (charKey === 'bunny') {
+    // 🐰 Bunny Skill: Aurora Arrow Spread
+    const dmg = Math.floor(calcDmg() * 0.9);
+    const angles = [-0.25, -0.12, 0, 0.12, 0.25];
+    angles.forEach(ang => {
+      projectiles.push({
+        x: player.x + player.w/2 + player.dir * 12,
+        y: player.y + player.h/2 - 4,
+        vx: player.dir * 8.5 * Math.cos(ang),
+        vy: 8.5 * Math.sin(ang),
+        w: 22, h: 4,
+        dmg: dmg,
+        color: '#4ef072',
+        trail: '#aaffcc',
+        life: 50,
+        homing: false,
+        piercing: true, // Piercing arrow spreads
+        hitEnemies: []
+      });
+    });
+    // Kickback recoil
+    player.vx = -player.dir * 3.5;
+  } else if (charKey === 'cat') {
+    // 🐱 Cat Skill: Debugger Lightning Storm
+    const targetEnemies = enemies.filter(en => en.alive && Math.abs(en.x - player.x) < 400);
+    const selected = targetEnemies.sort(() => 0.5 - Math.random()).slice(0, 3);
+    
+    if (selected.length === 0) {
+      // Strike randomly near player
+      for (let i = 0; i < 3; i++) {
+        spawnLightning(player.x + (Math.random() - 0.5) * 200, player.y - 120);
+      }
+    } else {
+      selected.forEach(en => {
+        spawnLightning(en.x + en.w/2, en.y + en.h/2);
+        damageEnemy(en, Math.floor(calcDmg() * 1.6));
+      });
+    }
+  }
+}
+
+function spawnLightning(tx, ty) {
+  // Lightning bolt visual particles
+  for (let i = 0; i < 15; i++) {
+    particles.push({
+      x: tx + (Math.random()-0.5)*4, y: ty - 180 + i * 14,
+      vx: 0, vy: -0.5,
+      life: 25, color: '#4df0ff', size: 6 - (i % 3)
+    });
+  }
+  // Explosion sparks at base
+  for (let i = 0; i < 8; i++) {
+    particles.push({
+      x: tx, y: ty,
+      vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5,
+      life: 20, color: '#ba4dff', size: 4
+    });
+  }
+  // Sound
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(80, audioCtx.currentTime);
+  o.frequency.linearRampToValueAtTime(10, audioCtx.currentTime + 0.25);
+  g.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.3);
+}
+
+function executeBearSlam() {
+  const dmg = Math.floor(calcDmg() * 1.5);
+  // Two ground waves sliding horizontally
+  [1, -1].forEach(sdir => {
+    projectiles.push({
+      x: player.x + player.w/2,
+      y: player.y + player.h - 10,
+      vx: sdir * 5.5,
+      vy: 0,
+      w: 24, h: 10,
+      dmg: dmg,
+      color: '#ffd89c',
+      trail: '#ff8800',
+      life: 35,
+      homing: false,
+      piercing: true,
+      hitEnemies: []
+    });
+  });
+  // Shockwave particles
+  for (let i = 0; i < 15; i++) {
+    particles.push({
+      x: player.x + player.w/2, y: player.y + player.h,
+      vx: (Math.random() - 0.5) * 6, vy: -Math.random() * 4,
+      life: 20, color: '#ffd89c', size: 4
+    });
+  }
+  // Camera shake
+  camX += (Math.random()-0.5)*15;
+  camY += (Math.random()-0.5)*15;
+}
+
+// ============================================================
+// PHYSICS & PLAYER UPDATE
 // ============================================================
 function updatePlayer() {
-  // Movement
-  if (isLeft()) { player.vx -= 0.6; player.dir = -1; }
-  if (isRight()) { player.vx += 0.6; player.dir = 1; }
+  // Monkey's Shadow Dash
+  if (player.dashing) {
+    player.dashTimer--;
+    player.vx = player.dir * 12;
+    player.vy = 0;
+
+    // Purple trailing ghost particles
+    if (player.dashTimer % 2 === 0) {
+      particles.push({
+        x: player.x + player.w/2, y: player.y + player.h/2,
+        vx: 0, vy: 0,
+        life: 15, color: 'rgba(186, 77, 255, 0.4)', size: 8
+      });
+    }
+
+    // Horizontal clash collisions in dash path
+    const dashHitbox = { x: player.x - 6, y: player.y - 6, w: player.w + 12, h: player.h + 12 };
+    const dmg = Math.floor(calcDmg() * 0.7);
+    enemies.forEach(en => {
+      if (!en.alive) return;
+      if (rectOverlap(dashHitbox, en)) {
+        damageEnemy(en, dmg);
+      }
+    });
+    candles.forEach(c => {
+      if (!c.alive) return;
+      if (Math.abs(c.x - (player.x + player.w/2)) < player.w && Math.abs(c.y - (player.y + player.h/2)) < player.h) {
+        breakCandle(c);
+      }
+    });
+
+    if (player.dashTimer <= 0) {
+      player.dashing = false;
+      player.vx *= 0.3; // dampen speeds
+    }
+  } else {
+    // Normal Movement
+    if (isLeft()) { player.vx -= 0.6; player.dir = -1; }
+    if (isRight()) { player.vx += 0.6; player.dir = 1; }
+  }
+
   player.vx *= FRICTION;
   const maxSpd = player.speed;
   if (player.vx > maxSpd) player.vx = maxSpd;
   if (player.vx < -maxSpd) player.vx = -maxSpd;
   if (Math.abs(player.vx) < 0.1) player.vx = 0;
 
-  // Jump
+  // Jump Action
   const jumpDown = isJump();
-  if (jumpDown && !jumpPressed) {
+  if (jumpDown && !jumpPressed && !player.dashing) {
     if (player.jumps < player.maxJumps) {
       player.vy = -charDef.jumpPow;
       player.jumps++;
       player.onGround = false;
       playJumpSFX();
-      // Double jump particles
+      
+      // Double jump flip sparkles
       if (player.jumps > 1) {
         for (let i = 0; i < 6; i++) {
           particles.push({
@@ -801,10 +1283,12 @@ function updatePlayer() {
   jumpPressed = jumpDown;
 
   // Gravity
-  player.vy += GRAVITY;
-  if (player.vy > MAX_FALL) player.vy = MAX_FALL;
+  if (!player.dashing) {
+    player.vy += GRAVITY;
+    if (player.vy > MAX_FALL) player.vy = MAX_FALL;
+  }
 
-  // Horizontal collision
+  // Horizontal collisions
   player.x += player.vx;
   const lx = Math.floor(player.x / TILE);
   const rx = Math.floor((player.x + player.w - 1) / TILE);
@@ -815,19 +1299,26 @@ function updatePlayer() {
     if (player.vx < 0 && isSolid(lx, cy)) { player.x = (lx+1) * TILE; player.vx = 0; }
   }
 
-  // Vertical collision
+  // Vertical collisions
   player.y += player.vy;
   const lx2 = Math.floor(player.x / TILE);
   const rx2 = Math.floor((player.x + player.w - 1) / TILE);
   const ty2 = Math.floor(player.y / TILE);
   const by2 = Math.floor((player.y + player.h - 1) / TILE);
   player.onGround = false;
+  
   for (let cx = lx2; cx <= rx2; cx++) {
     if (player.vy > 0 && isSolid(cx, by2)) {
       player.y = by2 * TILE - player.h;
       player.vy = 0;
       player.onGround = true;
       player.jumps = 0;
+      
+      // Bear Ground Slam impact landing
+      if (player.pendingSlam) {
+        player.pendingSlam = false;
+        executeBearSlam();
+      }
     }
     if (player.vy < 0 && isSolid(cx, ty2)) {
       player.y = (ty2+1) * TILE;
@@ -835,7 +1326,7 @@ function updatePlayer() {
     }
   }
 
-  // Spike check
+  // Spike checks
   const spkX = Math.floor((player.x + player.w/2) / TILE);
   const spkY = Math.floor((player.y + player.h - 1) / TILE);
   if (tileAt(spkX, spkY) === 4 && player.invincible <= 0) {
@@ -847,7 +1338,6 @@ function updatePlayer() {
   const ptX = Math.floor((player.x + player.w/2) / TILE);
   const ptY = Math.floor((player.y + player.h/2) / TILE);
   if (tileAt(ptX, ptY) === 3) {
-    // Win!
     saveToRPG();
     gameRunning = false;
     stopBGM();
@@ -859,9 +1349,9 @@ function updatePlayer() {
     return;
   }
 
-  // Attack
+  // Melee/Ranged weapon attacking
   const atkDown = isAttack();
-  if (atkDown && !atkPressed && player.atkCooldown <= 0) {
+  if (atkDown && !atkPressed && player.atkCooldown <= 0 && !player.dashing) {
     player.attacking = true;
     player.atkTimer = WEAPONS[weaponIdx].speed;
     player.atkCooldown = WEAPONS[weaponIdx].speed + 4;
@@ -869,21 +1359,20 @@ function updatePlayer() {
 
     const wpn = WEAPONS[weaponIdx];
     if (wpn.type === 'ranged') {
-      // Spawn projectile
       projectiles.push({
         x: player.x + player.w/2 + player.dir * 10,
         y: player.y + player.h/2 - 4,
         vx: player.dir * 7,
-        vy: wpn === WEAPONS[3] ? Math.sin(Date.now()*0.01)*1.5 : 0, // wand wobble
+        vy: wpn === WEAPONS[3] ? Math.sin(Date.now()*0.01)*1.5 : 0, // magic wobble
         w: wpn===WEAPONS[3]?12:16, h: wpn===WEAPONS[3]?12:4,
         dmg: calcDmg(),
         color: wpn.color,
         trail: wpn.trail,
         life: 60,
-        homing: wpn === WEAPONS[3], // wand tracks
+        homing: wpn === WEAPONS[3],
       });
     } else {
-      // Melee hitbox
+      // Melee sweeps
       const range = wpn.range;
       const hx = player.dir > 0 ? player.x + player.w : player.x - range;
       const hy = player.y - 4;
@@ -892,14 +1381,12 @@ function updatePlayer() {
       const hitbox = { x: hx, y: hy, w: hw, h: hh };
       const dmg = calcDmg();
 
-      // Hit enemies
       enemies.forEach(en => {
         if (!en.alive) return;
         if (rectOverlap(hitbox, en)) {
           damageEnemy(en, dmg);
         }
       });
-      // Hit candles
       candles.forEach(c => {
         if (!c.alive) return;
         if (Math.abs(c.x - (hx + hw/2)) < hw/2 + 12 && Math.abs(c.y - (hy + hh/2)) < hh/2 + 12) {
@@ -914,8 +1401,9 @@ function updatePlayer() {
   else player.attacking = false;
   if (player.atkCooldown > 0) player.atkCooldown--;
   if (player.invincible > 0) player.invincible--;
+  if (player.skillCooldown > 0) player.skillCooldown--;
 
-  // Respawn if fell
+  // Respawn boundary fell
   if (player.y > MAP_H * TILE + 100) {
     playerTakeDamage(30);
     player.x = 3*TILE; player.y = (MAP_H-4)*TILE;
@@ -926,16 +1414,25 @@ function updatePlayer() {
 function calcDmg() {
   const wpn = WEAPONS[weaponIdx];
   let dmg = player.baseDmg * wpn.dmgMul * charDef.atkMul;
-  // Crit chance
-  if (Math.random() < 0.1 + userAttrs.foc * 0.015) dmg *= 1.8;
+  if (Math.random() < 0.1 + userAttrs.foc * 0.015) dmg *= 1.8; // Focus CRITs
   return Math.floor(dmg + Math.random() * 6);
 }
 
 function damageEnemy(en, dmg) {
+  // Knight shields ranged attacks from front
+  if (en.type === 'knight' && en.dir !== player.dir && WEAPONS[weaponIdx].type === 'ranged') {
+    floaters.push({
+      x: en.x + en.w/2, y: en.y - 5,
+      text: 'BLOCK🛡️', color: '#8888cc', life: 35, vy: -1.5
+    });
+    playHitSFX();
+    return;
+  }
+
   en.hp -= dmg;
   en.hitTimer = 8;
   en.flashTimer = 12;
-  en.vx = -en.dir * 3; // knockback
+  en.vx = -en.dir * 3; // knockback push
   playHitSFX();
 
   floaters.push({
@@ -945,14 +1442,13 @@ function damageEnemy(en, dmg) {
 
   if (en.hp <= 0) {
     en.alive = false;
-    // XP reward
     const xpGain = en.xpVal;
     castleXPEarned += xpGain;
     floaters.push({
       x: en.x + en.w/2, y: en.y - 20,
       text: '+' + xpGain + 'XP', color: '#4ef072', life: 50, vy: -1.5
     });
-    // Death particles
+    // Death bursts
     for (let i = 0; i < 12; i++) {
       particles.push({
         x: en.x+en.w/2, y: en.y+en.h/2,
@@ -967,7 +1463,6 @@ function damageEnemy(en, dmg) {
 function breakCandle(c) {
   c.alive = false;
   playCandleSFX();
-  // Particles
   for (let i = 0; i < 8; i++) {
     particles.push({
       x: c.x, y: c.y,
@@ -975,7 +1470,6 @@ function breakCandle(c) {
       life: 20, color: '#ffd89c', size: 3
     });
   }
-  // Drop item
   items.push({
     x: c.x - 6, y: c.y - 6, w: 12, h: 12,
     type: c.drop, vy: -2, life: 300
@@ -992,7 +1486,6 @@ function playerTakeDamage(dmg) {
     text: '-' + dmg, color: '#ff4d4d', life: 40, vy: -2
   });
   if (player.hp <= 0) {
-    // Death
     gameRunning = false;
     stopBGM();
     setTimeout(() => {
@@ -1020,36 +1513,179 @@ function checkLevelUp() {
 }
 
 // ============================================================
-// UPDATE ENEMIES & PROJECTILES
+// UPDATE ENEMIES AI & PROJECTILES
 // ============================================================
 function updateEnemies() {
   enemies.forEach(en => {
     if (!en.alive) return;
-    // Patrol
-    if (en.hitTimer > 0) {
-      en.hitTimer--;
+
+    // Core AI states
+    if (en.type === 'ghost') {
+      // Zone 5 Ghost: slowly chases the player ignoring all blocks!
+      const dx = player.x - en.x;
+      const dy = player.y - en.y;
+      const angle = Math.atan2(dy, dx);
+      en.x += Math.cos(angle) * en.spd;
+      en.y += Math.sin(angle) * en.spd;
+      en.dir = dx < 0 ? -1 : 1;
     } else {
-      en.x += en.vx * en.dir;
-      if (en.x <= en.patrolLeft) { en.dir = 1; }
-      if (en.x + en.w >= en.patrolRight) { en.dir = -1; }
-    }
-    // Gravity for non-flying
-    if (en.type !== 'eye') {
-      en.vy += GRAVITY * 0.7;
-      en.y += en.vy;
-      const by = Math.floor((en.y + en.h) / TILE);
-      const mx = Math.floor((en.x + en.w/2) / TILE);
-      if (isSolid(mx, by)) {
-        en.y = by * TILE - en.h;
-        en.vy = 0;
+      // Standard Patrol paths
+      if (en.hitTimer > 0) {
+        en.hitTimer--;
+      } else {
+        // Charge behavior for Zone 7 Knight
+        if (en.type === 'knight') {
+          const pDist = Math.abs((player.x + player.w/2) - (en.x + en.w/2));
+          if (pDist < 120 && Math.abs(player.y - en.y) < 40) {
+            en.vx = en.spd * 2.8; // charge
+            en.dir = player.x < en.x ? -1 : 1;
+          } else {
+            en.vx = en.spd;
+          }
+        }
+        
+        en.x += en.vx * en.dir;
+        if (en.x <= en.patrolLeft) { en.dir = 1; }
+        if (en.x + en.w >= en.patrolRight) { en.dir = -1; }
       }
-    } else {
-      // Eye floats
-      en.y += Math.sin(Date.now() * 0.003 + en.id) * 0.5;
+
+      // Gravity for standard ground patrols
+      if (en.type !== 'eye' && en.type !== 'dragon' && en.type !== 'reaper') {
+        en.vy += GRAVITY * 0.7;
+        en.y += en.vy;
+        const by = Math.floor((en.y + en.h) / TILE);
+        const mx = Math.floor((en.x + en.w/2) / TILE);
+        if (isSolid(mx, by)) {
+          en.y = by * TILE - en.h;
+          en.vy = 0;
+        }
+      } else {
+        // Floating bobs for flyers
+        en.y += Math.sin(Date.now() * 0.003 + en.id) * 0.5;
+      }
     }
+    
+    // Shoot/Skills emitters for advanced JRPG level-matched monsters
+    if (en.type === 'noise') {
+      // Zone 3 Noise Monster emits acoustic wave shockwaves
+      en.shootCooldown--;
+      if (en.shootCooldown <= 0) {
+        en.shootCooldown = 120 + Math.random() * 60;
+        projectiles.push({
+          x: en.x + en.w/2 + en.dir * 16,
+          y: en.y + en.h/2,
+          vx: en.dir * 3.5,
+          vy: 0,
+          w: 24, h: 24,
+          dmg: en.atk,
+          color: '#4df0ff',
+          trail: '#004466',
+          life: 80,
+          homing: false,
+          isSonic: true,
+          isEnemy: true
+        });
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'eye') {
+      // Zone 4 Eye drops down lightning lasers when player is beneath
+      en.shootCooldown--;
+      const pDist = Math.abs((player.x + player.w/2) - (en.x + en.w/2));
+      if (en.shootCooldown <= 0 && pDist < 80 && player.y > en.y) {
+        en.shootCooldown = 90 + Math.random() * 35;
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h,
+          vx: 0,
+          vy: 5.5,
+          w: 6, h: 20,
+          dmg: en.atk,
+          color: '#ff3b30',
+          trail: '#ff9500',
+          life: 40,
+          homing: false,
+          isLaser: true,
+          isEnemy: true
+        });
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'wizard') {
+      // Zone 6 Wizard fires homing purple magic orbs
+      en.shootCooldown--;
+      const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
+      if (en.shootCooldown <= 0 && distToPlayer < 350) {
+        en.shootCooldown = 140 + Math.random() * 60;
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h/2,
+          vx: en.dir * 2.2,
+          vy: 0,
+          w: 12, h: 12,
+          dmg: en.atk,
+          color: '#ba4dff',
+          trail: '#5856d6',
+          life: 120,
+          homing: true,
+          isEnemyOrb: true,
+          isEnemy: true
+        });
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'dragon') {
+      // Zone 8 Dragon fires heat flame projectiles
+      en.shootCooldown--;
+      const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
+      if (en.shootCooldown <= 0 && distToPlayer < 400) {
+        en.shootCooldown = 100 + Math.random() * 40;
+        const dx = player.x + player.w/2 - (en.x + en.w/2);
+        const dy = player.y + player.h/2 - (en.y + en.h/2);
+        const angle = Math.atan2(dy, dx);
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h/2,
+          vx: Math.cos(angle) * 4.5,
+          vy: Math.sin(angle) * 4.5,
+          w: 14, h: 14,
+          dmg: en.atk,
+          color: '#ff9500',
+          trail: '#ff3b30',
+          life: 95,
+          homing: false,
+          isFireball: true,
+          isEnemy: true
+        });
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'reaper') {
+      // Zone 9 Reaper Elite fires spinning scythes and slightly teleports
+      en.shootCooldown--;
+      const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
+      if (en.shootCooldown <= 0 && distToPlayer < 400) {
+        en.shootCooldown = 150 + Math.random() * 50;
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h/2,
+          vx: (player.x < en.x ? -1 : 1) * 3,
+          vy: -1,
+          w: 22, h: 22,
+          dmg: Math.floor(en.atk * 1.25),
+          color: '#8e44ad',
+          trail: '#000000',
+          life: 140,
+          homing: false,
+          isScythe: true,
+          isEnemy: true
+        });
+        // Slight boss shifts
+        en.x += (Math.random() - 0.5) * 80;
+        en.x = Math.max(en.patrolLeft, Math.min(en.patrolRight, en.x));
+        playEnemyShootSFX();
+      }
+    }
+
     if (en.flashTimer > 0) en.flashTimer--;
 
-    // Damage player on contact
+    // Contact damages player
     if (player.invincible <= 0 && rectOverlap(player, en)) {
       playerTakeDamage(en.atk);
       player.vy = -5;
@@ -1060,29 +1696,39 @@ function updateEnemies() {
 
 function updateProjectiles() {
   projectiles.forEach((p, i) => {
-    // Homing (wand)
+    // Projectile tracking (wand or homing wizard balls)
     if (p.homing) {
       let closest = null, dist = 999;
-      enemies.forEach(en => {
-        if (!en.alive) return;
-        const d = Math.hypot(en.x - p.x, en.y - p.y);
-        if (d < dist) { dist = d; closest = en; }
-      });
-      if (closest && dist < 200) {
+      if (p.isEnemy) {
+        // track player
+        closest = player;
+        dist = Math.hypot(player.x - p.x, player.y - p.y);
+      } else {
+        // track enemies
+        enemies.forEach(en => {
+          if (!en.alive) return;
+          const d = Math.hypot(en.x - p.x, en.y - p.y);
+          if (d < dist) { dist = d; closest = en; }
+        });
+      }
+      
+      if (closest && dist < 300) {
         const dx = closest.x + closest.w/2 - p.x;
         const dy = closest.y + closest.h/2 - p.y;
         const a = Math.atan2(dy, dx);
-        p.vx += Math.cos(a) * 0.4;
-        p.vy += Math.sin(a) * 0.4;
+        p.vx += Math.cos(a) * 0.45;
+        p.vy += Math.sin(a) * 0.45;
         const sp = Math.hypot(p.vx, p.vy);
-        if (sp > 6) { p.vx = p.vx/sp*6; p.vy = p.vy/sp*6; }
+        const limitSpeed = p.isEnemy ? 3.5 : 6;
+        if (sp > limitSpeed) { p.vx = p.vx/sp*limitSpeed; p.vy = p.vy/sp*limitSpeed; }
       }
     }
+    
     p.x += p.vx;
     p.y += p.vy;
     p.life--;
 
-    // Trail particles
+    // Trails sparkings
     if (p.life % 2 === 0) {
       particles.push({
         x: p.x, y: p.y, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
@@ -1090,38 +1736,55 @@ function updateProjectiles() {
       });
     }
 
-    // Hit enemies
-    enemies.forEach(en => {
-      if (!en.alive) return;
-      if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, en)) {
-        damageEnemy(en, p.dmg);
+    if (p.isEnemy) {
+      // Enemy projectile hits player
+      if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, player) && player.invincible <= 0) {
+        playerTakeDamage(p.dmg);
+        player.vy = -3;
+        player.vx = (player.x < p.x ? -1 : 1) * 3;
         p.life = 0;
-        // Explosion for wand
-        if (p.homing) {
-          for (let j = 0; j < 8; j++) {
-            particles.push({
-              x: p.x, y: p.y,
-              vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4,
-              life: 15, color: p.color, size: 4
-            });
+      }
+    } else {
+      // Player projectile hits enemies
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, en)) {
+          if (p.piercing) {
+            if (!p.hitEnemies.includes(en.id)) {
+              p.hitEnemies.push(en.id);
+              damageEnemy(en, p.dmg);
+            }
+          } else {
+            damageEnemy(en, p.dmg);
+            p.life = 0;
+            if (p.homing) {
+              // wand orbs spark bursts
+              for (let j = 0; j < 8; j++) {
+                particles.push({
+                  x: p.x, y: p.y,
+                  vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4,
+                  life: 15, color: p.color, size: 4
+                });
+              }
+            }
           }
         }
-      }
-    });
+      });
 
-    // Hit candles
-    candles.forEach(c => {
-      if (!c.alive) return;
-      if (Math.abs(c.x - p.x) < 14 && Math.abs(c.y - p.y) < 14) {
-        breakCandle(c);
-        p.life = 0;
-      }
-    });
+      // Hit candles
+      candles.forEach(c => {
+        if (!c.alive) return;
+        if (Math.abs(c.x - p.x) < 14 && Math.abs(c.y - p.y) < 14) {
+          breakCandle(c);
+          if (!p.piercing) p.life = 0;
+        }
+      });
+    }
 
-    // Wall collision
+    // Wall collision (piercing/shockwaves slide through blocks)
     const tx = Math.floor(p.x / TILE);
     const ty = Math.floor(p.y / TILE);
-    if (isSolid(tx, ty)) p.life = 0;
+    if (isSolid(tx, ty) && !p.piercing) p.life = 0;
   });
   projectiles = projectiles.filter(p => p.life > 0);
 }
@@ -1140,12 +1803,13 @@ function updateItems() {
   items.forEach(it => {
     it.vy += 0.3;
     it.y += it.vy;
-    // Land on ground
+    // Landings on blocks
     const by = Math.floor((it.y + it.h) / TILE);
     const mx = Math.floor((it.x + it.w/2) / TILE);
     if (isSolid(mx, by)) { it.y = by * TILE - it.h; it.vy = 0; }
     it.life--;
-    // Player pickup
+    
+    // Pickups
     if (rectOverlap(player, it)) {
       if (it.type === 'heart') {
         player.hp = Math.min(player.maxHp, player.hp + 20);
@@ -1181,7 +1845,7 @@ function render() {
   ctx.save();
   ctx.translate(-Math.round(camX), -Math.round(camY));
 
-  // Background gradient
+  // Background gothic styling
   const grd = ctx.createLinearGradient(camX, camY, camX, camY + canvas.height);
   grd.addColorStop(0, '#0a0a1a');
   grd.addColorStop(0.5, '#141428');
@@ -1189,7 +1853,7 @@ function render() {
   ctx.fillStyle = grd;
   ctx.fillRect(camX, camY, canvas.width, canvas.height);
 
-  // BG decorations - Gothic windows
+  // BG decorations - gothic cathedral arches
   ctx.globalAlpha = 0.06;
   for (let wx = 2; wx < MAP_W; wx += 10) {
     const wy = 3 * TILE;
@@ -1201,7 +1865,7 @@ function render() {
   }
   ctx.globalAlpha = 1;
 
-  // Tiles
+  // Tiles grids
   const startX = Math.max(0, Math.floor(camX / TILE));
   const endX = Math.min(MAP_W, Math.ceil((camX + canvas.width) / TILE) + 1);
   const startY = Math.max(0, Math.floor(camY / TILE));
@@ -1211,13 +1875,13 @@ function render() {
     for (let x = startX; x < endX; x++) {
       const t = map[y][x];
       if (t === 1) {
-        // Stone brick
+        // Stone brick stylings
         ctx.fillStyle = '#2a2a3a';
         ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
         ctx.strokeStyle = '#3a3a4a';
         ctx.lineWidth = 1;
         ctx.strokeRect(x*TILE+0.5, y*TILE+0.5, TILE-1, TILE-1);
-        // Brick lines
+        
         ctx.strokeStyle = '#1a1a28';
         ctx.beginPath();
         ctx.moveTo(x*TILE, y*TILE+TILE/2);
@@ -1229,7 +1893,7 @@ function render() {
           ctx.beginPath(); ctx.moveTo(x*TILE+TILE/2, y*TILE+TILE/2); ctx.lineTo(x*TILE+TILE/2, y*TILE+TILE); ctx.stroke();
         }
       } else if (t === 4) {
-        // Spikes
+        // Spikes traps
         ctx.fillStyle = '#888888';
         for (let s = 0; s < 4; s++) {
           const sx = x*TILE + s*8;
@@ -1240,14 +1904,14 @@ function render() {
           ctx.fill();
         }
       } else if (t === 3) {
-        // Portal
+        // Portal portals
         const glowAlpha = 0.5 + Math.sin(Date.now() * 0.005) * 0.3;
         ctx.fillStyle = `rgba(77, 240, 255, ${glowAlpha})`;
         ctx.fillRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
         ctx.strokeStyle = '#4df0ff';
         ctx.lineWidth = 2;
         ctx.strokeRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
-        // Sparkles
+        
         ctx.fillStyle = '#ffffff';
         const sp = Date.now() * 0.01;
         ctx.fillRect(x*TILE + 8 + Math.sin(sp)*6, y*TILE + 8 + Math.cos(sp)*8, 3, 3);
@@ -1262,13 +1926,11 @@ function render() {
     const sx = c.x - camX, sy = c.y - camY;
     if (sx < -30 || sx > canvas.width+30 || sy < -30 || sy > canvas.height+30) return;
 
-    // Holder
     ctx.fillStyle = '#666666';
     ctx.fillRect(c.x-2, c.y, 4, 10);
-    // Candle body
     ctx.fillStyle = '#ddcc88';
     ctx.fillRect(c.x-3, c.y-8, 6, 8);
-    // Flame
+    
     const flicker = Math.sin(Date.now() * 0.02 + c.x) * 1.5;
     ctx.fillStyle = '#ff8800';
     ctx.beginPath();
@@ -1280,7 +1942,7 @@ function render() {
     ctx.fill();
   });
 
-  // Items
+  // Items drops
   items.forEach(it => {
     const bob = Math.sin(Date.now()*0.005+it.x)*2;
     if (it.type === 'heart') {
@@ -1298,65 +1960,59 @@ function render() {
     }
   });
 
-  // Enemies
+  // Enemies (Using JRPG preloaded PNG graphics!)
   enemies.forEach(en => {
     if (!en.alive) return;
     const sx = en.x - camX, sy = en.y - camY;
-    if (sx < -50 || sx > canvas.width+50 || sy < -50 || sy > canvas.height+50) return;
+    if (sx < -60 || sx > canvas.width+60 || sy < -60 || sy > canvas.height+60) return;
 
-    ctx.save();
-    if (en.flashTimer > 0 && en.flashTimer % 4 < 2) {
-      ctx.globalAlpha = 0.4;
+    const img = MONSTER_IMAGES[en.type];
+    if (img && img.complete) {
+      ctx.save();
+      let bx = en.x;
+      let by = en.y;
+      let bw = en.w;
+      let bh = en.h;
+
+      // Micro anims
+      if (en.type === 'slime') {
+        const squish = Math.sin(Date.now() * 0.006 + en.id) * 2;
+        by += squish;
+        bh -= squish;
+      } else if (en.type === 'eye' || en.type === 'ghost' || en.type === 'reaper' || en.type === 'dragon') {
+        by += Math.sin(Date.now() * 0.004 + en.id) * 3; // Float bobs
+      }
+
+      // Flip render depending on facing patrol directions
+      if (en.dir < 0) {
+        ctx.translate(bx + bw, by);
+        ctx.scale(-1, 1);
+        bx = 0; by = 0;
+      } else {
+        ctx.translate(bx, by);
+        bx = 0; by = 0;
+      }
+
+      // Dynamic silhouette flash tint overlay upon damage hits
+      if (en.flashTimer > 0) {
+        ctx.drawImage(img, bx, by, bw, bh);
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.65)';
+        ctx.fillRect(bx, by, bw, bh);
+      } else {
+        ctx.drawImage(img, bx, by, bw, bh);
+      }
+      ctx.restore();
+    } else {
+      // Fallback vector drawing (just in case loading holds)
+      ctx.save();
+      if (en.flashTimer > 0 && en.flashTimer % 4 < 2) { ctx.globalAlpha = 0.4; }
+      ctx.fillStyle = en.color;
+      ctx.fillRect(en.x, en.y, en.w, en.h);
+      ctx.restore();
     }
 
-    if (en.type === 'slime') {
-      // Slime body
-      const squish = Math.sin(Date.now()*0.006+en.id)*2;
-      ctx.fillStyle = en.color;
-      ctx.beginPath();
-      ctx.ellipse(en.x+en.w/2, en.y+en.h-squish, en.w/2, en.h/2+squish, 0, 0, Math.PI*2);
-      ctx.fill();
-      // Eyes
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(en.x+6, en.y+en.h/2-4, 5, 5);
-      ctx.fillRect(en.x+en.w-11, en.y+en.h/2-4, 5, 5);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(en.x+8, en.y+en.h/2-2, 2, 2);
-      ctx.fillRect(en.x+en.w-9, en.y+en.h/2-2, 2, 2);
-    } else if (en.type === 'knight') {
-      // Knight body
-      ctx.fillStyle = en.color;
-      ctx.fillRect(en.x+2, en.y+4, en.w-4, en.h-4);
-      // Helmet
-      ctx.fillStyle = '#6666aa';
-      ctx.fillRect(en.x, en.y, en.w, 10);
-      // Visor
-      ctx.fillStyle = '#ff4444';
-      ctx.fillRect(en.x+6, en.y+3, en.w-12, 4);
-      // Sword
-      ctx.fillStyle = '#cccccc';
-      const sdir = en.dir > 0 ? 1 : -1;
-      ctx.fillRect(en.x + (sdir>0?en.w:(-8)), en.y+10, 8, 3);
-    } else if (en.type === 'eye') {
-      // Floating eye
-      const bob = Math.sin(Date.now()*0.004+en.id)*3;
-      ctx.fillStyle = en.color;
-      ctx.beginPath();
-      ctx.ellipse(en.x+en.w/2, en.y+en.h/2+bob, en.w/2, en.h/2, 0, 0, Math.PI*2);
-      ctx.fill();
-      // Pupil
-      ctx.fillStyle = en.eyeColor;
-      ctx.beginPath();
-      ctx.arc(en.x+en.w/2, en.y+en.h/2+bob, 5, 0, Math.PI*2);
-      ctx.fill();
-      ctx.fillStyle = '#000000';
-      ctx.beginPath();
-      ctx.arc(en.x+en.w/2+en.dir*2, en.y+en.h/2+bob, 2.5, 0, Math.PI*2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // HP bar
+    // Mini HP track bar below
     if (en.hp < en.maxHp) {
       ctx.fillStyle = '#333333';
       ctx.fillRect(en.x, en.y-6, en.w, 3);
@@ -1365,34 +2021,269 @@ function render() {
     }
   });
 
-  // Player
+  // Player Animals (Highly detailed custom vector designs!)
   ctx.save();
   if (player.invincible > 0 && player.invincible % 4 < 2) {
     ctx.globalAlpha = 0.4;
   }
 
-  // Body
-  ctx.fillStyle = charDef.color;
-  ctx.fillRect(player.x+3, player.y+8, player.w-6, player.h-8);
-  // Head
-  ctx.fillStyle = charDef.color;
-  ctx.beginPath();
-  ctx.arc(player.x+player.w/2, player.y+8, 9, 0, Math.PI*2);
-  ctx.fill();
-  // Eyes
-  ctx.fillStyle = '#ffffff';
-  const eyeOff = player.dir > 0 ? 3 : -3;
-  ctx.fillRect(player.x+player.w/2+eyeOff-2, player.y+5, 4, 4);
-  ctx.fillStyle = '#111111';
-  ctx.fillRect(player.x+player.w/2+eyeOff-1+player.dir, player.y+6, 2, 2);
-  // Feet
-  ctx.fillStyle = '#333333';
-  ctx.fillRect(player.x+2, player.y+player.h-4, 8, 4);
-  ctx.fillRect(player.x+player.w-10, player.y+player.h-4, 8, 4);
+  const cx = player.x + player.w / 2;
+  const cy = player.y + 8; // Head central height
+  const pdir = player.dir;
+
+  // Running animations bobs
+  let bounce = 0;
+  if (Math.abs(player.vx) > 0.5 && player.onGround) {
+    bounce = Math.sin(Date.now() * 0.015) * 1.5;
+  }
+
+  if (charKey === 'bear') {
+    // 🐻 Bear: Knight bear with red flowing cape
+    const furColor = '#f2f2f7';
+    const armorColor = '#2a52be';
+    const goldColor = '#ffd89c';
+
+    // red cape in background
+    ctx.fillStyle = '#cc2222';
+    ctx.beginPath();
+    if (pdir > 0) {
+      ctx.moveTo(cx - 5, cy + 6);
+      ctx.quadraticCurveTo(cx - 18 - Math.abs(player.vx)*2, cy + 10 + bounce, cx - 16, cy + 22);
+      ctx.lineTo(cx - 4, cy + 20);
+    } else {
+      ctx.moveTo(cx + 5, cy + 6);
+      ctx.quadraticCurveTo(cx + 18 + Math.abs(player.vx)*2, cy + 10 + bounce, cx + 16, cy + 22);
+      ctx.lineTo(cx + 4, cy + 20);
+    }
+    ctx.fill();
+
+    // ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx - 6, cy - 8, 4, 0, Math.PI * 2);
+    ctx.arc(cx + 6, cy - 8, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffb6c1';
+    ctx.beginPath();
+    ctx.arc(cx - 6, cy - 8, 2, 0, Math.PI * 2);
+    ctx.arc(cx + 6, cy - 8, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+    ctx.fill();
+
+    // snout
+    ctx.fillStyle = '#e5e5ea';
+    ctx.beginPath();
+    ctx.ellipse(cx + pdir * 3, cy + 3, 4, 3, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#2c2c2e';
+    ctx.fillRect(cx + pdir * 4.5 - 1, cy + 1.5, 2, 2);
+
+    // Armor body
+    ctx.fillStyle = armorColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = goldColor;
+    ctx.fillRect(cx - 2, player.y + 14 + bounce, 4, 6);
+
+    // Eyes
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(cx + pdir * 3 - (pdir > 0 ? 0 : 3), cy - 2, 2, 2.5);
+
+  } else if (charKey === 'monkey') {
+    // 🐵 Monkey: Sun Wukong golden headband
+    const furColor = '#965a38';
+    const faceColor = '#ffd3b6';
+
+    // Long tail in background
+    ctx.strokeStyle = furColor;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
+    ctx.quadraticCurveTo(cx - pdir * 18, player.y + 8 + bounce + Math.sin(Date.now()*0.012)*3, cx - pdir * 20, player.y + 14);
+    ctx.stroke();
+
+    // ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx - 8, cy, 3.5, 0, Math.PI * 2);
+    ctx.arc(cx + 8, cy, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = faceColor;
+    ctx.beginPath();
+    ctx.arc(cx - 8, cy, 1.5, 0, Math.PI * 2);
+    ctx.arc(cx + 8, cy, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // mask face
+    ctx.fillStyle = faceColor;
+    ctx.beginPath();
+    ctx.arc(cx - 2.5 + pdir * 2, cy + 1, 4, 0, Math.PI * 2);
+    ctx.arc(cx + 2.5 + pdir * 2, cy + 1, 4, 0, Math.PI * 2);
+    ctx.ellipse(cx + pdir * 2, cy + 4, 4.5, 3.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Headband ribbon
+    ctx.fillStyle = '#ff2a2a';
+    ctx.fillRect(cx - 8.5, cy - 6, 17, 3);
+    ctx.beginPath();
+    ctx.moveTo(cx - pdir * 8, cy - 4.5);
+    ctx.lineTo(cx - pdir * 14, cy - 2);
+    ctx.lineTo(cx - pdir * 13, cy + 2);
+    ctx.fill();
+
+    // body green
+    ctx.fillStyle = '#27ae60';
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = '#f1c40f'; // belt
+    ctx.fillRect(player.x + 3, player.y + 20 + bounce, player.w - 6, 2.5);
+
+    // eyes
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3.5), cy, 1.5, 2);
+
+  } else if (charKey === 'bunny') {
+    // 🐰 Bunny: floppy long bunny ears with hood cloak
+    const furColor = '#fbfbfb';
+    const cloakColor = '#27ae60';
+
+    // fluffy ball tail in BG
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx - pdir * 8, player.y + player.h - 8 + bounce, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // cloak body
+    ctx.fillStyle = cloakColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+
+    // bunny long ears
+    const earAngle = Math.abs(player.vx) * 0.04 * -pdir;
+    ctx.save();
+    ctx.translate(cx, cy - 6);
+    ctx.rotate(earAngle);
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.ellipse(-3.5, -8, 2.5, 9, 0, 0, Math.PI * 2);
+    ctx.ellipse(3.5, -8, 2.5, 9, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffc0cb';
+    ctx.beginPath();
+    ctx.ellipse(-3.5, -8, 1.2, 7, 0, 0, Math.PI * 2);
+    ctx.ellipse(3.5, -8, 1.2, 7, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // hood hood
+    ctx.fillStyle = cloakColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // white face
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 2, cy + 1, 6.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // red eyes
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 3.5, cy, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    // nose
+    ctx.fillStyle = '#ffc0cb';
+    ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2, 1, 1);
+
+  } else if (charKey === 'cat') {
+    // 🐱 Cat: Wizard purple cat pointy ears
+    const furColor = '#ffa94d';
+    const robeColor = '#8e44ad';
+
+    // sleek tail waving
+    ctx.strokeStyle = furColor;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
+    ctx.quadraticCurveTo(cx - pdir * 14, player.y + 10 + Math.sin(Date.now()*0.015)*4, cx - pdir * 18, player.y + 7);
+    ctx.stroke();
+
+    // Pointy ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.moveTo(cx - 7, cy - 4); ctx.lineTo(cx - 8, cy - 12); ctx.lineTo(cx - 2, cy - 7);
+    ctx.moveTo(cx + 7, cy - 4); ctx.lineTo(cx + 8, cy - 12); ctx.lineTo(cx + 2, cy - 7);
+    ctx.fill();
+    ctx.fillStyle = '#ffc0cb';
+    ctx.beginPath();
+    ctx.moveTo(cx - 6, cy - 5); ctx.lineTo(cx - 7, cy - 10); ctx.lineTo(cx - 3, cy - 7);
+    ctx.moveTo(cx + 6, cy - 5); ctx.lineTo(cx + 7, cy - 10); ctx.lineTo(cx + 3, cy - 7);
+    ctx.fill();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // wizard hat
+    ctx.fillStyle = robeColor;
+    ctx.beginPath();
+    ctx.moveTo(cx - 8, cy - 6);
+    ctx.lineTo(cx, cy - 18);
+    ctx.lineTo(cx + 8, cy - 6);
+    ctx.fill();
+    ctx.fillStyle = '#ffd89c';
+    ctx.fillRect(cx - 10, cy - 7, 20, 2);
+
+    // robe body
+    ctx.fillStyle = robeColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = '#ffd89c';
+    ctx.fillRect(cx - 2, player.y + 16 + bounce, 4, 4);
+
+    // green eyes
+    ctx.fillStyle = '#2ecc71';
+    ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3), cy - 1, 2, 2.5);
+    ctx.fillStyle = '#000000'; // vertical pupils
+    ctx.fillRect(cx + pdir * 2.5 + (pdir > 0 ? 0.5 : -2.5), cy - 0.5, 1, 2.5);
+
+    // whiskers
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    if (pdir > 0) {
+      ctx.moveTo(cx + 4, cy + 2.5); ctx.lineTo(cx + 12, cy + 1.5);
+      ctx.moveTo(cx + 4, cy + 4); ctx.lineTo(cx + 13, cy + 4);
+      ctx.moveTo(cx + 4, cy + 5.5); ctx.lineTo(cx + 11, cy + 6.5);
+    } else {
+      ctx.moveTo(cx - 4, cy + 2.5); ctx.lineTo(cx - 12, cy + 1.5);
+      ctx.moveTo(cx - 4, cy + 4); ctx.lineTo(cx - 13, cy + 4);
+      ctx.moveTo(cx - 4, cy + 5.5); ctx.lineTo(cx - 11, cy + 6.5);
+    }
+    ctx.stroke();
+  }
+
+  // Walking feet cycles
+  ctx.fillStyle = '#2c2c2e';
+  const walkCycle = Math.sin(Date.now() * 0.015) * 3;
+  const fL = player.onGround && Math.abs(player.vx) > 0.5 ? walkCycle : 0;
+  const fR = player.onGround && Math.abs(player.vx) > 0.5 ? -walkCycle : 0;
+  ctx.fillRect(player.x + 2, player.y + player.h - 4 + fL, 7, 4);
+  ctx.fillRect(player.x + player.w - 9, player.y + player.h - 4 + fR, 7, 4);
 
   ctx.restore();
 
-  // Weapon visual (melee swing arc)
+  // Weapon visual arcs (melee sweeping shapes)
   if (player.attacking) {
     const wpn = WEAPONS[weaponIdx];
     if (wpn.type === 'melee') {
@@ -1404,7 +2295,6 @@ function render() {
       ctx.globalAlpha = 0.7 + 0.3 * (1-progress);
 
       if (wpn === WEAPONS[0]) {
-        // Short sword - simple slash line
         const angle = player.dir * (-0.8 + progress * 1.6);
         ctx.rotate(angle);
         ctx.strokeStyle = wpn.color;
@@ -1415,9 +2305,7 @@ function render() {
         ctx.moveTo(0, 0);
         ctx.lineTo(wpn.range * player.dir * 0.7, 0);
         ctx.stroke();
-        ctx.shadowBlur = 0;
       } else if (wpn === WEAPONS[1]) {
-        // Whip - extending chain
         const len = wpn.range * progress;
         ctx.strokeStyle = wpn.color;
         ctx.lineWidth = 2;
@@ -1432,14 +2320,11 @@ function render() {
           ctx.lineTo(sx, sy);
         }
         ctx.stroke();
-        // Tip glow
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.arc(len * player.dir, Math.sin(progress*6)*3, 3, 0, Math.PI*2);
         ctx.fill();
-        ctx.shadowBlur = 0;
       } else if (wpn === WEAPONS[4]) {
-        // Greatsword - massive arc
         const startAngle = player.dir > 0 ? -Math.PI/2 : Math.PI/2;
         const sweepAngle = player.dir * Math.PI * progress;
         ctx.strokeStyle = wpn.color;
@@ -1449,24 +2334,66 @@ function render() {
         ctx.beginPath();
         ctx.arc(0, 0, wpn.range * 0.8, startAngle, startAngle + sweepAngle);
         ctx.stroke();
-        ctx.shadowBlur = 0;
       }
       ctx.restore();
     }
   }
 
-  // Projectiles
+  // Projectiles (with dedicated graphics for lasers, sonics, fireballs, and scythes!)
   projectiles.forEach(p => {
     ctx.save();
     ctx.shadowColor = p.color;
     ctx.shadowBlur = 10;
     ctx.fillStyle = p.color;
-    if (p.homing) {
+    ctx.strokeStyle = p.color;
+
+    if (p.isSonic) {
+      // Sonic waves
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const rad = 6 + (80 - p.life) * 0.25;
+      ctx.arc(p.x, p.y, rad, -Math.PI/2, Math.PI/2);
+      ctx.stroke();
+    } else if (p.isLaser) {
+      // Laser drop bars
+      ctx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+    } else if (p.isEnemyOrb) {
+      // Magic tracking ball
       ctx.beginPath();
       ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
       ctx.fill();
+    } else if (p.isFireball) {
+      // Dragon fireball
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 7, 0, Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = '#ffff00';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
+      ctx.fill();
+    } else if (p.isScythe) {
+      // Reaper spin scythe
+      ctx.translate(p.x, p.y);
+      const angle = (Date.now() * 0.015) % (Math.PI*2);
+      ctx.rotate(angle);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, 10, -Math.PI/2, Math.PI/3);
+      ctx.stroke();
+      ctx.strokeStyle = '#666666';
+      ctx.beginPath();
+      ctx.moveTo(-4, -4);
+      ctx.lineTo(4, 4);
+      ctx.stroke();
     } else {
-      ctx.fillRect(p.x-p.w/2, p.y-p.h/2, p.w, p.h);
+      // Default player projectils
+      if (p.homing) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(p.x-p.w/2, p.y-p.h/2, p.w, p.h);
+      }
     }
     ctx.shadowBlur = 0;
     ctx.restore();
@@ -1480,7 +2407,7 @@ function render() {
   });
   ctx.globalAlpha = 1;
 
-  // Floaters
+  // Damage floater values
   floaters.forEach(f => {
     ctx.globalAlpha = Math.min(1, f.life / 15);
     ctx.fillStyle = f.color;
@@ -1507,6 +2434,14 @@ function updateHUD() {
   document.getElementById('hudHpText').textContent = player.hp + '/' + player.maxHp;
   document.getElementById('hudXpBar').style.width = (info.xpInLevel / info.xpNeeded * 100) + '%';
   document.getElementById('hudLevel').textContent = 'LV.' + info.level;
+
+  // Active Skill CD HUD display
+  const skillReady = player.skillCooldown <= 0;
+  const maxCD = CHARACTERS[charKey].skillCD;
+  const pct = skillReady ? 100 : (1 - player.skillCooldown / maxCD) * 100;
+  document.getElementById('hudSkillBar').style.width = pct + '%';
+  document.getElementById('hudSkillText').textContent = skillReady ? 'READY' : Math.ceil(player.skillCooldown / 60) + 's';
+  document.getElementById('hudSkillText').style.color = skillReady ? '#ba4dff' : '#aaaaaa';
 }
 
 // ============================================================
@@ -1552,6 +2487,26 @@ function exitGame() {
 
 // Prevent default scroll on touch
 document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+// Initialize selection screen on start
+function initCharacterSelect() {
+  loadFromRPG();
+  const info = getLevelInfo(userXP);
+  document.querySelector('.char-subtitle').innerHTML = `當前冒險者等級：LV.${info.level}<br>選擇代表角色進入深淵降噪之城`;
+
+  if (defaultAnimalKey) {
+    const recEl = document.getElementById('rec_' + defaultAnimalKey);
+    if (recEl) recEl.style.display = 'inline-block';
+    
+    const cardEl = document.getElementById('card_' + defaultAnimalKey);
+    if (cardEl) {
+      cardEl.style.borderColor = '#ba4dff';
+      cardEl.style.background = 'rgba(186, 77, 255, 0.08)';
+      cardEl.style.boxShadow = '0 0 15px rgba(186, 77, 255, 0.3)';
+    }
+  }
+}
+initCharacterSelect();
 </script>
 </body>
 </html>
