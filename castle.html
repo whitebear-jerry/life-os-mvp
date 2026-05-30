@@ -919,10 +919,13 @@ function generateEnemies() {
     // Scale speed by activeStageIdx (higher stage = faster monsters!)
     spd = spd * (1 + activeStageIdx * 0.15);
 
-    // Apply difficulty scaling, V6 10x multiplier, and V8 linear player adaptive scaling!
-    hp = Math.floor(hp * scale * 10.0 * playerLvlScale);
-    atk = Math.floor(atk * scale * 10.0 * playerLvlScale);
-    def = Math.floor(def * scale * 10.0 * playerLvlScale);
+    // Apply balanced, linear scaling to match player growth and prevent one-shots!
+    hp = Math.floor(hp * (1 + activeStageIdx * 0.4) * (1 + (pInfo.level - 1) * 0.15));
+    def = Math.floor(def * (1 + activeStageIdx * 0.2) * (1 + (pInfo.level - 1) * 0.08));
+    // ATK scales directly as a proportion of player.maxHp (ensuring NO one-shots!)
+    // We use a divisor of 250 so that a base ATK of 8 (slime) at Stage 10 deals ~7.5% HP,
+    // and a base ATK of 48 (Boss Reaper) at Stage 10 deals ~45% HP.
+    atk = Math.max(1, Math.floor(player.maxHp * (atk / 250) * (1 + activeStageIdx * 0.12)));
     xpVal = Math.floor(xpVal * scale);
 
     enemies.push({

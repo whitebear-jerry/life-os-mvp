@@ -2335,10 +2335,10 @@
           }
         }
 
-        // 完美對應玩家成長的 HP、攻擊力與經驗數值曲線，V7 地獄級 15 倍血防與 10 倍攻擊強化！
-        const hp = Math.floor((60 + i * i * 2.2 + i * 15) * 15.0);
-        const atk = Math.floor((10 + i * 3.4 + Math.pow(i, 1.25) * 0.6) * 10.0);
-        const def = Math.floor((5 + i * i * 0.15 + i * 1.0) * 15.0);
+        // 完美對應玩家成長的 HP、攻擊力與經驗數值曲線，並進行數值平衡，避免高階關卡被秒殺與刮痧！
+        const hp = Math.floor((60 + i * i * 2.2 + i * 15) * 0.35);
+        const atk = Math.floor((10 + i * 3.4 + Math.pow(i, 1.25) * 0.6) * 0.35);
+        const def = Math.floor((5 + i * i * 0.15 + i * 1.0) * 0.2);
         const xp = Math.floor(10 + i * 2.5 + (i * i) * 0.05);
         const attrChance = Math.min(1.0, 0.08 + i * 0.01);
 
