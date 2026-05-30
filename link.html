@@ -1474,6 +1474,59 @@
               <span style="font-size: 0.9rem; font-weight: bold; color: #ffd89c; font-family: monospace;">⚔️ 冒險者公會：討伐任務選擇 ⚔️</span>
             </div>
             <p style="font-size: 0.72rem; color: rgba(255,255,255,0.7); line-height: 1.4; margin-bottom: 12px; font-family: monospace;">
+              選擇一個等級相符的懸賞任務進行挑戰。每次擊敗怪物將獲得對應的經驗值，並有機會獲得隨機屬性點加成！
+            </p>
+            <div class="retro-stage-select" id="retroStageSelect">
+              <!-- 討伐任務列表將由 JS 動態生成 -->
+            </div>
+          </div>
+
+          <!-- 戰鬥畫面區 Battle Area (動態顯示/隱藏) -->
+          <div id="adventureBattleArea" style="display: none;">
+            <!-- 戰鬥頂部狀態欄 -->
+            <div class="retro-stats-area">
+              <div class="retro-party-grid" id="retroPartyGrid">
+                <!-- 勇者小隊隊員 HP 將由 JS 動態生成 -->
+              </div>
+              <div class="retro-enemy-stats">
+                <span class="retro-name" id="eBattleName">👾 雜念史萊姆</span>
+                <span class="retro-hp-text" id="eHPText">HP: 35 / 35</span>
+                <div class="retro-hp-container">
+                  <div class="retro-hp-fill" id="eHPFill" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 戰鬥精靈繪製區 (聲音按鈕與怪物插畫) -->
+            <div class="retro-visual-area">
+              <div style="font-size: 0.8rem; font-family: monospace; color: #888888; position: absolute; left: 10px; top: 10px; z-index: 5;">
+                <button class="btn-retro" id="btnRetroMute" onclick="toggleRetroMute()" style="border: 1px solid #ffffff; padding: 2px 6px; font-size: 0.65rem; background: #000000; color: #ffffff; cursor: pointer; border-radius: 4px;">🔊 聲音</button>
+              </div>
+              <img class="retro-monster-sprite" id="retroMonsterSprite" src="assets/monster_slime.png" style="max-height: 120px; max-width: 120px; filter: none; opacity: 1;">
+            </div>
+
+            <!-- 戰鬥日誌/訊息對話欄 -->
+            <div class="retro-log-area" id="retroLogArea">
+              「野生的【雜念史萊姆】出現了！<br>請選擇行動，迎戰負能量噪音！」
+            </div>
+
+            <!-- 戰鬥行動按鈕區 -->
+            <div class="retro-commands" id="retroCommands">
+              <!-- 戰鬥決策按鈕將由 JS 動態生成 -->
+            </div>
+
+            <!-- 撤退/逃跑按鈕 -->
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+              <button class="btn-retro" onclick="handleFlee()" style="border-color: #ff4d4d; color: #ff4d4d; padding: 4px 10px; font-size: 0.7rem;">🏃 撤退 (Flee)</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+  <!-- === 🛠️ 互動邏輯 JavaScript === -->
+  <script src="assets/guidance_quotes.js"></script>
+  <script>
     // ----------------------------------------------------
     // JRPG 復古勇者冒險戰鬥引擎 JavaScript
     // ----------------------------------------------------
