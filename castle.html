@@ -878,37 +878,39 @@ function generateEnemies() {
     let xpVal = 8;
     let w = 28;
     let h = 24;
+    let def = 2;
 
     if (type === 'slime') {
-      hp = 30; atk = 8; spd = 0.8; xpVal = 8; w = 28; h = 24;
+      hp = 30; atk = 8; spd = 0.8; xpVal = 8; w = 28; h = 24; def = 2;
     } else if (type === 'snail') {
-      hp = 45; atk = 10; spd = 0.5; xpVal = 12; w = 32; h = 28;
+      hp = 45; atk = 10; spd = 0.5; xpVal = 12; w = 32; h = 28; def = 4;
     } else if (type === 'golem') {
-      hp = 120; atk = 22; spd = 0.4; xpVal = 35; w = 48; h = 48;
+      hp = 120; atk = 22; spd = 0.4; xpVal = 35; w = 48; h = 48; def = 12;
     } else if (type === 'noise') {
-      hp = 60; atk = 14; spd = 0.9; xpVal = 20; w = 36; h = 36;
+      hp = 60; atk = 14; spd = 0.9; xpVal = 20; w = 36; h = 36; def = 6;
     } else if (type === 'eye') {
-      hp = 40; atk = 12; spd = 1.1; xpVal = 15; w = 24; h = 24;
+      hp = 40; atk = 12; spd = 1.1; xpVal = 15; w = 24; h = 24; def = 3;
     } else if (type === 'ghost') {
-      hp = 50; atk = 13; spd = 0.7; xpVal = 18; w = 32; h = 32;
+      hp = 50; atk = 13; spd = 0.7; xpVal = 18; w = 32; h = 32; def = 5;
     } else if (type === 'wizard') {
-      hp = 70; atk = 16; spd = 1.0; xpVal = 25; w = 32; h = 40;
+      hp = 70; atk = 16; spd = 1.0; xpVal = 25; w = 32; h = 40; def = 8;
     } else if (type === 'knight') {
-      hp = 90; atk = 18; spd = 0.6; xpVal = 30; w = 36; h = 44;
+      hp = 90; atk = 18; spd = 0.6; xpVal = 30; w = 36; h = 44; def = 10;
     } else if (type === 'dragon') {
-      hp = 180; atk = 26; spd = 0.8; xpVal = 60; w = 56; h = 56;
+      hp = 180; atk = 26; spd = 0.8; xpVal = 60; w = 56; h = 56; def = 15;
     } else if (type === 'reaper') {
-      hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52;
+      hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52; def = 20;
     }
 
-    // Apply difficulty scaling
-    hp = Math.floor(hp * scale);
-    atk = Math.floor(atk * scale * 2.0); // V5 Monster 2x Attack Power!
+    // Apply difficulty scaling and V6 10x multiplier!
+    hp = Math.floor(hp * scale * 10.0);
+    atk = Math.floor(atk * scale * 10.0);
+    def = Math.floor(def * scale * 10.0);
     xpVal = Math.floor(xpVal * scale);
 
     enemies.push({
       id: i, x: ex*TILE, y: (ey-1)*TILE, w, h,
-      type, hp, maxHp: hp, atk, spd, xpVal,
+      type, hp, maxHp: hp, atk, def, spd, xpVal,
       patrolLeft: ex*TILE - pw*TILE/2, patrolRight: ex*TILE + pw*TILE,
       vx: spd, vy: 0, dir: 1, alive: true,
       hitTimer: 0, flashTimer: 0,
@@ -2069,7 +2071,10 @@ function damageEnemy(en, dmg) {
     return;
   }
 
-  en.hp -= dmg;
+  // Apply monster defense! en.def reduces incoming damage. Since en.def is scaled by 10, we divide by 10 to get the reduction.
+  const finalDmg = Math.max(1, dmg - Math.floor((en.def || 0) / 10));
+
+  en.hp -= finalDmg;
   en.hitTimer = 8;
   en.flashTimer = 12;
   en.vx = -en.dir * 3;
@@ -2077,7 +2082,7 @@ function damageEnemy(en, dmg) {
 
   floaters.push({
     x: en.x + en.w/2, y: en.y - 5,
-    text: '-' + dmg, color: '#ffdd44', life: 40, vy: -2
+    text: '-' + finalDmg, color: '#ffdd44', life: 40, vy: -2
   });
 
   if (en.hp <= 0) {

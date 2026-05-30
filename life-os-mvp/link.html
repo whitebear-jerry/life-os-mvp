@@ -2335,9 +2335,10 @@
           }
         }
 
-        // 完美對應玩家成長的 HP、攻擊力與經驗數值曲線
-        const hp = Math.floor(60 + i * i * 2.2 + i * 15);
-        const atk = Math.floor(10 + i * 3.4 + Math.pow(i, 1.25) * 0.6);
+        // 完美對應玩家成長的 HP、攻擊力與經驗數值曲線，V6 地獄級 10 倍強化！
+        const hp = Math.floor((60 + i * i * 2.2 + i * 15) * 10.0);
+        const atk = Math.floor((10 + i * 3.4 + Math.pow(i, 1.25) * 0.6) * 10.0);
+        const def = Math.floor((5 + i * i * 0.1 + i * 0.8) * 10.0);
         const xp = Math.floor(10 + i * 2.5 + (i * i) * 0.05);
         const attrChance = Math.min(1.0, 0.08 + i * 0.01);
 
@@ -2345,6 +2346,7 @@
           name,
           hp,
           atk,
+          def,
           xp,
           reqLevel: i,
           count,
@@ -2902,11 +2904,14 @@
       if (actionType !== 'vit' && dmg > 0) {
         const hitSprites = [];
         if (actionType === 'int') {
-          // INT - 群體雷擊：電擊全體存活的怪物
+          // INT - 群體雷擊：電擊全體存活的怪物 (防禦力抵免)
+          let totalDmgDealt = 0;
           enemyMonsters.forEach(mObj => {
             if (mObj.alive) {
-              const mDmg = isCrit ? dmg : Math.max(1, Math.floor(dmg * (0.8 + Math.random() * 0.4)));
-              mObj.hp = Math.max(0, mObj.hp - mDmg);
+              const baseDmg = isCrit ? dmg : Math.max(1, Math.floor(dmg * (0.8 + Math.random() * 0.4)));
+              const finalDmg = Math.max(1, baseDmg - Math.floor((mObj.def || 0) / 10));
+              mObj.hp = Math.max(0, mObj.hp - finalDmg);
+              totalDmgDealt = Math.max(totalDmgDealt, finalDmg);
               if (mObj.hp === 0) {
                 mObj.alive = false;
               }
@@ -2917,12 +2922,13 @@
               }
             }
           });
-          spawnDamageText(`-${dmg}`, 'monster');
+          spawnDamageText(`-${totalDmgDealt}`, 'monster');
         } else {
-          // AGI & FOC - 單體劈砍/突刺：僅電擊選中的怪物
+          // AGI & FOC - 單體劈砍/突刺：僅電擊選中的怪物 (防禦力抵免)
           const mObj = enemyMonsters[selectedMonsterIdx];
           if (mObj && mObj.alive) {
-            mObj.hp = Math.max(0, mObj.hp - dmg);
+            const finalDmg = Math.max(1, dmg - Math.floor((mObj.def || 0) / 10));
+            mObj.hp = Math.max(0, mObj.hp - finalDmg);
             if (mObj.hp === 0) {
               mObj.alive = false;
             }
@@ -2931,7 +2937,7 @@
               sprite.classList.add('hit');
               hitSprites.push(sprite);
             }
-            spawnDamageText(`-${dmg}`, 'monster');
+            spawnDamageText(`-${finalDmg}`, 'monster');
           }
         }
 
@@ -2996,7 +3002,7 @@
         
         // 依怪群存活數量自適應調整個別傷害，避免玩家被瞬間秒殺
         const scaleFactor = aliveEnemies.length === 3 ? 0.45 : (aliveEnemies.length === 2 ? 0.65 : 1.0);
-        let mDmg = Math.floor((monster.atk * 0.75 + Math.random() * (monster.atk * 0.5)) * scaleFactor * 2.0); // 2x Monster Attack Power!
+        let mDmg = Math.floor((monster.atk * 0.75 + Math.random() * (monster.atk * 0.5)) * scaleFactor);
         mDmg = Math.max(1, mDmg);
         
         let logMsg = "";
