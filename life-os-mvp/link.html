@@ -1252,25 +1252,35 @@
         gap: 6px;
       }
     /* JRPG Combat Attack Visual Effects */
-    @keyframes slash-effect-anim {
-      0% { transform: scaleX(0) rotate(-45deg); opacity: 0; }
-      15% { transform: scaleX(1.4) rotate(-45deg); opacity: 1; }
-      75% { transform: scaleX(1.1) rotate(-45deg); opacity: 1; }
-      100% { transform: scaleX(0) rotate(-45deg); opacity: 0; }
+    @keyframes slash-fwd-anim {
+      0% { transform: translate(-50%, -50%) rotate(-35deg) scaleX(0); opacity: 0; }
+      20% { transform: translate(-50%, -50%) rotate(-35deg) scaleX(1.3); opacity: 1; }
+      50% { transform: translate(-50%, -50%) rotate(-35deg) scaleX(1.1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) rotate(-35deg) scaleX(0); opacity: 0; }
     }
-    .slash-effect {
+    @keyframes slash-back-anim {
+      0% { transform: translate(-50%, -50%) rotate(35deg) scaleX(0); opacity: 0; }
+      20% { transform: translate(-50%, -50%) rotate(35deg) scaleX(1.3); opacity: 1; }
+      50% { transform: translate(-50%, -50%) rotate(35deg) scaleX(1.1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) rotate(35deg) scaleX(0); opacity: 0; }
+    }
+    .slash-effect-fwd, .slash-effect-back {
       position: absolute;
-      top: 40%;
-      left: 10%;
-      width: 80%;
-      height: 16px;
+      top: 50%;
+      left: 50%;
+      width: 170px;
+      height: 22px;
       background: linear-gradient(90deg, transparent, #ffffff 15%, #ffd89c 50%, #ff4d4d 85%, transparent);
-      box-shadow: 0 0 25px #ff9f43, 0 0 10px #ffffff, 0 0 40px #ff3838;
-      transform: rotate(-45deg);
+      box-shadow: 0 0 25px #ff9f43, 0 0 10px #ffffff, 0 0 45px #ff3838;
       transform-origin: center;
-      z-index: 10;
+      z-index: 99;
       pointer-events: none;
-      animation: slash-effect-anim 0.25s cubic-bezier(0.15, 0.85, 0.45, 1) forwards;
+    }
+    .slash-effect-fwd {
+      animation: slash-fwd-anim 0.3s cubic-bezier(0.15, 0.85, 0.45, 1) forwards;
+    }
+    .slash-effect-back {
+      animation: slash-back-anim 0.3s cubic-bezier(0.15, 0.85, 0.45, 1) forwards;
     }
 
     @keyframes lightning-effect-anim {
@@ -1283,52 +1293,75 @@
     }
     .lightning-effect {
       position: absolute;
-      top: 0;
+      top: -30px;
+      left: calc(50% - 16px);
       width: 32px;
-      height: 100%;
+      height: 180px;
       background: #4df0ff;
       box-shadow: 0 0 35px #4df0ff, 0 0 20px #ffffff, 0 0 60px #00a8ff;
-      z-index: 10;
+      z-index: 99;
       pointer-events: none;
       animation: lightning-effect-anim 0.4s ease-in-out forwards;
     }
 
     @keyframes pierce-effect-anim {
-      0% { transform: scaleX(0.1) rotate(15deg); opacity: 0; }
-      15% { transform: scaleX(1.4) rotate(15deg); opacity: 1; }
-      75% { transform: scaleX(1.1) rotate(15deg); opacity: 1; }
-      100% { transform: scaleX(0) rotate(15deg); opacity: 0; }
+      0% { transform: translate(-50%, -50%) rotate(15deg) scaleX(0); opacity: 0; }
+      20% { transform: translate(-50%, -50%) rotate(15deg) scaleX(1.3); opacity: 1; }
+      60% { transform: translate(-50%, -50%) rotate(15deg) scaleX(1.1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) rotate(15deg) scaleX(0); opacity: 0; }
     }
     .pierce-effect {
       position: absolute;
       top: 50%;
-      left: 5%;
-      width: 90%;
-      height: 12px;
-      background: linear-gradient(90deg, transparent, #ffffff 10%, #ff4d4d 50%, #ff0000 90%, transparent);
-      box-shadow: 0 0 25px #ff4d4d, 0 0 10px #ffffff, 0 0 45px #ff0000;
-      transform: rotate(15deg);
-      transform-origin: left center;
-      z-index: 10;
+      left: 50%;
+      width: 190px;
+      height: 14px;
+      background: linear-gradient(90deg, transparent, #ffffff 10%, #00ffff 50%, #0077ff 90%, transparent);
+      box-shadow: 0 0 25px #00ffff, 0 0 10px #ffffff, 0 0 45px #0055ff;
+      transform-origin: center;
+      z-index: 99;
       pointer-events: none;
-      animation: pierce-effect-anim 0.28s ease-out forwards;
+      animation: pierce-effect-anim 0.32s ease-out forwards;
     }
     .pierce-effect::before, .pierce-effect::after {
       content: '';
       position: absolute;
-      width: 40px;
-      height: 8px;
-      background: #ff4d4d;
-      box-shadow: 0 0 12px #ff4d4d, 0 0 4px #ffffff;
+      width: 45px;
+      height: 10px;
+      background: #00ffff;
+      box-shadow: 0 0 15px #00ffff, 0 0 5px #ffffff;
       border-radius: 50%;
     }
     .pierce-effect::before {
-      top: -15px;
-      left: 20%;
+      top: -20px;
+      left: 25%;
+      transform: rotate(-15deg);
     }
     .pierce-effect::after {
-      bottom: -15px;
-      left: 60%;
+      bottom: -20px;
+      left: 55%;
+      transform: rotate(15deg);
+    }
+
+    @keyframes pierce-burst-anim {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; border-width: 8px; }
+      10% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+      80% { transform: translate(-50%, -50%) scale(1.6); opacity: 0.85; border-width: 2px; }
+      100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; border-width: 0px; }
+    }
+    .pierce-burst {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80px;
+      height: 80px;
+      border: 4px solid #ffffff;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.25) 0%, transparent 70%);
+      box-shadow: 0 0 20px #00ffff, inset 0 0 15px #00ffff;
+      z-index: 98;
+      pointer-events: none;
+      animation: pierce-burst-anim 0.45s ease-out forwards;
     }
 
     @keyframes magic-rune-effect-anim {
@@ -1347,7 +1380,7 @@
       border-radius: 50%;
       background: radial-gradient(circle, rgba(77, 240, 255, 0.15), transparent 70%);
       box-shadow: 0 0 30px rgba(77, 240, 255, 0.9), inset 0 0 20px rgba(186, 77, 255, 0.6);
-      z-index: 11;
+      z-index: 99;
       pointer-events: none;
       animation: magic-rune-effect-anim 0.5s ease-out forwards;
       display: flex;
@@ -1376,7 +1409,7 @@
       border: 4px solid #00ff66;
       box-shadow: 0 0 25px #00ff66, inset 0 0 15px #00ff66;
       border-radius: 6px;
-      z-index: 5;
+      z-index: 99;
       pointer-events: none;
       animation: shield-effect-anim 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
@@ -1404,6 +1437,16 @@
     }
     .retro-monster-wrapper {
       transition: transform 0.2s ease;
+    }
+
+    /* Tooltip active neon gear effect text */
+    .tooltip-effect {
+      display: block;
+      color: #00ff66;
+      font-weight: bold;
+      margin-top: 5px;
+      font-size: 0.72rem;
+      text-shadow: 0 0 4px rgba(0, 255, 102, 0.4);
     }
   </style>
 </head>
@@ -1573,36 +1616,36 @@
           </button>
         </div>
 
-        <!-- 🛡️ 已解鎖公會神裝庫 -->
+         <!-- 🛡️ 已解鎖公會神裝庫 -->
         <div class="guild-equip-panel">
           <h3 class="equip-title">🛡️ 已解鎖公會神裝</h3>
           <div class="equip-grid" id="equipGrid">
             <div class="equip-slot locked" id="equip-0" data-level="10">
-              🔒<div class="tooltip"><span class="tooltip-name">💻 大腦除錯鍵盤 [LV.10]</span>重設你的核心信念，隨手將挫折改寫成可除錯的人生代碼任務。<span class="tooltip-lore">《人生遊戲》：重新 Debug 你的底層思維。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">💻 大腦除錯鍵盤 [LV.10]</span>重設你的核心信念，隨手將挫折改寫成可除錯的人生代碼任務。<span class="tooltip-lore">《人生遊戲》：重新 Debug 你的底層思維。</span><span class="tooltip-effect">⚡ 戰鬥效果：白熊 智慧 (INT) +5</span></div>
             </div>
             <div class="equip-slot locked" id="equip-1" data-level="20">
-              🔒<div class="tooltip"><span class="tooltip-name">📓 Notion 第二大腦 [LV.20]</span>徹底將心靈記憶卸載至外部儲存，釋放高頻思考的珍貴運算 RAM。<span class="tooltip-lore">《降噪人生》：大腦是用來思考，非記憶。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">📓 Notion 第二大腦 [LV.20]</span>徹底將心靈記憶卸載至外部儲存，釋放高頻思考的珍貴運算 RAM。<span class="tooltip-lore">《降噪人生》：大腦是用來思考，非記憶。</span><span class="tooltip-effect">⚡ 戰鬥效果：小兔 專注 (FOC) +5</span></div>
             </div>
             <div class="equip-slot locked" id="equip-2" data-level="30">
-              🔒<div class="tooltip"><span class="tooltip-name">🔋 意志力蓄電池 [LV.30]</span>監測並守護你的每日核心電量，拒絕在低價值的雜事中無謂空轉。<span class="tooltip-lore">《人生複利》：意志力是限量的珍貴耗材。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">🔋 意志力蓄電池 [LV.30]</span>監測並守護你的每日核心電量，拒絕在低價值的雜事中無謂空轉。<span class="tooltip-lore">《人生複利》：意志力是限量的珍貴耗材。</span><span class="tooltip-effect">⚡ 戰鬥效果：冒險全員最大 HP +50</span></div>
             </div>
             <div class="equip-slot locked" id="equip-3" data-level="40">
-              🔒<div class="tooltip"><span class="tooltip-name">☕ NPC 覺醒藥水 [LV.40]</span>瞬間看穿身旁所有情緒拉扯的 NPC，奪回屬於自己的大腦主導權。<span class="tooltip-lore">《人生遊戲》：NPC 理論助你通關地球遊戲。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">☕ NPC 覺醒藥水 [LV.40]</span>瞬間看穿身旁所有情緒拉扯的 NPC，奪回屬於自己的大腦主導權。<span class="tooltip-lore">《人生遊戲》：NPC 理論助你通關地球遊戲。</span><span class="tooltip-effect">⚡ 戰鬥效果：小猴 執行 (AGI) +5</span></div>
             </div>
             <div class="equip-slot locked" id="equip-4" data-level="50">
-              🔒<div class="tooltip"><span class="tooltip-name">🧱 知識印刷術字模 [LV.50]</span>持續將細微的智慧累積加深，雕刻大腦字模，迎來驚人的複利時代。<span class="tooltip-lore">《人生複利》：印刷術般的複利效應。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">🧱 知識印刷術字模 [LV.50]</span>持續將細微的智慧累積加深，雕刻大腦字模，迎來驚人的複利時代。<span class="tooltip-lore">《人生複利》：印刷術般的複利效應。</span><span class="tooltip-effect">⚡ 戰鬥效果：戰鬥獲得經驗值 (XP) +20%</span></div>
             </div>
             <div class="equip-slot locked" id="equip-5" data-level="60">
-              🔒<div class="tooltip"><span class="tooltip-name">🛡️ 降噪防護力場 [LV.60]</span>設定心靈 NAS 防火牆邊界，對無謂消耗你的人事物，開啟 IP 封鎖。<span class="tooltip-lore">《降噪人生》：主動過濾背景環境的噪音干擾。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">🛡️ 降噪防護力場 [LV.60]</span>設定心靈 NAS 防火牆邊界，對無謂消耗你的人事物，開啟 IP 封鎖。<span class="tooltip-lore">《降噪人生》：主動過濾背景環境的噪音干擾。</span><span class="tooltip-effect">⚡ 戰鬥效果：小貓 韌性 (VIT) +5</span></div>
             </div>
             <div class="equip-slot locked" id="equip-6" data-level="70">
-              🔒<div class="tooltip"><span class="tooltip-name">🪓 白熊極意之斧 [LV.70]</span>神聖之斧，無情砍掉生命中 90% 的贅音與噪音，專注核心。<span class="tooltip-lore">《降噪人生》：砍掉 90% 噪音，只留 10% 核心。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">🪓 白熊極意之斧 [LV.70]</span>神聖之斧，無情砍掉生命中 90% 的贅音與噪音，專注核心。<span class="tooltip-lore">《降噪人生》：砍掉 90% 噪音，只留 10% 核心。</span><span class="tooltip-effect">⚡ 戰鬥效果：全員物理與魔法傷害 +25%</span></div>
             </div>
             <div class="equip-slot locked" id="equip-7" data-level="80">
-              🔒<div class="tooltip"><span class="tooltip-name">🔮 心靈意識重塑鏡 [LV.80]</span>反射一切外部負能量，在任何逆境中看見「這樣也好」的逆轉奇蹟。<span class="tooltip-lore">《人生複利/遊戲》：轉念一想的奇蹟魔法。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">🔮 心靈意識重塑鏡 [LV.80]</span>反射一切外部負能量，在任何逆境中看見「這樣也好」的逆轉奇蹟。<span class="tooltip-lore">《人生複利/遊戲》：轉念一想的奇蹟魔法。</span><span class="tooltip-effect">⚡ 戰鬥效果：全員戰鬥暴擊率 +15%</span></div>
             </div>
             <div class="equip-slot locked" id="equip-8" data-level="90">
-              🔒<div class="tooltip"><span class="tooltip-name">👑 人生OS最高核心 [LV.90]</span>終極神器，使每日 1% 的微小前行產生高頻顯化，主宰你的複利宇宙。<span class="tooltip-lore">《白熊人生攻略》：把人生重設為最強作業系統。</span></div>
+              🔒<div class="tooltip"><span class="tooltip-name">👑 人生OS最高核心 [LV.90]</span>終極神器，使每日 1% 的微小前行產生高頻顯化，主宰你的複利宇宙。<span class="tooltip-lore">《白熊人生攻略》：把人生重設為最強作業系統。</span><span class="tooltip-effect">⚡ 戰鬥效果：全員傷害 +50%、最大 HP +150</span></div>
             </div>
           </div>
         </div>
@@ -1704,6 +1747,36 @@
       { name: "降噪小兔", emoji: "🐰", attr: "foc", hp: 100, maxHp: 100 },
       { name: "理智小猴", emoji: "🐵", attr: "agi", hp: 100, maxHp: 100 }
     ];
+
+    // ==========================================
+    // 公會傳奇神裝戰鬥屬性加成公式
+    // ==========================================
+    function getGearStats(level) {
+      const stats = {
+        bonusInt: 0,
+        bonusVit: 0,
+        bonusFoc: 0,
+        bonusAgi: 0,
+        bonusMaxHp: 0,
+        bonusXpPct: 0.0,
+        bonusDmgPct: 1.0,
+        bonusCritRate: 0.0
+      };
+      
+      if (level >= 10) stats.bonusInt += 5; // 💻 大腦除錯鍵盤
+      if (level >= 20) stats.bonusFoc += 5; // 📓 Notion 第二大腦
+      if (level >= 30) stats.bonusMaxHp += 50; // 🔋 意志力蓄電池
+      if (level >= 40) stats.bonusAgi += 5; // ☕ NPC 覺醒藥水
+      if (level >= 50) stats.bonusXpPct += 0.20; // 🧱 知識印刷術字模 (+20% XP)
+      if (level >= 60) stats.bonusVit += 5; // 🛡️ 降噪防護力場
+      if (level >= 70) stats.bonusDmgPct += 0.25; // 🪓 白熊極意之斧 (+25% Damage)
+      if (level >= 80) stats.bonusCritRate += 0.15; // 🔮 心靈意識重塑鏡 (+15% Crit Rate)
+      if (level >= 90) { // 👑 人生OS最高核心 (+50% Dmg, +150 Max HP)
+        stats.bonusDmgPct += 0.50;
+        stats.bonusMaxHp += 150;
+      }
+      return stats;
+    }
 
     // ==========================================
     // 8-bit 復古 Web Audio API 音效與配樂引擎
@@ -2296,12 +2369,13 @@
 
       const info = getLevelInfo(userXP);
       const userLevel = info.level;
+      const gear = getGearStats(userLevel);
 
-      // HP scales with current level and respective attributes
-      party[0].maxHp = 60 + userLevel * 3 + userAttrs.int * 8;
-      party[1].maxHp = 60 + userLevel * 3 + userAttrs.vit * 10;
-      party[2].maxHp = 60 + userLevel * 3 + userAttrs.foc * 8;
-      party[3].maxHp = 60 + userLevel * 3 + userAttrs.agi * 8;
+      // HP scales with current level, attributes, and unlocked legendary gear stats!
+      party[0].maxHp = 60 + userLevel * 3 + (userAttrs.int + gear.bonusInt) * 8 + gear.bonusMaxHp;
+      party[1].maxHp = 60 + userLevel * 3 + (userAttrs.vit + gear.bonusVit) * 10 + gear.bonusMaxHp;
+      party[2].maxHp = 60 + userLevel * 3 + (userAttrs.foc + gear.bonusFoc) * 8 + gear.bonusMaxHp;
+      party[3].maxHp = 60 + userLevel * 3 + (userAttrs.agi + gear.bonusAgi) * 8 + gear.bonusMaxHp;
 
       party.forEach(m => {
         m.hp = m.maxHp;
@@ -2615,23 +2689,31 @@
       let isCrit = false;
       const info = getLevelInfo(userXP);
       const userLevel = info.level;
+      const gear = getGearStats(userLevel);
 
       const monsterCount = monster.count || 1;
       const targetName = monsterCount > 1 ? `【${monster.name} #${selectedMonsterIdx + 1}】` : `【${monster.name}】`;
 
       if (actionType === 'agi') {
         // 小猴攻擊 (單體 AGI - 執行斬)
-        dmg = Math.floor(10 + userLevel * 0.4 + userAttrs.agi * 1.8 + Math.random() * 5);
+        dmg = Math.floor((10 + userLevel * 0.4 + (userAttrs.agi + gear.bonusAgi) * 1.8 + Math.random() * 5) * gear.bonusDmgPct);
         if (Math.random() < 0.95) {
           playSlashSFX();
           logMsg = `🐵【理智小猴】使出【執行斬】！敏捷劈砍，對${targetName}造成 ${dmg} 點物理傷害！`;
-          // 觸發小猴物理劈砍動畫
+          // 觸發小猴物理劈砍動畫 (JRPG 經典雙重斬擊華麗特效)
           const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
           if (wrapper) {
-            const fx = document.createElement('div');
-            fx.className = 'slash-effect';
-            wrapper.appendChild(fx);
-            setTimeout(() => fx.remove(), 600); // 延長生存時間防剪裁
+            const fx1 = document.createElement('div');
+            fx1.className = 'slash-effect-fwd';
+            wrapper.appendChild(fx1);
+            setTimeout(() => fx1.remove(), 600);
+            
+            setTimeout(() => {
+              const fx2 = document.createElement('div');
+              fx2.className = 'slash-effect-back';
+              wrapper.appendChild(fx2);
+              setTimeout(() => fx2.remove(), 600);
+            }, 80);
           }
         } else {
           playErrorSFX();
@@ -2640,7 +2722,7 @@
         }
       } else if (actionType === 'int') {
         // 白熊攻擊 (全體 INT AoE - 智慧雷擊)
-        dmg = Math.floor(6 + userLevel * 0.5 + userAttrs.int * 2.8 + Math.random() * 8);
+        dmg = Math.floor((6 + userLevel * 0.5 + (userAttrs.int + gear.bonusInt) * 2.8 + Math.random() * 8) * gear.bonusDmgPct);
         if (Math.random() < 0.90) {
           playMagicSFX(); // 使用專屬魔法電子音效！
           if (Math.random() < 0.18) {
@@ -2676,24 +2758,29 @@
         }
       } else if (actionType === 'foc') {
         // 小兔攻擊 (單體 FOC - 專注突刺)
-        const critRate = 0.22 + userAttrs.foc * 0.035;
+        const critRate = 0.22 + (userAttrs.foc + gear.bonusFoc) * 0.035 + gear.bonusCritRate;
         if (Math.random() < 0.85) {
           playPierceSFX(); // 使用專屬物理刺擊音效！
           if (Math.random() < critRate) {
-            dmg = Math.floor((8 + userLevel * 0.4 + userAttrs.foc * 2.2 + Math.random() * 4) * 2.5);
+            dmg = Math.floor(((8 + userLevel * 0.4 + (userAttrs.foc + gear.bonusFoc) * 2.2 + Math.random() * 4) * 2.5) * gear.bonusDmgPct);
             isCrit = true;
             logMsg = `⚡ 專注力極致聚焦！🐰【降噪小兔】使出【專注突刺】命中心靈破綻！對${targetName}造成了 ${dmg} 點真實傷害！`;
           } else {
-            dmg = Math.floor(5 + userLevel * 0.3 + userAttrs.foc * 1.2 + Math.random() * 3);
+            dmg = Math.floor((5 + userLevel * 0.3 + (userAttrs.foc + gear.bonusFoc) * 1.2 + Math.random() * 3) * gear.bonusDmgPct);
             logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，對${targetName}造成了微弱的 ${dmg} 點傷害。`;
           }
-          // 觸發小兔專注突刺動畫
+          // 觸發小兔專注突刺動畫 (極致穿刺線條 + 能量擴散衝擊波雙重特效)
           const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
           if (wrapper) {
             const fx = document.createElement('div');
             fx.className = 'pierce-effect';
             wrapper.appendChild(fx);
-            setTimeout(() => fx.remove(), 600); // 延長生存時間防剪裁
+            setTimeout(() => fx.remove(), 600);
+            
+            const burst = document.createElement('div');
+            burst.className = 'pierce-burst';
+            wrapper.appendChild(burst);
+            setTimeout(() => burst.remove(), 600);
           }
         } else {
           playErrorSFX();
@@ -2703,7 +2790,7 @@
       } else if (actionType === 'vit') {
         // 小貓治療與防禦 (全體 VIT - 降噪防護罩)
         playHealSFX();
-        const heal = Math.floor(15 + userLevel * 0.3 + userAttrs.vit * 2.2 + Math.random() * 5);
+        const heal = Math.floor(15 + userLevel * 0.3 + (userAttrs.vit + gear.bonusVit) * 2.2 + Math.random() * 5);
         party.forEach((m, idx) => {
           if (m.hp > 0) {
             m.hp = Math.min(m.maxHp, m.hp + heal);
@@ -2881,7 +2968,11 @@
       writeBattleLog(monster.deathDesc);
 
       setTimeout(() => {
-        addXP(monster.xp);
+        const info = getLevelInfo(userXP);
+        const gear = getGearStats(info.level);
+        const rewardXp = Math.floor(monster.xp * (1.0 + gear.bonusXpPct));
+        
+        addXP(rewardXp);
         
         let attrMsg = "";
         if (Math.random() < monster.attrChance) {
@@ -2899,10 +2990,14 @@
         const overlay = document.createElement('div');
         overlay.className = 'retro-overlay';
         
+        const xpText = gear.bonusXpPct > 0 
+          ? `+${rewardXp} XP！(已套用神裝加成 +${Math.floor(gear.bonusXpPct * 100)}%)`
+          : `+${rewardXp} XP！`;
+
         overlay.innerHTML = `
           <span class="retro-overlay-title victory">⚔️ BATTLE VICTORY!</span>
           <span style="font-size:0.82rem; color:#f7f7f0; font-family: monospace;">擊敗了【${monster.name}】</span>
-          <span style="font-size:0.78rem; color:#4ef072; font-family: monospace; font-weight:bold;">獲得了 +${monster.xp} XP！</span>
+          <span style="font-size:0.78rem; color:#4ef072; font-family: monospace; font-weight:bold;">獲得了 ${xpText}</span>
           ${attrMsg ? `<span style="font-size:0.75rem; color:#ffd89c; font-family: monospace; font-weight:bold;">${attrMsg}</span>` : ''}
           <button class="btn-continue" onclick="handleVictoryContinue()" style="margin-top: 10px;">返回討伐任務選擇</button>
         `;
@@ -3102,15 +3197,34 @@
     }
 
     function updateAttributesUI() {
+      const info = getLevelInfo(userXP);
+      const gear = getGearStats(info.level);
+      
       const attrIntEl = document.getElementById('attrInt');
       const attrVitEl = document.getElementById('attrVit');
       const attrFocEl = document.getElementById('attrFoc');
       const attrAgiEl = document.getElementById('attrAgi');
       
-      if (attrIntEl) attrIntEl.innerText = userAttrs.int;
-      if (attrVitEl) attrVitEl.innerText = userAttrs.vit;
-      if (attrFocEl) attrFocEl.innerText = userAttrs.foc;
-      if (attrAgiEl) attrAgiEl.innerText = userAttrs.agi;
+      if (attrIntEl) {
+        attrIntEl.innerHTML = gear.bonusInt > 0 
+          ? `${userAttrs.int} <span class="gear-bonus-val" style="color:#00ff88; font-size:0.75rem; font-weight:bold; margin-left:4px;">(+${gear.bonusInt})</span>` 
+          : userAttrs.int;
+      }
+      if (attrVitEl) {
+        attrVitEl.innerHTML = gear.bonusVit > 0 
+          ? `${userAttrs.vit} <span class="gear-bonus-val" style="color:#00ff88; font-size:0.75rem; font-weight:bold; margin-left:4px;">(+${gear.bonusVit})</span>` 
+          : userAttrs.vit;
+      }
+      if (attrFocEl) {
+        attrFocEl.innerHTML = gear.bonusFoc > 0 
+          ? `${userAttrs.foc} <span class="gear-bonus-val" style="color:#00ff88; font-size:0.75rem; font-weight:bold; margin-left:4px;">(+${gear.bonusFoc})</span>` 
+          : userAttrs.foc;
+      }
+      if (attrAgiEl) {
+        attrAgiEl.innerHTML = gear.bonusAgi > 0 
+          ? `${userAttrs.agi} <span class="gear-bonus-val" style="color:#00ff88; font-size:0.75rem; font-weight:bold; margin-left:4px;">(+${gear.bonusAgi})</span>` 
+          : userAttrs.agi;
+      }
     }
 
     function updateXPUI() {
@@ -3133,15 +3247,28 @@
       }
       
       updateEquipmentUI(info.level);
+      updateAttributesUI();
     }
 
     function addXP(amount, x, y) {
-      userXP += amount;
+      const info = getLevelInfo(userXP);
+      const gear = getGearStats(info.level);
+      let finalAmount = amount;
+      
+      // 套用 LV.50 「知識印刷術字模」神裝經驗值加成 (+20%)
+      if (gear.bonusXpPct > 0) {
+        finalAmount = Math.floor(amount * (1 + gear.bonusXpPct));
+      }
+      
+      userXP += finalAmount;
       localStorage.setItem('baixiong_adventurer_xp', userXP);
       updateXPUI();
       
       if (x !== undefined && y !== undefined) {
-        spawnXPFloat(`+${amount} XP`, x, y);
+        const xpText = gear.bonusXpPct > 0 
+          ? `+${finalAmount} XP ✨(神裝 +${Math.floor(gear.bonusXpPct * 100)}%)` 
+          : `+${finalAmount} XP`;
+        spawnXPFloat(xpText, x, y);
       }
     }
 
@@ -3319,7 +3446,7 @@
       });
     });
 
-    // 🔮 「祈求新指引」刷新按鈕綁定
+    // 🔮 「祈求新指引」刷新按鈕綁定 (每次點擊回饋 +5 XP 且播放 Chime 音效！)
     const btnRefresh = document.getElementById('btnRefresh');
     if (btnRefresh) {
       btnRefresh.addEventListener('click', (e) => {
@@ -3338,8 +3465,9 @@
           bubbleText.style.opacity = '1';
         }, 150);
 
-        // 刷新特效
-        spawnXPFloat("🔮 祈求指引...", e.pageX, e.pageY, true);
+        // 獲得 +5 XP 回饋！使用正確穩健的 addXP 全域機制，完美避開 undefined 函數錯誤！
+        addXP(5, e.pageX, e.pageY);
+        playHealSFX(); // 播放暖心 Chime 聲波反饋
       });
     }
 
