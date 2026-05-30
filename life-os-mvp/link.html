@@ -1466,6 +1466,46 @@
       font-size: 0.72rem;
       text-shadow: 0 0 4px rgba(0, 255, 102, 0.4);
     }
+
+    /* Castle portal entry button */
+    .castle-portal-btn {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(77,240,255,0.08) 0%, rgba(186,77,255,0.08) 100%);
+      border: 2px solid rgba(77,240,255,0.4);
+      border-radius: 8px;
+      color: #4df0ff;
+      font-family: 'Consolas', monospace;
+      font-size: 0.78rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+      animation: portalPulse 2s ease-in-out infinite;
+      text-shadow: 0 0 8px rgba(77,240,255,0.5);
+    }
+    .castle-portal-btn:hover {
+      background: linear-gradient(135deg, rgba(77,240,255,0.18) 0%, rgba(186,77,255,0.18) 100%);
+      border-color: #4df0ff;
+      box-shadow: 0 0 20px rgba(77,240,255,0.3), 0 0 40px rgba(186,77,255,0.15);
+      transform: translateY(-2px);
+    }
+    .castle-portal-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    @keyframes portalPulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(77,240,255,0.15), 0 0 16px rgba(186,77,255,0.08); }
+      50% { box-shadow: 0 0 16px rgba(77,240,255,0.3), 0 0 32px rgba(186,77,255,0.15); border-color: rgba(186,77,255,0.5); }
+    }
+    .castle-portal-sub {
+      display: block;
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+      font-weight: normal;
+    }
   </style>
 </head>
 <body class="link-page">
@@ -1690,6 +1730,11 @@
             <p style="font-size: 0.72rem; color: rgba(255,255,255,0.7); line-height: 1.4; margin-bottom: 12px; font-family: monospace;">
               選擇一個等級相符的懸賞任務進行挑戰。每次擊敗怪物將獲得對應的經驗值，並有機會獲得隨機屬性點加成！
             </p>
+            <!-- 🏰 橫向卷軸傳送門入口 -->
+            <button class="castle-portal-btn" onclick="location.href='castle.html'">
+              🏰 進入橫向動作模式：挑戰深淵降噪之城 ➔
+              <span class="castle-portal-sub">操控角色跳躍奔跑、揮舞武器、擊碎蠟燭、討伐怪物！經驗值同步回 RPG</span>
+            </button>
             <div class="retro-stage-select" id="retroStageSelect">
               <!-- 討伐任務列表將由 JS 動態生成 -->
             </div>
