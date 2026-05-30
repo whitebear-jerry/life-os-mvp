@@ -1275,6 +1275,8 @@
       transform-origin: center;
       z-index: 99;
       pointer-events: none;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
     }
     .slash-effect-fwd {
       transform: rotate(-35deg) scaleX(0.05);
@@ -1325,6 +1327,8 @@
       pointer-events: none;
       transform: rotate(15deg) scaleX(0.05);
       animation: pierce-effect-anim 0.32s ease-out forwards;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
     }
     .pierce-effect::before, .pierce-effect::after {
       content: '';
@@ -1363,6 +1367,8 @@
       background: radial-gradient(circle, rgba(0, 255, 255, 0.25) 0%, transparent 70%);
       box-shadow: 0 0 20px #00ffff, inset 0 0 15px #00ffff;
       z-index: 98;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
       pointer-events: none;
       transform: scale(0.01);
       animation: pierce-burst-anim 0.45s ease-out forwards;
