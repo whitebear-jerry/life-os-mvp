@@ -869,6 +869,10 @@ function generateEnemies() {
   // Difficulty scaling multiplier based on stage (V4 Hardcore Scaling!)
   const scale = 1 + activeStageIdx * 0.65;
   
+  // Get JRPG player level dynamic adaptive scaling factor!
+  const pInfo = getLevelInfo(userXP);
+  const playerLvlScale = 1 + (pInfo.level - 1) * 0.4;
+
   defs.forEach(([ex,ey,mIdx,pw],i) => {
     const type = stage.monsters[mIdx];
     let hp = 30;
@@ -902,10 +906,10 @@ function generateEnemies() {
       hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52; def = 20;
     }
 
-    // Apply difficulty scaling and V6 10x multiplier!
-    hp = Math.floor(hp * scale * 10.0);
-    atk = Math.floor(atk * scale * 10.0);
-    def = Math.floor(def * scale * 10.0);
+    // Apply difficulty scaling, V6 10x multiplier, and V7 player adaptive scaling!
+    hp = Math.floor(hp * scale * 10.0 * playerLvlScale);
+    atk = Math.floor(atk * scale * 10.0 * Math.sqrt(playerLvlScale));
+    def = Math.floor(def * scale * 10.0 * playerLvlScale);
     xpVal = Math.floor(xpVal * scale);
 
     enemies.push({
