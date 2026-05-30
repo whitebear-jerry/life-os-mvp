@@ -1542,6 +1542,8 @@
     let enemyIndex = 0; // 0 to 4
     let isBattleBusy = false;
     let isDefending = false;
+    let enemyMonsters = []; // Array of monsters in current battle: { id, maxHp, hp, alive }
+    let selectedMonsterIdx = 0; // Index of the currently selected target monster
 
     let party = [
       { name: "智者白熊", emoji: "🐻", attr: "int", hp: 100, maxHp: 100 },
@@ -1595,6 +1597,16 @@
     function initAudioContext() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        try {
+          // iOS Safari Web Audio Unlock
+          const buffer = audioCtx.createBuffer(1, 1, 22050);
+          const source = audioCtx.createBufferSource();
+          source.buffer = buffer;
+          source.connect(audioCtx.destination);
+          source.start(0);
+        } catch (e) {
+          console.warn("Failed to unlock audio context:", e);
+        }
       }
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
@@ -1682,6 +1694,7 @@
 
     // AGI / FOC / INT 攻擊音效 (Sawtooth 劈砍)
     function playSlashSFX() {
+      initAudioContext();
       if (isRetroMuted || !audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
@@ -1702,6 +1715,7 @@
 
     // VIT 降噪治療音效 (Arpeggio 上行和弦)
     function playHealSFX() {
+      initAudioContext();
       if (isRetroMuted || !audioCtx) return;
       const now = audioCtx.currentTime;
       const notes = [261.63, 329.63, 392.00, 523.25]; // C 和弦上行 arpeggio
@@ -1725,6 +1739,7 @@
 
     // 玩家被怪物攻擊音效 (低沉 Noise 撞擊)
     function playHitSFX() {
+      initAudioContext();
       if (isRetroMuted || !audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
@@ -1745,6 +1760,7 @@
 
     // 勝利樂章 (Classic JRPG Victory Fanfare)
     function playVictorySFX() {
+      initAudioContext();
       if (isRetroMuted || !audioCtx) return;
       stopBgm();
       const now = audioCtx.currentTime;
@@ -1779,6 +1795,7 @@
 
     // 戰敗悲鳴 (Minor Fall Down)
     function playDefeatSFX() {
+      initAudioContext();
       if (isRetroMuted || !audioCtx) return;
       stopBgm();
       const now = audioCtx.currentTime;
@@ -2070,6 +2087,19 @@
       
       eNameEl.innerText = `👾 ${monster.name}`;
       const monsterCount = monster.count || 1;
+      
+      // Initialize individual monster HP track objects
+      enemyMonsters = [];
+      for (let i = 0; i < monsterCount; i++) {
+        enemyMonsters.push({
+          id: i,
+          maxHp: monster.hp,
+          hp: monster.hp,
+          alive: true
+        });
+      }
+      selectedMonsterIdx = 0; // Reset target to first one
+      
       enemyMaxHP = monster.hp * monsterCount;
       enemyHP = enemyMaxHP;
       
@@ -2084,6 +2114,33 @@
       }
 
       for (let i = 0; i < monsterCount; i++) {
+        const wrapper = document.createElement('div');
+        wrapper.id = `retroMonsterWrapper-${i}`;
+        wrapper.className = 'retro-monster-wrapper';
+        wrapper.style.position = 'relative';
+        wrapper.style.display = 'flex';
+        wrapper.style.flexDirection = 'column';
+        wrapper.style.alignItems = 'center';
+        wrapper.style.cursor = 'pointer';
+        wrapper.onclick = () => {
+          selectMonsterTarget(i);
+        };
+        
+        // Target indicator above the monster
+        const indicator = document.createElement('div');
+        indicator.id = `retroTargetIndicator-${i}`;
+        indicator.className = 'retro-target-indicator';
+        indicator.innerText = '▼';
+        indicator.style.fontSize = '1.2rem';
+        indicator.style.color = '#ff4d4d';
+        indicator.style.visibility = (i === selectedMonsterIdx) ? 'visible' : 'hidden';
+        indicator.style.height = '16px';
+        indicator.style.lineHeight = '16px';
+        indicator.style.marginBottom = '4px';
+        indicator.style.fontWeight = 'bold';
+        indicator.style.textShadow = '0 0 3px #000000';
+        
+        // Monster Sprite Image
         const img = document.createElement('img');
         img.id = `retroMonsterSprite-${i}`;
         img.className = 'retro-monster-sprite';
@@ -2092,7 +2149,31 @@
         img.style.filter = monster.filter || 'none';
         img.style.maxWidth = `${scaleSize}px`;
         img.style.maxHeight = `${scaleSize}px`;
-        container.appendChild(img);
+        
+        // Mini HP Bar below the monster
+        const miniHp = document.createElement('div');
+        miniHp.id = `retroMonsterMiniHp-${i}`;
+        miniHp.className = 'retro-monster-mini-hp';
+        miniHp.style.width = `${Math.max(45, scaleSize - 10)}px`;
+        miniHp.style.height = '4px';
+        miniHp.style.background = '#444444';
+        miniHp.style.border = '1px solid #ffffff';
+        miniHp.style.marginTop = '6px';
+        miniHp.style.borderRadius = '2px';
+        miniHp.style.overflow = 'hidden';
+        
+        const fill = document.createElement('div');
+        fill.className = 'fill';
+        fill.style.width = '100%';
+        fill.style.height = '100%';
+        fill.style.background = '#4ef072';
+        miniHp.appendChild(fill);
+        
+        wrapper.appendChild(indicator);
+        wrapper.appendChild(img);
+        wrapper.appendChild(miniHp);
+        
+        container.appendChild(wrapper);
       }
 
       const muteBtn = document.getElementById('btnRetroMute');
@@ -2166,6 +2247,14 @@
     }
 
     function updateBattleHPUIOnlyEnemy() {
+      let sumHp = 0;
+      if (enemyMonsters && enemyMonsters.length > 0) {
+        enemyMonsters.forEach(m => {
+          if (m.alive) sumHp += m.hp;
+        });
+        enemyHP = sumHp;
+      }
+      
       const eHPText = document.getElementById('eHPText');
       const eHPFill = document.getElementById('eHPFill');
 
@@ -2176,24 +2265,71 @@
     }
 
     function updateMonsterSpritesUI() {
+      updateTargetCursorUI();
+    }
+
+    function selectMonsterTarget(idx) {
+      if (isBattleBusy) return;
+      if (!enemyMonsters[idx] || !enemyMonsters[idx].alive) return;
+      
+      selectedMonsterIdx = idx;
+      playSlashSFX(); // 播放選中音效
+      updateTargetCursorUI();
+      
+      const monster = monsters[enemyIndex];
+      writeBattleLog(`🎯 鎖定目標：【${monster.name} #${idx + 1}】！`);
+    }
+
+    function autoSelectNextTarget() {
       const monster = monsters[enemyIndex];
       if (!monster) return;
       const monsterCount = monster.count || 1;
-      const baseHp = monster.hp;
       
-      let aliveCount = 0;
-      if (enemyHP > 0) {
-        aliveCount = Math.ceil(enemyHP / baseHp);
+      if (!enemyMonsters[selectedMonsterIdx] || !enemyMonsters[selectedMonsterIdx].alive) {
+        for (let i = 0; i < monsterCount; i++) {
+          if (enemyMonsters[i] && enemyMonsters[i].alive) {
+            selectedMonsterIdx = i;
+            break;
+          }
+        }
       }
-      aliveCount = Math.max(0, Math.min(monsterCount, aliveCount));
+      updateTargetCursorUI();
+    }
 
+    function updateTargetCursorUI() {
+      const monster = monsters[enemyIndex];
+      if (!monster) return;
+      const monsterCount = monster.count || 1;
+      
       for (let i = 0; i < monsterCount; i++) {
+        const indicator = document.getElementById(`retroTargetIndicator-${i}`);
+        const miniHp = document.getElementById(`retroMonsterMiniHp-${i}`);
         const sprite = document.getElementById(`retroMonsterSprite-${i}`);
-        if (sprite) {
-          if (i < aliveCount) {
-            sprite.style.opacity = '1';
+        
+        const mObj = enemyMonsters[i];
+        if (mObj) {
+          if (!mObj.alive) {
+            if (indicator) indicator.style.visibility = 'hidden';
+            if (sprite) {
+              sprite.style.opacity = '0';
+              sprite.style.filter = 'grayscale(1)';
+            }
+            if (miniHp) miniHp.style.display = 'none';
           } else {
-            sprite.style.opacity = '0';
+            if (indicator) {
+              indicator.style.visibility = (i === selectedMonsterIdx) ? 'visible' : 'hidden';
+            }
+            if (sprite) {
+              sprite.style.opacity = '1';
+            }
+            if (miniHp) {
+              miniHp.style.display = 'block';
+              const fill = miniHp.querySelector('.fill');
+              if (fill) {
+                const pct = (mObj.hp / mObj.maxHp) * 100;
+                fill.style.width = `${Math.max(0, pct)}%`;
+              }
+            }
           }
         }
       }
@@ -2244,28 +2380,31 @@
       const info = getLevelInfo(userXP);
       const userLevel = info.level;
 
+      const monsterCount = monster.count || 1;
+      const targetName = monsterCount > 1 ? `【${monster.name} #${selectedMonsterIdx + 1}】` : `【${monster.name}】`;
+
       if (actionType === 'agi') {
-        // 小猴攻擊
+        // 小猴攻擊 (單體 AGI)
         dmg = Math.floor(10 + userLevel * 0.4 + userAttrs.agi * 1.8 + Math.random() * 5);
         if (Math.random() < 0.95) {
           playSlashSFX();
-          logMsg = `🐵【理智小猴】使出【執行斬】！敏捷劈砍，對【${monster.name}】造成 ${dmg} 點物理傷害！`;
+          logMsg = `🐵【理智小猴】使出【執行斬】！敏捷劈砍，對${targetName}造成 ${dmg} 點物理傷害！`;
         } else {
           playErrorSFX();
           dmg = 0;
-          logMsg = `🐵【理智小猴】使出【執行斬】！但行動猶豫了，被怪物閃開！`;
+          logMsg = `🐵【理智小猴】使出【執行斬】！但行動猶豫了，被${targetName}閃開！`;
         }
       } else if (actionType === 'int') {
-        // 白熊攻擊
+        // 白熊攻擊 (全體 INT AoE)
         dmg = Math.floor(6 + userLevel * 0.5 + userAttrs.int * 2.8 + Math.random() * 8);
         if (Math.random() < 0.90) {
           playSlashSFX();
           if (Math.random() < 0.18) {
             dmg = Math.floor(dmg * 2.2);
             isCrit = true;
-            logMsg = `🧠 觸發「思維爆脹」！🐻【智者白熊】的【智慧雷擊】產生精神暴擊！對【${monster.name}】造成 ${dmg} 點大暴擊！💥`;
+            logMsg = `🧠 觸發「思維爆脹」！🐻【智者白熊】的【智慧雷擊】產生精神暴擊！召喚雷擊劈向全體怪群，造成 ${dmg} 點大暴擊！💥`;
           } else {
-            logMsg = `🐻【智者白熊】使出【智慧雷擊】！智慧火花閃爍，對【${monster.name}】造成 ${dmg} 點腦波衝擊！`;
+            logMsg = `🐻【智者白熊】使出【智慧雷擊】！釋放智慧雷網，電擊全體怪群，造成 ${dmg} 點腦波衝擊！`;
           }
         } else {
           playErrorSFX();
@@ -2273,17 +2412,17 @@
           logMsg = `🐻【智者白熊】使出【智慧雷擊】！但大腦瞬間當機，雷擊未能釋放！`;
         }
       } else if (actionType === 'foc') {
-        // 小兔攻擊
+        // 小兔攻擊 (單體 FOC)
         const critRate = 0.22 + userAttrs.foc * 0.035;
         if (Math.random() < 0.85) {
           playSlashSFX();
           if (Math.random() < critRate) {
             dmg = Math.floor((8 + userLevel * 0.4 + userAttrs.foc * 2.2 + Math.random() * 4) * 2.5);
             isCrit = true;
-            logMsg = `⚡ 專注力極致聚焦！🐰【降噪小兔】使出【專注突刺】命中心靈破綻！對【${monster.name}】造成了 ${dmg} 點真實傷害！`;
+            logMsg = `⚡ 專注力極致聚焦！🐰【降噪小兔】使出【專注突刺】命中心靈破綻！對${targetName}造成了 ${dmg} 點真實傷害！`;
           } else {
             dmg = Math.floor(5 + userLevel * 0.3 + userAttrs.foc * 1.2 + Math.random() * 3);
-            logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，造成了微弱的 ${dmg} 點傷害。`;
+            logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，對${targetName}造成了微弱的 ${dmg} 點傷害。`;
           }
         } else {
           playErrorSFX();
@@ -2291,7 +2430,7 @@
           logMsg = `🐰【降噪小兔】試圖進行【專注突刺】，但受到外部噪音干擾，未能命中！`;
         }
       } else if (actionType === 'vit') {
-        // 小貓治療與防禦
+        // 小貓治療與防禦 (全體 VIT)
         playHealSFX();
         const heal = Math.floor(15 + userLevel * 0.3 + userAttrs.vit * 2.2 + Math.random() * 5);
         party.forEach((m, idx) => {
@@ -2306,28 +2445,43 @@
       }
 
       if (actionType !== 'vit' && dmg > 0) {
-        const monster = monsters[enemyIndex];
-        const monsterCount = monster.count || 1;
-        const baseHp = monster.hp;
-        
-        let aliveCount = 0;
-        if (enemyHP > 0) {
-          aliveCount = Math.ceil(enemyHP / baseHp);
-        }
-        aliveCount = Math.max(0, Math.min(monsterCount, aliveCount));
-
         const hitSprites = [];
-        for (let i = 0; i < monsterCount; i++) {
-          const sprite = document.getElementById(`retroMonsterSprite-${i}`);
-          if (sprite && i < aliveCount) {
-            sprite.classList.add('hit');
-            hitSprites.push(sprite);
+        if (actionType === 'int') {
+          // INT - 群體雷擊：電擊全體存活的怪物
+          enemyMonsters.forEach(mObj => {
+            if (mObj.alive) {
+              const mDmg = isCrit ? dmg : Math.max(1, Math.floor(dmg * (0.8 + Math.random() * 0.4)));
+              mObj.hp = Math.max(0, mObj.hp - mDmg);
+              if (mObj.hp === 0) {
+                mObj.alive = false;
+              }
+              const sprite = document.getElementById(`retroMonsterSprite-${mObj.id}`);
+              if (sprite) {
+                sprite.classList.add('hit');
+                hitSprites.push(sprite);
+              }
+            }
+          });
+          spawnDamageText(`-${dmg}`, 'monster');
+        } else {
+          // AGI & FOC - 單體劈砍/突刺：僅電擊選中的怪物
+          const mObj = enemyMonsters[selectedMonsterIdx];
+          if (mObj && mObj.alive) {
+            mObj.hp = Math.max(0, mObj.hp - dmg);
+            if (mObj.hp === 0) {
+              mObj.alive = false;
+            }
+            const sprite = document.getElementById(`retroMonsterSprite-${selectedMonsterIdx}`);
+            if (sprite) {
+              sprite.classList.add('hit');
+              hitSprites.push(sprite);
+            }
+            spawnDamageText(`-${dmg}`, 'monster');
           }
         }
 
-        spawnDamageText(`-${dmg}`, 'monster');
-        enemyHP = Math.max(0, enemyHP - dmg);
         updateBattleHPUIOnlyEnemy();
+        autoSelectNextTarget();
         
         setTimeout(() => {
           hitSprites.forEach(sprite => {
@@ -2355,47 +2509,79 @@
         return;
       }
 
-      const monster = monsters[enemyIndex];
-      const screen = document.getElementById('retroGameScreen');
-      
-      const target = living[Math.floor(Math.random() * living.length)];
-      const targetIdx = party.indexOf(target);
-      
-      let mDmg = Math.floor(monster.atk * 0.75 + Math.random() * (monster.atk * 0.5));
-      let logMsg = "";
-
-      playHitSFX();
-
-      if (isDefending) {
-        mDmg = Math.floor(mDmg * 0.45);
-        isDefending = false;
-        logMsg = `【${monster.name}】使出了【噪音干擾】！被降噪盾阻擋，【${target.name}】僅受到 ${mDmg} 點精神挫折！`;
-      } else {
-        logMsg = `【${monster.name}】發動了【分心咆哮】！【${target.name}】心靈震盪，受到 ${mDmg} 點精神內耗！`;
+      const aliveEnemies = enemyMonsters.filter(m => m.alive);
+      if (aliveEnemies.length === 0) {
+        setTimeout(handleVictory, 500);
+        return;
       }
 
-      screen.classList.add('shake');
-      spawnDamageText(`-${mDmg}`, 'player', targetIdx);
-      target.hp = Math.max(0, target.hp - mDmg);
-      updatePartyUI();
-      updateCommandsUI();
+      let currentEnemyIdx = 0;
 
-      setTimeout(() => {
-        screen.classList.remove('shake');
-      }, 300);
+      function nextEnemyAttack() {
+        const currentLiving = party.filter(m => m.hp > 0);
+        if (currentLiving.length === 0) {
+          setTimeout(handleDefeat, 500);
+          return;
+        }
 
-      writeBattleLog(logMsg);
+        if (currentEnemyIdx >= aliveEnemies.length) {
+          // 所有存活的怪物皆攻擊完畢！
+          isDefending = false; // 回合結束重置護盾
+          isBattleBusy = false;
+          updateCommandsUI();
+          return;
+        }
 
-      if (target.hp <= 0) {
-        writeBattleLog(`💀【${target.name}】心靈被噪音擊碎力竭，退場化作了防禦棺材！⚰️`);
+        const currentEnemy = aliveEnemies[currentEnemyIdx];
+        const monster = monsters[enemyIndex];
+        const screen = document.getElementById('retroGameScreen');
+        
+        const target = currentLiving[Math.floor(Math.random() * currentLiving.length)];
+        const targetIdx = party.indexOf(target);
+        
+        // 依怪群存活數量自適應調整個別傷害，避免玩家被瞬間秒殺
+        const scaleFactor = aliveEnemies.length === 3 ? 0.45 : (aliveEnemies.length === 2 ? 0.65 : 1.0);
+        let mDmg = Math.floor((monster.atk * 0.75 + Math.random() * (monster.atk * 0.5)) * scaleFactor);
+        mDmg = Math.max(1, mDmg);
+        
+        let logMsg = "";
+        playHitSFX();
+
+        const monsterNameText = aliveEnemies.length > 1 ? `【${monster.name} #${currentEnemy.id + 1}】` : `【${monster.name}】`;
+
+        if (isDefending) {
+          mDmg = Math.floor(mDmg * 0.45);
+          logMsg = `${monsterNameText}使出了【噪音干擾】！被降噪盾阻擋，【${target.name}】僅受到 ${mDmg} 點精神挫折！`;
+        } else {
+          logMsg = `${monsterNameText}發動了【分心咆哮】！【${target.name}】心靈震盪，受到 ${mDmg} 點精神內耗！`;
+        }
+
+        screen.classList.add('shake');
+        spawnDamageText(`-${mDmg}`, 'player', targetIdx);
+        target.hp = Math.max(0, target.hp - mDmg);
+        updatePartyUI();
+
+        setTimeout(() => {
+          screen.classList.remove('shake');
+        }, 300);
+
+        writeBattleLog(logMsg);
+
+        if (target.hp <= 0) {
+          writeBattleLog(`💀【${target.name}】心靈被噪音擊碎力竭，退場化作了防禦棺材！⚰️`);
+        }
+
+        const stillLiving = party.filter(m => m.hp > 0);
+        if (stillLiving.length === 0) {
+          setTimeout(handleDefeat, 1000);
+        } else {
+          currentEnemyIdx++;
+          setTimeout(nextEnemyAttack, 1000);
+        }
       }
 
-      const stillLiving = party.filter(m => m.hp > 0);
-      if (stillLiving.length === 0) {
-        setTimeout(handleDefeat, 1000);
-      } else {
-        isBattleBusy = false;
-      }
+      // 啟動怪群連續攻擊鏈
+      nextEnemyAttack();
     }
 
     function handleVictory() {
