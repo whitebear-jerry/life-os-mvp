@@ -1251,6 +1251,84 @@
         grid-template-columns: repeat(5, 1fr);
         gap: 6px;
       }
+    /* JRPG Combat Attack Visual Effects */
+    @keyframes slash-effect-anim {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      20% { transform: scale(1.3) rotate(-45deg); opacity: 1; }
+      80% { transform: scale(1.1) rotate(-45deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-45deg); opacity: 0; }
+    }
+    .slash-effect {
+      position: absolute;
+      top: 35%;
+      left: 20%;
+      width: 60%;
+      height: 6px;
+      background: #ffffff;
+      box-shadow: 0 0 10px #ffd89c, 0 0 4px #ffffff;
+      transform: rotate(-45deg);
+      z-index: 10;
+      pointer-events: none;
+      animation: slash-effect-anim 0.22s ease-out forwards;
+    }
+
+    @keyframes lightning-effect-anim {
+      0% { height: 0%; opacity: 0; }
+      20% { height: 100%; opacity: 1; background: #ffffff; }
+      60% { height: 100%; opacity: 1; background: #4df0ff; }
+      100% { height: 100%; opacity: 0; }
+    }
+    .lightning-effect {
+      position: absolute;
+      top: 0;
+      width: 12px;
+      height: 100%;
+      background: #4df0ff;
+      box-shadow: 0 0 12px #4df0ff, 0 0 20px #ffffff;
+      z-index: 10;
+      pointer-events: none;
+      animation: lightning-effect-anim 0.35s ease-in-out forwards;
+    }
+
+    @keyframes pierce-effect-anim {
+      0% { transform: scale(2.2); opacity: 0; }
+      25% { transform: scale(0.9); opacity: 1; }
+      75% { transform: scale(1.0); opacity: 1; }
+      100% { transform: scale(1.0); opacity: 0; }
+    }
+    .pierce-effect {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50px;
+      height: 50px;
+      border: 4px dashed #ff4d4d;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ff4d4d;
+      z-index: 10;
+      pointer-events: none;
+      animation: pierce-effect-anim 0.28s ease-out forwards;
+    }
+
+    @keyframes shield-effect-anim {
+      0% { transform: scale(0.7); opacity: 0; }
+      30% { transform: scale(1.15); opacity: 0.6; }
+      70% { transform: scale(1.0); opacity: 0.6; }
+      100% { transform: scale(1.0); opacity: 0; }
+    }
+    .shield-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(78, 240, 114, 0.2);
+      border: 2px solid #4ef072;
+      box-shadow: 0 0 10px #4ef072;
+      border-radius: 6px;
+      z-index: 5;
+      pointer-events: none;
+      animation: shield-effect-anim 0.45s ease-in-out forwards;
     }
   </style>
 </head>
@@ -1636,18 +1714,65 @@
       stopBgm();
       bgmBeat = 0;
       
-      // 根據當前怪物的要求等級，動態切換不同的戰鬥 BGM 與節奏！
       const monster = monsters[enemyIndex];
       let melody = bgmMelodyNormal;
       let tempo = 130;
+      let transposeSteps = 0;
+      let oscType = 'square';
       
       if (monster) {
-        if (monster.reqLevel >= 65) {
-          melody = bgmMelodyFinalBoss;
-          tempo = 165; // 最終 Boss 狂暴超快節奏！
-        } else if (monster.reqLevel >= 30) {
+        // 每 10 等左右音樂進行一次調性、速度與聲波紋理的演變調製！
+        const zone = Math.max(0, Math.min(9, Math.floor((monster.reqLevel - 1) / 10)));
+        if (zone === 0) { // LV.1-10
+          melody = bgmMelodyNormal;
+          tempo = 125;
+          oscType = 'square';
+          transposeSteps = 0;
+        } else if (zone === 1) { // LV.11-20
+          melody = bgmMelodyNormal;
+          tempo = 132;
+          oscType = 'triangle';
+          transposeSteps = 2; // 升 2 半音 (D調)
+        } else if (zone === 2) { // LV.21-30
+          melody = bgmMelodyNormal;
+          tempo = 138;
+          oscType = 'sawtooth';
+          transposeSteps = 4; // 升 4 半音 (E調)
+        } else if (zone === 3) { // LV.31-40
           melody = bgmMelodyMediumBoss;
-          tempo = 148; // 中級 Boss 緊張中快節奏！
+          tempo = 142;
+          oscType = 'square';
+          transposeSteps = -2; // 降 2 半音 (Bb調)
+        } else if (zone === 4) { // LV.41-50
+          melody = bgmMelodyMediumBoss;
+          tempo = 146;
+          oscType = 'sawtooth';
+          transposeSteps = 1; // 升 1 半音 (C#調)
+        } else if (zone === 5) { // LV.51-60
+          melody = bgmMelodyMediumBoss;
+          tempo = 150;
+          oscType = 'triangle';
+          transposeSteps = 3; // 升 3 半音 (Eb調)
+        } else if (zone === 6) { // LV.61-70
+          melody = bgmMelodyFinalBoss;
+          tempo = 155;
+          oscType = 'square';
+          transposeSteps = -3; // 降 3 半音 (A調)
+        } else if (zone === 7) { // LV.71-80
+          melody = bgmMelodyFinalBoss;
+          tempo = 160;
+          oscType = 'sawtooth';
+          transposeSteps = 0; // 原調 (C調)
+        } else if (zone === 8) { // LV.81-90
+          melody = bgmMelodyFinalBoss;
+          tempo = 164;
+          oscType = 'square';
+          transposeSteps = 2; // 升 2 半音 (D調)
+        } else { // LV.91-99
+          melody = bgmMelodyFinalBoss;
+          tempo = 172; // 最終死神超速狂飆！
+          oscType = 'sawtooth';
+          transposeSteps = 5; // 升 5 半音 (F調)
         }
       }
       
@@ -1657,10 +1782,13 @@
         if (!audioCtx || audioCtx.state === 'suspended' || isRetroMuted) return;
         
         const noteName = melody[bgmBeat % melody.length];
-        const freq = bgmNoteFreqs[noteName];
+        let freq = bgmNoteFreqs[noteName];
         
         if (freq) {
-          playBgmNote(freq, stepDuration * 0.95);
+          if (transposeSteps !== 0) {
+            freq = freq * Math.pow(2, transposeSteps / 12);
+          }
+          playBgmNote(freq, stepDuration * 0.95, oscType);
         }
         
         bgmBeat++;
@@ -1674,15 +1802,20 @@
       }
     }
 
-    function playBgmNote(freq, duration) {
+    function playBgmNote(freq, duration, oscType = 'square') {
       if (isRetroMuted || !audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
       
-      osc.type = 'square'; // 復古 NES 矩形波
+      osc.type = oscType; // 聲波紋理
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
       
-      gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime);
+      // 根據不同的波形微調音量，避免鋸齒波太大聲、三角波太小聲
+      let volume = 0.02;
+      if (oscType === 'sawtooth') volume = 0.012;
+      if (oscType === 'triangle') volume = 0.038;
+      
+      gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
       
       osc.connect(gainNode);
@@ -1844,134 +1977,91 @@
       osc.stop(audioCtx.currentTime + 0.15);
     }
 
-    const monsters = [
-      {
-        name: "雜念史萊姆",
-        hp: 120, atk: 16, xp: 15, reqLevel: 1, count: 3,
-        img: "assets/monster_slime.png", filter: "none", size: 70, attrChance: 0.1,
-        deathDesc: "👾【雜念史萊姆】被執行力刺破，化作無效的噪音封包消失了！"
-      },
-      {
-        name: "焦慮毒蝸牛",
-        hp: 260, atk: 25, xp: 22, reqLevel: 5, count: 2,
-        img: "assets/monster_snail.png", filter: "hue-rotate(90deg) saturate(1.8)", size: 75, attrChance: 0.12,
-        deathDesc: "🐌【焦慮毒蝸牛】被信念之光融化，化作無害的水蒸氣！"
-      },
-      {
-        name: "拖延症魔像",
-        hp: 480, atk: 38, xp: 30, reqLevel: 10, count: 1,
-        img: "assets/monster_golem.png", filter: "hue-rotate(180deg) saturate(1.2)", size: 80, attrChance: 0.15,
-        deathDesc: "🤖【拖延症魔像】被果斷執行力擊碎，碎裂成小石塊！"
-      },
-      {
-        name: "比較心噪音怪",
-        hp: 780, atk: 54, xp: 40, reqLevel: 15, count: 3,
-        img: "assets/monster_noise.png", filter: "hue-rotate(270deg) saturate(1.5)", size: 80, attrChance: 0.18,
-        deathDesc: "👾【比較心噪音怪】的訊號被「做自己」信念完全切斷！"
-      },
-      {
-        name: "分心超載邪眼",
-        hp: 1180, atk: 75, xp: 50, reqLevel: 20, count: 2,
-        img: "assets/monster_eye.png", filter: "none", size: 85, attrChance: 0.22,
-        deathDesc: "👁️【分心超載邪眼】被專注光束穿透，眼瞳碎裂消散！"
-      },
-      {
-        name: "冒牌者症候群影",
-        hp: 1680, atk: 100, xp: 62, reqLevel: 25, count: 2,
-        img: "assets/monster_ghost.png", filter: "none", size: 85, attrChance: 0.26,
-        deathDesc: "🎭【冒牌者症候群影】在自我接納的光芒中化為無效煙霧！"
-      },
-      {
-        name: "完美主義幼龍",
-        hp: 2300, atk: 130, xp: 75, reqLevel: 30, count: 1,
-        img: "assets/monster_dragon.png", filter: "hue-rotate(40deg) brightness(1.1)", size: 120, attrChance: 0.3,
-        deathDesc: "🐉【完美主義幼龍】發出尖嘯，碎裂成無數的實踐代碼模組！"
-      },
-      {
-        name: "慣性阻力泥怪",
-        hp: 3000, atk: 165, xp: 90, reqLevel: 35, count: 3,
-        img: "assets/monster_slime.png", filter: "hue-rotate(220deg) brightness(1.2) saturate(1.8)", size: 120, attrChance: 0.35,
-        deathDesc: "🟢【慣性阻力泥怪】被每日1%前行突破，徹底裂解！"
-      },
-      {
-        name: "黃金爆速蝸牛",
-        hp: 3800, atk: 205, xp: 110, reqLevel: 40, count: 2,
-        img: "assets/monster_snail.png", filter: "hue-rotate(50deg) brightness(1.5) saturate(1.8)", size: 120, attrChance: 0.4,
-        deathDesc: "🐌【黃金爆速蝸牛】外殼碎裂，高頻執行力完美洞穿！"
-      },
-      {
-        name: "三分鐘熱度石像",
-        hp: 4700, atk: 250, xp: 130, reqLevel: 45, count: 1,
-        img: "assets/monster_golem.png", filter: "hue-rotate(240deg) brightness(1.2) saturate(1.5)", size: 125, attrChance: 0.45,
-        deathDesc: "👹【三分鐘熱度石像】熱情冷卻，化作了持續耕耘的複利地基！"
-      },
-      {
-        name: "深淵資訊巨魔",
-        hp: 5700, atk: 300, xp: 155, reqLevel: 50, count: 1,
-        img: "assets/monster_noise.png", filter: "hue-rotate(200deg) brightness(0.7)", size: 125, attrChance: 0.5,
-        deathDesc: "🦑【深淵資訊巨魔】被極簡降噪過濾，切斷所有干擾訊號！"
-      },
-      {
-        name: "時空混亂巨眼",
-        hp: 6800, atk: 355, xp: 180, reqLevel: 55, count: 1,
-        img: "assets/monster_eye.png", filter: "hue-rotate(120deg) sepia(0.3) saturate(1.5)", size: 130, attrChance: 0.55,
-        deathDesc: "🪐【時空混亂巨眼】時間線崩解，第二大腦重歸絕對秩序！"
-      },
-      {
-        name: "專注撕裂幽靈",
-        hp: 8000, atk: 415, xp: 210, reqLevel: 60, count: 1,
-        img: "assets/monster_ghost.png", filter: "hue-rotate(180deg) brightness(0.8)", size: 130, attrChance: 0.65,
-        deathDesc: "💀【專注撕裂幽靈】在極致專注力刺殺下煙消雲散！"
-      },
-      {
-        name: "焦慮紫晶巨龍",
-        hp: 9300, atk: 480, xp: 245, reqLevel: 65, count: 1,
-        img: "assets/monster_dragon.png", filter: "none", size: 155, attrChance: 0.72,
-        deathDesc: "🐉【焦慮紫晶巨龍】發出一聲巨響，碎裂成萬千璀璨的複利水晶！"
-      },
-      {
-        name: "璀璨完美史萊姆",
-        hp: 10700, atk: 550, xp: 280, reqLevel: 70, count: 1,
-        img: "assets/monster_slime.png", filter: "hue-rotate(300deg) brightness(1.6) saturate(2.0)", size: 160, attrChance: 0.8,
-        deathDesc: "💎【璀璨完美史萊姆】蒸發成允許錯誤的實踐代碼！"
-      },
-      {
-        name: "命運虛無毒蝸皇",
-        hp: 12200, atk: 625, xp: 320, reqLevel: 75, count: 1,
-        img: "assets/monster_snail.png", filter: "hue-rotate(120deg) brightness(0.8) saturate(2.0)", size: 160, attrChance: 0.88,
-        deathDesc: "🐌【命運虛無毒蝸皇】慘叫倒下，大腦的負能量被全數重置！"
-      },
-      {
-        name: "知識堆疊金像",
-        hp: 13800, atk: 705, xp: 370, reqLevel: 80, count: 1,
-        img: "assets/monster_golem.png", filter: "hue-rotate(50deg) brightness(1.6) saturate(1.8)", size: 165, attrChance: 0.95,
-        deathDesc: "👑【知識堆疊金像】解體，化作最強大的知識印刷字模！"
-      },
-      {
-        name: "終極靜音阻斷者",
-        hp: 15500, atk: 790, xp: 430, reqLevel: 85, count: 1,
-        img: "assets/monster_noise.png", filter: "hue-rotate(290deg) brightness(0.4) saturate(2.0)", size: 170, attrChance: 1.0,
-        deathDesc: "🔇【終極靜音阻斷者】消散，大腦重歸絕對安寧與降噪！"
-      },
-      {
-        name: "命運折射邪神眼",
-        hp: 17300, atk: 880, xp: 490, reqLevel: 90, count: 1,
-        img: "assets/monster_eye.png", filter: "hue-rotate(330deg) brightness(0.6) saturate(2.5)", size: 175, attrChance: 1.0,
-        deathDesc: "👁️【命運折射邪神眼】閉合，命運的迷霧散去，人生重新覺醒！"
-      },
-      {
-        name: "專注撕裂黑魔龍",
-        hp: 19200, atk: 975, xp: 560, reqLevel: 95, count: 1,
-        img: "assets/monster_dragon.png", filter: "hue-rotate(140deg) brightness(0.3) saturate(2.5)", size: 180, attrChance: 1.0,
-        deathDesc: "⚡【專注撕裂黑魔龍】被極致的專注力斬成碎片，化為塵埃！"
-      },
-      {
-        name: "終極命運虛無神",
-        hp: 22000, atk: 1100, xp: 999, reqLevel: 99, count: 1,
-        img: "assets/monster_reaper.png", filter: "none", size: 190, attrChance: 1.0,
-        deathDesc: "💀【終極命運虛無神】發出最後的低鳴，在人生OS的終極神聖光芒下消散成純淨的虛無意義！✨"
-      }
+    const baseMonsterImages = [
+      "assets/monster_slime.png",
+      "assets/monster_snail.png",
+      "assets/monster_golem.png",
+      "assets/monster_noise.png",
+      "assets/monster_eye.png",
+      "assets/monster_ghost.png",
+      "assets/monster_dragon.png",
+      "assets/monster_wizard.png",
+      "assets/monster_knight.png"
     ];
+
+    const adjectives = [
+      "雜念", "拖延", "焦慮", "分心", "比較", "冒牌", "虛無", "阻礙", "混亂", "完美",
+      "資訊", "堆疊", "靜音", "折射", "撕裂", "空虛", "挫折", "內耗", "迷茫", "疲憊",
+      "盲目", "懷疑", "負面", "怠惰", "低迷", "浮躁", "噪音", "封包", "斷訊", "超載"
+    ];
+
+    const nouns = [
+      "史萊姆", "毒蝸牛", "黏土泥怪", "金屬魔偶", "干擾噪音獸", "分心邪眼", "撕裂幽靈", "焦慮幼龍", "幻象巫師", "慣性騎士"
+    ];
+
+    function create99Monsters() {
+      const list = [];
+      for (let i = 1; i <= 99; i++) {
+        const adj = adjectives[(i - 1) % adjectives.length];
+        const noun = nouns[(i - 1) % nouns.length];
+        let name = `${adj}${noun}`;
+        let img = baseMonsterImages[(i - 1) % baseMonsterImages.length];
+        let filter = `hue-rotate(${i * 29}deg) saturate(${1.1 + (i % 4) * 0.25}) brightness(${0.75 + (i % 3) * 0.18})`;
+        let size = 110;
+        let count = 1;
+        let deathDesc = `👾【${name}】被勇者小隊以高頻執行力完美淨化消散！`;
+
+        // 特殊關卡判定：逢 10 為大 Boss，LV.99 為最終大魔王！
+        if (i === 99) {
+          name = "終極命運虛無神";
+          img = "assets/monster_reaper.png";
+          filter = "none";
+          size = 190;
+          count = 1;
+          deathDesc = "💀【終極命運虛無神】發出最後的低鳴，在人生OS的終極神聖光芒下消散成純淨的虛無意義！✨";
+        } else if (i % 10 === 0) {
+          name = `👑 巨型首領【${name}】`;
+          size = 145;
+          count = 1;
+          deathDesc = `💥 巨型首領【${name}】被果斷的專注力擊碎，碎裂成璀璨的經驗封包！`;
+        } else {
+          // 普通關卡：隨機 1, 2, 3 隻怪物群體
+          if (i % 3 === 0) {
+            count = 3;
+            size = 65;
+          } else if (i % 3 === 1) {
+            count = 2;
+            size = 80;
+          } else {
+            count = 1;
+            size = 100;
+          }
+        }
+
+        // 完美對應玩家成長的 HP、攻擊力與經驗數值曲線
+        const hp = Math.floor(60 + i * i * 2.2 + i * 15);
+        const atk = Math.floor(10 + i * 3.4 + Math.pow(i, 1.25) * 0.6);
+        const xp = Math.floor(10 + i * 2.5 + (i * i) * 0.05);
+        const attrChance = Math.min(1.0, 0.08 + i * 0.01);
+
+        list.push({
+          name,
+          hp,
+          atk,
+          xp,
+          reqLevel: i,
+          count,
+          img,
+          filter,
+          size,
+          attrChance,
+          deathDesc
+        });
+      }
+      return list;
+    }
+
+    const monsters = create99Monsters();
 
     function switchGuildTab(tabId) {
       if (isBattleBusy && tabId === 'board') {
@@ -2389,6 +2479,14 @@
         if (Math.random() < 0.95) {
           playSlashSFX();
           logMsg = `🐵【理智小猴】使出【執行斬】！敏捷劈砍，對${targetName}造成 ${dmg} 點物理傷害！`;
+          // 觸發小猴物理劈砍動畫
+          const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
+          if (wrapper) {
+            const fx = document.createElement('div');
+            fx.className = 'slash-effect';
+            wrapper.appendChild(fx);
+            setTimeout(() => fx.remove(), 250);
+          }
         } else {
           playErrorSFX();
           dmg = 0;
@@ -2406,6 +2504,18 @@
           } else {
             logMsg = `🐻【智者白熊】使出【智慧雷擊】！釋放智慧雷網，電擊全體怪群，造成 ${dmg} 點腦波衝擊！`;
           }
+          // 觸發白熊群體閃電落雷動畫
+          enemyMonsters.forEach(mObj => {
+            if (mObj.alive) {
+              const wrapper = document.getElementById(`retroMonsterWrapper-${mObj.id}`);
+              if (wrapper) {
+                const fx = document.createElement('div');
+                fx.className = 'lightning-effect';
+                wrapper.appendChild(fx);
+                setTimeout(() => fx.remove(), 400);
+              }
+            }
+          });
         } else {
           playErrorSFX();
           dmg = 0;
@@ -2424,6 +2534,14 @@
             dmg = Math.floor(5 + userLevel * 0.3 + userAttrs.foc * 1.2 + Math.random() * 3);
             logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，對${targetName}造成了微弱的 ${dmg} 點傷害。`;
           }
+          // 觸發小兔專注突刺紅心準星動畫
+          const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
+          if (wrapper) {
+            const fx = document.createElement('div');
+            fx.className = 'pierce-effect';
+            wrapper.appendChild(fx);
+            setTimeout(() => fx.remove(), 300);
+          }
         } else {
           playErrorSFX();
           dmg = 0;
@@ -2437,6 +2555,16 @@
           if (m.hp > 0) {
             m.hp = Math.min(m.maxHp, m.hp + heal);
             spawnDamageText(`+${heal}`, 'player', idx);
+            
+            // 觸發小貓降噪護罩綠色泡泡防禦動畫
+            const row = document.getElementById(`pMember-${idx}`);
+            if (row) {
+              row.style.position = 'relative';
+              const fx = document.createElement('div');
+              fx.className = 'shield-effect';
+              row.appendChild(fx);
+              setTimeout(() => fx.remove(), 500);
+            }
           }
         });
         isDefending = true;
@@ -3239,9 +3367,53 @@
           finalDaily = nextDaily;
         }
       }, 15000); // 每 15 秒更新一次
+    function initBookLinksXPSystem() {
+      const bookLinks = document.querySelectorAll('.link-books .link-actions a');
+      const clickedLinksMap = {};
+
+      bookLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const url = this.getAttribute('href');
+          
+          if (!clickedLinksMap[url]) {
+            // 第一次點擊：阻斷跳轉，增加 100 XP 並彈出 XP 飄字特效與播放療癒音效！
+            e.preventDefault();
+            clickedLinksMap[url] = true;
+            
+            const rect = this.getBoundingClientRect();
+            const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const x = rect.left + rect.width / 2 + scrollX;
+            const y = rect.top + scrollY;
+            
+            addXP(100, x, y);
+            playHealSFX();
+            
+            const originalText = this.innerText;
+            this.innerHTML = `<span style="color: #ffd89c; font-weight: bold; font-size: 0.72rem;">✨ +100 XP!</span>`;
+            setTimeout(() => {
+              this.innerText = originalText;
+            }, 2000);
+          } else {
+            // 第二次點擊：阻斷跳轉，顯示「進入連結中...」與播放劈砍音效，隨後正式開啟分頁！
+            e.preventDefault();
+            
+            const originalText = this.innerText;
+            this.innerHTML = `<span style="color: #4df0ff; font-weight: bold; font-size: 0.72rem;">進入連結中...</span>`;
+            playSlashSFX();
+            
+            setTimeout(() => {
+              this.innerText = originalText;
+              clickedLinksMap[url] = false; // 重置點擊狀態，以便下次操作
+              window.open(url, '_blank');
+            }, 600);
+          }
+        });
+      });
     }
 
     initCounter();
+    initBookLinksXPSystem();
   </script>
 </body>
 </html>
