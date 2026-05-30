@@ -2996,7 +2996,7 @@
         
         // 依怪群存活數量自適應調整個別傷害，避免玩家被瞬間秒殺
         const scaleFactor = aliveEnemies.length === 3 ? 0.45 : (aliveEnemies.length === 2 ? 0.65 : 1.0);
-        let mDmg = Math.floor((monster.atk * 0.75 + Math.random() * (monster.atk * 0.5)) * scaleFactor);
+        let mDmg = Math.floor((monster.atk * 0.75 + Math.random() * (monster.atk * 0.5)) * scaleFactor * 2.0); // 2x Monster Attack Power!
         mDmg = Math.max(1, mDmg);
         
         let logMsg = "";

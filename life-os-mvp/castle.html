@@ -903,7 +903,7 @@ function generateEnemies() {
 
     // Apply difficulty scaling
     hp = Math.floor(hp * scale);
-    atk = Math.floor(atk * scale);
+    atk = Math.floor(atk * scale * 2.0); // V5 Monster 2x Attack Power!
     xpVal = Math.floor(xpVal * scale);
 
     enemies.push({
@@ -991,6 +991,36 @@ function getLevelInfo(xp) {
     level++;
   }
   return { level: 99, xpInLevel: 0, xpNeeded: 1 };
+}
+
+// ==========================================
+// 公會傳奇神裝戰鬥屬性加成公式 (同步 JRPG)
+// ==========================================
+function getGearStats(level) {
+  const stats = {
+    bonusInt: 0,
+    bonusVit: 0,
+    bonusFoc: 0,
+    bonusAgi: 0,
+    bonusMaxHp: 0,
+    bonusXpPct: 0.0,
+    bonusDmgPct: 1.0,
+    bonusCritRate: 0.0
+  };
+  
+  if (level >= 10) stats.bonusInt += 5; // 💻 大腦除錯鍵盤
+  if (level >= 20) stats.bonusFoc += 5; // 📓 Notion 第二大腦
+  if (level >= 30) stats.bonusMaxHp += 50; // 🔋 意志力蓄電池
+  if (level >= 40) stats.bonusAgi += 5; // ☕ NPC 覺醒藥水
+  if (level >= 50) stats.bonusXpPct += 0.20; // 🧱 知識印刷術字模 (+20% XP)
+  if (level >= 60) stats.bonusVit += 5; // 🛡️ 降噪防護力場
+  if (level >= 70) stats.bonusDmgPct += 0.25; // 🪓 白熊極意之斧 (+25% Damage)
+  if (level >= 80) stats.bonusCritRate += 0.15; // 🔮 心靈意識重塑鏡 (+15% Crit Rate)
+  if (level >= 90) { // 👑 人生OS最高核心 (+50% Dmg, +150 Max HP)
+    stats.bonusDmgPct += 0.50;
+    stats.bonusMaxHp += 150;
+  }
+  return stats;
 }
 
 // ============================================================
@@ -1382,7 +1412,8 @@ function startGame() {
   else if (charKey === 'cat') weaponIdx = 1;    // Cat Healer starts with Healing Staff
 
   // Init player
-  const baseHp = Math.floor((80 + info.level * 4 + userAttrs.vit * 6) * charDef.hpMul);
+  const gear = getGearStats(info.level);
+  const baseHp = Math.floor((80 + info.level * 4 + (userAttrs.vit + gear.bonusVit) * 6) * charDef.hpMul) + gear.bonusMaxHp;
   player = {
     x: 3*TILE, y: (MAP_H-4)*TILE,
     w: 22, h: 30,
@@ -1393,8 +1424,8 @@ function startGame() {
     hp: baseHp, maxHp: baseHp,
     attacking: false, atkTimer: 0, atkCooldown: 0,
     invincible: 0,
-    speed: 3.2 * charDef.spdMul + userAttrs.agi * 0.08,
-    baseDmg: 12 + info.level * 1.5 + userAttrs.int * 0.8,
+    speed: 3.2 * charDef.spdMul + (userAttrs.agi + gear.bonusAgi) * 0.08,
+    baseDmg: 12 + info.level * 1.5 + (userAttrs.int + gear.bonusInt) * 0.8,
     // Skill systems
     skillCooldown: 0,
     dashing: false, dashTimer: 0,
@@ -2005,7 +2036,12 @@ function updatePlayer() {
 
 function calcDmg() {
   const wpn = WEAPONS[weaponIdx];
-  let dmg = player.baseDmg * wpn.dmgMul * charDef.atkMul;
+  const info = getLevelInfo(userXP + castleXPEarned);
+  const gear = getGearStats(info.level);
+  
+  // Dynamic baseDmg based on current level and gear stats
+  const currentBaseDmg = 12 + info.level * 1.5 + (userAttrs.int + gear.bonusInt) * 0.8;
+  let dmg = currentBaseDmg * wpn.dmgMul * charDef.atkMul * gear.bonusDmgPct;
   
   // Stage 6 Acid rain: reduce ATK by 25%
   if (activeStageIdx === 5) {
@@ -2013,7 +2049,7 @@ function calcDmg() {
   }
 
   // Stage 10 Rainbow: Crit Rate +35%
-  let critChance = 0.1 + userAttrs.foc * 0.015;
+  let critChance = 0.1 + (userAttrs.foc + gear.bonusFoc) * 0.015 + gear.bonusCritRate;
   if (activeStageIdx === 9) {
     critChance += 0.35;
   }
@@ -2046,11 +2082,15 @@ function damageEnemy(en, dmg) {
 
   if (en.hp <= 0) {
     en.alive = false;
-    const xpGain = en.xpVal;
+    const info = getLevelInfo(userXP + castleXPEarned);
+    const gear = getGearStats(info.level);
+    const baseXP = en.xpVal;
+    const xpGain = Math.floor(baseXP * (1.0 + gear.bonusXpPct));
     castleXPEarned += xpGain;
+    const spark = gear.bonusXpPct > 0 ? '✨' : '';
     floaters.push({
       x: en.x + en.w/2, y: en.y - 20,
-      text: '+' + xpGain + 'XP', color: '#4ef072', life: 50, vy: -1.5
+      text: '+' + xpGain + 'XP' + spark, color: '#4ef072', life: 50, vy: -1.5
     });
     for (let i = 0; i < 12; i++) {
       particles.push({
@@ -2108,6 +2148,13 @@ function checkLevelUp() {
   const newInfo = getLevelInfo(userXP + castleXPEarned);
   if (newInfo.level > oldInfo.level) {
     playLevelUpSFX();
+    
+    // Dynamic HP boost/restore on level up with gear alignment!
+    const newGear = getGearStats(newInfo.level);
+    const newBaseHp = Math.floor((80 + newInfo.level * 4 + (userAttrs.vit + newGear.bonusVit) * 6) * charDef.hpMul) + newGear.bonusMaxHp;
+    player.maxHp = newBaseHp;
+    player.hp = newBaseHp; // fully heal!
+    
     const overlay = document.getElementById('levelUpOverlay');
     overlay.style.display = 'flex';
     const txt = document.getElementById('lvupText');
@@ -2458,8 +2505,13 @@ function updateItems() {
         player.hp = Math.min(player.maxHp, player.hp + 20);
         floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+20HP', color: '#ff8888', life: 35, vy: -1.5 });
       } else {
-        castleXPEarned += 3;
-        floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+3XP', color: '#ffd89c', life: 35, vy: -1.5 });
+        const info = getLevelInfo(userXP + castleXPEarned);
+        const gear = getGearStats(info.level);
+        const baseXP = 3;
+        const xpGain = Math.floor(baseXP * (1.0 + gear.bonusXpPct));
+        castleXPEarned += xpGain;
+        const spark = gear.bonusXpPct > 0 ? '✨' : '';
+        floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+' + xpGain + 'XP' + spark, color: '#ffd89c', life: 35, vy: -1.5 });
       }
       playPickupSFX();
       it.life = 0;
