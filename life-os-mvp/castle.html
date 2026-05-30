@@ -540,6 +540,7 @@
             </div>
           </div>
         </div>
+        <div id="hudClimate" style="display:none; font-size:0.32rem; font-weight:bold; padding:3px 8px; border-radius:6px; font-family:inherit; text-align:center; box-shadow:0 0 10px rgba(0,0,0,0.4); max-width:260px;"></div>
         <div class="hud-weapons" id="hudWeapons">
           <div class="weapon-slot active" data-w="0" onclick="switchWeapon(0)" title="黑漆忍刀">🗡️</div>
           <div class="weapon-slot" data-w="1" onclick="switchWeapon(1)" title="白魔導杖">🔮</div>
@@ -865,8 +866,8 @@ function generateEnemies() {
     [74, 12, 2, 3], 
   ];
   
-  // Difficulty scaling multiplier based on stage
-  const scale = 1 + activeStageIdx * 0.45;
+  // Difficulty scaling multiplier based on stage (V4 Hardcore Scaling!)
+  const scale = 1 + activeStageIdx * 0.65;
   
   defs.forEach(([ex,ey,mIdx,pw],i) => {
     const type = stage.monsters[mIdx];
@@ -1204,6 +1205,164 @@ function backToCharSelect() {
 }
 
 // ============================================================
+// PROCEDURAL MATERIAL TEXTURES GENERATION (V4 Realistic Textures)
+// ============================================================
+function initProceduralPatterns() {
+  STAGES.forEach((stage, idx) => {
+    const pCanvas = document.createElement('canvas');
+    pCanvas.width = TILE;
+    pCanvas.height = TILE;
+    const pCtx = pCanvas.getContext('2d');
+
+    // Fill base stage color
+    pCtx.fillStyle = stage.color;
+    pCtx.fillRect(0, 0, TILE, TILE);
+
+    const type = stage.particleType;
+    if (type === 'crystal') {
+      pCtx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      pCtx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+      pCtx.beginPath();
+      pCtx.moveTo(0, 0); pCtx.lineTo(TILE, 0); pCtx.lineTo(TILE/2, TILE/2); pCtx.closePath(); pCtx.fill();
+      pCtx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE); pCtx.lineTo(TILE, TILE); pCtx.lineTo(TILE/2, TILE/2); pCtx.closePath(); pCtx.fill();
+      pCtx.strokeStyle = 'rgba(186, 77, 255, 0.35)';
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(2, 2); pCtx.lineTo(TILE-2, TILE-2);
+      pCtx.moveTo(TILE-2, 2); pCtx.lineTo(2, TILE-2);
+      pCtx.stroke();
+      pCtx.fillStyle = '#ffffff';
+      pCtx.fillRect(TILE/2 - 1, 4, 2, 2);
+      pCtx.fillRect(4, TILE/2 - 1, 2, 2);
+    } else if (type === 'mist') {
+      // Mossy old stone texture
+      for (let i = 0; i < 40; i++) {
+        pCtx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 2 + Math.random()*4, 2 + Math.random()*4);
+      }
+      pCtx.fillStyle = 'rgba(46, 117, 59, 0.35)'; // moss spots
+      pCtx.fillRect(0, 0, TILE, 3);
+      pCtx.fillRect(0, TILE-3, TILE, 3);
+      pCtx.fillRect(4, 4, 5, 5);
+      pCtx.fillRect(TILE-8, TILE/2, 4, 6);
+    } else if (type === 'lava') {
+      // Obsidian stone with magma veins
+      pCtx.fillStyle = '#1c1212';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 15; i++) {
+        pCtx.fillStyle = '#2d1a1a';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 4, 4);
+      }
+      pCtx.strokeStyle = '#ff5722'; // orange vein
+      pCtx.lineWidth = 1.5;
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE/2);
+      pCtx.lineTo(TILE/3, TILE/3);
+      pCtx.lineTo(TILE*2/3, TILE*2/3);
+      pCtx.lineTo(TILE, TILE/2);
+      pCtx.stroke();
+      pCtx.fillStyle = '#ffeb3b'; // glowing core
+      pCtx.fillRect(TILE/3, TILE/3, 2, 2);
+      pCtx.fillRect(TILE*2/3, TILE*2/3, 2, 2);
+    } else if (type === 'temple') {
+      // Sacred gold-veined polished marble
+      pCtx.fillStyle = '#faf8f5';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      pCtx.strokeStyle = 'rgba(212, 175, 55, 0.35)'; // gold vein
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE);
+      pCtx.bezierCurveTo(TILE/4, TILE/2, TILE*3/4, TILE/2, TILE, 0);
+      pCtx.stroke();
+      pCtx.strokeStyle = 'rgba(120, 120, 120, 0.15)'; // grey vein
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE/3);
+      pCtx.lineTo(TILE/2, 0);
+      pCtx.stroke();
+    } else if (type === 'acid') {
+      // Acid eroded slime marsh block
+      pCtx.fillStyle = '#1e332a';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 12; i++) {
+        pCtx.fillStyle = 'rgba(0,0,0,0.18)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 4, 4);
+      }
+      pCtx.fillStyle = 'rgba(26, 188, 156, 0.3)'; // toxic stains
+      pCtx.fillRect(0, 0, 7, 7);
+      pCtx.fillRect(TILE-7, TILE-7, 7, 7);
+      pCtx.fillRect(TILE/2-2, TILE/2-2, 5, 5);
+    } else if (type === 'snow') {
+      // Glacial ice with frozen frosting top
+      pCtx.fillStyle = '#154157';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 10; i++) {
+        pCtx.fillStyle = 'rgba(255,255,255,0.15)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 2, 2);
+      }
+      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.12)'; // ice crack
+      pCtx.beginPath();
+      pCtx.moveTo(TILE/3, 0); pCtx.lineTo(TILE*2/3, TILE);
+      pCtx.stroke();
+      pCtx.fillStyle = '#ffffff'; // snow frost top
+      pCtx.fillRect(0, 0, TILE, 4);
+      pCtx.fillRect(3, 4, 3, 2);
+    } else if (type === 'lightning') {
+      // High-voltage lightning basalt
+      pCtx.fillStyle = '#1f132b';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 18; i++) {
+        pCtx.fillStyle = '#0f0717';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 3, 3);
+      }
+      pCtx.strokeStyle = '#00e5ff'; // cyan lightning spark
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(TILE/2, 0);
+      pCtx.lineTo(TILE/3, TILE/2);
+      pCtx.lineTo(TILE*2/3, TILE/2);
+      pCtx.lineTo(TILE/2, TILE);
+      pCtx.stroke();
+    } else if (type === 'void') {
+      // Swirling cosmic void particle block
+      pCtx.fillStyle = '#1c071d';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      const radGrd = pCtx.createRadialGradient(TILE/2, TILE/2, 1, TILE/2, TILE/2, TILE/2);
+      radGrd.addColorStop(0, 'rgba(243, 104, 224, 0.2)');
+      radGrd.addColorStop(1, 'rgba(0,0,0,0)');
+      pCtx.fillStyle = radGrd;
+      pCtx.beginPath();
+      pCtx.arc(TILE/2, TILE/2, TILE/2, 0, Math.PI*2);
+      pCtx.fill();
+    } else if (type === 'rainbow') {
+      // Dynamic shift obsidian
+      pCtx.fillStyle = '#111111';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      const patGrd = pCtx.createLinearGradient(0, 0, TILE, TILE);
+      patGrd.addColorStop(0, 'rgba(255, 118, 117, 0.12)');
+      patGrd.addColorStop(0.3, 'rgba(253, 203, 110, 0.12)');
+      patGrd.addColorStop(0.5, 'rgba(85, 239, 196, 0.12)');
+      patGrd.addColorStop(0.7, 'rgba(116, 185, 255, 0.12)');
+      patGrd.addColorStop(1, 'rgba(162, 155, 254, 0.12)');
+      pCtx.fillStyle = patGrd;
+      pCtx.fillRect(1, 1, TILE-2, TILE-2);
+    } else {
+      // Old Castle basalt brick textures
+      for (let i = 0; i < 35; i++) {
+        pCtx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.05)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 2 + Math.random()*3, 2 + Math.random()*3);
+      }
+      pCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      pCtx.fillRect(0, TILE/2, TILE, 1);
+    }
+
+    stage.pattern = ctx.createPattern(pCanvas, 'repeat');
+  });
+}
+
+// ============================================================
 // GAME INIT
 // ============================================================
 function startGame() {
@@ -1212,6 +1371,7 @@ function startGame() {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
+  initProceduralPatterns(); // Initialize realistic procedural textures
   loadFromRPG();
   const info = getLevelInfo(userXP);
 
@@ -1607,12 +1767,22 @@ function updatePlayer() {
       player.vx *= 0.3;
     }
   } else {
-    if (isLeft()) { player.vx -= 0.6; player.dir = -1; }
-    if (isRight()) { player.vx += 0.6; player.dir = 1; }
+    // Stage 10 Rainbow: slower acceleration during slide
+    let accel = (activeStageIdx === 9) ? 0.35 : 0.6;
+    if (isLeft()) { player.vx -= accel; player.dir = -1; }
+    if (isRight()) { player.vx += accel; player.dir = 1; }
   }
 
-  player.vx *= FRICTION;
-  const maxSpd = player.speed;
+  // Stage 10 Rainbow: ice slide inertia!
+  let currentFriction = (activeStageIdx === 9) ? 0.94 : FRICTION;
+  player.vx *= currentFriction;
+
+  // Climate Speed Debuffs
+  let speedScale = 1.0;
+  if (activeStageIdx === 6) speedScale = 0.7;      // Stage 7 Snow
+  else if (activeStageIdx === 7) speedScale = 0.85; // Stage 8 Lightning
+  const maxSpd = player.speed * speedScale;
+
   if (player.vx > maxSpd) player.vx = maxSpd;
   if (player.vx < -maxSpd) player.vx = -maxSpd;
   if (Math.abs(player.vx) < 0.1) player.vx = 0;
@@ -1621,7 +1791,10 @@ function updatePlayer() {
   const jumpDown = isJump();
   if (jumpDown && !jumpPressed && !player.dashing) {
     if (player.jumps < player.maxJumps) {
-      player.vy = -charDef.jumpPow;
+      let jumpPower = charDef.jumpPow;
+      if (activeStageIdx === 6) jumpPower = charDef.jumpPow * 0.85; // Stage 7 Snow
+      
+      player.vy = -jumpPower;
       player.jumps++;
       player.onGround = false;
       playJumpSFX();
@@ -1641,8 +1814,25 @@ function updatePlayer() {
 
   // Gravity
   if (!player.dashing) {
-    player.vy += GRAVITY;
+    let gravScale = 1.0;
+    if (activeStageIdx === 8) gravScale = 0.7; // Stage 9 Void Low Gravity
+    player.vy += GRAVITY * gravScale;
     if (player.vy > MAX_FALL) player.vy = MAX_FALL;
+  }
+
+  // Void HP drain tick every 3s (180 frames)
+  if (activeStageIdx === 8 && gameRunning && !gamePaused) {
+    if (!player.voidTickTimer) player.voidTickTimer = 0;
+    player.voidTickTimer++;
+    if (player.voidTickTimer >= 180) {
+      player.voidTickTimer = 0;
+      player.hp = Math.max(1, player.hp - 1);
+      floaters.push({
+        x: player.x + player.w/2, y: player.y - 15,
+        text: '-1 HP 🌌', color: '#f368e0', life: 35, vy: -1.2
+      });
+      playDamageSFX();
+    }
   }
 
   // Horizontal collisions
@@ -1686,7 +1876,7 @@ function updatePlayer() {
   const spkX = Math.floor((player.x + player.w/2) / TILE);
   const spkY = Math.floor((player.y + player.h - 1) / TILE);
   if (tileAt(spkX, spkY) === 4 && player.invincible <= 0) {
-    const scale = 1 + activeStageIdx * 0.45;
+    const scale = 1 + activeStageIdx * 0.65; // V4 Hardcore Trap Scaling
     const hazardDmg = Math.floor(20 * scale);
     playerTakeDamage(hazardDmg);
     player.vy = -8;
@@ -1791,7 +1981,18 @@ function updatePlayer() {
   else player.attacking = false;
   if (player.atkCooldown > 0) player.atkCooldown--;
   if (player.invincible > 0) player.invincible--;
-  if (player.skillCooldown > 0) player.skillCooldown--;
+  if (player.skillCooldown > 0) {
+    let decVal = 1;
+    if (activeStageIdx === 7) { // Stage 8 Lightning: CD charging speed +45%
+      if (!player.skillCDFraction) player.skillCDFraction = 0;
+      player.skillCDFraction += 0.45;
+      if (player.skillCDFraction >= 1) {
+        decVal += Math.floor(player.skillCDFraction);
+        player.skillCDFraction -= Math.floor(player.skillCDFraction);
+      }
+    }
+    player.skillCooldown = Math.max(0, player.skillCooldown - decVal);
+  }
   if (player.hasShield > 0) player.hasShield--;
 
   // Respawn
@@ -1805,7 +2006,19 @@ function updatePlayer() {
 function calcDmg() {
   const wpn = WEAPONS[weaponIdx];
   let dmg = player.baseDmg * wpn.dmgMul * charDef.atkMul;
-  if (Math.random() < 0.1 + userAttrs.foc * 0.015) dmg *= 1.8;
+  
+  // Stage 6 Acid rain: reduce ATK by 25%
+  if (activeStageIdx === 5) {
+    dmg *= 0.75;
+  }
+
+  // Stage 10 Rainbow: Crit Rate +35%
+  let critChance = 0.1 + userAttrs.foc * 0.015;
+  if (activeStageIdx === 9) {
+    critChance += 0.35;
+  }
+
+  if (Math.random() < critChance) dmg *= 1.8;
   return Math.floor(dmg + Math.random() * 6);
 }
 
@@ -1868,6 +2081,10 @@ function breakCandle(c) {
 
 function playerTakeDamage(dmg) {
   if (player.invincible > 0) return;
+  // Stage 6 Acid rain: reduce DEF by 25% (increase dmg taken by 25%)
+  if (activeStageIdx === 5) {
+    dmg = Math.floor(dmg * 1.25);
+  }
   player.hp = Math.max(0, player.hp - dmg);
   player.invincible = 45;
   playDamageSFX();
@@ -2330,7 +2547,12 @@ function render() {
     for (let x = startX; x < endX; x++) {
       const t = map[y][x];
       if (t === 1) {
-        ctx.fillStyle = stage.color;
+        // V4 realistic procedural material textures
+        if (stage.pattern) {
+          ctx.fillStyle = stage.pattern;
+        } else {
+          ctx.fillStyle = stage.color;
+        }
         ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
         
         // Draw brick outline and division lines
@@ -3047,6 +3269,44 @@ function updateHUD() {
   document.getElementById('hudSkillBar').style.width = pct + '%';
   document.getElementById('hudSkillText').textContent = skillReady ? 'READY' : Math.ceil(player.skillCooldown / 60) + 's';
   document.getElementById('hudSkillText').style.color = skillReady ? '#ba4dff' : '#aaaaaa';
+
+  // Dynamic V4 Climate Warning HUD Update
+  const climateEl = document.getElementById('hudClimate');
+  if (climateEl) {
+    if (activeStageIdx === 5) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '🌧️ 腐蝕酸雨：攻防-25%';
+      climateEl.style.color = '#1abc9c';
+      climateEl.style.backgroundColor = 'rgba(26, 188, 156, 0.15)';
+      climateEl.style.border = '1px solid #1abc9c';
+    } else if (activeStageIdx === 6) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '❄️ 寒風低溫：速度-30%';
+      climateEl.style.color = '#9be2ff';
+      climateEl.style.backgroundColor = 'rgba(155, 226, 255, 0.15)';
+      climateEl.style.border = '1px solid #9be2ff';
+    } else if (activeStageIdx === 7) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '⚡ 雷磁超載：技能冷卻-45%';
+      climateEl.style.color = '#00e5ff';
+      climateEl.style.backgroundColor = 'rgba(0, 229, 255, 0.15)';
+      climateEl.style.border = '1px solid #00e5ff';
+    } else if (activeStageIdx === 8) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '🌌 虛無吞噬：跳躍+25% | 每3秒-1HP';
+      climateEl.style.color = '#f368e0';
+      climateEl.style.backgroundColor = 'rgba(243, 104, 224, 0.15)';
+      climateEl.style.border = '1px solid #f368e0';
+    } else if (activeStageIdx === 9) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '🌈 終焉幻象：暴擊率+35% | 方向飄移';
+      climateEl.style.color = '#fdcb6e';
+      climateEl.style.backgroundColor = 'rgba(253, 203, 110, 0.15)';
+      climateEl.style.border = '1px solid #fdcb6e';
+    } else {
+      climateEl.style.display = 'none';
+    }
+  }
 }
 
 // ============================================================
