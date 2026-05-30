@@ -231,7 +231,7 @@
     }
 
     @keyframes popBadge {
-      0% { transform: scale(0) rotate(-45deg); }
+      0% { transform: scale(0.01) rotate(-45deg); }
       100% { transform: scale(1) rotate(0); }
     }
 
@@ -1295,7 +1295,7 @@
       30% { transform: scaleX(0.8); opacity: 1; background: #4df0ff; }
       45% { transform: scaleX(1.3); opacity: 1; }
       60% { transform: scaleX(0.6); opacity: 1; }
-      100% { transform: scaleX(0); opacity: 0; }
+      100% { transform: scaleX(0.01); opacity: 0; }
     }
     .lightning-effect {
       position: absolute;
@@ -2215,6 +2215,20 @@
 
     function create99Monsters() {
       const list = [];
+      
+      // 定義 9 位區域首領 Boss 專屬的色彩及霓虹光環配置，確保威嚴加倍、絕無重複！
+      const bossGlows = {
+        1: { color: '#00ff66', hue: 120 }, // LV.10: 翡翠綠
+        2: { color: '#00ffff', hue: 180 }, // LV.20: 電光青
+        3: { color: '#ffee00', hue: 55 },  // LV.30: 烈陽金
+        4: { color: '#ba4dff', hue: 280 }, // LV.40: 虛空紫
+        5: { color: '#ff3333', hue: 0 },   // LV.50: 熔岩紅
+        6: { color: '#aaff00', hue: 85 },  // LV.60: 熒光綠
+        7: { color: '#0066ff', hue: 220 }, // LV.70: 深海藍
+        8: { color: '#ff0066', hue: 330 }, // LV.80: 幻影粉
+        9: { color: '#ff8800', hue: 30 }   // LV.90: 電漿橙
+      };
+
       for (let i = 1; i <= 99; i++) {
         // 將99個關卡精準劃分為10大區域，每區對應一種特色怪獸與獨特的BGM音調
         const zoneIdx = Math.min(9, Math.floor((i - 1) / 10));
@@ -2232,8 +2246,14 @@
         const noun = base.nouns[(i - 1) % base.nouns.length];
         let name = `${adj}${noun}`;
         
-        // 採用色相、飽和度與亮度變換，即使使用同一底圖，也能呈現99款完全不重複的特色復古怪獸！
-        let filter = `hue-rotate(${i * 29}deg) saturate(${1.1 + (i % 4) * 0.25}) brightness(${0.75 + (i % 3) * 0.18})`;
+        // 採用「色相 normalizer (sepia) + 黃金分割角偏移 137°」色彩系統：
+        // 1. 先用 sepia(0.8) 消除不同原圖的底色干擾，並將 grayscale 部分轉換為飽和銅金底色
+        // 2. 利用 (i * 137) 黃金分割角度，將 1~99 關的顏色在 360 度色輪中拉開最大視覺差，100% 絕無重複！
+        let hue = (i * 137) % 360;
+        let saturation = 1.35 + (i % 4) * 0.25;
+        let brightness = 0.8 + (i % 3) * 0.12;
+        let filter = `sepia(0.8) saturate(${saturation}) hue-rotate(${hue}deg) brightness(${brightness})`;
+        
         let size = 110;
         let count = 1;
         let deathDesc = `👾【${name}】被勇者小隊以高頻執行力完美淨化消散！`;
@@ -2242,7 +2262,8 @@
         if (i === 99) {
           name = "終極命運虛無神";
           img = "assets/monster_reaper.png";
-          filter = "none";
+          // LV.99 最終 Boss 專屬特效：負片虛無底色，搭配迷幻電漿粉藍雙重霓虹光環！
+          filter = "invert(0.9) hue-rotate(180deg) drop-shadow(0 0 18px #00ffff) drop-shadow(0 0 4px #ba4dff)";
           size = 190;
           count = 1;
           deathDesc = "💀【終極命運虛無神】發出最後的低鳴，在人生OS的終極神聖光芒下消散成純淨的虛無意義！✨";
@@ -2250,7 +2271,10 @@
           name = `👑 巨型首領【${name}王】`;
           size = 145;
           count = 1;
-          filter = "none"; // 首領使用最純淨、最高對比的美術原色，威嚴感加倍！
+          const bossIdx = i / 10;
+          const bossCfg = bossGlows[bossIdx] || { color: '#ffffff', hue: 0 };
+          // 區域大首領 Boss 專屬特效：極致高對比霓虹色彩 + 尊貴大氣的外發光光環 (iOS/Mac Safari 優化)
+          filter = `sepia(0.85) saturate(2.4) hue-rotate(${bossCfg.hue}deg) brightness(1.05) drop-shadow(0 0 14px ${bossCfg.color}) drop-shadow(0 0 3px #ffffff)`;
           deathDesc = `💥 巨型首領【${name}王】被果斷的專注力擊碎，碎裂成璀璨的經驗封包！`;
         } else {
           // 普通關卡：設計 1, 2, 3 隻怪物群體隨機出沒，極大豐富戰鬥局勢！
