@@ -1291,23 +1291,68 @@
     }
 
     @keyframes pierce-effect-anim {
-      0% { transform: scale(2.2); opacity: 0; }
-      25% { transform: scale(0.9); opacity: 1; }
-      75% { transform: scale(1.0); opacity: 1; }
-      100% { transform: scale(1.0); opacity: 0; }
+      0% { transform: scale(0.3) rotate(15deg); opacity: 0; }
+      20% { transform: scale(1.3) rotate(15deg); opacity: 1; }
+      80% { transform: scale(1.1) rotate(15deg); opacity: 1; }
+      100% { transform: scale(1) rotate(15deg); opacity: 0; }
     }
     .pierce-effect {
       position: absolute;
-      top: 25%;
-      left: 25%;
-      width: 50px;
-      height: 50px;
-      border: 4px dashed #ff4d4d;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #ff4d4d;
+      top: 45%;
+      left: 10%;
+      width: 80%;
+      height: 4px;
+      background: #ff4d4d;
+      box-shadow: 0 0 10px #ff4d4d, 0 0 4px #ffffff;
+      transform: rotate(15deg);
       z-index: 10;
       pointer-events: none;
       animation: pierce-effect-anim 0.28s ease-out forwards;
+    }
+    .pierce-effect::before, .pierce-effect::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 3px;
+      background: #ff4d4d;
+      box-shadow: 0 0 6px #ff4d4d;
+    }
+    .pierce-effect::before {
+      top: -8px;
+      left: 20%;
+    }
+    .pierce-effect::after {
+      bottom: -8px;
+      left: 50%;
+    }
+
+    @keyframes magic-rune-effect-anim {
+      0% { transform: scale(0.3) rotate(0deg); opacity: 0; }
+      20% { transform: scale(1.2) rotate(90deg); opacity: 0.9; }
+      70% { transform: scale(1) rotate(180deg); opacity: 0.9; }
+      100% { transform: scale(0.7) rotate(270deg); opacity: 0; }
+    }
+    .magic-rune-effect {
+      position: absolute;
+      top: 20%;
+      left: calc(50% - 30px);
+      width: 60px;
+      height: 60px;
+      border: 2px double #4df0ff;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(77, 240, 255, 0.7);
+      z-index: 11;
+      pointer-events: none;
+      animation: magic-rune-effect-anim 0.45s ease-out forwards;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .magic-rune-effect::before {
+      content: '★';
+      font-size: 1.6rem;
+      color: #4df0ff;
+      text-shadow: 0 0 10px #4df0ff, 0 0 20px #ffffff;
     }
 
     @keyframes shield-effect-anim {
@@ -1977,16 +2022,17 @@
       osc.stop(audioCtx.currentTime + 0.15);
     }
 
-    const baseMonsterImages = [
-      "assets/monster_slime.png",
-      "assets/monster_snail.png",
-      "assets/monster_golem.png",
-      "assets/monster_noise.png",
-      "assets/monster_eye.png",
-      "assets/monster_ghost.png",
-      "assets/monster_dragon.png",
-      "assets/monster_wizard.png",
-      "assets/monster_knight.png"
+    const baseMonsters = [
+      { img: "assets/monster_slime.png", nouns: ["史萊姆", "黏液泥怪", "膠體軟泥怪"], baseName: "史萊姆" },
+      { img: "assets/monster_snail.png", nouns: ["毒蝸牛", "重殼蝸獸", "旋螺魔蝸"], baseName: "蝸牛" },
+      { img: "assets/monster_golem.png", nouns: ["防衛魔像", "岩石巨像", "鋼鐵巨石偶"], baseName: "魔像" },
+      { img: "assets/monster_noise.png", nouns: ["干擾噪音獸", "混亂巨魔", "資訊噪音怪"], baseName: "噪音獸" },
+      { img: "assets/monster_eye.png", nouns: ["分心邪眼", "超載魔瞳", "監視魔眼"], baseName: "邪眼" },
+      { img: "assets/monster_ghost.png", nouns: ["撕裂幽靈", "影之怨靈", "負能量亡魂"], baseName: "幽靈" },
+      { img: "assets/monster_ghost2.png", nouns: ["冒牌者幽影", "虛無魂魄", "幻覺幽魅"], baseName: "幽靈" },
+      { img: "assets/monster_wizard.png", nouns: ["心靈巫師", "噪音術士", "干擾魔導士"], baseName: "法師" },
+      { img: "assets/monster_knight.png", nouns: ["慣性騎士", "深淵鐵衛", "阻力聖騎士"], baseName: "騎士" },
+      { img: "assets/monster_dragon.png", nouns: ["焦慮幼龍", "紫晶飛龍", "深淵黑魔龍"], baseName: "飛龍" }
     ];
 
     const adjectives = [
@@ -1995,17 +2041,17 @@
       "盲目", "懷疑", "負面", "怠惰", "低迷", "浮躁", "噪音", "封包", "斷訊", "超載"
     ];
 
-    const nouns = [
-      "史萊姆", "毒蝸牛", "黏土泥怪", "金屬魔偶", "干擾噪音獸", "分心邪眼", "撕裂幽靈", "焦慮幼龍", "幻象巫師", "慣性騎士"
-    ];
-
     function create99Monsters() {
       const list = [];
       for (let i = 1; i <= 99; i++) {
         const adj = adjectives[(i - 1) % adjectives.length];
-        const noun = nouns[(i - 1) % nouns.length];
+        
+        // 依據索引精確匹配圖片對應的怪獸類型名詞，確保名稱與圖片100%吻合！
+        const base = baseMonsters[(i - 1) % baseMonsters.length];
+        const noun = base.nouns[Math.floor((i - 1) / baseMonsters.length) % base.nouns.length];
         let name = `${adj}${noun}`;
-        let img = baseMonsterImages[(i - 1) % baseMonsterImages.length];
+        let img = base.img;
+        
         let filter = `hue-rotate(${i * 29}deg) saturate(${1.1 + (i % 4) * 0.25}) brightness(${0.75 + (i % 3) * 0.18})`;
         let size = 110;
         let count = 1;
@@ -2504,15 +2550,22 @@
           } else {
             logMsg = `🐻【智者白熊】使出【智慧雷擊】！釋放智慧雷網，電擊全體怪群，造成 ${dmg} 點腦波衝擊！`;
           }
-          // 觸發白熊群體閃電落雷動畫
+          // 觸發白熊群體閃電落雷與旋轉魔法陣動畫 (雙重魔法特效)
           enemyMonsters.forEach(mObj => {
             if (mObj.alive) {
               const wrapper = document.getElementById(`retroMonsterWrapper-${mObj.id}`);
               if (wrapper) {
-                const fx = document.createElement('div');
-                fx.className = 'lightning-effect';
-                wrapper.appendChild(fx);
-                setTimeout(() => fx.remove(), 400);
+                // 1. 旋轉魔法陣
+                const runeFx = document.createElement('div');
+                runeFx.className = 'magic-rune-effect';
+                wrapper.appendChild(runeFx);
+                setTimeout(() => runeFx.remove(), 450);
+
+                // 2. 轟天雷擊
+                const lightFx = document.createElement('div');
+                lightFx.className = 'lightning-effect';
+                wrapper.appendChild(lightFx);
+                setTimeout(() => lightFx.remove(), 400);
               }
             }
           });
