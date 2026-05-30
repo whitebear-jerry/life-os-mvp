@@ -1921,6 +1921,57 @@
       osc.stop(audioCtx.currentTime + 0.14);
     }
 
+    // FOC 攻擊音效 (High pitch short sawtooth burst)
+    function playPierceSFX() {
+      initAudioContext();
+      if (isRetroMuted || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
+      gainNode.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    }
+
+    // INT 智慧雷擊魔法音效 (Sine + Sawtooth 頻率向上掃描 + 閃電炸裂聲)
+    function playMagicSFX() {
+      initAudioContext();
+      if (isRetroMuted || !audioCtx) return;
+      
+      const now = audioCtx.currentTime;
+      
+      // 1. 魔法蓄力上升音調
+      const osc1 = audioCtx.createOscillator();
+      const gain1 = audioCtx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(300, now);
+      osc1.frequency.exponentialRampToValueAtTime(1500, now + 0.2);
+      gain1.gain.setValueAtTime(0.04, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+      osc1.connect(gain1);
+      gain1.connect(audioCtx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.2);
+      
+      // 2. 閃電炸裂白噪音/鋸齒波下行
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.type = 'sawtooth';
+      osc2.frequency.setValueAtTime(80, now + 0.15);
+      osc2.frequency.linearRampToValueAtTime(300, now + 0.35);
+      gain2.gain.setValueAtTime(0.07, now + 0.15);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+      osc2.connect(gain2);
+      gain2.connect(audioCtx.destination);
+      osc2.start(now + 0.15);
+      osc2.stop(now + 0.38);
+    }
+
     // VIT 降噪治療音效 (Arpeggio 上行和弦)
     function playHealSFX() {
       initAudioContext();
@@ -2053,16 +2104,16 @@
     }
 
     const baseMonsters = [
-      { img: "assets/monster_slime.png", nouns: ["史萊姆", "黏液泥怪", "膠體軟泥怪", "硬化軟泥體", "史萊姆"], baseName: "史萊姆" }, // Zone 0 (1-10)
-      { img: "assets/monster_snail.png", nouns: ["毒蝸牛", "重殼蝸獸", "旋螺魔蝸", "硬殼酸蝸", "蝸牛"], baseName: "蝸牛" }, // Zone 1 (11-20)
-      { img: "assets/monster_golem.png", nouns: ["防衛魔像", "岩石巨像", "鋼鐵巨石偶", "遠古符文巨石像", "魔像"], baseName: "魔像" }, // Zone 2 (21-30)
-      { img: "assets/monster_noise.png", nouns: ["干擾噪音獸", "混亂巨魔", "資訊噪音怪", "音波裂隙魔", "噪音獸"], baseName: "噪音獸" }, // Zone 3 (31-40)
-      { img: "assets/monster_eye.png", nouns: ["分心邪眼", "超載魔瞳", "監視魔眼", "裂空狂視邪眼", "邪眼"], baseName: "邪眼" }, // Zone 4 (41-50)
-      { img: "assets/monster_ghost.png", nouns: ["撕裂幽靈", "影之怨靈", "負能量亡魂", "幻覺幽魅", "冒牌者幽影"], baseName: "幽靈" }, // Zone 5 (51-60)
-      { img: "assets/monster_wizard.png", nouns: ["心靈巫師", "噪音術士", "干擾魔導士", "念力秘術師", "法師"], baseName: "法師" }, // Zone 6 (61-70)
-      { img: "assets/monster_knight.png", nouns: ["慣性騎士", "深淵鐵衛", "阻力聖騎士", "無頭鋼鐵守護者", "騎士"], baseName: "騎士" }, // Zone 7 (71-80)
-      { img: "assets/monster_dragon.png", nouns: ["焦慮幼龍", "紫晶飛龍", "深淵黑魔龍", "滅世狂暴邪龍", "飛龍"], baseName: "飛龍" }, // Zone 8 (81-90)
-      { img: "assets/monster_reaper.png", nouns: ["撕裂死神", "命運收割者", "末日裁決者", "冥界引渡靈", "死神"], baseName: "死神" } // Zone 9 (91-99)
+      { img: "assets/monster_slime.png", nouns: ["史萊姆", "黏液泥怪", "膠體軟泥怪", "硬化軟泥體", "核心凝膠怪", "分裂黏液蟲", "劇毒晶瑩凍", "貪婪軟泥怪", "變色防衛凍", "極限史萊姆王"], baseName: "史萊姆" }, // Zone 0 (1-10)
+      { img: "assets/monster_snail.png", nouns: ["毒蝸牛", "重殼蝸獸", "旋螺魔蝸", "硬殼酸蝸", "慢速爬行蝸", "毒腺寄居蝸", "岩斑背甲蝸", "鐵殼防護蝸", "腐蝕黏液蝸", "鋼鐵霸王蝸牛"], baseName: "蝸牛" }, // Zone 1 (11-20)
+      { img: "assets/monster_golem.png", nouns: ["防衛魔像", "岩石巨像", "鋼鐵巨石偶", "遠古巨石人", "符文守護像", "烈焰熔岩像", "黑曜碎裂偶", "晶體防衛像", "合金守衛像", "太古泰坦巨神像"], baseName: "魔像" }, // Zone 2 (21-30)
+      { img: "assets/monster_noise.png", nouns: ["干擾噪音獸", "混亂巨魔", "資訊噪音怪", "音波裂隙魔", "低頻干擾蟲", "高頻尖嘯怪", "雜訊折射獸", "混音干擾魔", "共振碎心魔", "終極超載噪音皇"], baseName: "噪音獸" }, // Zone 3 (31-40)
+      { img: "assets/monster_eye.png", nouns: ["分心邪眼", "超載魔瞳", "監視魔眼", "裂空狂視眼", "多維幻境眼", "混沌凝視瞳", "迷霧窺視眼", "惡意射線眼", "虛空追獵瞳", "千瞳滅世邪神眼"], baseName: "邪眼" }, // Zone 4 (41-50)
+      { img: "assets/monster_ghost.png", nouns: ["撕裂幽靈", "影之怨靈", "負能量亡魂", "幻覺幽魅", "冒牌者幽影", "虛無魂魄", "夢魘撕裂靈", "哭泣哀怨魂", "迷失荒野靈", "冥界深淵主宰魂"], baseName: "幽靈" }, // Zone 5 (51-60)
+      { img: "assets/monster_wizard.png", nouns: ["心靈巫師", "噪音術士", "干擾魔導士", "禁忌秘術師", "狂暴念力師", "虛空折射翁", "心靈操縱者", "暗黑元素使", "靈能碎裂師", "大賢者心靈至尊"], baseName: "法師" }, // Zone 6 (61-70)
+      { img: "assets/monster_knight.png", nouns: ["慣性騎士", "深淵鐵衛", "阻力聖騎士", "無頭懲戒騎", "破滅鋼鐵衛", "龍血重裝騎", "符文聖盾兵", "幽靈誓言騎", "心魔審判官", "榮耀破魔大領主"], baseName: "騎士" }, // Zone 7 (71-80)
+      { img: "assets/monster_dragon.png", nouns: ["焦慮幼龍", "紫晶飛龍", "深淵黑魔龍", "滅世狂暴龍", "焦土噴吐龍", "風暴雷電龍", "極光霜凍龍", "翡翠守護龍", "心靈撕裂巨龍", "終焉混沌毀滅神龍"], baseName: "飛龍" }, // Zone 8 (81-90)
+      { img: "assets/monster_reaper.png", nouns: ["撕裂死神", "命運收割者", "末日裁決者", "冥界引渡靈", "靈魂超渡使", "虛無行者", "宿命終結者", "因果裁決司", "終極命運虛無神"], baseName: "死神" } // Zone 9 (91-99)
     ];
 
     const adjectives = [
@@ -2569,7 +2620,7 @@
       const targetName = monsterCount > 1 ? `【${monster.name} #${selectedMonsterIdx + 1}】` : `【${monster.name}】`;
 
       if (actionType === 'agi') {
-        // 小猴攻擊 (單體 AGI)
+        // 小猴攻擊 (單體 AGI - 執行斬)
         dmg = Math.floor(10 + userLevel * 0.4 + userAttrs.agi * 1.8 + Math.random() * 5);
         if (Math.random() < 0.95) {
           playSlashSFX();
@@ -2580,7 +2631,7 @@
             const fx = document.createElement('div');
             fx.className = 'slash-effect';
             wrapper.appendChild(fx);
-            setTimeout(() => fx.remove(), 250);
+            setTimeout(() => fx.remove(), 600); // 延長生存時間防剪裁
           }
         } else {
           playErrorSFX();
@@ -2588,10 +2639,10 @@
           logMsg = `🐵【理智小猴】使出【執行斬】！但行動猶豫了，被${targetName}閃開！`;
         }
       } else if (actionType === 'int') {
-        // 白熊攻擊 (全體 INT AoE)
+        // 白熊攻擊 (全體 INT AoE - 智慧雷擊)
         dmg = Math.floor(6 + userLevel * 0.5 + userAttrs.int * 2.8 + Math.random() * 8);
         if (Math.random() < 0.90) {
-          playSlashSFX();
+          playMagicSFX(); // 使用專屬魔法電子音效！
           if (Math.random() < 0.18) {
             dmg = Math.floor(dmg * 2.2);
             isCrit = true;
@@ -2608,13 +2659,13 @@
                 const runeFx = document.createElement('div');
                 runeFx.className = 'magic-rune-effect';
                 wrapper.appendChild(runeFx);
-                setTimeout(() => runeFx.remove(), 450);
+                setTimeout(() => runeFx.remove(), 1000); // 延長生存時間防剪裁
 
                 // 2. 轟天雷擊
                 const lightFx = document.createElement('div');
                 lightFx.className = 'lightning-effect';
                 wrapper.appendChild(lightFx);
-                setTimeout(() => lightFx.remove(), 400);
+                setTimeout(() => lightFx.remove(), 800); // 延長生存時間防剪裁
               }
             }
           });
@@ -2624,10 +2675,10 @@
           logMsg = `🐻【智者白熊】使出【智慧雷擊】！但大腦瞬間當機，雷擊未能釋放！`;
         }
       } else if (actionType === 'foc') {
-        // 小兔攻擊 (單體 FOC)
+        // 小兔攻擊 (單體 FOC - 專注突刺)
         const critRate = 0.22 + userAttrs.foc * 0.035;
         if (Math.random() < 0.85) {
-          playSlashSFX();
+          playPierceSFX(); // 使用專屬物理刺擊音效！
           if (Math.random() < critRate) {
             dmg = Math.floor((8 + userLevel * 0.4 + userAttrs.foc * 2.2 + Math.random() * 4) * 2.5);
             isCrit = true;
@@ -2636,13 +2687,13 @@
             dmg = Math.floor(5 + userLevel * 0.3 + userAttrs.foc * 1.2 + Math.random() * 3);
             logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，對${targetName}造成了微弱的 ${dmg} 點傷害。`;
           }
-          // 觸發小兔專注突刺紅心準星動畫
+          // 觸發小兔專注突刺動畫
           const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
           if (wrapper) {
             const fx = document.createElement('div');
             fx.className = 'pierce-effect';
             wrapper.appendChild(fx);
-            setTimeout(() => fx.remove(), 300);
+            setTimeout(() => fx.remove(), 600); // 延長生存時間防剪裁
           }
         } else {
           playErrorSFX();
@@ -2650,7 +2701,7 @@
           logMsg = `🐰【降噪小兔】試圖進行【專注突刺】，但受到外部噪音干擾，未能命中！`;
         }
       } else if (actionType === 'vit') {
-        // 小貓治療與防禦 (全體 VIT)
+        // 小貓治療與防禦 (全體 VIT - 降噪防護罩)
         playHealSFX();
         const heal = Math.floor(15 + userLevel * 0.3 + userAttrs.vit * 2.2 + Math.random() * 5);
         party.forEach((m, idx) => {
@@ -2665,7 +2716,7 @@
               const fx = document.createElement('div');
               fx.className = 'shield-effect';
               row.appendChild(fx);
-              setTimeout(() => fx.remove(), 500);
+              setTimeout(() => fx.remove(), 1000); // 延長生存時間防剪裁
             }
           }
         });
