@@ -38,18 +38,22 @@
       color: #ffd89c;
       text-shadow: 0 0 20px rgba(255,216,156,0.5);
       margin-bottom: 8px;
+      text-align: center;
     }
     .char-subtitle {
-      font-size: clamp(0.45rem, 1.5vw, 0.6rem);
+      font-size: clamp(0.42rem, 1.5vw, 0.55rem);
       color: rgba(255,255,255,0.5);
       margin-bottom: 24px;
+      text-align: center;
+      line-height: 1.5;
     }
     .char-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      max-width: 420px;
+      max-width: 450px;
       padding: 0 16px;
+      margin-bottom: 20px;
     }
     .char-card {
       background: rgba(255,255,255,0.04);
@@ -59,6 +63,7 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.25s ease;
+      position: relative;
     }
     .char-card:hover, .char-card:active {
       background: rgba(255,216,156,0.1);
@@ -68,14 +73,73 @@
     }
     .char-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
     .char-name { font-size: 0.55rem; color: #ffd89c; display: block; margin-bottom: 4px; }
-    .char-desc { font-size: 0.4rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .char-desc { font-size: 0.38rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
     .char-back {
-      margin-top: 20px; font-size: 0.5rem; color: rgba(255,255,255,0.4);
+      margin-top: 10px; font-size: 0.5rem; color: rgba(255,255,255,0.4);
       background: none; border: 1px solid rgba(255,255,255,0.2);
       padding: 8px 16px; border-radius: 6px; cursor: pointer;
       transition: all 0.2s;
     }
     .char-back:hover { color: #ffd89c; border-color: #ffd89c; }
+
+    /* ===== STAGE SELECT SCREEN ===== */
+    #stageSelectScreen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, #1b0f20 0%, #0a0a12 70%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.5s ease;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 580px;
+      padding: 0 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) {
+      .char-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .stage-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+    }
+    .stage-card {
+      background: rgba(255,255,255,0.03);
+      border: 2px solid rgba(255,216,156,0.15);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stage-card:hover, .stage-card:active {
+      border-color: #ba4dff;
+      background: rgba(186, 77, 255, 0.08);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(186, 77, 255, 0.25);
+    }
+    .stage-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.01);
+    }
+    .stage-card.locked:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.01);
+    }
+    .stage-name { font-size: 0.52rem; color: #ffd89c; font-weight: bold; }
+    .stage-req { font-size: 0.35rem; color: #ba4dff; font-weight: bold; }
+    .stage-monsters { font-size: 0.33rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
 
     /* ===== RESPONSIVE GAME LAYOUT ===== */
     #gameLayout {
@@ -359,7 +423,6 @@
       #hud { font-size: 0.35rem; padding: 4px 6px; }
       .hud-bar-outer { width: 55px; }
       .weapon-slot { width: 24px; height: 24px; font-size: 0.7rem; }
-      .char-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     }
   </style>
 </head>
@@ -368,34 +431,44 @@
   <!-- CHARACTER SELECT -->
   <div id="charSelectScreen">
     <div class="char-title">🏰 深淵降噪之城</div>
-    <div class="char-subtitle">選擇你的冒險角色</div>
+    <div class="char-subtitle">選擇你的冒險代表動物</div>
     <div class="char-grid">
       <div class="char-card" id="card_bear" onclick="selectCharacter('bear')">
         <span class="char-emoji">🐻</span>
-        <span class="char-name">智者白熊</span>
-        <span class="char-desc">高HP 重裝近戰<br>擊退與下墜砸地</span>
+        <span class="char-name">賢者白熊</span>
+        <span class="char-desc">職業：大賢者 (Sage)<br>主動：聖光之怒 (雷落)<br>奧術魔法追蹤法杖</span>
         <span id="rec_bear" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
       <div class="char-card" id="card_monkey" onclick="selectCharacter('monkey')">
         <span class="char-emoji">🐵</span>
-        <span class="char-name">理智小猴</span>
-        <span class="char-desc">高速跑 二段跳<br>無敵影分身閃衝</span>
+        <span class="char-name">影武小猴</span>
+        <span class="char-desc">職業：影武者 (Ninja)<br>主動：影分身衝 (無敵)<br>極速忍刀劈砍</span>
         <span id="rec_monkey" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
       <div class="char-card" id="card_bunny" onclick="selectCharacter('bunny')">
         <span class="char-emoji">🐰</span>
-        <span class="char-name">降噪小兔</span>
-        <span class="char-desc">遠程極速弓箭<br>五向穿透極光雨</span>
+        <span class="char-name">龍槍小兔</span>
+        <span class="char-desc">職業：龍之槍兵 (Lancer)<br>主動：矛盾之突刺<br>矛盾之矛長距貫穿</span>
         <span id="rec_bunny" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
       <div class="char-card" id="card_cat" onclick="selectCharacter('cat')">
         <span class="char-emoji">🐱</span>
-        <span class="char-name">除錯小貓</span>
-        <span class="char-desc">魔法追蹤法杖<br>萬象雷暴轟擊</span>
+        <span class="char-name">白魔小貓</span>
+        <span class="char-desc">職業：白魔導士 (Healer)<br>主動：神聖治癒術 (HP盾)<br>心形魔導追踪短杖</span>
         <span id="rec_cat" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
     </div>
     <button class="char-back" onclick="location.href='link.html'">← 返回冒險者公會</button>
+  </div>
+
+  <!-- STAGE SELECT -->
+  <div id="stageSelectScreen" style="display: none;">
+    <div class="char-title">🗺️ 選擇冒險關卡</div>
+    <div class="char-subtitle" id="stageSelectSubtitle">當前冒險者等級：LV.1</div>
+    <div class="stage-grid" id="stageGrid">
+      <!-- Stage cards dynamically generated -->
+    </div>
+    <button class="char-back" onclick="backToCharSelect()">← 返回選擇角色</button>
   </div>
 
   <!-- GAME LAYOUT -->
@@ -417,26 +490,26 @@
       </div>
 
       <div class="guide-section">
-        <div class="guide-section-title">🛡️ 主角代表動物</div>
+        <div class="guide-section-title">🛡️ 轉職主角群</div>
         
         <div class="guide-skill-item" style="border-top:none; padding-top:0;">
-          <div class="guide-skill-name">🐻 智者白熊</div>
-          <div class="guide-skill-desc">【主動技能：深淵震擊】砸地擊出兩側震波粒子，造成巨幅擊退與高額傷害。</div>
+          <div class="guide-skill-name">🐻 賢者白熊 (Sage)</div>
+          <div class="guide-skill-desc">【技能：聖光之怒】召喚 3 道神聖垂直光柱轟擊視野，附帶大範圍穿透與擊退傷害。</div>
         </div>
 
         <div class="guide-skill-item">
-          <div class="guide-skill-name">🐵 理智小猴</div>
-          <div class="guide-skill-desc">【主動技能：影分身擊】高速衝刺並獲得無敵判定，連續斬擊沿路所有敵人和蠟燭。支援二段跳！</div>
+          <div class="guide-skill-name">🐵 影武小猴 (Ninja)</div>
+          <div class="guide-skill-desc">【技能：影分身擊】無敵前衝撕裂沿路敵人！支援二段跳。</div>
         </div>
 
         <div class="guide-skill-item">
-          <div class="guide-skill-name">🐰 降噪小兔</div>
-          <div class="guide-skill-desc">【主動技能：極光箭雨】呈扇形一次射出5支帶霓虹拖尾的穿透性射擊。</div>
+          <div class="guide-skill-name">🐰 龍槍小兔 (Lancer)</div>
+          <div class="guide-skill-desc">【技能：矛盾之突刺】前衝刺出巨型金色矛盾矛尖能量，長距離線性穿透！</div>
         </div>
 
         <div class="guide-skill-item">
-          <div class="guide-skill-name">🐱 除錯小貓</div>
-          <div class="guide-skill-desc">【主動技能：萬象雷暴】天降3道藍色雷電自動鎖定並轟擊視野內的隨機怪物。</div>
+          <div class="guide-skill-name">🐱 白魔小貓 (White Mage)</div>
+          <div class="guide-skill-desc">【技能：神聖治癒術】**補血！** 瞬間回復 45% 血量，並召喚旋轉聖光愛心護盾無敵 2 秒！</div>
         </div>
       </div>
     </div>
@@ -466,10 +539,10 @@
           </div>
         </div>
         <div class="hud-weapons" id="hudWeapons">
-          <div class="weapon-slot active" data-w="0" onclick="switchWeapon(0)" title="短鐵劍">⚔️</div>
-          <div class="weapon-slot" data-w="1" onclick="switchWeapon(1)" title="聖光之鞭">⛓️</div>
-          <div class="weapon-slot" data-w="2" onclick="switchWeapon(2)" title="霓虹弓">🏹</div>
-          <div class="weapon-slot" data-w="3" onclick="switchWeapon(3)" title="雷霆法杖">🔮</div>
+          <div class="weapon-slot active" data-w="0" onclick="switchWeapon(0)" title="黑漆忍刀">🗡️</div>
+          <div class="weapon-slot" data-w="1" onclick="switchWeapon(1)" title="白魔導杖">🔮</div>
+          <div class="weapon-slot" data-w="2" onclick="switchWeapon(2)" title="矛盾之矛">🔱</div>
+          <div class="weapon-slot" data-w="3" onclick="switchWeapon(3)" title="賢者法杖">🪄</div>
           <div class="weapon-slot" data-w="4" onclick="switchWeapon(4)" title="複利大劍">🪓</div>
         </div>
         <div class="hud-right">
@@ -510,9 +583,75 @@
 
 // --- CONSTANTS ---
 const TILE = 32;
-const GRAVITY = 0.42; // Upgraded: lighter gravity for smoother jumps
+const GRAVITY = 0.42; 
 const MAX_FALL = 12;
 const FRICTION = 0.82;
+
+// --- STAGE DEFINITIONS ---
+const STAGES = [
+  {
+    name: '1. 幽邃古堡外圍',
+    reqLvl: 1,
+    levelReq: 'LV.1 - 10',
+    color: '#2a2a3a',
+    borderColor: '#3a3a4a',
+    lineColor: '#1a1a28',
+    bgStart: '#0a0a1a', bgEnd: '#0a0a12',
+    monstersText: '👾 史萊姆, 毒蝸牛, 魔像',
+    monsters: ['slime', 'snail', 'golem'],
+    particleType: 'castle'
+  },
+  {
+    name: '2. 降噪水晶礦坑',
+    reqLvl: 11,
+    levelReq: 'LV.11 - 30',
+    color: '#241434',
+    borderColor: '#4a156d',
+    lineColor: '#12051c',
+    bgStart: '#11052c', bgEnd: '#090115',
+    monstersText: '👾 噪音獸, 邪眼, 毒蝸牛',
+    monsters: ['noise', 'eye', 'snail'],
+    particleType: 'crystal'
+  },
+  {
+    name: '3. 資訊迷霧森林',
+    reqLvl: 31,
+    levelReq: 'LV.31 - 50',
+    color: '#1a3322',
+    borderColor: '#2e5c3b',
+    lineColor: '#0f2014',
+    bgStart: '#081c15', bgEnd: '#040d0a',
+    monstersText: '👾 幽靈, 法師, 史萊姆',
+    monsters: ['ghost', 'wizard', 'slime'],
+    particleType: 'mist'
+  },
+  {
+    name: '4. 熔岩代碼深淵',
+    reqLvl: 51,
+    levelReq: 'LV.51 - 80',
+    color: '#3d1212',
+    borderColor: '#631d1d',
+    lineColor: '#240a0a',
+    bgStart: '#1d0505', bgEnd: '#0d0101',
+    monstersText: '👾 飛龍, 騎士, 魔像',
+    monsters: ['dragon', 'knight', 'golem'],
+    particleType: 'lava'
+  },
+  {
+    name: '5. 命運之神殿',
+    reqLvl: 81,
+    levelReq: 'LV.81 - 99',
+    color: '#4a3f1b',
+    borderColor: '#ffd89c',
+    lineColor: '#2b230f',
+    bgStart: '#1a170f', bgEnd: '#0f0e0a',
+    monstersText: '👾 死神, 法師, 騎士',
+    monsters: ['reaper', 'wizard', 'knight'],
+    particleType: 'temple'
+  }
+];
+
+let activeStageIdx = 0;
 
 // --- MONSTER PNG IMAGE LOADING & CACHE ---
 const MONSTER_IMAGES = {};
@@ -538,47 +677,46 @@ function preloadMonsterImages() {
     };
   });
 }
-// Run preload immediately
 preloadMonsterImages();
 
 // --- CHARACTERS ---
 const CHARACTERS = {
   bear: { 
-    emoji:'🐻', name:'智者白熊', color:'#f2f2f7', hpMul:1.4, spdMul:0.9, atkMul:1.3, 
+    emoji:'🐻', name:'賢者白熊', color:'#f2f2f7', hpMul:1.4, spdMul:0.9, atkMul:1.3, 
     canDoubleJump:false, jumpPow:11.5,
-    skillName: '深淵震擊', skillCD: 240,
-    skillDesc: '向左右擊出震地波，造成高額擊退與傷害。空中使用時會急速墜地砸擊！'
+    skillName: '聖光之怒', skillCD: 300,
+    skillDesc: '召喚 3 道神聖垂直光柱轟擊視野，附帶大範圍穿透與擊退傷害。'
   },
   monkey: { 
-    emoji:'🐵', name:'理智小猴', color:'#965a38', hpMul:0.9, spdMul:1.35, atkMul:1.0, 
+    emoji:'🐵', name:'影武小猴', color:'#965a38', hpMul:0.9, spdMul:1.35, atkMul:1.0, 
     canDoubleJump:true,  jumpPow:10.5,
     skillName: '影分身擊', skillCD: 180,
     skillDesc: '向前無敵極速衝刺，揮舞無影分身撕裂路徑上的所有敵人和蠟燭！'
   },
   bunny: { 
-    emoji:'🐰', name:'降噪小兔', color:'#fbfbfb', hpMul:0.85,spdMul:1.15,atkMul:1.1, 
+    emoji:'🐰', name:'龍槍小兔', color:'#fbfbfb', hpMul:0.85,spdMul:1.15,atkMul:1.1, 
     canDoubleJump:false, jumpPow:12.5,
-    skillName: '極光箭雨', skillCD: 150,
-    skillDesc: '向前方發射5支呈扇形擴散的穿透性霓虹極光箭，進行大面積掃蕩！'
+    skillName: '矛盾之突刺', skillCD: 160,
+    skillDesc: '前衝並刺出巨型金色矛頭能量，超長距離線性穿透打擊！'
   },
   cat: { 
-    emoji:'🐱', name:'除錯小貓', color:'#ffa94d', hpMul:0.95,spdMul:1.05,atkMul:1.2, 
+    emoji:'🐱', name:'白魔小貓', color:'#ffa94d', hpMul:0.95,spdMul:1.05,atkMul:1.2, 
     canDoubleJump:false, jumpPow:11.0,
-    skillName: '萬象雷暴', skillCD: 300,
-    skillDesc: '召喚3道神聖雷擊自動追蹤並轟炸視野內隨機怪獸，造成毀滅性範圍感電！'
+    skillName: '神聖治癒術', skillCD: 300,
+    skillDesc: '回復 45% 血量，並召喚旋轉聖光愛心護盾獲得無敵 2 秒！'
   }
 };
 
 // --- WEAPONS ---
 const WEAPONS = [
-  { name:'短鐵劍',   emoji:'⚔️', range:38, dmgMul:1.0, speed:12, arc:90,  color:'#cccccc', trail:'#ffffff', type:'melee' },
-  { name:'聖光之鞭', emoji:'⛓️', range:72, dmgMul:0.85,speed:18, arc:30,  color:'#ffd89c', trail:'#fff5d4', type:'melee' },
-  { name:'魔力霓虹弓', emoji:'🏹', range:250,dmgMul:0.7, speed:8,  arc:0,   color:'#00ffff', trail:'#004466', type:'ranged' },
-  { name:'雷霆法杖', emoji:'🔮', range:180,dmgMul:1.1, speed:14, arc:0,   color:'#ba4dff', trail:'#440088', type:'ranged' },
-  { name:'人生複利大劍', emoji:'🪓', range:52, dmgMul:2.0, speed:28, arc:180, color:'#ff4d4d', trail:'#ff8800', type:'melee' }
+  { name:'黑漆忍刀',     emoji:'🗡️', range:42, dmgMul:1.0, speed:10, arc:90,  color:'#a29bfe', trail:'#e0a3ff', type:'melee' },
+  { name:'白魔導杖',     emoji:'🔮', range:160,dmgMul:0.75,speed:12, arc:0,   color:'#ff85a2', trail:'#ffb3c6', type:'ranged', homing: true },
+  { name:'矛盾之矛',     emoji:'🔱', range:65, dmgMul:1.15,speed:14, arc:15,  color:'#f1c40f', trail:'#ffeaa7', type:'melee', isSpear: true },
+  { name:'賢者法杖',     emoji:'🪄', range:200,dmgMul:1.3, speed:16, arc:0,   color:'#00ffff', trail:'#004466', type:'ranged', homing: true },
+  { name:'人生複利大劍', emoji:'🪓', range:55, dmgMul:2.0, speed:28, arc:180, color:'#ff4d4d', trail:'#ff8800', type:'melee' }
 ];
 
-// --- MAP DATA (tile-based: 0=air, 1=stone, 2=candle, 3=portal, 4=spike) ---
+// --- MAP DATA ---
 const MAP_W = 80;
 const MAP_H = 18;
 function generateMap() {
@@ -589,7 +727,7 @@ function generateMap() {
       m[y][x] = 0;
     }
   }
-  // Ground floor
+  // Ground
   for (let x = 0; x < MAP_W; x++) {
     m[MAP_H-1][x] = 1;
     m[MAP_H-2][x] = 1;
@@ -625,10 +763,10 @@ function generateMap() {
     }
   });
 
-  // Spikes in pits
+  // Spikes or Lava in pits
   [20,21,44,45,68,69].forEach(x => m[MAP_H-3][x] = 4);
 
-  // Portal at end
+  // Portal
   m[MAP_H-4][MAP_W-4] = 3;
   m[MAP_H-5][MAP_W-4] = 3;
 
@@ -647,25 +785,26 @@ function generateCandles(map) {
 
 function generateEnemies() {
   const enemies = [];
-  // Chronological level deployment from left to right corresponding to JRPG monsters list
+  const stage = STAGES[activeStageIdx];
+  
+  // Deploy monsters based on active stage
   const defs = [
-    // [x, y, type, patrolW]
-    [6, 14, 'slime', 4],
-    [10, 11, 'snail', 3],
-    [16, 11, 'slime', 3],
-    [24, 12, 'golem', 5], // Zone 2 Golem
-    [32, 12, 'noise', 4], // Zone 3 Noise shoots waves
-    [38, 7,  'eye', 4],   // Zone 4 Floating eye
-    [42, 8,  'ghost', 4], // Zone 5 Ghost floats through walls
-    [48, 12, 'wizard', 4], // Zone 6 Wizard teleports/shoots tracking fireballs
-    [54, 11, 'knight', 4], // Zone 7 Knight shields/charges
-    [62, 12, 'knight', 3],
-    [66, 3,  'dragon', 4], // Zone 8 Dragon midboss spits fire diagonal
-    [74, 12, 'reaper', 3], // Zone 9 Reaper final boss guarding the portal
+    [6, 14, 0, 4],
+    [10, 11, 1, 3],
+    [16, 11, 0, 3],
+    [24, 12, 2, 5], 
+    [32, 12, 0, 4], 
+    [38, 7,  1, 4],   
+    [42, 8,  2, 4], 
+    [48, 12, 1, 4], 
+    [54, 11, 2, 4], 
+    [62, 12, 1, 3],
+    [66, 3,  2, 4], 
+    [74, 12, 2, 3], 
   ];
   
-  defs.forEach(([ex,ey,type,pw],i) => {
-    // Stat balances matching JRPG stats scaling
+  defs.forEach(([ex,ey,mIdx,pw],i) => {
+    const type = stage.monsters[mIdx];
     let hp = 30;
     let maxHp = 30;
     let atk = 8;
@@ -704,7 +843,7 @@ function generateEnemies() {
       hitTimer: 0, flashTimer: 0,
       color: type==='slime'?'#44cc66' : type==='knight'?'#8888cc' : '#cc4466',
       eyeColor: type==='eye'?'#ff0000':'#ffffff',
-      shootCooldown: Math.random() * 60, // AI shoot timer
+      shootCooldown: Math.random() * 60,
     });
   });
   return enemies;
@@ -897,6 +1036,21 @@ function playEnemyShootSFX() {
   o.connect(g); g.connect(audioCtx.destination);
   o.start(); o.stop(audioCtx.currentTime + 0.15);
 }
+function playHealSFX() {
+  if (muted || !audioCtx) return;
+  const notes = [523, 659, 784, 880, 1047];
+  notes.forEach((f, i) => {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(f, audioCtx.currentTime + i*0.06);
+    g.gain.setValueAtTime(0.06, audioCtx.currentTime + i*0.06);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.06 + 0.25);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(audioCtx.currentTime + i*0.06);
+    o.stop(audioCtx.currentTime + i*0.06 + 0.25);
+  });
+}
 
 // BGM — simple looping gothic arpeggio
 let bgmInterval = null;
@@ -929,9 +1083,53 @@ function selectCharacter(key) {
   charKey = key;
   charDef = CHARACTERS[key];
   document.getElementById('charSelectScreen').style.display = 'none';
+  document.getElementById('stageSelectScreen').style.display = 'flex';
+  
+  renderStageSelect();
+}
+
+function renderStageSelect() {
+  loadFromRPG();
+  const info = getLevelInfo(userXP);
+  document.getElementById('stageSelectSubtitle').innerHTML = `當前冒險者等級：LV.${info.level}<br>選擇關卡開啟冒險`;
+  
+  const grid = document.getElementById('stageGrid');
+  grid.innerHTML = '';
+  
+  STAGES.forEach((st, idx) => {
+    const isLocked = info.level < st.reqLvl;
+    const card = document.createElement('div');
+    card.className = 'stage-card' + (isLocked ? ' locked' : '');
+    
+    card.innerHTML = `
+      <div class="stage-name">${st.name}</div>
+      <div class="stage-req">${isLocked ? '🔒 鎖定 (' + st.levelReq + ')' : st.levelReq}</div>
+      <div class="stage-monsters">${st.monstersText}</div>
+    `;
+    
+    if (!isLocked) {
+      card.onclick = () => selectStage(idx);
+    } else {
+      card.onclick = () => {
+        playDamageSFX();
+        alert('⚠️ 您當前的冒險者等級 (LV.' + info.level + ') 不足！\n請先前往冒險者公會修煉至 ' + st.levelReq + ' 以解鎖本關卡。');
+      };
+    }
+    grid.appendChild(card);
+  });
+}
+
+function selectStage(idx) {
+  activeStageIdx = idx;
+  document.getElementById('stageSelectScreen').style.display = 'none';
   document.getElementById('gameLayout').style.display = 'flex';
   document.getElementById('hudAvatar').textContent = charDef.emoji;
   startGame();
+}
+
+function backToCharSelect() {
+  document.getElementById('stageSelectScreen').style.display = 'none';
+  document.getElementById('charSelectScreen').style.display = 'flex';
 }
 
 // ============================================================
@@ -945,6 +1143,12 @@ function startGame() {
 
   loadFromRPG();
   const info = getLevelInfo(userXP);
+
+  // Set default starting weapon based on animal class!
+  if (charKey === 'bear') weaponIdx = 3;       // Bear Sage starts with Sage Wand
+  else if (charKey === 'monkey') weaponIdx = 0; // Monkey Ninja starts with Ninja Katana
+  else if (charKey === 'bunny') weaponIdx = 2;  // Bunny Dragoon starts with Contradiction Spear
+  else if (charKey === 'cat') weaponIdx = 1;    // Cat Healer starts with Healing Staff
 
   // Init player
   const baseHp = Math.floor((80 + info.level * 4 + userAttrs.vit * 6) * charDef.hpMul);
@@ -963,7 +1167,8 @@ function startGame() {
     // Skill systems
     skillCooldown: 0,
     dashing: false, dashTimer: 0,
-    pendingSlam: false
+    pendingSlam: false,
+    hasShield: 0
   };
 
   map = generateMap();
@@ -975,7 +1180,6 @@ function startGame() {
   items = [];
   castleXPEarned = 0;
   camX = 0; camY = 0;
-  weaponIdx = 0;
   updateWeaponUI();
 
   // Detect mobile
@@ -1083,142 +1287,167 @@ function triggerSkill() {
   if (player.skillCooldown > 0) return;
 
   const baseCD = charDef.skillCD;
-  // Reduce CD slightly based on agility/focus
   player.skillCooldown = Math.max(60, Math.floor(baseCD * (1 - userAttrs.agi * 0.02)));
 
   // Play skill SFX
   playSkillSFX();
 
   if (charKey === 'bear') {
-    // 🐻 Bear Skill: Abyss Slam
-    if (!player.onGround) {
-      player.vy = 15; // Rapid dive slam down
-      player.vx = 0;
-      player.pendingSlam = true;
-    } else {
-      executeBearSlam();
-    }
+    // 🐻 Bear Sage Skill: Sage's Light Wrath (holy beams)
+    executeBearSlam(); 
   } else if (charKey === 'monkey') {
-    // 🐵 Monkey Skill: Shadow Dash
+    // 🐵 Monkey Ninja Skill: Shadow Clone Dash
     player.dashing = true;
     player.dashTimer = 18;
     player.vx = player.dir * 12;
     player.vy = 0;
     player.invincible = Math.max(player.invincible, 20); // Invincible during dash
   } else if (charKey === 'bunny') {
-    // 🐰 Bunny Skill: Aurora Arrow Spread
-    const dmg = Math.floor(calcDmg() * 0.9);
-    const angles = [-0.25, -0.12, 0, 0.12, 0.25];
-    angles.forEach(ang => {
-      projectiles.push({
-        x: player.x + player.w/2 + player.dir * 12,
-        y: player.y + player.h/2 - 4,
-        vx: player.dir * 8.5 * Math.cos(ang),
-        vy: 8.5 * Math.sin(ang),
-        w: 22, h: 4,
-        dmg: dmg,
-        color: '#4ef072',
-        trail: '#aaffcc',
-        life: 50,
-        homing: false,
-        piercing: true, // Piercing arrow spreads
-        hitEnemies: []
-      });
+    // 🐰 Bunny Dragoon Skill: Spear of Contradiction Thrust
+    const dmg = Math.floor(calcDmg() * 1.8);
+    projectiles.push({
+      x: player.x + player.w/2,
+      y: player.y + player.h/2 - 6,
+      vx: player.dir * 8.5,
+      vy: 0,
+      w: 120, h: 16,
+      dmg: dmg,
+      color: '#f1c40f',
+      trail: '#ffffff',
+      life: 15,
+      homing: false,
+      piercing: true,
+      isSpearWave: true, 
+      hitEnemies: []
     });
-    // Kickback recoil
-    player.vx = -player.dir * 3.5;
+    // Lunge dash recoil
+    player.vx = player.dir * 6;
   } else if (charKey === 'cat') {
-    // 🐱 Cat Skill: Debugger Lightning Storm
-    const targetEnemies = enemies.filter(en => en.alive && Math.abs(en.x - player.x) < 400);
-    const selected = targetEnemies.sort(() => 0.5 - Math.random()).slice(0, 3);
+    // 🐱 Cat White Mage Skill: Holy Healing & Divine Shield
+    const healVal = Math.floor(player.maxHp * 0.45);
+    player.hp = Math.min(player.maxHp, player.hp + healVal);
+    floaters.push({
+      x: player.x + player.w/2, y: player.y - 10,
+      text: '+' + healVal + 'HP ❤️', color: '#ff85a2', life: 50, vy: -2
+    });
     
-    if (selected.length === 0) {
-      // Strike randomly near player
-      for (let i = 0; i < 3; i++) {
-        spawnLightning(player.x + (Math.random() - 0.5) * 200, player.y - 120);
-      }
-    } else {
-      selected.forEach(en => {
-        spawnLightning(en.x + en.w/2, en.y + en.h/2);
-        damageEnemy(en, Math.floor(calcDmg() * 1.6));
-      });
-    }
+    // Shield barriers
+    player.invincible = 120; // 2 seconds invincibility
+    player.hasShield = 120;
+    playHealSFX();
   }
-}
-
-function spawnLightning(tx, ty) {
-  // Lightning bolt visual particles
-  for (let i = 0; i < 15; i++) {
-    particles.push({
-      x: tx + (Math.random()-0.5)*4, y: ty - 180 + i * 14,
-      vx: 0, vy: -0.5,
-      life: 25, color: '#4df0ff', size: 6 - (i % 3)
-    });
-  }
-  // Explosion sparks at base
-  for (let i = 0; i < 8; i++) {
-    particles.push({
-      x: tx, y: ty,
-      vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5,
-      life: 20, color: '#ba4dff', size: 4
-    });
-  }
-  // Sound
-  if (muted || !audioCtx) return;
-  const o = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  o.type = 'sawtooth';
-  o.frequency.setValueAtTime(80, audioCtx.currentTime);
-  o.frequency.linearRampToValueAtTime(10, audioCtx.currentTime + 0.25);
-  g.gain.setValueAtTime(0.15, audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime + 0.3);
 }
 
 function executeBearSlam() {
-  const dmg = Math.floor(calcDmg() * 1.5);
-  // Two ground waves sliding horizontally
-  [1, -1].forEach(sdir => {
+  const dmg = Math.floor(calcDmg() * 1.6);
+  // Summon 3 holy magic columns of light
+  const positions = [player.x + player.w/2, player.x + player.w/2 - 80, player.x + player.w/2 + 80];
+  positions.forEach(pos => {
     projectiles.push({
-      x: player.x + player.w/2,
-      y: player.y + player.h - 10,
-      vx: sdir * 5.5,
-      vy: 0,
-      w: 24, h: 10,
+      x: pos,
+      y: player.y + player.h - 220,
+      vx: 0, vy: 0,
+      w: 32, h: 220,
       dmg: dmg,
       color: '#ffd89c',
-      trail: '#ff8800',
-      life: 35,
+      trail: '#ffffff',
+      life: 25,
       homing: false,
       piercing: true,
+      isMagicBeam: true,
       hitEnemies: []
     });
+    
+    // Sparkles
+    for (let i = 0; i < 8; i++) {
+      particles.push({
+        x: pos + (Math.random()-0.5)*20, y: player.y + player.h - Math.random()*80,
+        vx: (Math.random()-0.5)*2, vy: -Math.random()*3,
+        life: 20, color: '#ffd89c', size: 3
+      });
+    }
   });
-  // Shockwave particles
-  for (let i = 0; i < 15; i++) {
-    particles.push({
-      x: player.x + player.w/2, y: player.y + player.h,
-      vx: (Math.random() - 0.5) * 6, vy: -Math.random() * 4,
-      life: 20, color: '#ffd89c', size: 4
-    });
-  }
+  
   // Camera shake
   camX += (Math.random()-0.5)*15;
   camY += (Math.random()-0.5)*15;
 }
 
 // ============================================================
+// ENVIRONMENT STAGE PARTICLES EMISSION
+// ============================================================
+function spawnStageParticles() {
+  if (Math.random() > 0.15) return;
+  const stage = STAGES[activeStageIdx];
+  const screenW = canvas.width;
+  const screenH = canvas.height;
+  const px = camX + Math.random() * screenW;
+  const py = camY + Math.random() * screenH;
+
+  if (stage.particleType === 'crystal') {
+    // glowing crystal dust
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.4, vy: -0.2 - Math.random() * 0.3,
+      life: 50 + Math.random() * 40,
+      color: Math.random() > 0.5 ? '#af52de' : '#00ffff',
+      size: 2 + Math.random() * 3,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'mist') {
+    // mist clouds
+    particles.push({
+      x: px, y: py,
+      vx: 0.1 + Math.random() * 0.3, vy: (Math.random() - 0.5) * 0.1,
+      life: 100 + Math.random() * 80,
+      color: 'rgba(230, 240, 255, 0.08)',
+      size: 15 + Math.random() * 20,
+      isMist: true,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'lava') {
+    // lava sparks
+    particles.push({
+      x: px, y: camY + screenH - 5,
+      vx: (Math.random() - 0.5) * 0.8, vy: -1.2 - Math.random() * 1.5,
+      life: 40 + Math.random() * 30,
+      color: Math.random() > 0.4 ? '#ff9500' : '#ff3b30',
+      size: 2 + Math.random() * 2.5,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'temple') {
+    // sacred golden stardust
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      life: 60 + Math.random() * 40,
+      color: '#ffd89c',
+      size: 3 + Math.random() * 2,
+      isStageEnv: true
+    });
+  } else {
+    // castle beams
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.2, vy: -0.1,
+      life: 80,
+      color: 'rgba(255, 255, 255, 0.04)',
+      size: 2,
+      isStageEnv: true
+    });
+  }
+}
+
+// ============================================================
 // PHYSICS & PLAYER UPDATE
 // ============================================================
 function updatePlayer() {
-  // Monkey's Shadow Dash
+  // Ninja's Shadow Dash
   if (player.dashing) {
     player.dashTimer--;
     player.vx = player.dir * 12;
     player.vy = 0;
 
-    // Purple trailing ghost particles
     if (player.dashTimer % 2 === 0) {
       particles.push({
         x: player.x + player.w/2, y: player.y + player.h/2,
@@ -1227,7 +1456,6 @@ function updatePlayer() {
       });
     }
 
-    // Horizontal clash collisions in dash path
     const dashHitbox = { x: player.x - 6, y: player.y - 6, w: player.w + 12, h: player.h + 12 };
     const dmg = Math.floor(calcDmg() * 0.7);
     enemies.forEach(en => {
@@ -1245,10 +1473,9 @@ function updatePlayer() {
 
     if (player.dashTimer <= 0) {
       player.dashing = false;
-      player.vx *= 0.3; // dampen speeds
+      player.vx *= 0.3;
     }
   } else {
-    // Normal Movement
     if (isLeft()) { player.vx -= 0.6; player.dir = -1; }
     if (isRight()) { player.vx += 0.6; player.dir = 1; }
   }
@@ -1259,7 +1486,7 @@ function updatePlayer() {
   if (player.vx < -maxSpd) player.vx = -maxSpd;
   if (Math.abs(player.vx) < 0.1) player.vx = 0;
 
-  // Jump Action
+  // Jump
   const jumpDown = isJump();
   if (jumpDown && !jumpPressed && !player.dashing) {
     if (player.jumps < player.maxJumps) {
@@ -1268,7 +1495,6 @@ function updatePlayer() {
       player.onGround = false;
       playJumpSFX();
       
-      // Double jump flip sparkles
       if (player.jumps > 1) {
         for (let i = 0; i < 6; i++) {
           particles.push({
@@ -1314,7 +1540,6 @@ function updatePlayer() {
       player.onGround = true;
       player.jumps = 0;
       
-      // Bear Ground Slam impact landing
       if (player.pendingSlam) {
         player.pendingSlam = false;
         executeBearSlam();
@@ -1326,7 +1551,7 @@ function updatePlayer() {
     }
   }
 
-  // Spike checks
+  // Spikes (or Lava pits)
   const spkX = Math.floor((player.x + player.w/2) / TILE);
   const spkY = Math.floor((player.y + player.h - 1) / TILE);
   if (tileAt(spkX, spkY) === 4 && player.invincible <= 0) {
@@ -1343,13 +1568,13 @@ function updatePlayer() {
     stopBGM();
     playLevelUpSFX();
     setTimeout(() => {
-      alert('🎉 恭喜通關「深淵降噪之城」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
+      alert('🎉 恭喜通關「' + STAGES[activeStageIdx].name + '」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
       location.href = 'link.html';
     }, 300);
     return;
   }
 
-  // Melee/Ranged weapon attacking
+  // Combat Attacking
   const atkDown = isAttack();
   if (atkDown && !atkPressed && player.atkCooldown <= 0 && !player.dashing) {
     player.attacking = true;
@@ -1362,17 +1587,49 @@ function updatePlayer() {
       projectiles.push({
         x: player.x + player.w/2 + player.dir * 10,
         y: player.y + player.h/2 - 4,
-        vx: player.dir * 7,
-        vy: wpn === WEAPONS[3] ? Math.sin(Date.now()*0.01)*1.5 : 0, // magic wobble
+        vx: player.dir * (wpn === WEAPONS[1] ? 5.5 : 7), // White mage wand shoots slightly slower
+        vy: wpn === WEAPONS[3] ? Math.sin(Date.now()*0.01)*1.5 : 0, 
         w: wpn===WEAPONS[3]?12:16, h: wpn===WEAPONS[3]?12:4,
         dmg: calcDmg(),
         color: wpn.color,
         trail: wpn.trail,
         life: 60,
-        homing: wpn === WEAPONS[3],
+        homing: wpn.homing,
+      });
+    } else if (wpn.isSpear) {
+      // 🔱 Spear linear piercing thrust
+      const range = wpn.range;
+      const hx = player.dir > 0 ? player.x + player.w : player.x - range;
+      const hy = player.y + player.h/2 - 6;
+      const hw = range;
+      const hh = 12;
+      const hitbox = { x: hx, y: hy, w: hw, h: hh };
+      const dmg = calcDmg();
+      
+      // Spear thrust wind particles
+      for (let i = 0; i < 4; i++) {
+        particles.push({
+          x: hx + (player.dir > 0 ? i * 15 : range - i * 15),
+          y: hy + 6,
+          vx: player.dir * 1, vy: 0,
+          life: 12, color: wpn.color, size: 4
+        });
+      }
+
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        if (rectOverlap(hitbox, en)) {
+          damageEnemy(en, dmg);
+        }
+      });
+      candles.forEach(c => {
+        if (!c.alive) return;
+        if (Math.abs(c.x - (hx + hw/2)) < hw/2 + 12 && Math.abs(c.y - (hy + hh/2)) < hh/2 + 12) {
+          breakCandle(c);
+        }
       });
     } else {
-      // Melee sweeps
+      // Regular melee (swords, whips, greatswords)
       const range = wpn.range;
       const hx = player.dir > 0 ? player.x + player.w : player.x - range;
       const hy = player.y - 4;
@@ -1402,8 +1659,9 @@ function updatePlayer() {
   if (player.atkCooldown > 0) player.atkCooldown--;
   if (player.invincible > 0) player.invincible--;
   if (player.skillCooldown > 0) player.skillCooldown--;
+  if (player.hasShield > 0) player.hasShield--;
 
-  // Respawn boundary fell
+  // Respawn
   if (player.y > MAP_H * TILE + 100) {
     playerTakeDamage(30);
     player.x = 3*TILE; player.y = (MAP_H-4)*TILE;
@@ -1414,12 +1672,12 @@ function updatePlayer() {
 function calcDmg() {
   const wpn = WEAPONS[weaponIdx];
   let dmg = player.baseDmg * wpn.dmgMul * charDef.atkMul;
-  if (Math.random() < 0.1 + userAttrs.foc * 0.015) dmg *= 1.8; // Focus CRITs
+  if (Math.random() < 0.1 + userAttrs.foc * 0.015) dmg *= 1.8;
   return Math.floor(dmg + Math.random() * 6);
 }
 
 function damageEnemy(en, dmg) {
-  // Knight shields ranged attacks from front
+  // Knight shields front ranged shots
   if (en.type === 'knight' && en.dir !== player.dir && WEAPONS[weaponIdx].type === 'ranged') {
     floaters.push({
       x: en.x + en.w/2, y: en.y - 5,
@@ -1432,7 +1690,7 @@ function damageEnemy(en, dmg) {
   en.hp -= dmg;
   en.hitTimer = 8;
   en.flashTimer = 12;
-  en.vx = -en.dir * 3; // knockback push
+  en.vx = -en.dir * 3;
   playHitSFX();
 
   floaters.push({
@@ -1448,7 +1706,6 @@ function damageEnemy(en, dmg) {
       x: en.x + en.w/2, y: en.y - 20,
       text: '+' + xpGain + 'XP', color: '#4ef072', life: 50, vy: -1.5
     });
-    // Death bursts
     for (let i = 0; i < 12; i++) {
       particles.push({
         x: en.x+en.w/2, y: en.y+en.h/2,
@@ -1519,7 +1776,6 @@ function updateEnemies() {
   enemies.forEach(en => {
     if (!en.alive) return;
 
-    // Core AI states
     if (en.type === 'ghost') {
       // Zone 5 Ghost: slowly chases the player ignoring all blocks!
       const dx = player.x - en.x;
@@ -1529,15 +1785,13 @@ function updateEnemies() {
       en.y += Math.sin(angle) * en.spd;
       en.dir = dx < 0 ? -1 : 1;
     } else {
-      // Standard Patrol paths
       if (en.hitTimer > 0) {
         en.hitTimer--;
       } else {
-        // Charge behavior for Zone 7 Knight
         if (en.type === 'knight') {
           const pDist = Math.abs((player.x + player.w/2) - (en.x + en.w/2));
           if (pDist < 120 && Math.abs(player.y - en.y) < 40) {
-            en.vx = en.spd * 2.8; // charge
+            en.vx = en.spd * 2.8; 
             en.dir = player.x < en.x ? -1 : 1;
           } else {
             en.vx = en.spd;
@@ -1549,7 +1803,6 @@ function updateEnemies() {
         if (en.x + en.w >= en.patrolRight) { en.dir = -1; }
       }
 
-      // Gravity for standard ground patrols
       if (en.type !== 'eye' && en.type !== 'dragon' && en.type !== 'reaper') {
         en.vy += GRAVITY * 0.7;
         en.y += en.vy;
@@ -1560,14 +1813,12 @@ function updateEnemies() {
           en.vy = 0;
         }
       } else {
-        // Floating bobs for flyers
         en.y += Math.sin(Date.now() * 0.003 + en.id) * 0.5;
       }
     }
     
-    // Shoot/Skills emitters for advanced JRPG level-matched monsters
+    // Shoot emitters
     if (en.type === 'noise') {
-      // Zone 3 Noise Monster emits acoustic wave shockwaves
       en.shootCooldown--;
       if (en.shootCooldown <= 0) {
         en.shootCooldown = 120 + Math.random() * 60;
@@ -1588,7 +1839,6 @@ function updateEnemies() {
         playEnemyShootSFX();
       }
     } else if (en.type === 'eye') {
-      // Zone 4 Eye drops down lightning lasers when player is beneath
       en.shootCooldown--;
       const pDist = Math.abs((player.x + player.w/2) - (en.x + en.w/2));
       if (en.shootCooldown <= 0 && pDist < 80 && player.y > en.y) {
@@ -1610,7 +1860,6 @@ function updateEnemies() {
         playEnemyShootSFX();
       }
     } else if (en.type === 'wizard') {
-      // Zone 6 Wizard fires homing purple magic orbs
       en.shootCooldown--;
       const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
       if (en.shootCooldown <= 0 && distToPlayer < 350) {
@@ -1632,7 +1881,6 @@ function updateEnemies() {
         playEnemyShootSFX();
       }
     } else if (en.type === 'dragon') {
-      // Zone 8 Dragon fires heat flame projectiles
       en.shootCooldown--;
       const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
       if (en.shootCooldown <= 0 && distToPlayer < 400) {
@@ -1657,7 +1905,6 @@ function updateEnemies() {
         playEnemyShootSFX();
       }
     } else if (en.type === 'reaper') {
-      // Zone 9 Reaper Elite fires spinning scythes and slightly teleports
       en.shootCooldown--;
       const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
       if (en.shootCooldown <= 0 && distToPlayer < 400) {
@@ -1676,7 +1923,6 @@ function updateEnemies() {
           isScythe: true,
           isEnemy: true
         });
-        // Slight boss shifts
         en.x += (Math.random() - 0.5) * 80;
         en.x = Math.max(en.patrolLeft, Math.min(en.patrolRight, en.x));
         playEnemyShootSFX();
@@ -1685,7 +1931,6 @@ function updateEnemies() {
 
     if (en.flashTimer > 0) en.flashTimer--;
 
-    // Contact damages player
     if (player.invincible <= 0 && rectOverlap(player, en)) {
       playerTakeDamage(en.atk);
       player.vy = -5;
@@ -1696,15 +1941,12 @@ function updateEnemies() {
 
 function updateProjectiles() {
   projectiles.forEach((p, i) => {
-    // Projectile tracking (wand or homing wizard balls)
     if (p.homing) {
       let closest = null, dist = 999;
       if (p.isEnemy) {
-        // track player
         closest = player;
         dist = Math.hypot(player.x - p.x, player.y - p.y);
       } else {
-        // track enemies
         enemies.forEach(en => {
           if (!en.alive) return;
           const d = Math.hypot(en.x - p.x, en.y - p.y);
@@ -1728,7 +1970,6 @@ function updateProjectiles() {
     p.y += p.vy;
     p.life--;
 
-    // Trails sparkings
     if (p.life % 2 === 0) {
       particles.push({
         x: p.x, y: p.y, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
@@ -1737,7 +1978,6 @@ function updateProjectiles() {
     }
 
     if (p.isEnemy) {
-      // Enemy projectile hits player
       if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, player) && player.invincible <= 0) {
         playerTakeDamage(p.dmg);
         player.vy = -3;
@@ -1745,7 +1985,6 @@ function updateProjectiles() {
         p.life = 0;
       }
     } else {
-      // Player projectile hits enemies
       enemies.forEach(en => {
         if (!en.alive) return;
         if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, en)) {
@@ -1758,7 +1997,6 @@ function updateProjectiles() {
             damageEnemy(en, p.dmg);
             p.life = 0;
             if (p.homing) {
-              // wand orbs spark bursts
               for (let j = 0; j < 8; j++) {
                 particles.push({
                   x: p.x, y: p.y,
@@ -1771,7 +2009,6 @@ function updateProjectiles() {
         }
       });
 
-      // Hit candles
       candles.forEach(c => {
         if (!c.alive) return;
         if (Math.abs(c.x - p.x) < 14 && Math.abs(c.y - p.y) < 14) {
@@ -1781,7 +2018,6 @@ function updateProjectiles() {
       });
     }
 
-    // Wall collision (piercing/shockwaves slide through blocks)
     const tx = Math.floor(p.x / TILE);
     const ty = Math.floor(p.y / TILE);
     if (isSolid(tx, ty) && !p.piercing) p.life = 0;
@@ -1790,7 +2026,14 @@ function updateProjectiles() {
 }
 
 function updateParticles() {
-  particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life--; });
+  particles.forEach(p => { 
+    p.x += p.vx; 
+    p.y += p.vy; 
+    if (!p.isStageEnv) {
+      p.vy += 0.08; 
+    }
+    p.life--; 
+  });
   particles = particles.filter(p => p.life > 0);
 }
 
@@ -1803,13 +2046,11 @@ function updateItems() {
   items.forEach(it => {
     it.vy += 0.3;
     it.y += it.vy;
-    // Landings on blocks
     const by = Math.floor((it.y + it.h) / TILE);
     const mx = Math.floor((it.x + it.w/2) / TILE);
     if (isSolid(mx, by)) { it.y = by * TILE - it.h; it.vy = 0; }
     it.life--;
     
-    // Pickups
     if (rectOverlap(player, it)) {
       if (it.type === 'heart') {
         player.hp = Math.min(player.maxHp, player.hp + 20);
@@ -1841,15 +2082,16 @@ function updateCamera() {
 // RENDERING
 // ============================================================
 function render() {
+  const stage = STAGES[activeStageIdx];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.translate(-Math.round(camX), -Math.round(camY));
 
-  // Background gothic styling
+  // Dynamic Background gradient by Stage theme
   const grd = ctx.createLinearGradient(camX, camY, camX, camY + canvas.height);
-  grd.addColorStop(0, '#0a0a1a');
-  grd.addColorStop(0.5, '#141428');
-  grd.addColorStop(1, '#0a0a12');
+  grd.addColorStop(0, stage.bgStart);
+  grd.addColorStop(0.5, '#0c0c16');
+  grd.addColorStop(1, stage.bgEnd);
   ctx.fillStyle = grd;
   ctx.fillRect(camX, camY, canvas.width, canvas.height);
 
@@ -1865,7 +2107,7 @@ function render() {
   }
   ctx.globalAlpha = 1;
 
-  // Tiles grids
+  // Tiles grids with stage customized styling
   const startX = Math.max(0, Math.floor(camX / TILE));
   const endX = Math.min(MAP_W, Math.ceil((camX + canvas.width) / TILE) + 1);
   const startY = Math.max(0, Math.floor(camY / TILE));
@@ -1875,14 +2117,13 @@ function render() {
     for (let x = startX; x < endX; x++) {
       const t = map[y][x];
       if (t === 1) {
-        // Stone brick stylings
-        ctx.fillStyle = '#2a2a3a';
+        ctx.fillStyle = stage.color;
         ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
-        ctx.strokeStyle = '#3a3a4a';
+        ctx.strokeStyle = stage.borderColor;
         ctx.lineWidth = 1;
         ctx.strokeRect(x*TILE+0.5, y*TILE+0.5, TILE-1, TILE-1);
         
-        ctx.strokeStyle = '#1a1a28';
+        ctx.strokeStyle = stage.lineColor;
         ctx.beginPath();
         ctx.moveTo(x*TILE, y*TILE+TILE/2);
         ctx.lineTo(x*TILE+TILE, y*TILE+TILE/2);
@@ -1893,18 +2134,26 @@ function render() {
           ctx.beginPath(); ctx.moveTo(x*TILE+TILE/2, y*TILE+TILE/2); ctx.lineTo(x*TILE+TILE/2, y*TILE+TILE); ctx.stroke();
         }
       } else if (t === 4) {
-        // Spikes traps
-        ctx.fillStyle = '#888888';
-        for (let s = 0; s < 4; s++) {
-          const sx = x*TILE + s*8;
-          ctx.beginPath();
-          ctx.moveTo(sx, y*TILE+TILE);
-          ctx.lineTo(sx+4, y*TILE+8);
-          ctx.lineTo(sx+8, y*TILE+TILE);
-          ctx.fill();
+        // Red bubbling Lava pits on Stage 4 Lava Code Abyss
+        if (stage.particleType === 'lava') {
+          ctx.fillStyle = '#ff3b30';
+          ctx.fillRect(x*TILE, y*TILE + 12, TILE, TILE - 12);
+          ctx.fillStyle = '#ff9500';
+          const rip = Math.sin(Date.now() * 0.015 + x) * 2;
+          ctx.fillRect(x*TILE, y*TILE + 10 + rip, TILE, 3);
+        } else {
+          // Normal spikes
+          ctx.fillStyle = '#888888';
+          for (let s = 0; s < 4; s++) {
+            const sx = x*TILE + s*8;
+            ctx.beginPath();
+            ctx.moveTo(sx, y*TILE+TILE);
+            ctx.lineTo(sx+4, y*TILE+8);
+            ctx.lineTo(sx+8, y*TILE+TILE);
+            ctx.fill();
+          }
         }
       } else if (t === 3) {
-        // Portal portals
         const glowAlpha = 0.5 + Math.sin(Date.now() * 0.005) * 0.3;
         ctx.fillStyle = `rgba(77, 240, 255, ${glowAlpha})`;
         ctx.fillRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
@@ -1974,16 +2223,14 @@ function render() {
       let bw = en.w;
       let bh = en.h;
 
-      // Micro anims
       if (en.type === 'slime') {
         const squish = Math.sin(Date.now() * 0.006 + en.id) * 2;
         by += squish;
         bh -= squish;
       } else if (en.type === 'eye' || en.type === 'ghost' || en.type === 'reaper' || en.type === 'dragon') {
-        by += Math.sin(Date.now() * 0.004 + en.id) * 3; // Float bobs
+        by += Math.sin(Date.now() * 0.004 + en.id) * 3; 
       }
 
-      // Flip render depending on facing patrol directions
       if (en.dir < 0) {
         ctx.translate(bx + bw, by);
         ctx.scale(-1, 1);
@@ -1993,7 +2240,6 @@ function render() {
         bx = 0; by = 0;
       }
 
-      // Dynamic silhouette flash tint overlay upon damage hits
       if (en.flashTimer > 0) {
         ctx.drawImage(img, bx, by, bw, bh);
         ctx.globalCompositeOperation = 'source-atop';
@@ -2004,7 +2250,6 @@ function render() {
       }
       ctx.restore();
     } else {
-      // Fallback vector drawing (just in case loading holds)
       ctx.save();
       if (en.flashTimer > 0 && en.flashTimer % 4 < 2) { ctx.globalAlpha = 0.4; }
       ctx.fillStyle = en.color;
@@ -2012,7 +2257,6 @@ function render() {
       ctx.restore();
     }
 
-    // Mini HP track bar below
     if (en.hp < en.maxHp) {
       ctx.fillStyle = '#333333';
       ctx.fillRect(en.x, en.y-6, en.w, 3);
@@ -2021,41 +2265,36 @@ function render() {
     }
   });
 
-  // Player Animals (Highly detailed custom vector designs!)
+  // Player Animals (Highly detailed custom class vectors!)
   ctx.save();
   if (player.invincible > 0 && player.invincible % 4 < 2) {
     ctx.globalAlpha = 0.4;
   }
 
   const cx = player.x + player.w / 2;
-  const cy = player.y + 8; // Head central height
+  const cy = player.y + 8; 
   const pdir = player.dir;
 
-  // Running animations bobs
   let bounce = 0;
   if (Math.abs(player.vx) > 0.5 && player.onGround) {
     bounce = Math.sin(Date.now() * 0.015) * 1.5;
   }
 
   if (charKey === 'bear') {
-    // 🐻 Bear: Knight bear with red flowing cape
+    // 🐻 Bear Sage: wizard robes, gold runes
     const furColor = '#f2f2f7';
-    const armorColor = '#2a52be';
+    const robeColor = '#1f3a52';
     const goldColor = '#ffd89c';
 
-    // red cape in background
-    ctx.fillStyle = '#cc2222';
+    // Runic magical halo star under Wise Bear Sage's feet
+    ctx.strokeStyle = 'rgba(255, 216, 156, 0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = '#ffd89c';
+    ctx.shadowBlur = 8;
     ctx.beginPath();
-    if (pdir > 0) {
-      ctx.moveTo(cx - 5, cy + 6);
-      ctx.quadraticCurveTo(cx - 18 - Math.abs(player.vx)*2, cy + 10 + bounce, cx - 16, cy + 22);
-      ctx.lineTo(cx - 4, cy + 20);
-    } else {
-      ctx.moveTo(cx + 5, cy + 6);
-      ctx.quadraticCurveTo(cx + 18 + Math.abs(player.vx)*2, cy + 10 + bounce, cx + 16, cy + 22);
-      ctx.lineTo(cx + 4, cy + 20);
-    }
-    ctx.fill();
+    ctx.ellipse(cx, player.y + player.h - 1, 14, 4, 0, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
 
     // ears
     ctx.fillStyle = furColor;
@@ -2069,38 +2308,63 @@ function render() {
     ctx.arc(cx + 6, cy - 8, 2, 0, Math.PI * 2);
     ctx.fill();
 
-    // head
+    // Wise Mage Hood covering head
+    ctx.fillStyle = robeColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // head face
     ctx.fillStyle = furColor;
     ctx.beginPath();
-    ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+    ctx.arc(cx + pdir * 1.5, cy + 1, 7.5, 0, Math.PI * 2);
     ctx.fill();
 
     // snout
     ctx.fillStyle = '#e5e5ea';
     ctx.beginPath();
-    ctx.ellipse(cx + pdir * 3, cy + 3, 4, 3, 0, 0, Math.PI * 2);
+    ctx.ellipse(cx + pdir * 3.5, cy + 3.5, 3.5, 2.5, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#2c2c2e';
-    ctx.fillRect(cx + pdir * 4.5 - 1, cy + 1.5, 2, 2);
+    ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2.5, 1, 1);
 
-    // Armor body
-    ctx.fillStyle = armorColor;
+    // Wizard Robe body
+    ctx.fillStyle = robeColor;
     ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
     ctx.fillStyle = goldColor;
-    ctx.fillRect(cx - 2, player.y + 14 + bounce, 4, 6);
+    // Runic vertical lines on sage robe
+    ctx.fillRect(cx - 1, player.y + 11 + bounce, 2, 8);
+    ctx.fillRect(cx - 4, player.y + 14 + bounce, 8, 1.5);
 
     // Eyes
     ctx.fillStyle = '#111111';
     ctx.fillRect(cx + pdir * 3 - (pdir > 0 ? 0 : 3), cy - 2, 2, 2.5);
 
   } else if (charKey === 'monkey') {
-    // 🐵 Monkey: Sun Wukong golden headband
+    // 🐵 Monkey Ninja: black face蒙面, tight ninja clothing, purple dynamic muffler
     const furColor = '#965a38';
-    const faceColor = '#ffd3b6';
+    const skinColor = '#ffd3b6';
+    const ninjaColor = '#2d2d3a';
 
-    // Long tail in background
+    // Purple ninja muffler trail in background waving
+    ctx.fillStyle = '#8e44ad';
+    ctx.beginPath();
+    if (pdir > 0) {
+      ctx.moveTo(cx - 4, cy + 4);
+      ctx.quadraticCurveTo(cx - 16 - Math.abs(player.vx)*2, cy + 8 + bounce, cx - 18, cy + 2);
+      ctx.lineTo(cx - 15, cy - 2);
+      ctx.quadraticCurveTo(cx - 8, cy + 2, cx - 4, cy + 1);
+    } else {
+      ctx.moveTo(cx + 4, cy + 4);
+      ctx.quadraticCurveTo(cx + 18 + Math.abs(player.vx)*2, cy + 8 + bounce, cx + 18, cy + 2);
+      ctx.lineTo(cx + 15, cy - 2);
+      ctx.quadraticCurveTo(cx + 8, cy + 2, cx + 4, cy + 1);
+    }
+    ctx.fill();
+
+    // tail
     ctx.strokeStyle = furColor;
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
     ctx.beginPath();
     ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
     ctx.quadraticCurveTo(cx - pdir * 18, player.y + 8 + bounce + Math.sin(Date.now()*0.012)*3, cx - pdir * 20, player.y + 14);
@@ -2112,7 +2376,7 @@ function render() {
     ctx.arc(cx - 8, cy, 3.5, 0, Math.PI * 2);
     ctx.arc(cx + 8, cy, 3.5, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = faceColor;
+    ctx.fillStyle = skinColor;
     ctx.beginPath();
     ctx.arc(cx - 8, cy, 1.5, 0, Math.PI * 2);
     ctx.arc(cx + 8, cy, 1.5, 0, Math.PI * 2);
@@ -2124,37 +2388,51 @@ function render() {
     ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
     ctx.fill();
 
-    // mask face
-    ctx.fillStyle = faceColor;
+    // ninja mask covering face mouth
+    ctx.fillStyle = skinColor;
     ctx.beginPath();
-    ctx.arc(cx - 2.5 + pdir * 2, cy + 1, 4, 0, Math.PI * 2);
-    ctx.arc(cx + 2.5 + pdir * 2, cy + 1, 4, 0, Math.PI * 2);
-    ctx.ellipse(cx + pdir * 2, cy + 4, 4.5, 3.5, 0, 0, Math.PI * 2);
+    ctx.arc(cx - 2.5 + pdir * 2, cy, 3.5, 0, Math.PI * 2);
+    ctx.arc(cx + 2.5 + pdir * 2, cy, 3.5, 0, Math.PI * 2);
     ctx.fill();
+    
+    // Mask cover
+    ctx.fillStyle = ninjaColor;
+    ctx.fillRect(cx - 7.5, cy + 1.5, 15, 6.5);
 
-    // Headband ribbon
-    ctx.fillStyle = '#ff2a2a';
+    // ninja forehead band
+    ctx.fillStyle = '#ffd89c'; // golden badge
     ctx.fillRect(cx - 8.5, cy - 6, 17, 3);
-    ctx.beginPath();
-    ctx.moveTo(cx - pdir * 8, cy - 4.5);
-    ctx.lineTo(cx - pdir * 14, cy - 2);
-    ctx.lineTo(cx - pdir * 13, cy + 2);
-    ctx.fill();
+    ctx.fillStyle = '#2ecc71';
+    ctx.fillRect(cx - 2, cy - 6, 4, 3);
 
-    // body green
-    ctx.fillStyle = '#27ae60';
+    // ninja body
+    ctx.fillStyle = ninjaColor;
     ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
-    ctx.fillStyle = '#f1c40f'; // belt
-    ctx.fillRect(player.x + 3, player.y + 20 + bounce, player.w - 6, 2.5);
 
     // eyes
-    ctx.fillStyle = '#111111';
-    ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3.5), cy, 1.5, 2);
+    ctx.fillStyle = '#ffd89c'; // glowing ninja eyes!
+    ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3.5), cy - 2, 2, 2);
 
   } else if (charKey === 'bunny') {
-    // 🐰 Bunny: floppy long bunny ears with hood cloak
+    // 🐰 Bunny Lancer: silver chest armor, spear carried on back
     const furColor = '#fbfbfb';
-    const cloakColor = '#27ae60';
+    const plateColor = '#bdc3c7';
+
+    // spear carried on back (drawn first in BG)
+    if (!player.attacking) {
+      ctx.strokeStyle = '#666666';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - pdir * 4, player.y + 16);
+      ctx.lineTo(cx + pdir * 8, player.y - 4);
+      ctx.stroke();
+      ctx.fillStyle = '#f1c40f'; // golden contradiction spearhead
+      ctx.beginPath();
+      ctx.moveTo(cx + pdir * 8, player.y - 4);
+      ctx.lineTo(cx + pdir * 12, player.y - 8);
+      ctx.lineTo(cx + pdir * 10, player.y - 12);
+      ctx.fill();
+    }
 
     // fluffy ball tail in BG
     ctx.fillStyle = furColor;
@@ -2162,11 +2440,7 @@ function render() {
     ctx.arc(cx - pdir * 8, player.y + player.h - 8 + bounce, 4, 0, Math.PI * 2);
     ctx.fill();
 
-    // cloak body
-    ctx.fillStyle = cloakColor;
-    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
-
-    // bunny long ears
+    // ears
     const earAngle = Math.abs(player.vx) * 0.04 * -pdir;
     ctx.save();
     ctx.translate(cx, cy - 6);
@@ -2183,17 +2457,21 @@ function render() {
     ctx.fill();
     ctx.restore();
 
-    // hood hood
-    ctx.fillStyle = cloakColor;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    // white face
+    // head
     ctx.fillStyle = furColor;
     ctx.beginPath();
-    ctx.arc(cx + pdir * 2, cy + 1, 6.5, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
     ctx.fill();
+
+    // warrior red headband
+    ctx.fillStyle = '#ff4d4d';
+    ctx.fillRect(cx - 8.5, cy - 1, 17, 2.5);
+
+    // dragoon plate armor body
+    ctx.fillStyle = plateColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = '#f1c40f'; // golden emblem
+    ctx.fillRect(cx - 3, player.y + 13 + bounce, 6, 5);
 
     // red eyes
     ctx.fillStyle = '#e74c3c';
@@ -2205,19 +2483,19 @@ function render() {
     ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2, 1, 1);
 
   } else if (charKey === 'cat') {
-    // 🐱 Cat: Wizard purple cat pointy ears
+    // 🐱 Cat White Mage: white robe with red triangles decoration
     const furColor = '#ffa94d';
-    const robeColor = '#8e44ad';
+    const robeColor = '#ffffff';
 
-    // sleek tail waving
+    // tail
     ctx.strokeStyle = furColor;
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
-    ctx.quadraticCurveTo(cx - pdir * 14, player.y + 10 + Math.sin(Date.now()*0.015)*4, cx - pdir * 18, player.y + 7);
+    ctx.quadraticCurveTo(cx - pdir * 14, player.y + 10 + Math.sin(Date.now()*0.015)*4, cx - pdir * 16, player.y + 7);
     ctx.stroke();
 
-    // Pointy ears
+    // ears
     ctx.fillStyle = furColor;
     ctx.beginPath();
     ctx.moveTo(cx - 7, cy - 4); ctx.lineTo(cx - 8, cy - 12); ctx.lineTo(cx - 2, cy - 7);
@@ -2235,26 +2513,35 @@ function render() {
     ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
     ctx.fill();
 
-    // wizard hat
+    // White Mage hood
     ctx.fillStyle = robeColor;
     ctx.beginPath();
-    ctx.moveTo(cx - 8, cy - 6);
-    ctx.lineTo(cx, cy - 18);
-    ctx.lineTo(cx + 8, cy - 6);
+    ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#ffd89c';
-    ctx.fillRect(cx - 10, cy - 7, 20, 2);
+    // Face inner
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 1.5, cy + 1, 6.5, 0, Math.PI * 2);
+    ctx.fill();
 
-    // robe body
+    // White Mage robe body
     ctx.fillStyle = robeColor;
     ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
-    ctx.fillStyle = '#ffd89c';
-    ctx.fillRect(cx - 2, player.y + 16 + bounce, 4, 4);
+    
+    // Iconic Red Triangle decoration patterns at robe bottom!
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.moveTo(player.x + 3, player.y + player.h - 4);
+    for (let tx = player.x + 3; tx <= player.x + player.w - 3; tx += 4) {
+      ctx.lineTo(tx + 2, player.y + player.h - 8);
+      ctx.lineTo(tx + 4, player.y + player.h - 4);
+    }
+    ctx.fill();
 
     // green eyes
     ctx.fillStyle = '#2ecc71';
     ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3), cy - 1, 2, 2.5);
-    ctx.fillStyle = '#000000'; // vertical pupils
+    ctx.fillStyle = '#000000';
     ctx.fillRect(cx + pdir * 2.5 + (pdir > 0 ? 0.5 : -2.5), cy - 0.5, 1, 2.5);
 
     // whiskers
@@ -2273,7 +2560,7 @@ function render() {
     ctx.stroke();
   }
 
-  // Walking feet cycles
+  // Walking feet
   ctx.fillStyle = '#2c2c2e';
   const walkCycle = Math.sin(Date.now() * 0.015) * 3;
   const fL = player.onGround && Math.abs(player.vx) > 0.5 ? walkCycle : 0;
@@ -2283,10 +2570,24 @@ function render() {
 
   ctx.restore();
 
+  // White Mage healing shield bubble visuals!
+  if (player.hasShield > 0) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255, 133, 162, 0.6)';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#ff85a2';
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(cx, player.y + player.h/2 + bounce, 24, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+
   // Weapon visual arcs (melee sweeping shapes)
   if (player.attacking) {
     const wpn = WEAPONS[weaponIdx];
-    if (wpn.type === 'melee') {
+    if (wpn.type === 'melee' && !wpn.isSpear) {
       const progress = 1 - player.atkTimer / wpn.speed;
       const cx = player.x + player.w/2;
       const cy = player.y + player.h/2 - 4;
@@ -2295,6 +2596,7 @@ function render() {
       ctx.globalAlpha = 0.7 + 0.3 * (1-progress);
 
       if (wpn === WEAPONS[0]) {
+        // Ninja katana
         const angle = player.dir * (-0.8 + progress * 1.6);
         ctx.rotate(angle);
         ctx.strokeStyle = wpn.color;
@@ -2303,28 +2605,10 @@ function render() {
         ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(wpn.range * player.dir * 0.7, 0);
+        ctx.lineTo(wpn.range * player.dir * 0.75, 0);
         ctx.stroke();
-      } else if (wpn === WEAPONS[1]) {
-        const len = wpn.range * progress;
-        ctx.strokeStyle = wpn.color;
-        ctx.lineWidth = 2;
-        ctx.shadowColor = wpn.trail;
-        ctx.shadowBlur = 8;
-        const segments = 8;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        for (let s = 1; s <= segments; s++) {
-          const sx = (len / segments) * s * player.dir;
-          const sy = Math.sin(s * 0.8 + progress * 6) * 4 * (1-progress);
-          ctx.lineTo(sx, sy);
-        }
-        ctx.stroke();
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(len * player.dir, Math.sin(progress*6)*3, 3, 0, Math.PI*2);
-        ctx.fill();
       } else if (wpn === WEAPONS[4]) {
+        // Greatsword
         const startAngle = player.dir > 0 ? -Math.PI/2 : Math.PI/2;
         const sweepAngle = player.dir * Math.PI * progress;
         ctx.strokeStyle = wpn.color;
@@ -2339,7 +2623,7 @@ function render() {
     }
   }
 
-  // Projectiles (with dedicated graphics for lasers, sonics, fireballs, and scythes!)
+  // Projectiles
   projectiles.forEach(p => {
     ctx.save();
     ctx.shadowColor = p.color;
@@ -2348,22 +2632,18 @@ function render() {
     ctx.strokeStyle = p.color;
 
     if (p.isSonic) {
-      // Sonic waves
       ctx.lineWidth = 2.5;
       ctx.beginPath();
       const rad = 6 + (80 - p.life) * 0.25;
       ctx.arc(p.x, p.y, rad, -Math.PI/2, Math.PI/2);
       ctx.stroke();
     } else if (p.isLaser) {
-      // Laser drop bars
       ctx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
     } else if (p.isEnemyOrb) {
-      // Magic tracking ball
       ctx.beginPath();
       ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
       ctx.fill();
     } else if (p.isFireball) {
-      // Dragon fireball
       ctx.beginPath();
       ctx.arc(p.x, p.y, 7, 0, Math.PI*2);
       ctx.fill();
@@ -2372,7 +2652,6 @@ function render() {
       ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
       ctx.fill();
     } else if (p.isScythe) {
-      // Reaper spin scythe
       ctx.translate(p.x, p.y);
       const angle = (Date.now() * 0.015) % (Math.PI*2);
       ctx.rotate(angle);
@@ -2385,9 +2664,41 @@ function render() {
       ctx.moveTo(-4, -4);
       ctx.lineTo(4, 4);
       ctx.stroke();
+    } else if (p.isMagicBeam) {
+      // Sage Bear vertical golden magic light beams
+      ctx.globalAlpha = p.life / 25 * 0.75;
+      const gradient = ctx.createLinearGradient(p.x - p.w/2, p.y, p.x + p.w/2, p.y);
+      gradient.addColorStop(0, 'rgba(255, 216, 156, 0.1)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.85)');
+      gradient.addColorStop(1, 'rgba(255, 216, 156, 0.1)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(p.x - p.w/2, p.y, p.w, p.h);
+      ctx.strokeStyle = '#ffd89c';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(p.x - p.w/2, p.y, p.w, p.h);
+    } else if (p.isSpearWave) {
+      // Lancer Bunny triangular contradiction spearpoint energy thrust waves
+      ctx.globalAlpha = p.life / 15 * 0.8;
+      ctx.fillStyle = '#f1c40f';
+      ctx.beginPath();
+      if (player.dir > 0) {
+        ctx.moveTo(p.x - p.w/2, p.y - p.h/2);
+        ctx.lineTo(p.x + p.w/2, p.y);
+        ctx.lineTo(p.x - p.w/2, p.y + p.h/2);
+      } else {
+        ctx.moveTo(p.x + p.w/2, p.y - p.h/2);
+        ctx.lineTo(p.x - p.w/2, p.y);
+        ctx.lineTo(p.x + p.w/2, p.y + p.h/2);
+      }
+      ctx.closePath();
+      ctx.fill();
     } else {
-      // Default player projectils
-      if (p.homing) {
+      // White Mage Wand heart shots
+      if (p.homing && weaponIdx === 1) {
+        ctx.fillStyle = '#ff85a2';
+        ctx.font = '10px serif';
+        ctx.fillText('❤️', p.x - 5, p.y + 4);
+      } else if (p.homing) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
         ctx.fill();
@@ -2401,13 +2712,23 @@ function render() {
 
   // Particles
   particles.forEach(p => {
-    ctx.globalAlpha = p.life / 25;
-    ctx.fillStyle = p.color;
-    ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
+    ctx.save();
+    if (p.isMist) {
+      ctx.globalAlpha = p.life / 180 * 0.15;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
+    } else {
+      ctx.globalAlpha = p.life / 60;
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
+    }
+    ctx.restore();
   });
   ctx.globalAlpha = 1;
 
-  // Damage floater values
+  // Damage floaters
   floaters.forEach(f => {
     ctx.globalAlpha = Math.min(1, f.life / 15);
     ctx.fillStyle = f.color;
@@ -2435,7 +2756,6 @@ function updateHUD() {
   document.getElementById('hudXpBar').style.width = (info.xpInLevel / info.xpNeeded * 100) + '%';
   document.getElementById('hudLevel').textContent = 'LV.' + info.level;
 
-  // Active Skill CD HUD display
   const skillReady = player.skillCooldown <= 0;
   const maxCD = CHARACTERS[charKey].skillCD;
   const pct = skillReady ? 100 : (1 - player.skillCooldown / maxCD) * 100;
@@ -2447,7 +2767,6 @@ function updateHUD() {
 // ============================================================
 // GAME LOOP
 // ============================================================
-let lastTime = 0;
 function gameLoop(timestamp) {
   if (!gameRunning) return;
   if (gamePaused) { requestAnimationFrame(gameLoop); return; }
@@ -2456,6 +2775,7 @@ function gameLoop(timestamp) {
   updateEnemies();
   updateProjectiles();
   updateParticles();
+  spawnStageParticles(); // Stage customized climate floaters
   updateFloaters();
   updateItems();
   updateCamera();
