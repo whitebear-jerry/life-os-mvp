@@ -1949,6 +1949,13 @@
 
     function showStageSelect() {
       stopBgm();
+      
+      const screen = document.getElementById('retroGameScreen');
+      if (screen) {
+        const existingOverlay = screen.querySelectorAll('.retro-overlay');
+        existingOverlay.forEach(el => el.remove());
+      }
+
       const stageSelectArea = document.getElementById('adventureStageSelectArea');
       const battleArea = document.getElementById('adventureBattleArea');
       stageSelectArea.style.display = 'block';
