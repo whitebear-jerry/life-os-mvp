@@ -906,6 +906,16 @@ function generateEnemies() {
       hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52; def = 20;
     }
 
+    const isBoss = (i === defs.length - 1);
+    if (isBoss) {
+      w = Math.floor(w * 1.5);
+      h = Math.floor(h * 1.5);
+      hp = Math.floor(hp * 2.5);
+      atk = Math.floor(atk * 1.5);
+      def = Math.floor(def * 2.0);
+      spd = spd * 1.3;
+    }
+
     // Scale speed by activeStageIdx (higher stage = faster monsters!)
     spd = spd * (1 + activeStageIdx * 0.15);
 
@@ -916,13 +926,14 @@ function generateEnemies() {
     xpVal = Math.floor(xpVal * scale);
 
     enemies.push({
-      id: i, x: ex*TILE, y: (ey-1)*TILE, w, h,
-      type, hp, maxHp: hp, atk, def, spd, xpVal,
+      id: i, x: ex*TILE, y: isBoss ? (ey-1.5)*TILE : (ey-1)*TILE, w, h,
+      type, hp, maxHp: hp, atk, def, spd, xpVal: isBoss ? xpVal * 3 : xpVal,
       patrolLeft: ex*TILE - pw*TILE/2, patrolRight: ex*TILE + pw*TILE,
       vx: spd, vy: 0, dir: 1, alive: true,
       hitTimer: 0, flashTimer: 0,
       color: type==='slime'?'#44cc66' : type==='knight'?'#8888cc' : '#cc4466',
       eyeColor: type==='eye'?'#ff0000':'#ffffff',
+      isBoss: isBoss,
       shootCooldown: Math.random() * 60,
     });
   });
@@ -1439,7 +1450,9 @@ function startGame() {
     skillCooldown: 0,
     dashing: false, dashTimer: 0,
     pendingSlam: false,
-    hasShield: 0
+    hasShield: 0,
+    slowTimer: 0,
+    hasKey: false
   };
 
   map = generateMap();
@@ -1449,6 +1462,13 @@ function startGame() {
   particles = [];
   floaters = [];
   items = [];
+  
+  // Spawn golden key at map middle danger point! (x = 38 * TILE, y = 6 * TILE)
+  items.push({
+    x: 38 * TILE, y: 6 * TILE, w: 20, h: 20,
+    type: 'key', vy: 0, life: 999999
+  });
+
   castleXPEarned = 0;
   camX = 0; camY = 0;
   updateWeaponUI();
@@ -1817,10 +1837,15 @@ function updatePlayer() {
   let currentFriction = (activeStageIdx === 9) ? 0.94 : FRICTION;
   player.vx *= currentFriction;
 
-  // Climate Speed Debuffs
+  // Climate Speed Debuffs & Ice Slow Debuff!
   let speedScale = 1.0;
   if (activeStageIdx === 6) speedScale = 0.7;      // Stage 7 Snow
   else if (activeStageIdx === 7) speedScale = 0.85; // Stage 8 Lightning
+  
+  if (player.slowTimer > 0) {
+    player.slowTimer--;
+    speedScale *= 0.5;
+  }
   const maxSpd = player.speed * speedScale;
 
   if (player.vx > maxSpd) player.vx = maxSpd;
@@ -1926,15 +1951,29 @@ function updatePlayer() {
   const ptX = Math.floor((player.x + player.w/2) / TILE);
   const ptY = Math.floor((player.y + player.h/2) / TILE);
   if (tileAt(ptX, ptY) === 3) {
-    saveToRPG();
-    gameRunning = false;
-    stopBGM();
-    playLevelUpSFX();
-    setTimeout(() => {
-      alert('🎉 恭喜通關「' + STAGES[activeStageIdx].name + '」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
-      location.href = 'link.html';
-    }, 300);
-    return;
+    if (!player.hasKey) {
+      if (player.invincible <= 0) {
+        // Bounce player back and show Lock warning!
+        player.vx = -player.dir * 4.5;
+        player.vy = -2.5;
+        player.invincible = 20;
+        playDamageSFX();
+        floaters.push({
+          x: player.x + player.w/2, y: player.y - 12,
+          text: '🔒 出口鎖定！需要黃金鑰匙🔑！', color: '#ff3b30', life: 75, vy: -1.5
+        });
+      }
+    } else {
+      saveToRPG();
+      gameRunning = false;
+      stopBGM();
+      playLevelUpSFX();
+      setTimeout(() => {
+        alert('🎉 恭喜通關「' + STAGES[activeStageIdx].name + '」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
+        location.href = 'link.html';
+      }, 300);
+      return;
+    }
   }
 
   // Combat Attacking
@@ -2295,38 +2334,73 @@ function updateEnemies() {
       if (en.shootCooldown <= 0 && distToPlayer < 350) {
         en.shootCooldown = 140 + Math.random() * 60;
         
+        // V9 upgraded elemental magic spell selection!
+        const rand = Math.random();
+        let color = '#ba4dff';
+        let trail = '#5856d6';
+        let isFire = false;
+        let isLightning = false;
+        let isIce = false;
+        let pSpd = 2.2;
+
+        if (rand < 0.33) {
+          // 火焰魔法 (Fire): orange fireball, fast, deals high damage
+          color = '#ff9500';
+          trail = '#ff3b30';
+          isFire = true;
+          pSpd = 3.5;
+        } else if (rand < 0.66) {
+          // 閃電魔法 (Lightning): electric bolt, extremely fast
+          color = '#00ffff';
+          trail = '#5ac8fa';
+          isLightning = true;
+          pSpd = 4.8;
+        } else {
+          // 冰凍魔法 (Ice): slow cyan ice crystal orb, slows player speed by 50%
+          color = '#5ac8fa';
+          trail = '#ffffff';
+          isIce = true;
+          pSpd = 1.8;
+        }
+        
         if (activeStageIdx >= 7) {
-          // V3 upgraded: 2 homing purple magic orbs!
+          // V3 upgraded: 2 homing elemental magic orbs!
           for (let offset of [-12, 12]) {
             projectiles.push({
               x: en.x + en.w/2 + offset,
               y: en.y + en.h/2,
-              vx: en.dir * (1.8 + Math.random() * 0.5),
+              vx: en.dir * (pSpd * 0.8),
               vy: (Math.random() - 0.5) * 1.5,
               w: 12, h: 12,
               dmg: en.atk,
-              color: '#ba4dff',
-              trail: '#5856d6',
+              color,
+              trail,
               life: 120,
               homing: true,
               isEnemyOrb: true,
-              isEnemy: true
+              isEnemy: true,
+              isFire,
+              isLightning,
+              isIce
             });
           }
         } else {
           projectiles.push({
             x: en.x + en.w/2,
             y: en.y + en.h/2,
-            vx: en.dir * 2.2,
+            vx: en.dir * pSpd,
             vy: 0,
             w: 12, h: 12,
             dmg: en.atk,
-            color: '#ba4dff',
-            trail: '#5856d6',
+            color,
+            trail,
             life: 120,
             homing: true,
             isEnemyOrb: true,
-            isEnemy: true
+            isEnemy: true,
+            isFire,
+            isLightning,
+            isIce
           });
         }
         playEnemyShootSFX();
@@ -2432,7 +2506,30 @@ function updateProjectiles() {
 
     if (p.isEnemy) {
       if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, player) && player.invincible <= 0) {
-        playerTakeDamage(p.dmg);
+        let finalDmg = p.dmg;
+        
+        // Apply V9 elemental magic status effects to player!
+        if (p.isIce) {
+          player.slowTimer = 180; // 3 seconds speed reduction by 50%
+          floaters.push({
+            x: player.x + player.w/2, y: player.y - 12,
+            text: '❄️FREEZE! 速度減半', color: '#5ac8fa', life: 60, vy: -1.5
+          });
+        } else if (p.isLightning) {
+          finalDmg = Math.floor(finalDmg * 1.25); // Lightning shocks and does 1.25x damage
+          floaters.push({
+            x: player.x + player.w/2, y: player.y - 12,
+            text: '⚡SHOCK! 雷擊', color: '#00ffff', life: 60, vy: -1.5
+          });
+        } else if (p.isFire) {
+          finalDmg = Math.floor(finalDmg * 1.15); // Fire burns and does 1.15x damage
+          floaters.push({
+            x: player.x + player.w/2, y: player.y - 12,
+            text: '🔥BURN! 灼燒', color: '#ff3b30', life: 60, vy: -1.5
+          });
+        }
+
+        playerTakeDamage(finalDmg);
         player.vy = -3;
         player.vx = (player.x < p.x ? -1 : 1) * 3;
         p.life = 0;
@@ -2516,6 +2613,10 @@ function updateItems() {
       if (it.type === 'heart') {
         player.hp = Math.min(player.maxHp, player.hp + 20);
         floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+20HP', color: '#ff8888', life: 35, vy: -1.5 });
+      } else if (it.type === 'key') {
+        player.hasKey = true;
+        floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '🔑 獲得鑰匙！出口已解鎖！', color: '#ffd700', life: 75, vy: -1.5 });
+        playLevelUpSFX();
       } else {
         const info = getLevelInfo(userXP + castleXPEarned);
         const gear = getGearStats(info.level);
@@ -2684,9 +2785,9 @@ function render() {
         }
       } else if (t === 3) {
         const glowAlpha = 0.5 + Math.sin(Date.now() * 0.005) * 0.3;
-        ctx.fillStyle = `rgba(77, 240, 255, ${glowAlpha})`;
+        ctx.fillStyle = player.hasKey ? `rgba(77, 240, 255, ${glowAlpha})` : `rgba(255, 59, 48, ${glowAlpha})`;
         ctx.fillRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
-        ctx.strokeStyle = '#4df0ff';
+        ctx.strokeStyle = player.hasKey ? '#4df0ff' : '#ff3b30';
         ctx.lineWidth = 2;
         ctx.strokeRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
         
@@ -2694,6 +2795,11 @@ function render() {
         const sp = Date.now() * 0.01;
         ctx.fillRect(x*TILE + 8 + Math.sin(sp)*6, y*TILE + 8 + Math.cos(sp)*8, 3, 3);
         ctx.fillRect(x*TILE + 20 + Math.cos(sp)*4, y*TILE + 16 + Math.sin(sp+1)*6, 2, 2);
+
+        // Draw exit lock/open text label!
+        ctx.fillStyle = player.hasKey ? '#4df0ff' : '#ff3b30';
+        ctx.font = 'bold 8px monospace';
+        ctx.fillText(player.hasKey ? '🔑OPEN' : '🔒LOCK', x*TILE - 4, y*TILE - 6);
       }
     }
   }
@@ -2723,18 +2829,28 @@ function render() {
   // Items drops
   items.forEach(it => {
     const bob = Math.sin(Date.now()*0.005+it.x)*2;
+    const sx = it.x - camX, sy = it.y - camY;
+    
     if (it.type === 'heart') {
       ctx.fillStyle = '#ff4444';
       ctx.font = '12px serif';
-      ctx.fillText('❤️', it.x-2, it.y+10+bob);
+      ctx.fillText('❤️', sx-2, sy+10+bob);
+    } else if (it.type === 'key') {
+      ctx.save();
+      ctx.shadowColor = '#ffe770';
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = '#ffd700';
+      ctx.font = '16px serif';
+      ctx.fillText('🔑', sx-2, sy+12+bob);
+      ctx.restore();
     } else {
       ctx.fillStyle = '#ffd89c';
       ctx.beginPath();
-      ctx.arc(it.x+6, it.y+6+bob, 5, 0, Math.PI*2);
+      ctx.arc(sx+6, sy+6+bob, 5, 0, Math.PI*2);
       ctx.fill();
       ctx.fillStyle = '#aa8844';
       ctx.font = '7px monospace';
-      ctx.fillText('$', it.x+3, it.y+9+bob);
+      ctx.fillText('$', sx+3, sy+9+bob);
     }
   });
 
@@ -2744,6 +2860,30 @@ function render() {
     const sx = en.x - camX, sy = en.y - camY;
     if (sx < -60 || sx > canvas.width+60 || sy < -60 || sy > canvas.height+60) return;
 
+    // Draw Boss HP Bar and label if it is the guardian Boss!
+    if (en.isBoss) {
+      ctx.save();
+      // Draw Crown
+      ctx.fillStyle = '#ffee00';
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      ctx.font = 'bold 9px monospace';
+      ctx.textAlign = 'center';
+      ctx.strokeText('👑BOSS', sx + en.w/2, sy - 14);
+      ctx.fillText('👑BOSS', sx + en.w/2, sy - 14);
+
+      // Draw custom HP bar above head
+      ctx.fillStyle = '#333333';
+      ctx.fillRect(sx + en.w/2 - 25, sy - 8, 50, 4);
+      const hpPct = Math.max(0, en.hp / en.maxHp);
+      ctx.fillStyle = '#ff3b30'; // Red boss health
+      ctx.fillRect(sx + en.w/2 - 25, sy - 8, 50 * hpPct, 4);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(sx + en.w/2 - 25, sy - 8, 50, 4);
+      ctx.restore();
+    }
+
     const img = MONSTER_IMAGES[en.type];
     if (img && img.complete) {
       ctx.save();
@@ -2751,6 +2891,12 @@ function render() {
       let by = en.y;
       let bw = en.w;
       let bh = en.h;
+
+      // Apply Boss neon red aura drop shadow!
+      if (en.isBoss) {
+        ctx.shadowColor = '#ff3b30';
+        ctx.shadowBlur = 15;
+      }
 
       if (en.type === 'slime') {
         const squish = Math.sin(Date.now() * 0.006 + en.id) * 2;
@@ -2786,7 +2932,8 @@ function render() {
       ctx.restore();
     }
 
-    if (en.hp < en.maxHp) {
+    // Draw normal health bar (only if it is not the boss, which has its own bar above)
+    if (!en.isBoss && en.hp < en.maxHp) {
       ctx.fillStyle = '#333333';
       ctx.fillRect(en.x, en.y-6, en.w, 3);
       ctx.fillStyle = '#ff4444';
