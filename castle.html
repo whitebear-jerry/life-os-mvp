@@ -94,9 +94,11 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      max-width: 580px;
-      padding: 0 16px;
+      max-width: 600px;
+      padding: 8px 16px;
       margin-bottom: 20px;
+      max-height: 58vh;
+      overflow-y: auto;
     }
     @media (max-width: 600px) {
       .char-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -436,7 +438,7 @@
       <div class="char-card" id="card_bear" onclick="selectCharacter('bear')">
         <span class="char-emoji">🐻</span>
         <span class="char-name">賢者白熊</span>
-        <span class="char-desc">職業：大賢者 (Sage)<br>主動：聖光之怒 (雷落)<br>奧術魔法追蹤法杖</span>
+        <span class="char-desc">職業：大賢者 (Sage)<br>主動：雷霆之怒 (落雷)<br>奧術魔法追蹤法杖</span>
         <span id="rec_bear" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
       <div class="char-card" id="card_monkey" onclick="selectCharacter('monkey')">
@@ -494,7 +496,7 @@
         
         <div class="guide-skill-item" style="border-top:none; padding-top:0;">
           <div class="guide-skill-name">🐻 賢者白熊 (Sage)</div>
-          <div class="guide-skill-desc">【技能：聖光之怒】召喚 3 道神聖垂直光柱轟擊視野，附帶大範圍穿透與擊退傷害。</div>
+          <div class="guide-skill-desc">【技能：雷霆之怒】召喚 3 道毀滅性垂直天罰落雷貫穿全屏，雷暴閃電造成高達 2.8 倍超狂暴擊與擊退判定！</div>
         </div>
 
         <div class="guide-skill-item">
@@ -603,8 +605,8 @@ const STAGES = [
   },
   {
     name: '2. 降噪水晶礦坑',
-    reqLvl: 11,
-    levelReq: 'LV.11 - 30',
+    reqLvl: 10,
+    levelReq: 'LV.10 - 20',
     color: '#241434',
     borderColor: '#4a156d',
     lineColor: '#12051c',
@@ -615,8 +617,8 @@ const STAGES = [
   },
   {
     name: '3. 資訊迷霧森林',
-    reqLvl: 31,
-    levelReq: 'LV.31 - 50',
+    reqLvl: 20,
+    levelReq: 'LV.20 - 30',
     color: '#1a3322',
     borderColor: '#2e5c3b',
     lineColor: '#0f2014',
@@ -627,8 +629,8 @@ const STAGES = [
   },
   {
     name: '4. 熔岩代碼深淵',
-    reqLvl: 51,
-    levelReq: 'LV.51 - 80',
+    reqLvl: 30,
+    levelReq: 'LV.30 - 40',
     color: '#3d1212',
     borderColor: '#631d1d',
     lineColor: '#240a0a',
@@ -638,9 +640,9 @@ const STAGES = [
     particleType: 'lava'
   },
   {
-    name: '5. 命運之神殿',
-    reqLvl: 81,
-    levelReq: 'LV.81 - 99',
+    name: '5. 命運之天界神殿',
+    reqLvl: 40,
+    levelReq: 'LV.40 - 50',
     color: '#4a3f1b',
     borderColor: '#ffd89c',
     lineColor: '#2b230f',
@@ -648,6 +650,66 @@ const STAGES = [
     monstersText: '👾 死神, 法師, 騎士',
     monsters: ['reaper', 'wizard', 'knight'],
     particleType: 'temple'
+  },
+  {
+    name: '6. 劇毒酸雨荒沼',
+    reqLvl: 50,
+    levelReq: 'LV.50 - 60',
+    color: '#122b22',
+    borderColor: '#1abc9c',
+    lineColor: '#0c1a14',
+    bgStart: '#081a15', bgEnd: '#030a08',
+    monstersText: '👾 史萊姆, 毒蝸牛, 噪音獸 (酸雨威脅)',
+    monsters: ['slime', 'snail', 'noise'],
+    particleType: 'acid'
+  },
+  {
+    name: '7. 冰河極光寒域',
+    reqLvl: 60,
+    levelReq: 'LV.60 - 70',
+    color: '#133a4a',
+    borderColor: '#9be2ff',
+    lineColor: '#0c242e',
+    bgStart: '#071822', bgEnd: '#030d14',
+    monstersText: '👾 魔像, 幽靈, 飛龍 (飄雪冰凍)',
+    monsters: ['golem', 'ghost', 'dragon'],
+    particleType: 'snow'
+  },
+  {
+    name: '8. 雷霆充能裂谷',
+    reqLvl: 70,
+    levelReq: 'LV.70 - 80',
+    color: '#2b0c3a',
+    borderColor: '#e04df5',
+    lineColor: '#1a0724',
+    bgStart: '#12031a', bgEnd: '#080112',
+    monstersText: '👾 法師, 騎士, 死神 (電光雷暴)',
+    monsters: ['wizard', 'knight', 'reaper'],
+    particleType: 'lightning'
+  },
+  {
+    name: '9. 混沌虛無邊境',
+    reqLvl: 80,
+    levelReq: 'LV.80 - 90',
+    color: '#300f24',
+    borderColor: '#f368e0',
+    lineColor: '#1c0815',
+    bgStart: '#14040f', bgEnd: '#0a0208',
+    monstersText: '👾 飛龍, 死神, 噪音獸 (虛無空洞)',
+    monsters: ['dragon', 'reaper', 'noise'],
+    particleType: 'void'
+  },
+  {
+    name: '10. 終焉超脫之界',
+    reqLvl: 90,
+    levelReq: 'LV.90 - 99',
+    color: '#111111',
+    borderColor: '#ffffff',
+    lineColor: '#000000',
+    bgStart: '#000000', bgEnd: '#000000',
+    monstersText: '👾 所有頂級魔物 (七彩霓虹)',
+    monsters: ['reaper', 'wizard', 'dragon'],
+    particleType: 'rainbow'
   }
 ];
 
@@ -684,8 +746,8 @@ const CHARACTERS = {
   bear: { 
     emoji:'🐻', name:'賢者白熊', color:'#f2f2f7', hpMul:1.4, spdMul:0.9, atkMul:1.3, 
     canDoubleJump:false, jumpPow:11.5,
-    skillName: '聖光之怒', skillCD: 300,
-    skillDesc: '召喚 3 道神聖垂直光柱轟擊視野，附帶大範圍穿透與擊退傷害。'
+    skillName: '雷霆之怒', skillCD: 300,
+    skillDesc: '召喚 3 道毀滅性垂直天罰落雷貫穿全屏，雷暴閃電造成高達 2.8 倍超狂暴擊與擊退判定！'
   },
   monkey: { 
     emoji:'🐵', name:'影武小猴', color:'#965a38', hpMul:0.9, spdMul:1.35, atkMul:1.0, 
@@ -803,6 +865,9 @@ function generateEnemies() {
     [74, 12, 2, 3], 
   ];
   
+  // Difficulty scaling multiplier based on stage
+  const scale = 1 + activeStageIdx * 0.45;
+  
   defs.forEach(([ex,ey,mIdx,pw],i) => {
     const type = stage.monsters[mIdx];
     let hp = 30;
@@ -835,9 +900,14 @@ function generateEnemies() {
       hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52;
     }
 
+    // Apply difficulty scaling
+    hp = Math.floor(hp * scale);
+    atk = Math.floor(atk * scale);
+    xpVal = Math.floor(xpVal * scale);
+
     enemies.push({
       id: i, x: ex*TILE, y: (ey-1)*TILE, w, h,
-      type, hp, maxHp:hp, atk, spd, xpVal,
+      type, hp, maxHp: hp, atk, spd, xpVal,
       patrolLeft: ex*TILE - pw*TILE/2, patrolRight: ex*TILE + pw*TILE,
       vx: spd, vy: 0, dir: 1, alive: true,
       hitTimer: 0, flashTimer: 0,
@@ -867,6 +937,7 @@ let enemies = [];
 let projectiles = [];
 let particles = [];
 let floaters = [];
+let lightningFlashTimer = 0;
 let items = [];
 
 // Input
@@ -1339,17 +1410,17 @@ function triggerSkill() {
 }
 
 function executeBearSlam() {
-  const dmg = Math.floor(calcDmg() * 1.6);
-  // Summon 3 holy magic columns of light
+  const dmg = Math.floor(calcDmg() * 2.8); // V3 Buffed to 2.8x!
+  // Summon 3 holy magic columns of electric lightning
   const positions = [player.x + player.w/2, player.x + player.w/2 - 80, player.x + player.w/2 + 80];
   positions.forEach(pos => {
     projectiles.push({
       x: pos,
-      y: player.y + player.h - 220,
+      y: (MAP_H * TILE) / 2, // Centered vertically in map
       vx: 0, vy: 0,
-      w: 32, h: 220,
+      w: 36, h: MAP_H * TILE, // Full screen height
       dmg: dmg,
-      color: '#ffd89c',
+      color: '#00ffff',
       trail: '#ffffff',
       life: 25,
       homing: false,
@@ -1359,18 +1430,18 @@ function executeBearSlam() {
     });
     
     // Sparkles
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 12; i++) {
       particles.push({
-        x: pos + (Math.random()-0.5)*20, y: player.y + player.h - Math.random()*80,
-        vx: (Math.random()-0.5)*2, vy: -Math.random()*3,
-        life: 20, color: '#ffd89c', size: 3
+        x: pos + (Math.random()-0.5)*30, y: Math.random() * (MAP_H * TILE),
+        vx: (Math.random()-0.5)*3, vy: (Math.random()-0.5)*3,
+        life: 15 + Math.random()*15, color: Math.random() > 0.5 ? '#ffffff' : '#00ffff', size: 3
       });
     }
   });
   
   // Camera shake
-  camX += (Math.random()-0.5)*15;
-  camY += (Math.random()-0.5)*15;
+  camX += (Math.random()-0.5)*20;
+  camY += (Math.random()-0.5)*20;
 }
 
 // ============================================================
@@ -1423,6 +1494,66 @@ function spawnStageParticles() {
       life: 60 + Math.random() * 40,
       color: '#ffd89c',
       size: 3 + Math.random() * 2,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'acid') {
+    // toxic green rain threads
+    particles.push({
+      x: camX + Math.random() * screenW, y: camY - 10,
+      vx: -1.5 - Math.random() * 1.0, vy: 4.5 + Math.random() * 2.0,
+      life: 80,
+      color: 'rgba(26, 188, 156, 0.45)',
+      size: 1.5,
+      isAcid: true,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'snow') {
+    // gentle swaying snow
+    particles.push({
+      x: camX + Math.random() * screenW, y: camY - 10,
+      vx: (Math.random() - 0.5) * 0.3, vy: 0.8 + Math.random() * 0.8,
+      life: 200,
+      color: '#ffffff',
+      size: 1.5 + Math.random() * 2.5,
+      isSnow: true,
+      snowOffset: Math.random() * 100,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'lightning') {
+    // electric spark sparks
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5,
+      life: 15 + Math.random() * 15,
+      color: Math.random() > 0.5 ? '#ffffff' : '#00f6ff',
+      size: 2.5 + Math.random() * 2,
+      isStageEnv: true
+    });
+    // Random background lightning flash
+    if (Math.random() < 0.04) {
+      lightningFlashTimer = 12;
+      playEnemyShootSFX();
+    }
+  } else if (stage.particleType === 'void') {
+    // expanding void circles
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      life: 100,
+      color: '#f368e0',
+      size: 4 + Math.random() * 4,
+      isVoid: true,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'rainbow') {
+    // pastel rainbow floaters
+    const rainbowColors = ['#ff7675', '#fdcb6e', '#55efc4', '#81ecec', '#74b9ff', '#a29bfe', '#fd79a8'];
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.5, vy: -0.3 - Math.random() * 0.5,
+      life: 70 + Math.random() * 40,
+      color: rainbowColors[Math.floor(Math.random() * rainbowColors.length)],
+      size: 2.5 + Math.random() * 3,
       isStageEnv: true
     });
   } else {
@@ -1555,7 +1686,9 @@ function updatePlayer() {
   const spkX = Math.floor((player.x + player.w/2) / TILE);
   const spkY = Math.floor((player.y + player.h - 1) / TILE);
   if (tileAt(spkX, spkY) === 4 && player.invincible <= 0) {
-    playerTakeDamage(20);
+    const scale = 1 + activeStageIdx * 0.45;
+    const hazardDmg = Math.floor(20 * scale);
+    playerTakeDamage(hazardDmg);
     player.vy = -8;
   }
 
@@ -1822,20 +1955,41 @@ function updateEnemies() {
       en.shootCooldown--;
       if (en.shootCooldown <= 0) {
         en.shootCooldown = 120 + Math.random() * 60;
-        projectiles.push({
-          x: en.x + en.w/2 + en.dir * 16,
-          y: en.y + en.h/2,
-          vx: en.dir * 3.5,
-          vy: 0,
-          w: 24, h: 24,
-          dmg: en.atk,
-          color: '#4df0ff',
-          trail: '#004466',
-          life: 80,
-          homing: false,
-          isSonic: true,
-          isEnemy: true
-        });
+        
+        if (activeStageIdx >= 5) {
+          // V3 upgraded: 3-way sonic circles
+          for (let angleOffset of [-0.35, 0, 0.35]) {
+            projectiles.push({
+              x: en.x + en.w/2 + en.dir * 16,
+              y: en.y + en.h/2,
+              vx: Math.cos(angleOffset) * en.dir * 3.5,
+              vy: Math.sin(angleOffset) * 3.5,
+              w: 24, h: 24,
+              dmg: en.atk,
+              color: '#4df0ff',
+              trail: '#004466',
+              life: 80,
+              homing: false,
+              isSonic: true,
+              isEnemy: true
+            });
+          }
+        } else {
+          projectiles.push({
+            x: en.x + en.w/2 + en.dir * 16,
+            y: en.y + en.h/2,
+            vx: en.dir * 3.5,
+            vy: 0,
+            w: 24, h: 24,
+            dmg: en.atk,
+            color: '#4df0ff',
+            trail: '#004466',
+            life: 80,
+            homing: false,
+            isSonic: true,
+            isEnemy: true
+          });
+        }
         playEnemyShootSFX();
       }
     } else if (en.type === 'eye') {
@@ -1847,7 +2001,7 @@ function updateEnemies() {
           x: en.x + en.w/2,
           y: en.y + en.h,
           vx: 0,
-          vy: 5.5,
+          vy: 5.5 + activeStageIdx * 0.4,
           w: 6, h: 20,
           dmg: en.atk,
           color: '#ff3b30',
@@ -1864,35 +2018,57 @@ function updateEnemies() {
       const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
       if (en.shootCooldown <= 0 && distToPlayer < 350) {
         en.shootCooldown = 140 + Math.random() * 60;
-        projectiles.push({
-          x: en.x + en.w/2,
-          y: en.y + en.h/2,
-          vx: en.dir * 2.2,
-          vy: 0,
-          w: 12, h: 12,
-          dmg: en.atk,
-          color: '#ba4dff',
-          trail: '#5856d6',
-          life: 120,
-          homing: true,
-          isEnemyOrb: true,
-          isEnemy: true
-        });
+        
+        if (activeStageIdx >= 7) {
+          // V3 upgraded: 2 homing purple magic orbs!
+          for (let offset of [-12, 12]) {
+            projectiles.push({
+              x: en.x + en.w/2 + offset,
+              y: en.y + en.h/2,
+              vx: en.dir * (1.8 + Math.random() * 0.5),
+              vy: (Math.random() - 0.5) * 1.5,
+              w: 12, h: 12,
+              dmg: en.atk,
+              color: '#ba4dff',
+              trail: '#5856d6',
+              life: 120,
+              homing: true,
+              isEnemyOrb: true,
+              isEnemy: true
+            });
+          }
+        } else {
+          projectiles.push({
+            x: en.x + en.w/2,
+            y: en.y + en.h/2,
+            vx: en.dir * 2.2,
+            vy: 0,
+            w: 12, h: 12,
+            dmg: en.atk,
+            color: '#ba4dff',
+            trail: '#5856d6',
+            life: 120,
+            homing: true,
+            isEnemyOrb: true,
+            isEnemy: true
+          });
+        }
         playEnemyShootSFX();
       }
     } else if (en.type === 'dragon') {
       en.shootCooldown--;
       const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
       if (en.shootCooldown <= 0 && distToPlayer < 400) {
-        en.shootCooldown = 100 + Math.random() * 40;
+        en.shootCooldown = (100 + Math.random() * 40) - activeStageIdx * 4;
         const dx = player.x + player.w/2 - (en.x + en.w/2);
         const dy = player.y + player.h/2 - (en.y + en.h/2);
         const angle = Math.atan2(dy, dx);
+        const fSpd = 4.5 + activeStageIdx * 0.45;
         projectiles.push({
           x: en.x + en.w/2,
           y: en.y + en.h/2,
-          vx: Math.cos(angle) * 4.5,
-          vy: Math.sin(angle) * 4.5,
+          vx: Math.cos(angle) * fSpd,
+          vy: Math.sin(angle) * fSpd,
           w: 14, h: 14,
           dmg: en.atk,
           color: '#ff9500',
@@ -1908,13 +2084,13 @@ function updateEnemies() {
       en.shootCooldown--;
       const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
       if (en.shootCooldown <= 0 && distToPlayer < 400) {
-        en.shootCooldown = 150 + Math.random() * 50;
+        en.shootCooldown = (150 + Math.random() * 50) - activeStageIdx * 6;
         projectiles.push({
           x: en.x + en.w/2,
           y: en.y + en.h/2,
-          vx: (player.x < en.x ? -1 : 1) * 3,
+          vx: (player.x < en.x ? -1 : 1) * (3 + activeStageIdx * 0.3),
           vy: -1,
-          w: 22, h: 22,
+          w: 22 + activeStageIdx, h: 22 + activeStageIdx,
           dmg: Math.floor(en.atk * 1.25),
           color: '#8e44ad',
           trail: '#000000',
@@ -1923,7 +2099,8 @@ function updateEnemies() {
           isScythe: true,
           isEnemy: true
         });
-        en.x += (Math.random() - 0.5) * 80;
+        const tpRange = 80 + activeStageIdx * 15;
+        en.x += (Math.random() - 0.5) * tpRange * 2;
         en.x = Math.max(en.patrolLeft, Math.min(en.patrolRight, en.x));
         playEnemyShootSFX();
       }
@@ -2026,9 +2203,17 @@ function updateProjectiles() {
 }
 
 function updateParticles() {
-  particles.forEach(p => { 
-    p.x += p.vx; 
-    p.y += p.vy; 
+  particles.forEach(p => {
+    if (p.isSnow) {
+      p.x += p.vx + Math.sin((p.life + p.snowOffset) * 0.03) * 0.45;
+      p.y += p.vy;
+    } else {
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+    if (p.isVoid) {
+      p.size += 0.15;
+    }
     if (!p.isStageEnv) {
       p.vy += 0.08; 
     }
@@ -2095,17 +2280,45 @@ function render() {
   ctx.fillStyle = grd;
   ctx.fillRect(camX, camY, canvas.width, canvas.height);
 
-  // BG decorations - gothic cathedral arches
-  ctx.globalAlpha = 0.06;
-  for (let wx = 2; wx < MAP_W; wx += 10) {
-    const wy = 3 * TILE;
-    ctx.fillStyle = '#4488cc';
-    ctx.fillRect(wx * TILE + 4, wy, TILE - 8, TILE * 3);
-    ctx.beginPath();
-    ctx.arc(wx * TILE + TILE/2, wy, (TILE-8)/2, Math.PI, 0);
-    ctx.fill();
+  // High fidelity lightning storm full-screen flash overlay
+  if (lightningFlashTimer > 0) {
+    ctx.fillStyle = `rgba(255, 255, 255, ${lightningFlashTimer / 12 * 0.4})`;
+    ctx.fillRect(camX, camY, canvas.width, canvas.height);
+    lightningFlashTimer--;
   }
-  ctx.globalAlpha = 1;
+
+  // BG decorations - gothic cathedral grand pillars & arches
+  ctx.save();
+  ctx.globalAlpha = 0.09;
+  ctx.fillStyle = stage.borderColor;
+  ctx.strokeStyle = stage.borderColor;
+  for (let wx = 4; wx < MAP_W; wx += 8) {
+    const pillarX = wx * TILE;
+    const pillarW = TILE * 1.5;
+    const baseHeight = MAP_H * TILE;
+    
+    // Draw pillar column
+    ctx.fillRect(pillarX, 0, pillarW, baseHeight);
+    
+    // Draw columns groove details (light/dark lines)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pillarX + 4, 0); ctx.lineTo(pillarX + 4, baseHeight);
+    ctx.moveTo(pillarX + pillarW - 4, 0); ctx.lineTo(pillarX + pillarW - 4, baseHeight);
+    ctx.stroke();
+    
+    // Connect columns with beautiful arcs/arches
+    ctx.strokeStyle = stage.borderColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    // Outer arch
+    ctx.arc(pillarX + TILE * 4, 3 * TILE, TILE * 3.5, Math.PI, 0);
+    // Inner arch
+    ctx.arc(pillarX + TILE * 4, 3 * TILE, TILE * 3.0, Math.PI, 0);
+    ctx.stroke();
+  }
+  ctx.restore();
 
   // Tiles grids with stage customized styling
   const startX = Math.max(0, Math.floor(camX / TILE));
@@ -2119,11 +2332,12 @@ function render() {
       if (t === 1) {
         ctx.fillStyle = stage.color;
         ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
-        ctx.strokeStyle = stage.borderColor;
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x*TILE+0.5, y*TILE+0.5, TILE-1, TILE-1);
         
+        // Draw brick outline and division lines
         ctx.strokeStyle = stage.lineColor;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x*TILE, y*TILE, TILE, TILE);
+        
         ctx.beginPath();
         ctx.moveTo(x*TILE, y*TILE+TILE/2);
         ctx.lineTo(x*TILE+TILE, y*TILE+TILE/2);
@@ -2133,8 +2347,37 @@ function render() {
         } else {
           ctx.beginPath(); ctx.moveTo(x*TILE+TILE/2, y*TILE+TILE/2); ctx.lineTo(x*TILE+TILE/2, y*TILE+TILE); ctx.stroke();
         }
+
+        // High fidelity: Top & Left 3D Highlights
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x*TILE, y*TILE + TILE);
+        ctx.lineTo(x*TILE, y*TILE);
+        ctx.lineTo(x*TILE + TILE, y*TILE);
+        ctx.stroke();
+        
+        // High fidelity: Bottom & Right dark shadow edges
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+        ctx.beginPath();
+        ctx.moveTo(x*TILE, y*TILE + TILE);
+        ctx.lineTo(x*TILE + TILE, y*TILE + TILE);
+        ctx.lineTo(x*TILE + TILE, y*TILE);
+        ctx.stroke();
+
+        // High fidelity: Random cracks (e.g. (x+y)%5 === 0)
+        if ((x + y) % 5 === 0) {
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x*TILE + TILE/4, y*TILE + TILE/4);
+          ctx.lineTo(x*TILE + TILE/2, y*TILE + TILE/3);
+          ctx.lineTo(x*TILE + TILE/3, y*TILE + TILE/2 + 2);
+          ctx.lineTo(x*TILE + TILE*0.7, y*TILE + TILE*0.7);
+          ctx.stroke();
+        }
       } else if (t === 4) {
-        // Red bubbling Lava pits on Stage 4 Lava Code Abyss
+        // Red bubbling Lava pits on Stage 4 Lava Code Abyss or other hot places
         if (stage.particleType === 'lava') {
           ctx.fillStyle = '#ff3b30';
           ctx.fillRect(x*TILE, y*TILE + 12, TILE, TILE - 12);
@@ -2665,17 +2908,38 @@ function render() {
       ctx.lineTo(4, 4);
       ctx.stroke();
     } else if (p.isMagicBeam) {
-      // Sage Bear vertical golden magic light beams
-      ctx.globalAlpha = p.life / 25 * 0.75;
-      const gradient = ctx.createLinearGradient(p.x - p.w/2, p.y, p.x + p.w/2, p.y);
-      gradient.addColorStop(0, 'rgba(255, 216, 156, 0.1)');
-      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.85)');
-      gradient.addColorStop(1, 'rgba(255, 216, 156, 0.1)');
+      // Sage Bear vertical cyan/blue electric lightning bolts
+      ctx.globalAlpha = p.life / 25 * 0.85;
+      
+      // Outer light beam glow
+      const gradient = ctx.createLinearGradient(p.x - p.w/2, p.y - p.h/2, p.x + p.w/2, p.y - p.h/2);
+      gradient.addColorStop(0, 'rgba(0, 240, 255, 0.05)');
+      gradient.addColorStop(0.3, 'rgba(0, 240, 255, 0.35)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)');
+      gradient.addColorStop(0.7, 'rgba(0, 240, 255, 0.35)');
+      gradient.addColorStop(1, 'rgba(0, 240, 255, 0.05)');
       ctx.fillStyle = gradient;
-      ctx.fillRect(p.x - p.w/2, p.y, p.w, p.h);
-      ctx.strokeStyle = '#ffd89c';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(p.x - p.w/2, p.y, p.w, p.h);
+      ctx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+      
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+      
+      // Draw actual zigzag lightning jagged path inside the beam for awesome graphics!
+      ctx.strokeStyle = '#ffffff';
+      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 8;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      let curY = p.y - p.h/2;
+      ctx.moveTo(p.x, curY);
+      while (curY < p.y + p.h/2) {
+        curY += 15 + Math.random() * 20;
+        let rx = p.x + (Math.random() - 0.5) * 16;
+        ctx.lineTo(rx, Math.min(curY, p.y + p.h/2));
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0; // reset
     } else if (p.isSpearWave) {
       // Lancer Bunny triangular contradiction spearpoint energy thrust waves
       ctx.globalAlpha = p.life / 15 * 0.8;
@@ -2719,8 +2983,29 @@ function render() {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
       ctx.fill();
+    } else if (p.isAcid) {
+      ctx.globalAlpha = Math.min(1, p.life / 60) * 0.6;
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = p.size;
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + p.vx * 2.5, p.y + p.vy * 2.5);
+      ctx.stroke();
+    } else if (p.isVoid) {
+      ctx.globalAlpha = Math.min(1, p.life / 100) * 0.4;
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.stroke();
+    } else if (p.isSnow) {
+      ctx.globalAlpha = Math.min(1, p.life / 60) * 0.8;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
     } else {
-      ctx.globalAlpha = p.life / 60;
+      ctx.globalAlpha = Math.min(1, p.life / 60);
       ctx.fillStyle = p.color;
       ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
     }
