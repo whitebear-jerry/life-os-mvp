@@ -1782,14 +1782,14 @@
     }
 
     /* ==================================================== */
-    /* ⚔️ 《白熊人生戰役：太空戰士模式》JRPG 團隊戰役 CSS */
+    /* ⚔️ 《白熊人生戰役：心流重構模式》團隊戰役 CSS */
     /* ==================================================== */
     .team-raid-screen {
       position: relative;
-      background: linear-gradient(135deg, rgba(12, 21, 17, 0.96) 0%, rgba(5, 12, 10, 0.98) 100%);
-      border: 2px solid rgba(255, 215, 0, 0.15);
+      background: radial-gradient(circle at center, rgba(16, 28, 30, 0.98) 0%, rgba(5, 8, 10, 0.99) 100%);
+      border: 2px solid rgba(0, 242, 254, 0.35);
       border-radius: 12px;
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.95);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -1806,46 +1806,48 @@
 
     .team-raid-zone-header {
       grid-column: 1 / -1;
-      background: linear-gradient(90deg, rgba(0, 188, 212, 0.2) 0%, rgba(0, 20, 80, 0.45) 100%);
-      border-left: 4px solid #00bcd4;
+      background: linear-gradient(90deg, rgba(0, 242, 254, 0.2) 0%, rgba(0, 20, 80, 0.45) 100%);
+      border-left: 4px solid #00f2fe;
       border-radius: 4px;
       padding: 8px 12px;
       margin-top: 12px;
       margin-bottom: 4px;
       font-weight: bold;
-      color: #00bcd4;
+      color: #00f2fe;
       font-size: 0.75rem;
       font-family: monospace;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      text-shadow: 0 0 6px rgba(0, 242, 254, 0.6);
     }
 
     .team-raid-stage-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 242, 254, 0.03);
+      border: 1px solid rgba(0, 242, 254, 0.2);
       border-radius: 8px;
       padding: 12px;
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       text-align: left;
       font-family: monospace;
+      box-shadow: inset 0 0 8px rgba(0, 242, 254, 0.05);
     }
 
     .team-raid-stage-card:hover {
-      background: rgba(255, 215, 0, 0.06);
-      border-color: rgba(255, 215, 0, 0.6);
+      background: rgba(0, 242, 254, 0.08);
+      border-color: #00f2fe;
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
     }
 
     .team-raid-stage-card.locked {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
       border-color: rgba(255, 255, 255, 0.05);
+      background: rgba(0,0,0,0.2);
     }
 
     .team-raid-stage-card.locked:hover {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.1);
+      background: rgba(0,0,0,0.2);
+      border-color: rgba(255, 255, 255, 0.05);
       transform: none;
       box-shadow: none;
     }
@@ -1857,10 +1859,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: radial-gradient(circle at center, rgba(16, 44, 30, 0.6) 0%, rgba(5, 12, 10, 0.95) 100%);
+      background: radial-gradient(circle at center, rgba(16, 38, 40, 0.45) 0%, rgba(5, 8, 10, 0.98) 100%), linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 20px 20px, 20px 20px;
       padding: 20px;
       box-sizing: border-box;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 2px solid rgba(0, 242, 254, 0.15);
       overflow: hidden;
     }
 
@@ -1909,6 +1912,45 @@
       transition: transform 0.2s ease, filter 0.2s ease;
       user-select: none;
       position: relative;
+    }
+
+    .ff-hero-card {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.08) 0%, rgba(79, 172, 254, 0.03) 100%);
+      border: 1px solid rgba(0, 242, 254, 0.45);
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.25), inset 0 0 8px rgba(255, 255, 255, 0.05);
+      animation: holoBreathing 3s infinite ease-in-out;
+      backdrop-filter: blur(4px);
+    }
+
+    @keyframes holoBreathing {
+      0%, 100% { border-color: rgba(0, 242, 254, 0.45); box-shadow: 0 0 8px rgba(0, 242, 254, 0.2); }
+      50% { border-color: rgba(0, 242, 254, 0.85); box-shadow: 0 0 16px rgba(0, 242, 254, 0.5); }
+    }
+
+    .ff-monster-card {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: rgba(255, 77, 77, 0.02);
+      border: 1px dashed rgba(255, 77, 77, 0.3);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .ff-monster-container:hover .ff-monster-card {
+      border-color: rgba(255, 77, 77, 0.7);
+      background: rgba(255, 77, 77, 0.06);
+      box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
     }
 
     .ff-sprite.action-active {
@@ -1976,24 +2018,25 @@
       100% { transform: translateX(-50%) scale(1.1); }
     }
 
-    /* 太空戰士經典深藍色透明水晶戰鬥面板 */
+    /* 心流戰役數位控制儀表板 */
     .ff-battle-panel {
       height: 120px;
-      background: linear-gradient(180deg, rgba(0, 0, 120, 0.5) 0%, rgba(0, 0, 50, 0.85) 100%);
-      border-top: 2px solid #0055ff;
-      box-shadow: 0 -4px 15px rgba(0, 85, 255, 0.4), inset 0 2px 10px rgba(255,255,255,0.1);
+      background: rgba(10, 18, 25, 0.92);
+      border-top: 2px solid rgba(0, 242, 254, 0.5);
+      box-shadow: 0 -5px 25px rgba(0, 242, 254, 0.25), inset 0 1px 10px rgba(255,255,255,0.05);
       display: flex;
       font-family: 'Courier New', monospace;
       color: #ffffff;
       box-sizing: border-box;
       overflow: hidden;
       z-index: 10;
+      backdrop-filter: blur(10px);
     }
 
     /* 左側指令欄 */
     .ff-commands-column {
       width: 32%;
-      border-right: 2px solid rgba(0, 85, 255, 0.4);
+      border-right: 2px solid rgba(0, 242, 254, 0.25);
       padding: 8px 12px;
       box-sizing: border-box;
       display: flex;
@@ -2004,11 +2047,11 @@
     .ff-command-title {
       font-size: 0.78rem;
       font-weight: bold;
-      color: #ffd89c;
+      color: #00f2fe;
       margin-bottom: 6px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+      border-bottom: 1px solid rgba(0, 242, 254, 0.25);
       padding-bottom: 3px;
-      text-shadow: 0 0 4px rgba(255,216,156,0.3);
+      text-shadow: 0 0 6px rgba(0, 242, 254, 0.6);
     }
 
     .ff-command-buttons {
@@ -2018,23 +2061,24 @@
     }
 
     .ff-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 85, 255, 0.6);
-      color: #ffffff;
+      background: rgba(0, 242, 254, 0.06);
+      border: 1px solid rgba(0, 242, 254, 0.55);
+      color: #00f2fe;
       font-size: 0.7rem;
       font-weight: bold;
       padding: 6px 0;
       border-radius: 4px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.25s ease;
       font-family: monospace;
       text-align: center;
+      text-shadow: 0 0 4px rgba(0, 242, 254, 0.4);
     }
 
     .ff-btn:hover {
-      background: rgba(0, 85, 255, 0.3);
-      border-color: #00bcd4;
-      box-shadow: 0 0 8px rgba(0, 188, 212, 0.6);
+      background: rgba(0, 242, 254, 0.2);
+      border-color: #00f2fe;
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
     }
 
     .ff-btn:active {
@@ -2042,11 +2086,13 @@
     }
 
     .ff-btn:disabled {
-      opacity: 0.3;
+      opacity: 0.25;
       cursor: not-allowed;
       box-shadow: none;
       background: transparent;
       border-color: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.4);
+      text-shadow: none;
     }
 
     /* 右側隊員狀態欄 */
@@ -2069,7 +2115,8 @@
     }
 
     .ff-status-row.active {
-      background: rgba(0, 188, 212, 0.15);
+      background: rgba(0, 242, 254, 0.12);
+      box-shadow: inset 0 0 8px rgba(0, 242, 254, 0.2);
       border-radius: 4px;
     }
 
@@ -2079,18 +2126,19 @@
       text-overflow: ellipsis;
       overflow: hidden;
       padding-left: 4px;
+      color: #e0f8ff;
     }
 
     /* 條條包裝器 */
     .ff-bar-outer {
       height: 8px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(0, 242, 254, 0.25);
       border-radius: 4px;
       overflow: hidden;
       margin-left: 4px;
       position: relative;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.8), 0 0 2px rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
     }
 
     .ff-bar-inner {
@@ -2105,23 +2153,23 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; height: 35%;
-      background: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.25);
       border-radius: 4px 4px 0 0;
     }
 
     .bar-hp {
-      background: linear-gradient(180deg, #ff6666 0%, #ff1a1a 50%, #b30000 100%);
-      box-shadow: 0 0 8px rgba(255, 26, 26, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
+      background: linear-gradient(180deg, #00ffcc 0%, #00b386 50%, #00664d 100%);
+      box-shadow: 0 0 8px rgba(0, 255, 204, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
     }
 
     .bar-mp {
-      background: linear-gradient(180deg, #66a3ff 0%, #1a75ff 50%, #0044b3 100%);
-      box-shadow: 0 0 8px rgba(26, 117, 255, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
+      background: linear-gradient(180deg, #00f2fe 0%, #4facfe 50%, #0052a3 100%);
+      box-shadow: 0 0 8px rgba(0, 242, 254, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
     }
 
     .bar-atb {
-      background: linear-gradient(180deg, #ffe066 0%, #ffcc00 50%, #b38f00 100%);
-      box-shadow: 0 0 8px rgba(255, 204, 0, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
+      background: linear-gradient(180deg, #ff007f 0%, #ff0055 50%, #990033 100%);
+      box-shadow: 0 0 8px rgba(255, 0, 127, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
     }
 
     .ff-status-value {
@@ -2564,17 +2612,17 @@
         </div>
       </div>
 
-      <!-- 分頁三：團隊戰役 JRPG 太空戰士模式 -->
+      <!-- 分頁三：團隊戰役 心流重構模式 -->
       <div id="guildTeamRaidContent" style="display: none;">
         <div class="retro-game-screen team-raid-screen" id="teamRaidScreen">
           
           <!-- 討伐關卡選擇區 -->
           <div id="teamRaidStageSelectArea">
-            <div style="text-align: center; border-bottom: 2px solid #ffd700; padding-bottom: 8px; margin-bottom: 12px;">
-              <span style="font-size: 0.9rem; font-weight: bold; color: #ffd700; font-family: monospace;">⚔️ 團隊副本戰役：挑戰太空戰士模式 ⚔️</span>
+            <div style="text-align: center; border-bottom: 2px solid rgba(0, 242, 254, 0.4); padding-bottom: 8px; margin-bottom: 12px;">
+              <span style="font-size: 0.95rem; font-weight: bold; color: #00f2fe; font-family: monospace; text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);">⚡ 團隊戰役：心流重構模式 (Flow Battle) ⚡</span>
             </div>
-            <p style="font-size: 0.72rem; color: rgba(255,255,255,0.75); line-height: 1.4; margin-bottom: 12px; font-family: monospace;">
-              集結白熊人生小隊，挑戰隨關卡呈指數倍數增強的深淵魔物！通關可獲得巨額經驗值並100%寫回主帳號。
+            <p style="font-size: 0.72rem; color: rgba(200, 245, 255, 0.8); line-height: 1.4; margin-bottom: 12px; font-family: monospace;">
+              集結白熊心流小隊，發揮第二大腦與心智模型的力量，深度淨化大腦與心靈的日常負能量噪音！通關可獲得巨額經驗值並將心流強度同步寫回白熊主帳號。
             </p>
             <div class="team-raid-stage-select-grid" id="teamRaidStageSelectGrid">
               <!-- 關卡列表由 JS 生成 -->
@@ -2596,7 +2644,7 @@
               </div>
             </div>
 
-            <!-- 太空戰士經典深藍水晶戰鬥儀表板 -->
+            <!-- 心流狀態數位戰鬥儀表板 -->
             <div class="ff-battle-panel">
               <!-- 左側：指令選單 -->
               <div class="ff-commands-column">
@@ -3276,7 +3324,7 @@
     }
 
     // ====================================================
-    // 🏰 《太空戰士模式》團隊副本戰役前端控制器 JavaScript
+    // 🏰 《心流重構模式》團隊副本戰役前端控制器 JavaScript
     // ====================================================
     let teamRaidEngine = null;
     let selectedMonsterIndex = 0; // 當前集火魔物索引
@@ -3533,12 +3581,12 @@
         
         mDiv.innerHTML = `
           ${selectArrow}
-          <div class="ff-sprite ${m.alive ? '' : 'dead'}" id="ff-monster-sprite-${idx}" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; position: relative;">
+          <div class="ff-sprite ff-monster-card ${m.alive ? '' : 'dead'}" id="ff-monster-sprite-${idx}">
             <img src="${m.img}" style="width: 68px; height: 68px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${m.name}" />
             ${shockBadge}
           </div>
           <div style="font-family:monospace; text-align:center; font-size:0.6rem; color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
-            <div style="font-weight:bold; color:${isSelected ? '#ffcc00' : '#fff'}; white-space:nowrap;">${m.name.split('・')[1] || m.name}</div>
+            <div style="font-weight:bold; color:${isSelected ? '#00f2fe' : '#fff'}; white-space:nowrap;">${m.name.split('・')[1] || m.name}</div>
             <div style="color: #ff4d4d; font-weight: bold;">HP: ${m.hp}/${m.maxHp}</div>
           </div>
         `;
@@ -3579,13 +3627,13 @@
         const isActive = teamRaidEngine.isPaused && h.atb >= 100;
         
         hDiv.innerHTML = `
-          <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(0, 20, 80, 0.45); border: 2px solid rgba(0, 188, 212, 0.65); border-radius: 8px; box-shadow: 0 0 10px rgba(0, 188, 212, 0.4), inset 0 0 8px rgba(255,255,255,0.1);">
+          <div class="ff-sprite ff-hero-card ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}">
             <img src="${h.img}" style="width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); transform: scaleX(-1);" alt="${h.name}" />
             ${buffBadge}
           </div>
           <div style="font-family:monospace; text-align:center; font-size:0.6rem; color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
-            <div style="font-weight:bold; color:#ffd700; white-space:nowrap;">${h.name}</div>
-            <div style="color: #4ef072; font-weight: bold;">HP: ${Math.floor(h.hp)}/${h.maxHp}</div>
+            <div style="font-weight:bold; color:#00f2fe; white-space:nowrap;">${h.name}</div>
+            <div style="color: #00ffcc; font-weight: bold;">HP: ${Math.floor(h.hp)}/${h.maxHp}</div>
           </div>
         `;
         heroesSide.appendChild(hDiv);
@@ -3611,27 +3659,27 @@
           <div class="ff-status-name" style="color: ${h.alive ? '#fff' : '#ff4d4d'};">${h.emoji} ${h.name}</div>
           
           <div style="display:flex; align-items:center; gap: 4px;">
-            <span style="font-size:0.55rem; color:#888; width: 14px;">HP</span>
+            <span style="font-size:0.55rem; color:#00ffcc; width: 14px; font-weight: bold; text-shadow: 0 0 2px rgba(0,255,204,0.3);">HP</span>
             <div class="ff-bar-outer" style="flex:1;">
               <div class="ff-bar-inner bar-hp" style="width: ${hpPct}%;"></div>
             </div>
-            <span style="font-size:0.52rem; font-family:monospace; color:#ccc; width: 50px; text-align:right;">${Math.floor(h.hp)}/${h.maxHp}</span>
+            <span style="font-size:0.52rem; font-family:monospace; color:#00ffcc; width: 50px; text-align:right;">${Math.floor(h.hp)}/${h.maxHp}</span>
           </div>
 
           <div style="display:flex; align-items:center; gap: 4px;">
-            <span style="font-size:0.55rem; color:#888; width: 14px;">MP</span>
+            <span style="font-size:0.55rem; color:#00f2fe; width: 14px; font-weight: bold; text-shadow: 0 0 2px rgba(0,242,254,0.3);">FP</span>
             <div class="ff-bar-outer" style="flex:1;">
               <div class="ff-bar-inner bar-mp" style="width: ${mpPct}%;"></div>
             </div>
-            <span style="font-size:0.52rem; font-family:monospace; color:#ccc; width: 50px; text-align:right;">${Math.floor(h.mp)}/${h.maxMp}</span>
+            <span style="font-size:0.52rem; font-family:monospace; color:#00f2fe; width: 50px; text-align:right;">${Math.floor(h.mp)}/${h.maxMp}</span>
           </div>
 
           <div style="display:flex; align-items:center; gap: 4px;">
-            <span style="font-size:0.55rem; color:#888; width: 14px;">ATB</span>
+            <span style="font-size:0.55rem; color:#ff007f; width: 14px; font-weight: bold; text-shadow: 0 0 2px rgba(255,0,127,0.3);">心流</span>
             <div class="ff-bar-outer" style="flex:1;">
               <div class="ff-bar-inner bar-atb" style="width: ${atbPct}%;"></div>
             </div>
-            <span style="font-size:0.52rem; font-family:monospace; color:#ffe066; width: 32px; text-align:right;">${Math.floor(atbPct)}%</span>
+            <span style="font-size:0.52rem; font-family:monospace; color:#ff007f; width: 32px; text-align:right;">${Math.floor(atbPct)}%</span>
           </div>
         `;
         statusCol.appendChild(row);
