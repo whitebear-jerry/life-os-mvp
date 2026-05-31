@@ -866,12 +866,26 @@ function generateEnemies() {
     [74, 12, 2, 3], 
   ];
   
-  // Difficulty scaling multiplier based on stage (V4 Hardcore Scaling!)
-  const scale = 1 + activeStageIdx * 0.65;
+  // Define stage scaling multipliers for HP, DEF, ATK & XP (JRPG Tier Progression)
+  const STAGE_SCALING = [
+    { mul: 1.0,  xpMul: 1.0 },   // Stage 1 (LV 1-10)
+    { mul: 1.5,  xpMul: 1.5 },   // Stage 2 (LV 10-20)
+    { mul: 2.0,  xpMul: 2.0 },   // Stage 3 (LV 20-30)
+    { mul: 2.7,  xpMul: 2.7 },   // Stage 4 (LV 30-40)
+    { mul: 3.5,  xpMul: 3.5 },   // Stage 5 (LV 40-50)
+    { mul: 4.5,  xpMul: 4.5 },   // Stage 6 (LV 50-60)
+    { mul: 5.6,  xpMul: 5.6 },   // Stage 7 (LV 60-70)
+    { mul: 7.0,  xpMul: 7.0 },   // Stage 8 (LV 70-80)
+    { mul: 8.5,  xpMul: 8.5 },   // Stage 9 (LV 80-90)
+    { mul: 10.0, xpMul: 10.0 },  // Stage 10 (LV 90-99)
+  ];
+  
+  const sc = STAGE_SCALING[activeStageIdx] || { mul: 1.0, xpMul: 1.0 };
+  const mul = sc.mul;
+  const xpMul = sc.xpMul;
   
   // Get JRPG player level dynamic adaptive scaling factor!
   const pInfo = getLevelInfo(userXP);
-  const playerLvlScale = 1 + (pInfo.level - 1) * 0.4;
 
   defs.forEach(([ex,ey,mIdx,pw],i) => {
     const type = stage.monsters[mIdx];
@@ -917,16 +931,22 @@ function generateEnemies() {
     }
 
     // Scale speed by activeStageIdx (higher stage = faster monsters!)
-    spd = spd * (1 + activeStageIdx * 0.15);
+    spd = spd * (1 + activeStageIdx * 0.12);
 
-    // Apply balanced, linear scaling to match player growth and prevent one-shots!
-    hp = Math.floor(hp * (1 + activeStageIdx * 0.4) * (1 + (pInfo.level - 1) * 0.15));
-    def = Math.floor(def * (1 + activeStageIdx * 0.2) * (1 + (pInfo.level - 1) * 0.08));
-    // ATK scales directly as a proportion of player.maxHp (ensuring NO one-shots!)
-    // We use a divisor of 250 so that a base ATK of 8 (slime) at Stage 10 deals ~7.5% HP,
-    // and a base ATK of 48 (Boss Reaper) at Stage 10 deals ~45% HP.
-    atk = Math.max(1, Math.floor(player.maxHp * (atk / 250) * (1 + activeStageIdx * 0.12)));
-    xpVal = Math.floor(xpVal * scale);
+    // Apply exact stage multipliers for JRPG progression!
+    hp = Math.floor(hp * mul * (1 + (pInfo.level - 1) * 0.15));
+    def = Math.floor(def * mul * (1 + (pInfo.level - 1) * 0.08));
+    
+    // Smooth ATK scaling based on player.maxHp to avoid one-shots, incorporating exact stage multipliers!
+    // Using a base divisor of 350 so that an ordinary monster ATK is smooth but Bosses are highly threatening.
+    let scaledAtk = Math.max(1, Math.floor(player.maxHp * (atk / 350) * mul));
+    
+    // Clamp single hit damage: normal monster max 35% player maxHp, Boss max 65% player maxHp
+    const maxDamagePct = isBoss ? 0.65 : 0.35;
+    atk = Math.min(scaledAtk, Math.floor(player.maxHp * maxDamagePct));
+    
+    // XP reward is perfectly proportional to difficulty multiplier!
+    xpVal = Math.floor(xpVal * xpMul);
 
     enemies.push({
       id: i, x: ex*TILE, y: isBoss ? (ey-1.5)*TILE : (ey-1)*TILE, w, h,
@@ -1466,9 +1486,16 @@ function startGame() {
   floaters = [];
   items = [];
   
-  // Spawn golden key at map middle danger point! (x = 38 * TILE, y = 6 * TILE)
+  // Spawn golden key at map middle danger point! Dynamic floor scan logic (x = 38 * TILE)
+  let keyY = 6 * TILE;
+  for (let y = 2; y < MAP_H; y++) {
+    if (map[y] && map[y][38] === 1) {
+      keyY = y * TILE - 20; // 20 is the golden key's height
+      break;
+    }
+  }
   items.push({
-    x: 38 * TILE, y: 6 * TILE, w: 20, h: 20,
+    x: 38 * TILE, y: keyY, w: 20, h: 20,
     type: 'key', vy: 0, life: 999999
   });
 
@@ -2235,6 +2262,16 @@ function updateEnemies() {
       en.x += Math.cos(angle) * en.spd;
       en.y += Math.sin(angle) * en.spd;
       en.dir = dx < 0 ? -1 : 1;
+
+      // Hard boundary limits for Ghost (prevent going out of bounds)
+      const minX = TILE;
+      const maxX = MAP_W * TILE - TILE - en.w;
+      const minY = TILE * 2;
+      const maxY = MAP_H * TILE - TILE * 2 - en.h;
+      if (en.x < minX) en.x = minX;
+      if (en.x > maxX) en.x = maxX;
+      if (en.y < minY) en.y = minY;
+      if (en.y > maxY) en.y = maxY;
     } else {
       if (en.hitTimer > 0) {
         en.hitTimer--;
@@ -2250,6 +2287,18 @@ function updateEnemies() {
         }
         
         en.x += en.vx * en.dir;
+
+        // Hard boundary limits for normal enemies (prevent going out of bounds)
+        const minX = TILE;
+        const maxX = MAP_W * TILE - TILE - en.w;
+        if (en.x < minX) {
+          en.x = minX;
+          en.dir = 1; // Reverse patrol direction
+        } else if (en.x > maxX) {
+          en.x = maxX;
+          en.dir = -1; // Reverse patrol direction
+        }
+
         if (en.x <= en.patrolLeft) { en.dir = 1; }
         if (en.x + en.w >= en.patrolRight) { en.dir = -1; }
       }
