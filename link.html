@@ -1804,6 +1804,21 @@
       padding: 10px;
     }
 
+    .team-raid-zone-header {
+      grid-column: 1 / -1;
+      background: linear-gradient(90deg, rgba(0, 188, 212, 0.2) 0%, rgba(0, 20, 80, 0.45) 100%);
+      border-left: 4px solid #00bcd4;
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-weight: bold;
+      color: #00bcd4;
+      font-size: 0.75rem;
+      font-family: monospace;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
     .team-raid-stage-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2200,7 +2215,8 @@
         font-size: 0.6rem;
       }
       .ff-battle-log {
-        bottom: 105px;
+        top: 6px;
+        bottom: auto;
         font-size: 0.65rem;
         padding: 4px 8px;
       }
@@ -2426,7 +2442,7 @@
           </button>
           <button class="avatar-card" role="radio" aria-checked="false" data-animal="monkey" id="btnMonkey">
             <span class="avatar-emoji">🐵</span>
-            <span class="avatar-name">理智小猴</span>
+            <span class="avatar-name">能量小猴</span>
           </button>
         </div>
 
@@ -2649,8 +2665,9 @@
       { name: "智者白熊", emoji: "🐻", attr: "int", hp: 100, maxHp: 100 },
       { name: "除錯小貓", emoji: "🐱", attr: "vit", hp: 100, maxHp: 100 },
       { name: "降噪小兔", emoji: "🐰", attr: "foc", hp: 100, maxHp: 100 },
-      { name: "理智小猴", emoji: "🐵", attr: "agi", hp: 100, maxHp: 100 }
+      { name: "能量小猴", emoji: "🐵", attr: "agi", hp: 100, maxHp: 100 }
     ];
+    window.party = party; // 🌟 100% 零誤差全域對接生命承襲！
 
     // ==========================================
     // 公會傳奇神裝戰鬥屬性加成公式
@@ -3277,8 +3294,32 @@
       const currentUserLevel = getLevelInfo(userXP).level;
       const gearStats = getGearStats(currentUserLevel); // 獲得原公會神裝屬性加成
       
-      // 生成 10 個挑戰關卡
+      // 生成 10 個挑戰關卡，按三大區區分
       for (let i = 1; i <= 10; i++) {
+        // 在特定的關卡前插入 Zone 標頭
+        if (i === 1) {
+          const zHeader = document.createElement('div');
+          zHeader.className = 'team-raid-zone-header';
+          zHeader.innerHTML = `🌌 Zone 1「內耗深淵」 ➔ 對應《降噪人生》🎯`;
+          selectGrid.appendChild(zHeader);
+        } else if (i === 4) {
+          const zHeader = document.createElement('div');
+          zHeader.className = 'team-raid-zone-header';
+          zHeader.style.borderColor = '#ffd700';
+          zHeader.style.color = '#ffd700';
+          zHeader.style.background = 'linear-gradient(90deg, rgba(255, 215, 0, 0.2) 0%, rgba(80, 60, 0, 0.4) 100%)';
+          zHeader.innerHTML = `🎲 Zone 2「逆境關卡」 ➔ 對應《人生遊戲》🛡️`;
+          selectGrid.appendChild(zHeader);
+        } else if (i === 7) {
+          const zHeader = document.createElement('div');
+          zHeader.className = 'team-raid-zone-header';
+          zHeader.style.borderColor = '#4ef072';
+          zHeader.style.color = '#4ef072';
+          zHeader.style.background = 'linear-gradient(90deg, rgba(78, 240, 114, 0.2) 0%, rgba(0, 80, 20, 0.4) 100%)';
+          zHeader.innerHTML = `📈 Zone 3「複利之路」 ➔ 對應《人生複利》🔥`;
+          selectGrid.appendChild(zHeader);
+        }
+
         let reqLevel = 1;
         if (i > 1) reqLevel = (i - 1) * 4; // 關卡 2: LV4, 3: LV8, 4: LV12 ... 10: LV36
         
@@ -3287,17 +3328,48 @@
         card.className = `team-raid-stage-card ${isUnlocked ? '' : 'locked'}`;
         
         let desc = "";
-        if (i === 1) desc = "👾 單隻雜念史萊姆 (適合初心者)";
-        else if (i === 2) desc = "👾 雙生史萊姆 (難度上升 45%)";
-        else if (i === 3) desc = "👁️ 狂暴大眼怪登場！";
-        else if (i <= 6) desc = "👾👁️ 魔物聯軍，大範圍侵襲！";
-        else desc = "💀💀 至尊死神率隊，深淵大災難！";
+        let stageTitle = "";
+        
+        if (i === 1) {
+          stageTitle = `⚔️ 第 1 關：史萊姆討伐戰`;
+          desc = `👾 內耗深淵・雜念史萊姆 (適合初心者)`;
+        } else if (i === 2) {
+          stageTitle = `⚔️ 第 2 關：雙生降噪戰`;
+          desc = `🐉 迎戰雜念史萊姆與焦慮龍襲擊！`;
+        } else if (i === 3) {
+          stageTitle = `👑 第 3 關：內耗深淵 BOSS 戰`;
+          desc = `🧙 擊敗「比較心魔」奪回思緒主導權！`;
+        } else if (i === 4) {
+          stageTitle = `⚔️ 第 4 關：逆境卡關戰`;
+          desc = `🧱 迎戰逆境關卡重裝「卡關魔」！`;
+        } else if (i === 5) {
+          stageTitle = `⚔️ 第 5 關：拖延拉鋸戰`;
+          desc = `🐌 對決逆境關卡頑固的「拖延獸」！`;
+        } else if (i === 6) {
+          stageTitle = `👑 第 6 關：逆境關卡 BOSS 戰`;
+          desc = `🛡️ 擊敗「情緒勒索怪」，打破精神鎖鏈！`;
+        } else if (i === 7) {
+          stageTitle = `⚔️ 第 7 關：複利阻礙戰`;
+          desc = `👁️ 識破複利之路「短視魔」的短視陷阱！`;
+        } else if (i === 8) {
+          stageTitle = `⚔️ 第 8 關：放棄拉鋸戰`;
+          desc = `🐉 在「放棄龍」的阻礙下堅持前進！`;
+        } else if (i === 9) {
+          stageTitle = `⚔️ 第 9 關：原地打轉戰`;
+          desc = `🔊 擊潰吵雜的原地打轉獸，繼續向前！`;
+        } else if (i === 10) {
+          stageTitle = `👑 第 10 關：複利終極 BOSS 戰`;
+          desc = `💀 挑戰「終極放棄怨靈」，解鎖人生複利！`;
+        }
+
+        const isBoss = i === 3 || i === 6 || i === 10;
+        const titleColor = isBoss ? '#ffcc00' : '#ffd700';
 
         if (isUnlocked) {
           card.innerHTML = `
-            <div style="font-weight: bold; color: #ffd700;">⚔️ 第 ${i} 關：討伐深淵魔窟</div>
+            <div style="font-weight: bold; color: ${titleColor};">${stageTitle}</div>
             <div style="font-size: 0.65rem; color: #ffffff; margin: 4px 0;">${desc}</div>
-            <div style="font-size: 0.62rem; color: #4ef072;">💰 預計通關獎勵: +${Math.floor(50 * Math.pow(1.6, i - 1))} XP</div>
+            <div style="font-size: 0.62rem; color: #4ef072;">💰 預計通關獎勵: +${Math.floor(50 * Math.pow(1.6, i - 1) * (isBoss ? 2.5 : 1))} XP</div>
           `;
           card.addEventListener('click', () => {
             playSlashSFX();
@@ -3344,9 +3416,8 @@
           // 同步寫入原帳號 XP
           addXP(totalXp);
           setTimeout(() => {
-            alert(`🎉 副本通關成功！理智小隊合力剿滅了魔物！\n獲得了 +${totalXp} 經驗值 (XP)，已計入白熊帳號！`);
-            showTeamRaidStageSelect();
-          }, 1800);
+            showTeamRaidVictoryOverlay(stageNum, totalXp);
+          }, 1000);
         },
         onDefeat: () => {
           if (window.teamRaidInterval) {
@@ -3354,9 +3425,8 @@
             window.teamRaidInterval = null;
           }
           setTimeout(() => {
-            alert(`💀 挑戰失敗！全員陣亡鎩羽而歸。\n請回到「公會日常」修煉提升白熊等級，以獲得更強生命力並解鎖更強隊友！`);
-            showTeamRaidStageSelect();
-          }, 1800);
+            showTeamRaidDefeatOverlay();
+          }, 1000);
         }
       });
 
@@ -3443,7 +3513,7 @@
     function renderTeamRaidUI() {
       if (!teamRaidEngine) return;
 
-      // (A) 渲染魔物
+      // (A) 渲染魔物 (怪物尺寸放大至 Boss 級 72px，並採用透明去背資源，文字垂直置中對齊)
       const enemiesSide = document.getElementById('ffEnemiesSide');
       enemiesSide.innerHTML = '';
       
@@ -3452,23 +3522,24 @@
         mDiv.className = 'ff-monster-container';
         mDiv.style.position = 'relative';
         mDiv.style.display = 'flex';
-        mDiv.style.alignItems = 'center';
-        mDiv.style.gap = '8px';
+        mDiv.style.flexDirection = 'column'; // 垂直排列
+        mDiv.style.alignItems = 'center'; // 水平置中
+        mDiv.style.gap = '4px';
         mDiv.style.cursor = m.alive ? 'pointer' : 'default';
         
         const isSelected = selectedMonsterIndex === idx;
-        const selectArrow = isSelected && m.alive ? `<span style="color:#ffcc00;font-size:0.9rem;position:absolute;left:-16px;">➔</span>` : '';
+        const selectArrow = isSelected && m.alive ? `<span style="color:#ffcc00;font-size:0.9rem;position:absolute;left:-16px;top:20px;">➔</span>` : '';
         let shockBadge = m.isShocked ? `<span class="ff-buff-badge shocked-badge" style="background:#ffff00;color:#000;">⚡感電</span>` : '';
         
         mDiv.innerHTML = `
           ${selectArrow}
-          <div class="ff-sprite ${m.alive ? '' : 'dead'}" id="ff-monster-sprite-${idx}">
-            <img src="${m.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${m.name}" />
+          <div class="ff-sprite ${m.alive ? '' : 'dead'}" id="ff-monster-sprite-${idx}" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <img src="${m.img}" style="width: 68px; height: 68px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${m.name}" />
             ${shockBadge}
           </div>
-          <div style="font-family:monospace; text-align:left; font-size:0.6rem; color:#fff;">
-            <div style="font-weight:bold; color:${isSelected ? '#ffcc00' : '#fff'};">${m.name.split('・')[1] || m.name}</div>
-            <div>HP: ${m.hp}/${m.maxHp}</div>
+          <div style="font-family:monospace; text-align:center; font-size:0.6rem; color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+            <div style="font-weight:bold; color:${isSelected ? '#ffcc00' : '#fff'}; white-space:nowrap;">${m.name.split('・')[1] || m.name}</div>
+            <div style="color: #ff4d4d; font-weight: bold;">HP: ${m.hp}/${m.maxHp}</div>
           </div>
         `;
 
@@ -3482,7 +3553,7 @@
         enemiesSide.appendChild(mDiv);
       });
 
-      // (B) 渲染英雄 (依照指定的前後排視覺順序渲染，讓 Warrior 最前，White Mage 最後)
+      // (B) 渲染英雄 (依照指定的前後排視覺順序渲染，讓 Warrior 最前，White Mage 最後，垂直置中對齊，添加 JRPG 水晶卡框，翻面向左)
       const heroesSide = document.getElementById('ffHeroesSide');
       heroesSide.innerHTML = '';
 
@@ -3496,6 +3567,10 @@
         const hDiv = document.createElement('div');
         hDiv.className = 'ff-hero-container';
         hDiv.style.position = 'relative';
+        hDiv.style.display = 'flex';
+        hDiv.style.flexDirection = 'column'; // 垂直排列
+        hDiv.style.alignItems = 'center'; // 置中
+        hDiv.style.gap = '4px';
         
         let buffBadge = "";
         if (h.isShielded) buffBadge = `<span class="ff-buff-badge buff-shield">🛡️護罩</span>`;
@@ -3503,28 +3578,28 @@
 
         const isActive = teamRaidEngine.isPaused && h.atb >= 100;
         
-        hDiv.style.display = 'flex';
-        hDiv.style.alignItems = 'center';
-        hDiv.style.gap = '8px';
-        hDiv.style.justifyContent = 'flex-end';
         hDiv.innerHTML = `
-          <div style="font-family:monospace; text-align:right; font-size:0.6rem; color:#fff; white-space:nowrap; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
-            <div style="font-weight:bold; color:#fff;">${h.name}</div>
-            <div>HP: ${Math.floor(h.hp)}/${h.maxHp}</div>
-          </div>
-          <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}">
-            <img src="${h.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${h.name}" />
+          <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(0, 20, 80, 0.45); border: 2px solid rgba(0, 188, 212, 0.65); border-radius: 8px; box-shadow: 0 0 10px rgba(0, 188, 212, 0.4), inset 0 0 8px rgba(255,255,255,0.1);">
+            <img src="${h.img}" style="width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); transform: scaleX(-1);" alt="${h.name}" />
             ${buffBadge}
+          </div>
+          <div style="font-family:monospace; text-align:center; font-size:0.6rem; color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+            <div style="font-weight:bold; color:#ffd700; white-space:nowrap;">${h.name}</div>
+            <div style="color: #4ef072; font-weight: bold;">HP: ${Math.floor(h.hp)}/${h.maxHp}</div>
           </div>
         `;
         heroesSide.appendChild(hDiv);
       });
 
-      // (C) 渲染下方狀態欄
+      // (C) 渲染下方狀態欄 (對位排序，對應上方斜向排隊順序渲染)
       const statusCol = document.getElementById('ffStatusColumn');
       statusCol.innerHTML = '';
 
-      teamRaidEngine.heroes.forEach(h => {
+      const sortedHeroesForStatus = [...teamRaidEngine.heroes].sort((a, b) => {
+        return renderOrder.indexOf(a.type) - renderOrder.indexOf(b.type);
+      });
+
+      sortedHeroesForStatus.forEach(h => {
         const row = document.createElement('div');
         row.className = `ff-status-row ${h.atb >= 100 && h.alive ? 'active' : ''}`;
         
@@ -3657,6 +3732,130 @@
       document.getElementById('teamRaidScreen').appendChild(popup);
       
       setTimeout(() => popup.remove(), 700);
+    }
+
+    // 7. 顯示 JRPG 團隊戰役專屬勝利與書籍導購 Overlay
+    function showTeamRaidVictoryOverlay(stageNum, totalXp) {
+      const screen = document.getElementById('teamRaidScreen');
+      if (!screen) return;
+      
+      const existing = screen.querySelectorAll('.retro-overlay');
+      existing.forEach(e => e.remove());
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'retro-overlay';
+      
+      // 判定是否為 BOSS 關卡 (Zone 1: Stage 3, Zone 2: Stage 6, Zone 3: Stage 10)
+      const isBossStage = stageNum === 3 || stageNum === 6 || stageNum === 10;
+      
+      if (isBossStage) {
+        let bookTitle = "";
+        let bookCover = "";
+        let bookHook = "";
+        let readmooUrl = "";
+        let pubuUrl = "";
+        let koboUrl = "";
+        
+        if (stageNum === 3) {
+          bookTitle = "《降噪人生》";
+          bookCover = "assets/book3.jpg";
+          bookHook = "想真正降噪？《降噪人生》的第二大腦在這裡 💡";
+          readmooUrl = "https://readmoo.com/book/210470441000101";
+          pubuUrl = "https://www.pubu.com.tw/store/5265673?apKey=e08e864a73";
+          koboUrl = "https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q";
+        } else if (stageNum === 6) {
+          bookTitle = "《人生遊戲》";
+          bookCover = "assets/book2.jpg";
+          bookHook = "人生 BUG 太多？《人生遊戲》教你除錯 🛠️";
+          readmooUrl = "https://readmoo.com/book/210455098000101";
+          pubuUrl = "https://www.pubu.com.tw/store/5265673?apKey=e08e864a73";
+          koboUrl = "https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ";
+        } else if (stageNum === 10) {
+          bookTitle = "《人生複利》";
+          bookCover = "assets/book1.jpg";
+          bookHook = "🔥 累積你的複利！《人生複利》最多人解鎖 📈";
+          readmooUrl = "https://readmoo.com/book/210446460000101";
+          pubuUrl = "https://www.pubu.com.tw/store/5265673?apKey=e08e864a73";
+          koboUrl = "https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ";
+        }
+        
+        overlay.innerHTML = `
+          <span class="retro-overlay-title victory" style="font-size: 1.3rem; margin-bottom: 8px;">⚔️ 討伐 BOSS 成功！</span>
+          
+          <div style="display: flex; gap: 14px; background: rgba(0, 20, 80, 0.65); border: 2px solid rgba(0, 188, 212, 0.7); border-radius: 12px; padding: 12px; max-width: 92%; box-sizing: border-box; align-items: center; box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);">
+            <!-- 左側：精緻書封 -->
+            <div style="flex-shrink: 0;">
+              <img src="${bookCover}" style="width: 76px; height: 108px; object-fit: cover; border-radius: 6px; border: 2px solid rgba(255, 215, 0, 0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.6);" alt="${bookTitle}">
+            </div>
+            <!-- 右側：金句與購買 -->
+            <div style="display: flex; flex-direction: column; gap: 6px; font-family: monospace; text-align: left;">
+              <div style="font-size: 0.9rem; font-weight: bold; color: #ffd700;">${bookTitle}</div>
+              <div style="font-size: 0.65rem; color: #fff; line-height: 1.4;">${bookHook}</div>
+              <div style="font-size: 0.58rem; color: #4ef072; font-weight: bold;">💰 通關獎勵: +${totalXp} XP (已入帳)</div>
+              
+              <!-- 購買連結 -->
+              <div style="display: flex; gap: 6px; margin-top: 4px;">
+                <a href="${readmooUrl}" target="_blank" rel="noopener" class="ff-btn" style="padding: 2px 6px; font-size: 0.58rem; text-decoration: none; text-align: center; background: rgba(0, 150, 255, 0.25); border-color: rgba(0, 188, 212, 0.6); display: inline-block;">Readmoo</a>
+                <a href="${pubuUrl}" target="_blank" rel="noopener" class="ff-btn" style="padding: 2px 6px; font-size: 0.58rem; text-decoration: none; text-align: center; background: rgba(0, 150, 255, 0.25); border-color: rgba(0, 188, 212, 0.6); display: inline-block;">Pubu</a>
+                <a href="${koboUrl}" target="_blank" rel="noopener" class="ff-btn" style="padding: 2px 6px; font-size: 0.58rem; text-decoration: none; text-align: center; background: rgba(0, 150, 255, 0.25); border-color: rgba(0, 188, 212, 0.6); display: inline-block;">Kobo</a>
+              </div>
+            </div>
+          </div>
+          
+          <button class="btn-continue" style="margin-top: 10px;">繼續冒險 (Continue)</button>
+        `;
+      } else {
+        overlay.innerHTML = `
+          <span class="retro-overlay-title victory" style="font-size: 1.3rem; margin-bottom: 8px;">🎉 戰鬥勝利！</span>
+          <div style="font-family: monospace; text-align: center; color: #fff; font-size: 0.72rem; line-height: 1.6; background: rgba(0, 20, 80, 0.5); border: 1px solid rgba(0, 188, 212, 0.4); border-radius: 8px; padding: 12px 24px; max-width: 80%;">
+            <div>白熊小隊合力剿滅了魔物！</div>
+            <div style="color: #4ef072; font-weight: bold; margin-top: 4px;">💰 獲得通關獎勵: +${totalXp} XP</div>
+            <div style="font-size: 0.58rem; color: #aaa; margin-top: 2px;">經驗值已自動累計至您的白熊帳號</div>
+          </div>
+          <button class="btn-continue" style="margin-top: 10px;">繼續冒險 (Continue)</button>
+        `;
+      }
+      
+      const continueBtn = overlay.querySelector('.btn-continue');
+      if (continueBtn) {
+        continueBtn.addEventListener('click', () => {
+          overlay.remove();
+          showTeamRaidStageSelect();
+        });
+      }
+      
+      screen.appendChild(overlay);
+    }
+
+    // 8. 顯示 JRPG 團隊戰役專屬失敗 Overlay
+    function showTeamRaidDefeatOverlay() {
+      const screen = document.getElementById('teamRaidScreen');
+      if (!screen) return;
+      
+      const existing = screen.querySelectorAll('.retro-overlay');
+      existing.forEach(e => e.remove());
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'retro-overlay';
+      
+      overlay.innerHTML = `
+        <span class="retro-overlay-title" style="font-size: 1.3rem; margin-bottom: 8px; color: #ff4d4d; text-shadow: 0 0 10px rgba(255,77,77,0.6);">💀 挑戰失敗！</span>
+        <div style="font-family: monospace; text-align: center; color: #fff; font-size: 0.72rem; line-height: 1.6; background: rgba(80, 0, 0, 0.4); border: 1px solid rgba(255, 77, 77, 0.4); border-radius: 8px; padding: 12px 20px; max-width: 80%;">
+          <div>小隊全員陣亡鎩羽而歸。</div>
+          <div style="color: #ff9999; margin-top: 6px; font-size: 0.65rem;">請回到「公會日常」修煉提升白熊等級，以解鎖更強隊友並提升屬性！</div>
+        </div>
+        <button class="btn-continue" style="margin-top: 10px; border-color: #ff4d4d; color: #ff4d4d;">返回選關 (Return)</button>
+      `;
+      
+      const continueBtn = overlay.querySelector('.btn-continue');
+      if (continueBtn) {
+        continueBtn.addEventListener('click', () => {
+          overlay.remove();
+          showTeamRaidStageSelect();
+        });
+      }
+      
+      screen.appendChild(overlay);
     }
 
     function showStageSelect() {
@@ -4052,7 +4251,7 @@
         dmg = Math.floor((10 + userLevel * 0.4 + (userAttrs.agi + gear.bonusAgi) * 1.8 + Math.random() * 5) * gear.bonusDmgPct);
         if (Math.random() < 0.95) {
           playSlashSFX();
-          logMsg = `🐵【理智小猴】使出【執行斬】！敏捷劈砍，對${targetName}造成 ${dmg} 點物理傷害！`;
+          logMsg = `🐵【能量小猴】使出【執行斬】！敏捷劈砍，對${targetName}造成 ${dmg} 點物理傷害！`;
           // 觸發小猴物理劈砍動畫 (JRPG 經典雙重斬擊華麗特效)
           const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
           if (wrapper) {
@@ -4071,7 +4270,7 @@
         } else {
           playErrorSFX();
           dmg = 0;
-          logMsg = `🐵【理智小猴】使出【執行斬】！但行動猶豫了，被${targetName}閃開！`;
+          logMsg = `🐵【能量小猴】使出【執行斬】！但行動猶豫了，被${targetName}閃開！`;
         }
       } else if (actionType === 'int') {
         // 白熊攻擊 (全體 INT AoE - 智慧雷擊)
@@ -4738,7 +4937,7 @@
       bear: "智者白熊的每日指引",
       cat: "除錯小貓的每日指引",
       bunny: "降噪小兔的每日指引",
-      monkey: "理智小猴的每日指引"
+      monkey: "能量小猴的每日指引"
     };
 
     const animalEmojis = {

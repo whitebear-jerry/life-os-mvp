@@ -39,27 +39,33 @@ class rpgCharacter {
 }
 
 class rpgMonster {
-  constructor(name, emoji, stage, img) {
+  constructor(name, emoji, stage, img, isBoss = false) {
     this.name = name;
     this.emoji = emoji;
     this.img = img || "assets/monster_slime.png"; // 載入高清怪物圖片
+    this.isBoss = isBoss;
     
-    // 關卡指數倍數增長機制
-    const hpMultiplier = Math.pow(1.50, stage - 1);
-    const atkMultiplier = Math.pow(1.45, stage - 1);
+    // 關卡指數倍數增長機制 (基礎血量改為 2000，完美對齊玩家 7000+ HP)
+    let hpMultiplier = Math.pow(1.35, stage - 1);
+    let atkMultiplier = Math.pow(1.30, stage - 1);
     
-    this.maxHp = Math.floor(80 * hpMultiplier);
+    if (isBoss) {
+      hpMultiplier *= 2.0; // Boss 血量翻倍
+      atkMultiplier *= 1.25; // Boss 傷害提升 25%
+    }
+    
+    this.maxHp = Math.floor(2000 * hpMultiplier);
     this.hp = this.maxHp;
-    this.atk = Math.floor(10 * atkMultiplier);
-    this.speed = Math.floor(25 + stage * 0.8); // 怪物速度隨關卡微增
+    this.atk = Math.floor(65 * atkMultiplier); // 調整基礎攻擊力，避免秒殺，形成持久戰！
+    this.speed = Math.floor(25 + stage * 0.8 + (isBoss ? 5 : 0)); // Boss 速度微增
     
     this.atb = 0;
     this.alive = true;
     this.isShocked = false; // 被賢者白熊感電 (受傷 +15%)
     this.shockedTurns = 0;
     
-    // 擊敗獎勵 (正比經驗值)
-    this.xpReward = Math.floor(50 * Math.pow(1.6, stage - 1));
+    // 擊敗獎勵 (正比經驗值，Boss 額外加成)
+    this.xpReward = Math.floor(50 * Math.pow(1.6, stage - 1) * (isBoss ? 2.5 : 1));
   }
 }
 
@@ -94,34 +100,50 @@ class rpgBattleEngine {
     };
     
     // 1. 🔮 賢者 ➔【白熊】 (Sage) - 智慧 (INT) 連動
-    const bearHp = 60 + userLevel * 3 + (attrs.int + (gearStats.bonusInt || 0)) * 8 + (gearStats.bonusMaxHp || 0);
+    let bearHp = 60 + userLevel * 3 + (attrs.int + (gearStats.bonusInt || 0)) * 8 + (gearStats.bonusMaxHp || 0);
     const bearInt = 20 + userLevel * 0.5 + (attrs.int + (gearStats.bonusInt || 0)) * 1.5;
     const bearAgi = 25 + userLevel * 0.2 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.5;
-    this.heroes.push(new rpgCharacter("白熊", "bear", "🐻‍❄️", "int", bearHp, 100, bearAgi, bearInt, "assets/hero_bear_sage.png"));
 
     // 2. 🪓 戰士 ➔【除錯小貓】 (Warrior) - 韌性 (VIT) 連動 (血量最高，前排坦怪)
-    const catHp = 60 + userLevel * 3 + (attrs.vit + (gearStats.bonusVit || 0)) * 10 + (gearStats.bonusMaxHp || 0);
+    let catHp = 60 + userLevel * 3 + (attrs.vit + (gearStats.bonusVit || 0)) * 10 + (gearStats.bonusMaxHp || 0);
     const catVit = 18 + userLevel * 0.4 + (attrs.vit + (gearStats.bonusVit || 0)) * 1.8;
     const catAgi = 22 + userLevel * 0.2 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.4;
-    this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 60, catAgi, catVit, "assets/hero_cat_warrior.png"));
 
     // 3. 🤍 白魔導士 ➔【降噪小兔】 (White Mage) - 專注 (FOC) 連動 (LV.5 解鎖)
+    let rabbitHp = 100;
+    let rabbitFoc = 15 + userLevel * 0.3 + (attrs.foc + (gearStats.bonusFoc || 0)) * 1.6;
+    let rabbitAgi = 28 + userLevel * 0.25 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.6;
     if (userLevel >= 5) {
-      const rabbitHp = 60 + userLevel * 3 + (attrs.foc + (gearStats.bonusFoc || 0)) * 8 + (gearStats.bonusMaxHp || 0);
-      const rabbitFoc = 15 + userLevel * 0.3 + (attrs.foc + (gearStats.bonusFoc || 0)) * 1.6;
-      const rabbitAgi = 28 + userLevel * 0.25 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.6;
-      this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 120, rabbitAgi, rabbitFoc, "assets/hero_rabbit_mage.png"));
+      rabbitHp = 60 + userLevel * 3 + (attrs.foc + (gearStats.bonusFoc || 0)) * 8 + (gearStats.bonusMaxHp || 0);
     }
 
-    // 4. 🗡️ 忍者 ➔【理智小猴】 (Ninja) - 敏捷 (AGI) 連動 (LV.15 解鎖)
+    // 4. 🗡️ 忍者 ➔【能量小猴】 (Ninja) - 綜合戰力與通用輔助，通用物理複數攻擊 (LV.15 解鎖)
+    let monkeyHp = 90;
+    let monkeyAgi = 40 + userLevel * 0.6 + (attrs.agi + (gearStats.bonusAgi || 0)) * 2.0;
     if (userLevel >= 15) {
-      const monkeyHp = 60 + userLevel * 3 + (attrs.agi + (gearStats.bonusAgi || 0)) * 8 + (gearStats.bonusMaxHp || 0);
-      const monkeyAgi = 40 + userLevel * 0.6 + (attrs.agi + (gearStats.bonusAgi || 0)) * 2.0;
-      this.heroes.push(new rpgCharacter("理智小猴", "monkey", "🐵", "agi", monkeyHp, 80, monkeyAgi, monkeyAgi, "assets/hero_monkey_ninja.png"));
+      monkeyHp = 60 + userLevel * 3 + (attrs.agi + (gearStats.bonusAgi || 0)) * 8 + (gearStats.bonusMaxHp || 0);
+    }
+
+    // 🌟 100% 零誤差絕對承襲日常文字冒險 JRPG 全隊生命值！如果全域 party 存在就直接載入！
+    if (typeof window !== 'undefined' && window.party && window.party.length >= 4) {
+      bearHp = window.party[0].maxHp || bearHp;
+      catHp = window.party[1].maxHp || catHp;
+      rabbitHp = window.party[2].maxHp || rabbitHp;
+      monkeyHp = window.party[3].maxHp || monkeyHp;
+      console.log("JRPG successfully inherited stats from window.party:", bearHp, catHp, rabbitHp, monkeyHp);
+    }
+
+    this.heroes.push(new rpgCharacter("白熊", "bear", "🐻‍❄️", "int", bearHp, 100, bearAgi, bearInt, "assets/hero_bear_sage.png"));
+    this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 60, catAgi, catVit, "assets/hero_cat_warrior.png"));
+    if (userLevel >= 5) {
+      this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 120, rabbitAgi, rabbitFoc, "assets/hero_rabbit_mage.png"));
+    }
+    if (userLevel >= 15) {
+      this.heroes.push(new rpgCharacter("能量小猴", "monkey", "🐵", "agi", monkeyHp, 80, monkeyAgi, monkeyAgi, "assets/hero_monkey_ninja.png"));
     }
   }
 
-  // 開始新關卡戰鬥
+  // 開始新關卡戰鬥 (對應三大書本 Zone 的關卡體系，怪物難度與血量全面平衡)
   startBattle(stage) {
     this.stage = stage;
     this.isBattleActive = true;
@@ -131,31 +153,67 @@ class rpgBattleEngine {
     // 重置英雄數值
     this.heroes.forEach(h => h.reset());
     
-    // 依據關卡生成 1 - 3 隻模物
+    // 依據關卡生成特定魔物
     this.monsters = [];
-    const monsterPool = [
-      { name: "雜念史萊姆", emoji: "👾", img: "assets/monster_slime.png" },
-      { name: "分心大眼怪", emoji: "👁️", img: "assets/monster_eye.png" },
-      { name: "干擾噪音獸", emoji: "🔊", img: "assets/monster_noise.png" },
-      { name: "阻力石金人", emoji: "🧱", img: "assets/monster_golem.png" },
-      { name: "硬殼酸蝸牛", emoji: "🐌", img: "assets/monster_snail.png" },
-      { name: "心靈魔巫師", emoji: "🧙", img: "assets/monster_wizard.png" },
-      { name: "暗黑魔騎士", emoji: "🛡️", img: "assets/monster_knight.png" },
-      { name: "撕裂怨靈魂", emoji: "👻", img: "assets/monster_ghost.png" },
-      { name: "命運大死神", emoji: "💀", img: "assets/monster_reaper.png" },
-      { name: "深淵防衛龍", emoji: "🐉", img: "assets/monster_dragon.png" }
-    ];
-    
-    let count = 1;
-    if (stage >= 3) count = 2;
-    if (stage >= 8) count = 3;
-    
-    for (let i = 0; i < count; i++) {
-      const poolIdx = (stage - 1 + i) % monsterPool.length;
-      const template = monsterPool[poolIdx];
-      const name = `關卡 ${stage} 魔物・${template.name}`;
-      this.monsters.push(new rpgMonster(name, template.emoji, stage, template.img));
+    let monstersData = [];
+
+    // --- Zone 1「內耗深淵」 ➔ 對應《降噪人生》 ---
+    if (stage === 1) {
+      monstersData = [
+        { name: "內耗深淵・雜念史萊姆", emoji: "👾", img: "assets/monster_slime.png", isBoss: false }
+      ];
+    } else if (stage === 2) {
+      monstersData = [
+        { name: "內耗深淵・雜念史萊姆", emoji: "👾", img: "assets/monster_slime.png", isBoss: false },
+        { name: "內耗深淵・焦慮龍", emoji: "🐉", img: "assets/monster_dragon.png", isBoss: false }
+      ];
+    } else if (stage === 3) {
+      monstersData = [
+        { name: "內耗深淵・焦慮龍", emoji: "🐉", img: "assets/monster_dragon.png", isBoss: false },
+        { name: "內耗深淵・比較心魔 [BOSS]", emoji: "🧙", img: "assets/monster_wizard.png", isBoss: true }
+      ];
+    } 
+    // --- Zone 2「逆境關卡」 ➔ 對應《人生遊戲》 ---
+    else if (stage === 4) {
+      monstersData = [
+        { name: "逆境關卡・卡關魔", emoji: "🧱", img: "assets/monster_golem.png", isBoss: false }
+      ];
+    } else if (stage === 5) {
+      monstersData = [
+        { name: "逆境關卡・卡關魔", emoji: "🧱", img: "assets/monster_golem.png", isBoss: false },
+        { name: "逆境關卡・拖延獸", emoji: "🐌", img: "assets/monster_snail.png", isBoss: false }
+      ];
+    } else if (stage === 6) {
+      monstersData = [
+        { name: "逆境關卡・拖延獸", emoji: "🐌", img: "assets/monster_snail.png", isBoss: false },
+        { name: "逆境關卡・情緒勒索怪 [BOSS]", emoji: "🛡️", img: "assets/monster_knight.png", isBoss: true }
+      ];
+    } 
+    // --- Zone 3「複利之路」 ➔ 對應《人生複利》 ---
+    else if (stage === 7) {
+      monstersData = [
+        { name: "複利之路・短視魔", emoji: "👁️", img: "assets/monster_eye.png", isBoss: false }
+      ];
+    } else if (stage === 8) {
+      monstersData = [
+        { name: "複利之路・短視魔", emoji: "👁️", img: "assets/monster_eye.png", isBoss: false },
+        { name: "複利之路・放棄龍", emoji: "🐉", img: "assets/monster_dragon.png", isBoss: false }
+      ];
+    } else if (stage === 9) {
+      monstersData = [
+        { name: "複利之路・放棄龍", emoji: "🐉", img: "assets/monster_dragon.png", isBoss: false },
+        { name: "複利之路・原地打轉獸", emoji: "🔊", img: "assets/monster_noise.png", isBoss: false }
+      ];
+    } else if (stage === 10) {
+      monstersData = [
+        { name: "複利之路・原地打轉獸", emoji: "🔊", img: "assets/monster_noise.png", isBoss: false },
+        { name: "複利之路・終極放棄怨靈 [BOSS]", emoji: "💀", img: "assets/monster_reaper.png", isBoss: true }
+      ];
     }
+
+    monstersData.forEach(m => {
+      this.monsters.push(new rpgMonster(m.name, m.emoji, stage, m.img, m.isBoss));
+    });
     
     this.log(`⚔️ 團隊副本第 ${stage} 關戰役正式拉開帷幕！敵人已出現在前線！`);
     this.onStateChange();
@@ -304,45 +362,55 @@ class rpgBattleEngine {
       }, 700);
     }
 
-    // --- 🗡️ 2. 忍者理智小猴 ➔ ⚔️執行斬 (Ninja: Blade Flurry) ---
+    // --- 🗡️ 2. 忍者能量小猴 ➔ ⚔️執行斬 (Ninja: Blade Flurry) ---
     else if (hero.type === 'monkey') {
       if (hero.mp < 15) {
-        this.log(`❌ 🗡️ 忍者【理智小猴】MP 不足，無法釋放【執行斬】！`);
+        this.log(`❌ 🗡️ 忍者【能量小猴】MP 不足，無法釋放【執行斬】！`);
         this.isPaused = false;
         return;
       }
       hero.mp -= 15;
-      this.log(`🗡️ 🐵 忍者【理智小猴】化身一道疾風黑影，突進至敵陣使出【執行斬】！`);
+      this.log(`🗡️ 🐵 忍者【能量小猴】化身疾風黑影，發動複數分身連擊【全體・執行隨機斬】！`);
       
+      // 動畫播放
       this.onAnimation('slash-monkey', { attacker: hero, target: realTarget });
 
       setTimeout(() => {
-        // 高速 3 連斬
-        let logs = [];
-        let totalDmg = 0;
-        for (let i = 0; i < 3; i++) {
-          let hit = Math.floor(hero.power * 0.5 * (0.8 + Math.random() * 0.4));
-          if (realTarget.isShocked) {
-            hit = Math.floor(hit * 1.15); // 感電額外受傷 15%
+        // 進行 3 次連斬，每次隨機選擇一個存活的怪物 (複數打法！)
+        for (let i = 1; i <= 3; i++) {
+          const aliveMonsters = this.monsters.filter(m => m.alive);
+          if (aliveMonsters.length === 0) break;
+          
+          const randMonster = aliveMonsters[Math.floor(Math.random() * aliveMonsters.length)];
+          let hit = Math.floor(hero.power * 0.7 * (0.8 + Math.random() * 0.4));
+          if (randMonster.isShocked) {
+            hit = Math.floor(hit * 1.15); // 感電加成
           }
-          totalDmg += hit;
+          
+          randMonster.hp -= hit;
+          this.log(`🗡️ 第 ${i} 擊！🐵 殘像掠過，對 ${randMonster.emoji}${randMonster.name} 造成了 ${hit} 點物理斬擊傷害！`);
+          
+          if (randMonster.hp <= 0) {
+            randMonster.hp = 0;
+            randMonster.alive = false;
+            randMonster.atb = 0;
+            this.log(`💀 🟢 敵方 ${randMonster.emoji}${randMonster.name} 被能量小猴瞬殺斬殺！`);
+          }
         }
 
-        // 25% 機率觸發影子雙重斬擊
-        if (Math.random() < 0.25) {
-          const shadowDmg = Math.floor(hero.power * 0.6);
-          totalDmg += shadowDmg;
-          this.log(`👥 ✨ 觸發影子殘像！額外追加了 ${shadowDmg} 點影子連擊傷害！`);
-        }
-
-        realTarget.hp -= totalDmg;
-        this.log(`⚔️ 🐵【理智小猴】發動連續幻影斬擊！對 ${realTarget.emoji}${realTarget.name} 造成了 ${totalDmg} 點物理爆發傷害！`);
-        
-        if (realTarget.hp <= 0) {
-          realTarget.hp = 0;
-          realTarget.alive = false;
-          realTarget.atb = 0;
-          this.log(`💀 🟢 敵方 ${realTarget.emoji}${realTarget.name} 被理智小猴的執行斬大卸八塊！`);
+        // 35% 高機率觸發影子終結擊
+        const aliveMonstersEnd = this.monsters.filter(m => m.alive);
+        if (aliveMonstersEnd.length > 0 && Math.random() < 0.35) {
+          const randMonster = aliveMonstersEnd[Math.floor(Math.random() * aliveMonstersEnd.length)];
+          const shadowDmg = Math.floor(hero.power * 0.8);
+          randMonster.hp -= shadowDmg;
+          this.log(`👥 ✨ 觸發影子殘像終結！額外對 ${randMonster.emoji}${randMonster.name} 追加 ${shadowDmg} 點影子暗殺真實傷害！`);
+          if (randMonster.hp <= 0) {
+            randMonster.hp = 0;
+            randMonster.alive = false;
+            randMonster.atb = 0;
+            this.log(`💀 🟢 敵方 ${randMonster.emoji}${randMonster.name} 被影子終結擊碎！`);
+          }
         }
 
         hero.atb = 0;
