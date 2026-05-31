@@ -1790,10 +1790,11 @@
       border: 2px solid rgba(0, 242, 254, 0.35);
       border-radius: 12px;
       box-shadow: 0 0 25px rgba(0, 242, 254, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.95);
-      overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 480px;
+      height: auto;
+      min-height: 560px;
+      margin-bottom: 20px;
     }
 
     /* 關卡選擇樣式 */
@@ -1861,7 +1862,7 @@
       align-items: center;
       background: radial-gradient(circle at center, rgba(16, 38, 40, 0.45) 0%, rgba(5, 8, 10, 0.98) 100%), linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
       background-size: 100% 100%, 20px 20px, 20px 20px;
-      padding: 20px;
+      padding: 48px 20px 20px 20px;
       box-sizing: border-box;
       border-bottom: 2px solid rgba(0, 242, 254, 0.15);
       overflow: hidden;
@@ -2237,7 +2238,8 @@
     /* 手機窄螢幕自適應 */
     @media (max-width: 480px) {
       .team-raid-screen {
-        height: 420px;
+        height: auto;
+        min-height: 480px;
       }
       .team-raid-stage-select-grid {
         grid-template-columns: 1fr;
@@ -3572,7 +3574,7 @@
         mDiv.style.display = 'flex';
         mDiv.style.flexDirection = 'column'; // 垂直排列
         mDiv.style.alignItems = 'center'; // 水平置中
-        mDiv.style.gap = '4px';
+        mDiv.style.gap = '8px';
         mDiv.style.cursor = m.alive ? 'pointer' : 'default';
         
         const isSelected = selectedMonsterIndex === idx;
@@ -3618,7 +3620,7 @@
         hDiv.style.display = 'flex';
         hDiv.style.flexDirection = 'column'; // 垂直排列
         hDiv.style.alignItems = 'center'; // 置中
-        hDiv.style.gap = '4px';
+        hDiv.style.gap = '8px';
         
         let buffBadge = "";
         if (h.isShielded) buffBadge = `<span class="ff-buff-badge buff-shield">🛡️護罩</span>`;
