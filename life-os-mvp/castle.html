@@ -1486,12 +1486,6 @@ function startGame() {
   floaters = [];
   items = [];
   
-  // Spawn golden key flat on the bottom ground to guarantee easy & precise pickup!
-  let keyY = (MAP_H - 3) * TILE; // Lie flat on bottom ground (y = 15 * TILE)
-  items.push({
-    x: 38 * TILE, y: keyY, w: 20, h: 20,
-    type: 'key', vy: 0, life: 999999
-  });
 
   castleXPEarned = 0;
   camX = 0; camY = 0;
@@ -1976,29 +1970,15 @@ function updatePlayer() {
   const ptX = Math.floor((player.x + player.w/2) / TILE);
   const ptY = Math.floor((player.y + player.h/2) / TILE);
   if (tileAt(ptX, ptY) === 3) {
-    if (!player.hasKey) {
-      if (player.invincible <= 0) {
-        // Bounce player back and show Lock warning!
-        player.vx = -player.dir * 4.5;
-        player.vy = -2.5;
-        player.invincible = 20;
-        playDamageSFX();
-        floaters.push({
-          x: player.x + player.w/2, y: player.y - 12,
-          text: '🔒 出口鎖定！需要黃金鑰匙🔑！', color: '#ff3b30', life: 75, vy: -1.5
-        });
-      }
-    } else {
-      saveToRPG();
-      gameRunning = false;
-      stopBGM();
-      playLevelUpSFX();
-      setTimeout(() => {
-        alert('🎉 恭喜通關「' + STAGES[activeStageIdx].name + '」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
-        location.href = 'link.html';
-      }, 300);
-      return;
-    }
+    saveToRPG();
+    gameRunning = false;
+    stopBGM();
+    playLevelUpSFX();
+    setTimeout(() => {
+      alert('🎉 恭喜通關「' + STAGES[activeStageIdx].name + '」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
+      location.href = 'link.html';
+    }, 300);
+    return;
   }
 
   // Combat Attacking
@@ -2663,28 +2643,10 @@ function updateItems() {
     }
     it.life--;
     
-    let isPicked = false;
-    if (it.type === 'key') {
-      // Precise 24px static collision check (flat on ground, no bob drift!)
-      const px = player.x + player.w / 2;
-      const py = player.y + player.h / 2;
-      const kx = it.x + it.w / 2;
-      const ky = it.y + it.h / 2;
-      if (Math.hypot(px - kx, py - ky) < 24) {
-        isPicked = true;
-      }
-    } else {
-      isPicked = rectOverlap(player, it);
-    }
-
-    if (isPicked) {
+    if (rectOverlap(player, it)) {
       if (it.type === 'heart') {
         player.hp = Math.min(player.maxHp, player.hp + 20);
         floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+20HP', color: '#ff8888', life: 35, vy: -1.5 });
-      } else if (it.type === 'key') {
-        player.hasKey = true;
-        floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '🔑 獲得鑰匙！出口已解鎖！', color: '#ffd700', life: 75, vy: -1.5 });
-        playLevelUpSFX();
       } else {
         const info = getLevelInfo(userXP + castleXPEarned);
         const gear = getGearStats(info.level);
@@ -2853,9 +2815,9 @@ function render() {
         }
       } else if (t === 3) {
         const glowAlpha = 0.5 + Math.sin(Date.now() * 0.005) * 0.3;
-        ctx.fillStyle = player.hasKey ? `rgba(77, 240, 255, ${glowAlpha})` : `rgba(255, 59, 48, ${glowAlpha})`;
+        ctx.fillStyle = `rgba(77, 240, 255, ${glowAlpha})`;
         ctx.fillRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
-        ctx.strokeStyle = player.hasKey ? '#4df0ff' : '#ff3b30';
+        ctx.strokeStyle = '#4df0ff';
         ctx.lineWidth = 2;
         ctx.strokeRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
         
@@ -2864,10 +2826,10 @@ function render() {
         ctx.fillRect(x*TILE + 8 + Math.sin(sp)*6, y*TILE + 8 + Math.cos(sp)*8, 3, 3);
         ctx.fillRect(x*TILE + 20 + Math.cos(sp)*4, y*TILE + 16 + Math.sin(sp+1)*6, 2, 2);
 
-        // Draw exit lock/open text label!
-        ctx.fillStyle = player.hasKey ? '#4df0ff' : '#ff3b30';
+        // Draw exit label!
+        ctx.fillStyle = '#4df0ff';
         ctx.font = 'bold 8px monospace';
-        ctx.fillText(player.hasKey ? '🔑OPEN' : '🔒LOCK', x*TILE - 4, y*TILE - 6);
+        ctx.fillText('EXIT 🚪', x*TILE - 4, y*TILE - 6);
       }
     }
   }
@@ -2903,14 +2865,7 @@ function render() {
       ctx.fillStyle = '#ff4444';
       ctx.font = '12px serif';
       ctx.fillText('❤️', sx-2, sy+10+bob);
-    } else if (it.type === 'key') {
-      ctx.save();
-      ctx.shadowColor = '#ffe770';
-      ctx.shadowBlur = 10;
-      ctx.fillStyle = '#ffd700';
-      ctx.font = '16px serif';
-      ctx.fillText('🔑', sx-2, sy+12); // No bob! Perfectly aligned and static on ground!
-      ctx.restore();
+
     } else {
       ctx.fillStyle = '#ffd89c';
       ctx.beginPath();
