@@ -4,7 +4,7 @@
  */
 
 class rpgCharacter {
-  constructor(name, type, emoji, attrType, baseHp, baseMp, speed, power) {
+  constructor(name, type, emoji, attrType, baseHp, baseMp, speed, power, img) {
     this.name = name;
     this.type = type; // 'bear' (Sage), 'cat' (Warrior), 'rabbit' (White Mage), 'monkey' (Ninja)
     this.emoji = emoji;
@@ -13,6 +13,7 @@ class rpgCharacter {
     this.baseMp = baseMp;
     this.speed = speed; // 敏捷，決定 ATB 充能速度
     this.power = power; // 基礎法術/物理攻擊力
+    this.img = img || `assets/hero_${type}.png`; // 載入自定義像素角色圖片
     
     // 即時戰鬥數值
     this.hp = baseHp;
@@ -38,9 +39,10 @@ class rpgCharacter {
 }
 
 class rpgMonster {
-  constructor(name, emoji, stage) {
+  constructor(name, emoji, stage, img) {
     this.name = name;
     this.emoji = emoji;
+    this.img = img || "assets/monster_slime.png"; // 載入高清怪物圖片
     
     // 關卡指數倍數增長機制
     const hpMultiplier = Math.pow(1.50, stage - 1);
@@ -87,27 +89,27 @@ class rpgBattleEngine {
     const bearHp = 120 + (gearStats.bonusMaxHp || 0);
     const bearInt = 20 + (gearStats.bonusInt || 0);
     const bearAgi = 25 + (gearStats.bonusAgi || 0);
-    this.heroes.push(new rpgCharacter("白熊", "bear", "🐻‍❄️", "int", bearHp, 100, bearAgi, bearInt));
+    this.heroes.push(new rpgCharacter("白熊", "bear", "🐻‍❄️", "int", bearHp, 100, bearAgi, bearInt, "assets/hero_bear_sage.png"));
 
     // 2. 🪓 戰士 ➔【除錯小貓】 (Warrior) - 核心，始終解鎖 (把怪物當 Bug 除錯的勇猛前排)
     const catHp = 160 + (gearStats.bonusMaxHp || 0); // 戰士血量高
     const catVit = 18 + (gearStats.bonusVit || 0);
     const catAgi = 22 + (gearStats.bonusAgi || 0); // 前排中速
-    this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 60, catAgi, catVit));
+    this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 60, catAgi, catVit, "assets/hero_cat_warrior.png"));
 
     // 3. 🤍 白魔導士 ➔【降噪小兔】 (White Mage) - LV.5 解鎖 (心靈降噪治療擔當)
     if (userLevel >= 5) {
       const rabbitHp = 100 + (gearStats.bonusMaxHp || 0);
       const rabbitFoc = 15 + (gearStats.bonusFoc || 0);
       const rabbitAgi = 28 + (gearStats.bonusAgi || 0); // 白魔導士高速補血
-      this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 120, rabbitAgi, rabbitFoc));
+      this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 120, rabbitAgi, rabbitFoc, "assets/hero_rabbit_mage.png"));
     }
 
     // 4. 🗡️ 忍者 ➔【理智小猴】 (Ninja) - LV.15 解鎖 (超敏捷執行力爆發)
     if (userLevel >= 15) {
       const monkeyHp = 90 + (gearStats.bonusMaxHp || 0);
       const monkeyAgi = 40 + (gearStats.bonusAgi || 0); // 忍者超高速
-      this.heroes.push(new rpgCharacter("理智小猴", "monkey", "🐵", "agi", monkeyHp, 80, monkeyAgi, monkeyAgi));
+      this.heroes.push(new rpgCharacter("理智小猴", "monkey", "🐵", "agi", monkeyHp, 80, monkeyAgi, monkeyAgi, "assets/hero_monkey_ninja.png"));
     }
   }
 
@@ -121,19 +123,30 @@ class rpgBattleEngine {
     // 重置英雄數值
     this.heroes.forEach(h => h.reset());
     
-    // 依據關卡生成 1 - 3 隻魔物
+    // 依據關卡生成 1 - 3 隻模物
     this.monsters = [];
-    const monsterNames = ["史萊姆", "大眼怪", "暗夜死神"];
-    const emojis = ["👾", "👁️", "💀"];
+    const monsterPool = [
+      { name: "雜念史萊姆", emoji: "👾", img: "assets/monster_slime.png" },
+      { name: "分心大眼怪", emoji: "👁️", img: "assets/monster_eye.png" },
+      { name: "干擾噪音獸", emoji: "🔊", img: "assets/monster_noise.png" },
+      { name: "阻力石金人", emoji: "🧱", img: "assets/monster_golem.png" },
+      { name: "硬殼酸蝸牛", emoji: "🐌", img: "assets/monster_snail.png" },
+      { name: "心靈魔巫師", emoji: "🧙", img: "assets/monster_wizard.png" },
+      { name: "暗黑魔騎士", emoji: "🛡️", img: "assets/monster_knight.png" },
+      { name: "撕裂怨靈魂", emoji: "👻", img: "assets/monster_ghost.png" },
+      { name: "命運大死神", emoji: "💀", img: "assets/monster_reaper.png" },
+      { name: "深淵防衛龍", emoji: "🐉", img: "assets/monster_dragon.png" }
+    ];
     
     let count = 1;
     if (stage >= 3) count = 2;
     if (stage >= 8) count = 3;
     
     for (let i = 0; i < count; i++) {
-      const name = `關卡 ${stage} 魔物・${monsterNames[i % monsterNames.length]}`;
-      const emoji = emojis[i % emojis.length];
-      this.monsters.push(new rpgMonster(name, emoji, stage));
+      const poolIdx = (stage - 1 + i) % monsterPool.length;
+      const template = monsterPool[poolIdx];
+      const name = `關卡 ${stage} 魔物・${template.name}`;
+      this.monsters.push(new rpgMonster(name, template.emoji, stage, template.img));
     }
     
     this.log(`⚔️ 團隊副本第 ${stage} 關戰役正式拉開帷幕！敵人已出現在前線！`);

@@ -1455,9 +1455,9 @@
     }
 
     @keyframes damage-float-up {
-      0% { transform: scale(0.5) translateY(0) translate(-50%, -50%); opacity: 0; }
-      15% { transform: scale(1.25) translateY(-10px) translate(-50%, -50%); opacity: 1; }
-      100% { transform: scale(0.9) translateY(-40px) translate(-50%, -50%); opacity: 0; }
+      0% { transform: scale(0.5) translate(-50%, -50%) translate(0, 0); opacity: 0; }
+      15% { transform: scale(1.25) translate(-50%, -50%) translate(15px, -12px); opacity: 1; }
+      100% { transform: scale(0.9) translate(-50%, -50%) translate(32px, -30px); opacity: 0; }
     }
 
     .retro-overlay {
@@ -1885,7 +1885,11 @@
 
     /* 精靈繪圖插畫與特效 */
     .ff-sprite {
-      font-size: 2.2rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
       transition: transform 0.2s ease, filter 0.2s ease;
       user-select: none;
@@ -1893,7 +1897,7 @@
     }
 
     .ff-sprite.action-active {
-      animation: heroActiveJump 0.6s infinite ease-in-outAlternate;
+      animation: heroActiveJump 0.6s infinite alternate ease-in-out;
       filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
     }
 
@@ -2063,33 +2067,45 @@
 
     /* 條條包裝器 */
     .ff-bar-outer {
-      height: 6px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 0.5px solid rgba(255,255,255,0.15);
-      border-radius: 3px;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
       overflow: hidden;
       margin-left: 4px;
+      position: relative;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.8), 0 0 2px rgba(255,255,255,0.1);
     }
 
     .ff-bar-inner {
       height: 100%;
-      border-radius: 3px;
-      transition: width 0.15s ease;
+      border-radius: 4px;
+      transition: width 0.25s cubic-bezier(0.1, 0.8, 0.2, 1);
+      position: relative;
+    }
+
+    /* 給進度條加上頂部高光玻璃效果 */
+    .ff-bar-inner::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 35%;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 4px 4px 0 0;
     }
 
     .bar-hp {
-      background: linear-gradient(90deg, #ff1a1a 0%, #ff6666 100%);
-      box-shadow: 0 0 5px #ff1a1a;
+      background: linear-gradient(180deg, #ff6666 0%, #ff1a1a 50%, #b30000 100%);
+      box-shadow: 0 0 8px rgba(255, 26, 26, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
     }
 
     .bar-mp {
-      background: linear-gradient(90deg, #1a75ff 0%, #66a3ff 100%);
-      box-shadow: 0 0 5px #1a75ff;
+      background: linear-gradient(180deg, #66a3ff 0%, #1a75ff 50%, #0044b3 100%);
+      box-shadow: 0 0 8px rgba(26, 117, 255, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
     }
 
     .bar-atb {
-      background: linear-gradient(90deg, #ffcc00 0%, #ffe066 100%);
-      box-shadow: 0 0 6px #ffcc00;
+      background: linear-gradient(180deg, #ffe066 0%, #ffcc00 50%, #b38f00 100%);
+      box-shadow: 0 0 8px rgba(255, 204, 0, 0.8), inset 0 -1px 2px rgba(0,0,0,0.4);
     }
 
     .ff-status-value {
@@ -2149,9 +2165,9 @@
     }
 
     @keyframes dmgPopupAnim {
-      0% { transform: scale(0.3) translateY(20px); opacity: 0; }
-      50% { transform: scale(1.3) translateY(-10px); opacity: 1; }
-      100% { transform: scale(1) translateY(-35px); opacity: 0; }
+      0% { transform: scale(0.3) translate(0, 0); opacity: 0; }
+      30% { transform: scale(1.4) translate(15px, -12px); opacity: 1; }
+      100% { transform: scale(1) translate(32px, -30px); opacity: 0; }
     }
 
     /* 手機窄螢幕自適應 */
@@ -3446,7 +3462,7 @@
         mDiv.innerHTML = `
           ${selectArrow}
           <div class="ff-sprite ${m.alive ? '' : 'dead'}" id="ff-monster-sprite-${idx}">
-            ${m.emoji}
+            <img src="${m.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${m.name}" />
             ${shockBadge}
           </div>
           <div style="font-family:monospace; text-align:left; font-size:0.6rem; color:#fff;">
@@ -3488,7 +3504,7 @@
         
         hDiv.innerHTML = `
           <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}">
-            ${h.emoji}
+            <img src="${h.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${h.name}" />
             ${buffBadge}
           </div>
         `;
@@ -3621,7 +3637,7 @@
       const parentRect = document.getElementById('teamRaidScreen').getBoundingClientRect();
       
       const x = rect.left - parentRect.left + rect.width / 2 - 15;
-      const y = rect.top - parentRect.top - 15;
+      const y = rect.top - parentRect.top + rect.height / 2 - 10; // 下移至身體中段
       
       popup.style.left = `${x}px`;
       popup.style.top = `${y}px`;
