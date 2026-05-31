@@ -81,34 +81,42 @@ class rpgBattleEngine {
     this.onDefeat = options.onDefeat || (() => {});
   }
 
-  // 初始化小隊與等級連動
-  initParty(userLevel, gearStats = {}) {
+  // 初始化小隊與等級連動 (100% 承襲修煉等級、四維屬性與神裝加成，展現與文字大冒險完全對齊的強悍屬性)
+  initParty(userLevel, gearStats = {}, userAttrs = { int: 10, vit: 10, foc: 10, agi: 10 }) {
     this.heroes = [];
     
-    // 1. 🔮 賢者 ➔【白熊】 (Sage) - 核心，始終解鎖
-    const bearHp = 120 + (gearStats.bonusMaxHp || 0);
-    const bearInt = 20 + (gearStats.bonusInt || 0);
-    const bearAgi = 25 + (gearStats.bonusAgi || 0);
+    // 確保 userAttrs 具有基礎默認值，避免未定義錯誤
+    const attrs = {
+      int: userAttrs.int || 10,
+      vit: userAttrs.vit || 10,
+      foc: userAttrs.foc || 10,
+      agi: userAttrs.agi || 10
+    };
+    
+    // 1. 🔮 賢者 ➔【白熊】 (Sage) - 智慧 (INT) 連動
+    const bearHp = 60 + userLevel * 3 + (attrs.int + (gearStats.bonusInt || 0)) * 8 + (gearStats.bonusMaxHp || 0);
+    const bearInt = 20 + userLevel * 0.5 + (attrs.int + (gearStats.bonusInt || 0)) * 1.5;
+    const bearAgi = 25 + userLevel * 0.2 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.5;
     this.heroes.push(new rpgCharacter("白熊", "bear", "🐻‍❄️", "int", bearHp, 100, bearAgi, bearInt, "assets/hero_bear_sage.png"));
 
-    // 2. 🪓 戰士 ➔【除錯小貓】 (Warrior) - 核心，始終解鎖 (把怪物當 Bug 除錯的勇猛前排)
-    const catHp = 160 + (gearStats.bonusMaxHp || 0); // 戰士血量高
-    const catVit = 18 + (gearStats.bonusVit || 0);
-    const catAgi = 22 + (gearStats.bonusAgi || 0); // 前排中速
+    // 2. 🪓 戰士 ➔【除錯小貓】 (Warrior) - 韌性 (VIT) 連動 (血量最高，前排坦怪)
+    const catHp = 60 + userLevel * 3 + (attrs.vit + (gearStats.bonusVit || 0)) * 10 + (gearStats.bonusMaxHp || 0);
+    const catVit = 18 + userLevel * 0.4 + (attrs.vit + (gearStats.bonusVit || 0)) * 1.8;
+    const catAgi = 22 + userLevel * 0.2 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.4;
     this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 60, catAgi, catVit, "assets/hero_cat_warrior.png"));
 
-    // 3. 🤍 白魔導士 ➔【降噪小兔】 (White Mage) - LV.5 解鎖 (心靈降噪治療擔當)
+    // 3. 🤍 白魔導士 ➔【降噪小兔】 (White Mage) - 專注 (FOC) 連動 (LV.5 解鎖)
     if (userLevel >= 5) {
-      const rabbitHp = 100 + (gearStats.bonusMaxHp || 0);
-      const rabbitFoc = 15 + (gearStats.bonusFoc || 0);
-      const rabbitAgi = 28 + (gearStats.bonusAgi || 0); // 白魔導士高速補血
+      const rabbitHp = 60 + userLevel * 3 + (attrs.foc + (gearStats.bonusFoc || 0)) * 8 + (gearStats.bonusMaxHp || 0);
+      const rabbitFoc = 15 + userLevel * 0.3 + (attrs.foc + (gearStats.bonusFoc || 0)) * 1.6;
+      const rabbitAgi = 28 + userLevel * 0.25 + (attrs.agi + (gearStats.bonusAgi || 0)) * 0.6;
       this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 120, rabbitAgi, rabbitFoc, "assets/hero_rabbit_mage.png"));
     }
 
-    // 4. 🗡️ 忍者 ➔【理智小猴】 (Ninja) - LV.15 解鎖 (超敏捷執行力爆發)
+    // 4. 🗡️ 忍者 ➔【理智小猴】 (Ninja) - 敏捷 (AGI) 連動 (LV.15 解鎖)
     if (userLevel >= 15) {
-      const monkeyHp = 90 + (gearStats.bonusMaxHp || 0);
-      const monkeyAgi = 40 + (gearStats.bonusAgi || 0); // 忍者超高速
+      const monkeyHp = 60 + userLevel * 3 + (attrs.agi + (gearStats.bonusAgi || 0)) * 8 + (gearStats.bonusMaxHp || 0);
+      const monkeyAgi = 40 + userLevel * 0.6 + (attrs.agi + (gearStats.bonusAgi || 0)) * 2.0;
       this.heroes.push(new rpgCharacter("理智小猴", "monkey", "🐵", "agi", monkeyHp, 80, monkeyAgi, monkeyAgi, "assets/hero_monkey_ninja.png"));
     }
   }

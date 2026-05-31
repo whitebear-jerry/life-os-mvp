@@ -1919,9 +1919,10 @@
     }
 
     .ff-sprite.dead {
-      opacity: 0.35;
-      transform: rotate(-90deg) translateY(5px);
-      filter: grayscale(1);
+      opacity: 0.25;
+      filter: grayscale(1) brightness(0.5) !important;
+      transform: scaleY(0.65) translateY(12px);
+      transition: all 0.4s ease;
     }
 
     /* 戰法防護膜/嘲諷標記 */
@@ -2046,9 +2047,9 @@
 
     .ff-status-row {
       display: grid;
-      grid-template-columns: 24% 28% 23% 25%;
+      grid-template-columns: 20% 28% 26% 26%;
       align-items: center;
-      font-size: 0.68rem;
+      font-size: 0.64rem;
       font-weight: bold;
     }
 
@@ -2115,21 +2116,21 @@
       padding-right: 4px;
     }
 
-    /* 戰鬥日誌 (漂浮於面板上方) */
+    /* 戰鬥日誌 (漂浮於畫面最頂端，絕對不遮擋任何操作按鈕與戰場角色) */
     .ff-battle-log {
       position: absolute;
-      bottom: 125px;
+      top: 10px;
       left: 10px;
       right: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(0, 85, 255, 0.5);
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(0, 85, 255, 0.6);
       border-radius: 6px;
       padding: 6px 12px;
       font-size: 0.72rem;
       font-family: monospace;
       color: #4ef072;
       text-shadow: 0 0 4px rgba(78,240,114,0.3);
-      text-align: left;
+      text-align: center;
       z-index: 12;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       pointer-events: none;
@@ -3360,7 +3361,7 @@
       });
 
       // 初始化隊友與怪物
-      teamRaidEngine.initParty(getLevelInfo(userXP).level, gearStats);
+      teamRaidEngine.initParty(getLevelInfo(userXP).level, gearStats, userAttrs);
       teamRaidEngine.startBattle(stageNum);
       
       selectedMonsterIndex = 0; // 預設集火第一個怪
@@ -3502,7 +3503,15 @@
 
         const isActive = teamRaidEngine.isPaused && h.atb >= 100;
         
+        hDiv.style.display = 'flex';
+        hDiv.style.alignItems = 'center';
+        hDiv.style.gap = '8px';
+        hDiv.style.justifyContent = 'flex-end';
         hDiv.innerHTML = `
+          <div style="font-family:monospace; text-align:right; font-size:0.6rem; color:#fff; white-space:nowrap; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+            <div style="font-weight:bold; color:#fff;">${h.name}</div>
+            <div>HP: ${Math.floor(h.hp)}/${h.maxHp}</div>
+          </div>
           <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}">
             <img src="${h.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));" alt="${h.name}" />
             ${buffBadge}
@@ -3526,25 +3535,28 @@
         row.innerHTML = `
           <div class="ff-status-name" style="color: ${h.alive ? '#fff' : '#ff4d4d'};">${h.emoji} ${h.name}</div>
           
-          <div style="display:flex; align-items:center;">
-            <span style="font-size:0.55rem; color:#888;">HP</span>
+          <div style="display:flex; align-items:center; gap: 4px;">
+            <span style="font-size:0.55rem; color:#888; width: 14px;">HP</span>
             <div class="ff-bar-outer" style="flex:1;">
               <div class="ff-bar-inner bar-hp" style="width: ${hpPct}%;"></div>
             </div>
+            <span style="font-size:0.52rem; font-family:monospace; color:#ccc; width: 50px; text-align:right;">${Math.floor(h.hp)}/${h.maxHp}</span>
           </div>
 
-          <div style="display:flex; align-items:center;">
-            <span style="font-size:0.55rem; color:#888;">MP</span>
+          <div style="display:flex; align-items:center; gap: 4px;">
+            <span style="font-size:0.55rem; color:#888; width: 14px;">MP</span>
             <div class="ff-bar-outer" style="flex:1;">
               <div class="ff-bar-inner bar-mp" style="width: ${mpPct}%;"></div>
             </div>
+            <span style="font-size:0.52rem; font-family:monospace; color:#ccc; width: 50px; text-align:right;">${Math.floor(h.mp)}/${h.maxMp}</span>
           </div>
 
-          <div style="display:flex; align-items:center;">
-            <span style="font-size:0.55rem; color:#888;">ATB</span>
+          <div style="display:flex; align-items:center; gap: 4px;">
+            <span style="font-size:0.55rem; color:#888; width: 14px;">ATB</span>
             <div class="ff-bar-outer" style="flex:1;">
               <div class="ff-bar-inner bar-atb" style="width: ${atbPct}%;"></div>
             </div>
+            <span style="font-size:0.52rem; font-family:monospace; color:#ffe066; width: 32px; text-align:right;">${Math.floor(atbPct)}%</span>
           </div>
         `;
         statusCol.appendChild(row);

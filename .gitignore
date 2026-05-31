@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 *.log
+audio
+scripts
+life-os-mvp/assets
