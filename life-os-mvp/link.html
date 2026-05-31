@@ -1780,6 +1780,421 @@
       margin-top: 4px;
       font-weight: normal;
     }
+
+    /* ==================================================== */
+    /* ⚔️ 《白熊人生戰役：太空戰士模式》JRPG 團隊戰役 CSS */
+    /* ==================================================== */
+    .team-raid-screen {
+      position: relative;
+      background: linear-gradient(135deg, rgba(12, 21, 17, 0.96) 0%, rgba(5, 12, 10, 0.98) 100%);
+      border: 2px solid rgba(255, 215, 0, 0.15);
+      border-radius: 12px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 480px;
+    }
+
+    /* 關卡選擇樣式 */
+    .team-raid-stage-select-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 10px;
+    }
+
+    .team-raid-stage-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: left;
+      font-family: monospace;
+    }
+
+    .team-raid-stage-card:hover {
+      background: rgba(255, 215, 0, 0.06);
+      border-color: rgba(255, 215, 0, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
+    }
+
+    .team-raid-stage-card.locked {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .team-raid-stage-card.locked:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* JRPG 戰鬥舞台 */
+    .ff-battle-stage {
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: radial-gradient(circle at center, rgba(16, 44, 30, 0.6) 0%, rgba(5, 12, 10, 0.95) 100%);
+      padding: 20px;
+      box-sizing: border-box;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    /* 左右兩側角色陣營 */
+    .ff-enemies-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      width: 45%;
+      box-sizing: border-box;
+    }
+
+    .ff-heroes-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 10px;
+      width: 45%;
+      padding-right: 10px;
+      box-sizing: border-box;
+    }
+
+    /* 隊伍斜向排隊陣列 */
+    .ff-hero-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .ff-hero-container:nth-child(1) { margin-right: 50px; } /* 前排：戰士小兔 */
+    .ff-hero-container:nth-child(2) { margin-right: 32px; } /* 中排：忍者小猴 */
+    .ff-hero-container:nth-child(3) { margin-right: 14px; } /* 後排：賢者白熊 */
+    .ff-hero-container:nth-child(4) { margin-right: 0px; }  /* 後排：小貓 */
+
+    /* 精靈繪圖插畫與特效 */
+    .ff-sprite {
+      font-size: 2.2rem;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+      transition: transform 0.2s ease, filter 0.2s ease;
+      user-select: none;
+      position: relative;
+    }
+
+    .ff-sprite.action-active {
+      animation: heroActiveJump 0.6s infinite ease-in-outAlternate;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+    }
+
+    @keyframes heroActiveJump {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    /* 受擊與死亡樣式 */
+    .ff-sprite.hit {
+      animation: hitShake 0.15s repeat 2;
+      filter: brightness(2) drop-shadow(0 0 10px #ff3838) !important;
+    }
+
+    @keyframes hitShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .ff-sprite.dead {
+      opacity: 0.35;
+      transform: rotate(-90deg) translateY(5px);
+      filter: grayscale(1);
+    }
+
+    /* 戰法防護膜/嘲諷標記 */
+    .ff-buff-badge {
+      font-size: 0.58rem;
+      padding: 1px 4px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: #ffffff;
+      text-transform: uppercase;
+      font-family: monospace;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    .buff-shield {
+      background: #00bcd4;
+      border: 1px solid #ffffff;
+      box-shadow: 0 0 6px #00bcd4;
+    }
+
+    .buff-taunt {
+      background: #ff5722;
+      border: 1px solid #ffffff;
+      box-shadow: 0 0 6px #ff5722;
+      animation: tauntPulse 1s infinite alternate;
+    }
+
+    @keyframes tauntPulse {
+      0% { transform: translateX(-50%) scale(0.9); }
+      100% { transform: translateX(-50%) scale(1.1); }
+    }
+
+    /* 太空戰士經典深藍色透明水晶戰鬥面板 */
+    .ff-battle-panel {
+      height: 120px;
+      background: linear-gradient(180deg, rgba(0, 0, 120, 0.5) 0%, rgba(0, 0, 50, 0.85) 100%);
+      border-top: 2px solid #0055ff;
+      box-shadow: 0 -4px 15px rgba(0, 85, 255, 0.4), inset 0 2px 10px rgba(255,255,255,0.1);
+      display: flex;
+      font-family: 'Courier New', monospace;
+      color: #ffffff;
+      box-sizing: border-box;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    /* 左側指令欄 */
+    .ff-commands-column {
+      width: 32%;
+      border-right: 2px solid rgba(0, 85, 255, 0.4);
+      padding: 8px 12px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ff-command-title {
+      font-size: 0.78rem;
+      font-weight: bold;
+      color: #ffd89c;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 3px;
+      text-shadow: 0 0 4px rgba(255,216,156,0.3);
+    }
+
+    .ff-command-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .ff-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 85, 255, 0.6);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: monospace;
+      text-align: center;
+    }
+
+    .ff-btn:hover {
+      background: rgba(0, 85, 255, 0.3);
+      border-color: #00bcd4;
+      box-shadow: 0 0 8px rgba(0, 188, 212, 0.6);
+    }
+
+    .ff-btn:active {
+      transform: scale(0.95);
+    }
+
+    .ff-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      box-shadow: none;
+      background: transparent;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    /* 右側隊員狀態欄 */
+    .ff-status-column {
+      width: 68%;
+      padding: 6px 12px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .ff-status-row {
+      display: grid;
+      grid-template-columns: 24% 28% 23% 25%;
+      align-items: center;
+      font-size: 0.68rem;
+      font-weight: bold;
+    }
+
+    .ff-status-row.active {
+      background: rgba(0, 188, 212, 0.15);
+      border-radius: 4px;
+    }
+
+    .ff-status-name {
+      text-align: left;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-left: 4px;
+    }
+
+    /* 條條包裝器 */
+    .ff-bar-outer {
+      height: 6px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 0.5px solid rgba(255,255,255,0.15);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-left: 4px;
+    }
+
+    .ff-bar-inner {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.15s ease;
+    }
+
+    .bar-hp {
+      background: linear-gradient(90deg, #ff1a1a 0%, #ff6666 100%);
+      box-shadow: 0 0 5px #ff1a1a;
+    }
+
+    .bar-mp {
+      background: linear-gradient(90deg, #1a75ff 0%, #66a3ff 100%);
+      box-shadow: 0 0 5px #1a75ff;
+    }
+
+    .bar-atb {
+      background: linear-gradient(90deg, #ffcc00 0%, #ffe066 100%);
+      box-shadow: 0 0 6px #ffcc00;
+    }
+
+    .ff-status-value {
+      font-family: monospace;
+      font-size: 0.65rem;
+      text-align: right;
+      padding-right: 4px;
+    }
+
+    /* 戰鬥日誌 (漂浮於面板上方) */
+    .ff-battle-log {
+      position: absolute;
+      bottom: 125px;
+      left: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(0, 85, 255, 0.5);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.72rem;
+      font-family: monospace;
+      color: #4ef072;
+      text-shadow: 0 0 4px rgba(78,240,114,0.3);
+      text-align: left;
+      z-index: 12;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      pointer-events: none;
+      animation: logPulse 2s infinite alternate;
+    }
+
+    @keyframes logPulse {
+      0% { border-color: rgba(0, 85, 255, 0.4); }
+      100% { border-color: rgba(0, 188, 212, 0.8); }
+    }
+
+    /* JRPG 傷害與治療飄字特效 */
+    .ff-dmg-popup {
+      position: absolute;
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #ff3333;
+      text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff, 0 4px 10px rgba(0,0,0,0.8);
+      animation: dmgPopupAnim 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .ff-dmg-popup.heal {
+      color: #33ff33;
+      text-shadow: -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000, 2px 2px 0 #000000, 0 4px 10px rgba(0,0,0,0.8);
+    }
+
+    .ff-dmg-popup.shocked {
+      color: #ffff33;
+      text-shadow: -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000, 2px 2px 0 #000000, 0 4px 10px rgba(0,0,0,0.8);
+    }
+
+    @keyframes dmgPopupAnim {
+      0% { transform: scale(0.3) translateY(20px); opacity: 0; }
+      50% { transform: scale(1.3) translateY(-10px); opacity: 1; }
+      100% { transform: scale(1) translateY(-35px); opacity: 0; }
+    }
+
+    /* 手機窄螢幕自適應 */
+    @media (max-width: 480px) {
+      .team-raid-screen {
+        height: 420px;
+      }
+      .team-raid-stage-select-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .ff-battle-panel {
+        height: 100px;
+      }
+      .ff-commands-column {
+        width: 38%;
+        padding: 4px 6px;
+      }
+      .ff-status-column {
+        width: 62%;
+        padding: 4px 6px;
+      }
+      .ff-btn {
+        font-size: 0.62rem;
+        padding: 4px 0;
+      }
+      .ff-status-row {
+        grid-template-columns: 24% 28% 20% 28%;
+        font-size: 0.6rem;
+      }
+      .ff-battle-log {
+        bottom: 105px;
+        font-size: 0.65rem;
+        padding: 4px 8px;
+      }
+      .ff-sprite {
+        font-size: 1.8rem;
+      }
+      .ff-hero-container:nth-child(1) { margin-right: 28px; }
+      .ff-hero-container:nth-child(2) { margin-right: 18px; }
+      .ff-hero-container:nth-child(3) { margin-right: 8px; }
+      .ff-hero-container:nth-child(4) { margin-right: 0px; }
+    }
   </style>
 </head>
 <body class="link-page">
@@ -1926,6 +2341,9 @@
         </button>
         <button class="guild-tab-btn" id="tabBtnAdventure" role="tab" aria-selected="false" onclick="switchGuildTab('adventure')">
           ⚔️ 勇者冒險
+        </button>
+        <button class="guild-tab-btn" id="tabBtnTeamRaid" role="tab" aria-selected="false" onclick="switchGuildTab('teamRaid')">
+          🏰 團隊戰役
         </button>
       </div>
 
@@ -2113,6 +2531,63 @@
         </div>
       </div>
 
+      <!-- 分頁三：團隊戰役 JRPG 太空戰士模式 -->
+      <div id="guildTeamRaidContent" style="display: none;">
+        <div class="retro-game-screen team-raid-screen" id="teamRaidScreen">
+          
+          <!-- 討伐關卡選擇區 -->
+          <div id="teamRaidStageSelectArea">
+            <div style="text-align: center; border-bottom: 2px solid #ffd700; padding-bottom: 8px; margin-bottom: 12px;">
+              <span style="font-size: 0.9rem; font-weight: bold; color: #ffd700; font-family: monospace;">⚔️ 團隊副本戰役：挑戰太空戰士模式 ⚔️</span>
+            </div>
+            <p style="font-size: 0.72rem; color: rgba(255,255,255,0.75); line-height: 1.4; margin-bottom: 12px; font-family: monospace;">
+              集結白熊人生小隊，挑戰隨關卡呈指數倍數增強的深淵魔物！通關可獲得巨額經驗值並100%寫回主帳號。
+            </p>
+            <div class="team-raid-stage-select-grid" id="teamRaidStageSelectGrid">
+              <!-- 關卡列表由 JS 生成 -->
+            </div>
+          </div>
+
+          <!-- 戰鬥畫面區 -->
+          <div id="teamRaidBattleArea" style="display: none; position: relative; width: 100%; height: 100%; box-sizing: border-box;">
+            <!-- 戰鬥舞台 (背景 + 怪物陣營 + 4人小隊) -->
+            <div class="ff-battle-stage" id="ffBattleStage">
+              <!-- 左側怪物陣營 -->
+              <div class="ff-enemies-side" id="ffEnemiesSide">
+                <!-- 怪物將由 JS 渲染 -->
+              </div>
+              
+              <!-- 右側 4人小隊 (斜排防禦陣型) -->
+              <div class="ff-heroes-side" id="ffHeroesSide">
+                <!-- 隊友將由 JS 渲染 -->
+              </div>
+            </div>
+
+            <!-- 太空戰士經典深藍水晶戰鬥儀表板 -->
+            <div class="ff-battle-panel">
+              <!-- 左側：指令選單 -->
+              <div class="ff-commands-column">
+                <div class="ff-command-title" id="ffActiveHeroName">🔮 賢者白熊</div>
+                <div class="ff-command-buttons" id="ffCommandButtons">
+                  <!-- 攻擊、特技、防禦、道具按鈕 -->
+                </div>
+              </div>
+              
+              <!-- 右側：隊員狀態欄 -->
+              <div class="ff-status-column" id="ffStatusColumn">
+                <!-- 隊員 HP/MP/ATB 條由 JS 渲染 -->
+              </div>
+            </div>
+
+            <!-- 戰鬥日誌 (漂浮在面板之上) -->
+            <div class="ff-battle-log" id="ffBattleLog">
+              ⚔️ 勇士們！迎擊負能量噪音！
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     <!-- === 🔗 社群連結與頁尾 === -->
     <div class="social-links-area">
       <span class="social-label">🌐 冒險情報站（活躍度排序）：</span>
@@ -2139,6 +2614,7 @@
 
   <!-- === 🛠️ 互動邏輯 JavaScript === -->
   <script src="assets/guidance_quotes.js"></script>
+  <script src="assets/rpg-engine.js"></script>
   <script>
     // ----------------------------------------------------
     // JRPG 復古勇者冒險戰鬥引擎 JavaScript
@@ -2718,29 +3194,435 @@
       currentTab = tabId;
       const tabBtnBoard = document.getElementById('tabBtnBoard');
       const tabBtnAdventure = document.getElementById('tabBtnAdventure');
+      const tabBtnTeamRaid = document.getElementById('tabBtnTeamRaid');
+      
       const boardContent = document.getElementById('guildBoardContent');
       const adventureContent = document.getElementById('guildAdventureContent');
+      const teamRaidContent = document.getElementById('guildTeamRaidContent');
+      
+      // 先重置所有按鈕 active 樣式
+      [tabBtnBoard, tabBtnAdventure, tabBtnTeamRaid].forEach(btn => {
+        if (btn) {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        }
+      });
+      
+      // 重置內容顯示
+      [boardContent, adventureContent, teamRaidContent].forEach(content => {
+        if (content) content.style.display = 'none';
+      });
+
+      // 暫停副本 ATB (若正在戰鬥中)
+      if (window.teamRaidInterval && tabId !== 'teamRaid') {
+        clearInterval(window.teamRaidInterval);
+        window.teamRaidInterval = null;
+        if (window.activeRaidEngine) {
+          window.activeRaidEngine.isPaused = true;
+          window.activeRaidEngine.log("⏳ 已離開戰役畫面，戰鬥自動暫停。");
+        }
+      }
       
       if (tabId === 'board') {
         tabBtnBoard.classList.add('active');
         tabBtnBoard.setAttribute('aria-selected', 'true');
-        tabBtnAdventure.classList.remove('active');
-        tabBtnAdventure.setAttribute('aria-selected', 'false');
-        
         boardContent.style.display = 'block';
-        adventureContent.style.display = 'none';
         stopBgm();
-      } else {
+      } else if (tabId === 'adventure') {
         tabBtnAdventure.classList.add('active');
         tabBtnAdventure.setAttribute('aria-selected', 'true');
-        tabBtnBoard.classList.remove('active');
-        tabBtnBoard.setAttribute('aria-selected', 'false');
-        
-        boardContent.style.display = 'none';
         adventureContent.style.display = 'block';
-        
         showStageSelect();
+      } else if (tabId === 'teamRaid') {
+        tabBtnTeamRaid.classList.add('active');
+        tabBtnTeamRaid.setAttribute('aria-selected', 'true');
+        teamRaidContent.style.display = 'block';
+        showTeamRaidStageSelect(); // 顯示團隊戰役選擇
       }
+    }
+
+    // ====================================================
+    // 🏰 《太空戰士模式》團隊副本戰役前端控制器 JavaScript
+    // ====================================================
+    let teamRaidEngine = null;
+    let selectedMonsterIndex = 0; // 當前集火魔物索引
+
+    // 1. 顯示團隊戰役關卡選擇
+    function showTeamRaidStageSelect() {
+      const selectArea = document.getElementById('teamRaidStageSelectArea');
+      const battleArea = document.getElementById('teamRaidBattleArea');
+      selectArea.style.display = 'block';
+      battleArea.style.display = 'none';
+
+      const selectGrid = document.getElementById('teamRaidStageSelectGrid');
+      selectGrid.innerHTML = '';
+
+      const currentUserLevel = getLevelInfo(userXP).level;
+      const gearStats = getGearStats(currentUserLevel); // 獲得原公會神裝屬性加成
+      
+      // 生成 10 個挑戰關卡
+      for (let i = 1; i <= 10; i++) {
+        let reqLevel = 1;
+        if (i > 1) reqLevel = (i - 1) * 4; // 關卡 2: LV4, 3: LV8, 4: LV12 ... 10: LV36
+        
+        const isUnlocked = currentUserLevel >= reqLevel;
+        const card = document.createElement('div');
+        card.className = `team-raid-stage-card ${isUnlocked ? '' : 'locked'}`;
+        
+        let desc = "";
+        if (i === 1) desc = "👾 單隻雜念史萊姆 (適合初心者)";
+        else if (i === 2) desc = "👾 雙生史萊姆 (難度上升 45%)";
+        else if (i === 3) desc = "👁️ 狂暴大眼怪登場！";
+        else if (i <= 6) desc = "👾👁️ 魔物聯軍，大範圍侵襲！";
+        else desc = "💀💀 至尊死神率隊，深淵大災難！";
+
+        if (isUnlocked) {
+          card.innerHTML = `
+            <div style="font-weight: bold; color: #ffd700;">⚔️ 第 ${i} 關：討伐深淵魔窟</div>
+            <div style="font-size: 0.65rem; color: #ffffff; margin: 4px 0;">${desc}</div>
+            <div style="font-size: 0.62rem; color: #4ef072;">💰 預計通關獎勵: +${Math.floor(50 * Math.pow(1.6, i - 1))} XP</div>
+          `;
+          card.addEventListener('click', () => {
+            playSlashSFX();
+            startTeamRaidBattle(i, reqLevel, gearStats);
+          });
+        } else {
+          card.innerHTML = `
+            <div style="font-weight: bold; color: #888888;">🔒 第 ${i} 關：未解鎖</div>
+            <div style="font-size: 0.65rem; color: #888888; margin: 4px 0;">白熊需要達到 LV.${reqLevel} 以解鎖此關</div>
+            <div style="font-size: 0.62rem; color: #888888;">必須回到日常修煉或前關挑戰升級！</div>
+          `;
+        }
+        selectGrid.appendChild(card);
+      }
+    }
+
+    // 2. 初始化與啟動副本戰鬥
+    function startTeamRaidBattle(stageNum, reqLevel, gearStats) {
+      const selectArea = document.getElementById('teamRaidStageSelectArea');
+      const battleArea = document.getElementById('teamRaidBattleArea');
+      selectArea.style.display = 'none';
+      battleArea.style.display = 'block';
+
+      // 創立引擎實例
+      teamRaidEngine = new rpgBattleEngine({
+        onLog: (msg) => {
+          const logArea = document.getElementById('ffBattleLog');
+          if (logArea) logArea.innerText = msg;
+        },
+        onStateChange: () => {
+          renderTeamRaidUI();
+        },
+        onActionPrompt: (activeHero) => {
+          renderTeamRaidCommands(activeHero);
+        },
+        onAnimation: (type, data) => {
+          triggerBattleAnimation(type, data);
+        },
+        onVictory: (totalXp) => {
+          if (window.teamRaidInterval) {
+            clearInterval(window.teamRaidInterval);
+            window.teamRaidInterval = null;
+          }
+          // 同步寫入原帳號 XP
+          addXP(totalXp);
+          setTimeout(() => {
+            alert(`🎉 副本通關成功！理智小隊合力剿滅了魔物！\n獲得了 +${totalXp} 經驗值 (XP)，已計入白熊帳號！`);
+            showTeamRaidStageSelect();
+          }, 1800);
+        },
+        onDefeat: () => {
+          if (window.teamRaidInterval) {
+            clearInterval(window.teamRaidInterval);
+            window.teamRaidInterval = null;
+          }
+          setTimeout(() => {
+            alert(`💀 挑戰失敗！全員陣亡鎩羽而歸。\n請回到「公會日常」修煉提升白熊等級，以獲得更強生命力並解鎖更強隊友！`);
+            showTeamRaidStageSelect();
+          }, 1800);
+        }
+      });
+
+      // 初始化隊友與怪物
+      teamRaidEngine.initParty(getLevelInfo(userXP).level, gearStats);
+      teamRaidEngine.startBattle(stageNum);
+      
+      selectedMonsterIndex = 0; // 預設集火第一個怪
+      window.activeRaidEngine = teamRaidEngine;
+
+      // 啟動 ATB 動態充能時鐘
+      if (window.teamRaidInterval) {
+        clearInterval(window.teamRaidInterval);
+      }
+      window.teamRaidInterval = setInterval(() => {
+        teamRaidEngine.updateATB(0.5);
+      }, 30);
+    }
+
+    // 3. 戰鬥指令選單
+    function renderTeamRaidCommands(activeHero) {
+      const activeNameEl = document.getElementById('ffActiveHeroName');
+      const cmdButtonsEl = document.getElementById('ffCommandButtons');
+      
+      activeNameEl.innerText = `${activeHero.emoji} ${activeHero.name}`;
+      cmdButtonsEl.innerHTML = '';
+
+      // 攻擊按鈕
+      const attackBtn = document.createElement('button');
+      attackBtn.className = 'ff-btn';
+      attackBtn.innerText = '⚔️ 攻擊';
+      attackBtn.onclick = () => {
+        teamRaidEngine.executeHeroAttack(activeHero, selectedMonsterIndex);
+      };
+      
+      // 特技按鈕
+      let skillName = "";
+      let mpCost = 0;
+      if (activeHero.type === 'bear') { skillName = '⚡閃煉雷擊'; mpCost = 20; }
+      else if (activeHero.type === 'monkey') { skillName = '⚔️執行斬'; mpCost = 15; }
+      else if (activeHero.type === 'cat') { skillName = '🛡️除錯療癒光'; mpCost = 25; }
+      else if (activeHero.type === 'rabbit') { skillName = '⚡降噪專注擊'; mpCost = 18; }
+
+      const skillBtn = document.createElement('button');
+      skillBtn.className = 'ff-btn';
+      skillBtn.innerText = `${skillName} (MP:${mpCost})`;
+      skillBtn.disabled = activeHero.mp < mpCost;
+      skillBtn.onclick = () => {
+        teamRaidEngine.executeHeroSkill(activeHero, skillName, selectedMonsterIndex);
+      };
+
+      // 防禦與逃跑
+      const defBtn = document.createElement('button');
+      defBtn.className = 'ff-btn';
+      defBtn.innerText = '🛡️ 防禦';
+      defBtn.onclick = () => {
+        teamRaidEngine.log(`🛡️ ${activeHero.emoji}【${activeHero.name}】擺出防禦姿態，ATB 條重置！`);
+        activeHero.atb = 0;
+        teamRaidEngine.isPaused = false;
+        teamRaidEngine.onStateChange();
+      };
+
+      const fleeBtn = document.createElement('button');
+      fleeBtn.className = 'ff-btn';
+      fleeBtn.style.color = '#ff4d4d';
+      fleeBtn.innerText = '🏃 撤退';
+      fleeBtn.onclick = () => {
+        if (confirm("確定要撤退並放棄當前副本嗎？")) {
+          if (window.teamRaidInterval) {
+            clearInterval(window.teamRaidInterval);
+            window.teamRaidInterval = null;
+          }
+          showTeamRaidStageSelect();
+        }
+      };
+
+      cmdButtonsEl.appendChild(attackBtn);
+      cmdButtonsEl.appendChild(skillBtn);
+      cmdButtonsEl.appendChild(defBtn);
+      cmdButtonsEl.appendChild(fleeBtn);
+    }
+
+    // 4. 渲染戰鬥舞台與狀態欄
+    function renderTeamRaidUI() {
+      if (!teamRaidEngine) return;
+
+      // (A) 渲染魔物
+      const enemiesSide = document.getElementById('ffEnemiesSide');
+      enemiesSide.innerHTML = '';
+      
+      teamRaidEngine.monsters.forEach((m, idx) => {
+        const mDiv = document.createElement('div');
+        mDiv.className = 'ff-monster-container';
+        mDiv.style.position = 'relative';
+        mDiv.style.display = 'flex';
+        mDiv.style.alignItems = 'center';
+        mDiv.style.gap = '8px';
+        mDiv.style.cursor = m.alive ? 'pointer' : 'default';
+        
+        const isSelected = selectedMonsterIndex === idx;
+        const selectArrow = isSelected && m.alive ? `<span style="color:#ffcc00;font-size:0.9rem;position:absolute;left:-16px;">➔</span>` : '';
+        let shockBadge = m.isShocked ? `<span class="ff-buff-badge shocked-badge" style="background:#ffff00;color:#000;">⚡感電</span>` : '';
+        
+        mDiv.innerHTML = `
+          ${selectArrow}
+          <div class="ff-sprite ${m.alive ? '' : 'dead'}" id="ff-monster-sprite-${idx}">
+            ${m.emoji}
+            ${shockBadge}
+          </div>
+          <div style="font-family:monospace; text-align:left; font-size:0.6rem; color:#fff;">
+            <div style="font-weight:bold; color:${isSelected ? '#ffcc00' : '#fff'};">${m.name.split('・')[1] || m.name}</div>
+            <div>HP: ${m.hp}/${m.maxHp}</div>
+          </div>
+        `;
+
+        if (m.alive) {
+          mDiv.addEventListener('click', () => {
+            selectedMonsterIndex = idx;
+            playClickSFX();
+            renderTeamRaidUI();
+          });
+        }
+        enemiesSide.appendChild(mDiv);
+      });
+
+      // (B) 渲染英雄 (斜排隊形)
+      const heroesSide = document.getElementById('ffHeroesSide');
+      heroesSide.innerHTML = '';
+
+      teamRaidEngine.heroes.forEach((h, idx) => {
+        const hDiv = document.createElement('div');
+        hDiv.className = 'ff-hero-container';
+        hDiv.style.position = 'relative';
+        
+        let buffBadge = "";
+        if (h.isShielded) buffBadge = `<span class="ff-buff-badge buff-shield">🛡️護罩</span>`;
+        if (h.isTaunting) buffBadge = `<span class="ff-buff-badge buff-taunt">🎯嘲諷</span>`;
+
+        const isActive = teamRaidEngine.isPaused && h.atb >= 100;
+        
+        hDiv.innerHTML = `
+          <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${idx}">
+            ${h.emoji}
+            ${buffBadge}
+          </div>
+        `;
+        heroesSide.appendChild(hDiv);
+      });
+
+      // (C) 渲染下方狀態欄
+      const statusCol = document.getElementById('ffStatusColumn');
+      statusCol.innerHTML = '';
+
+      teamRaidEngine.heroes.forEach(h => {
+        const row = document.createElement('div');
+        row.className = `ff-status-row ${h.atb >= 100 && h.alive ? 'active' : ''}`;
+        
+        const hpPct = (h.hp / h.maxHp) * 100;
+        const mpPct = (h.mp / h.maxMp) * 100;
+        const atbPct = h.atb;
+
+        row.innerHTML = `
+          <div class="ff-status-name" style="color: ${h.alive ? '#fff' : '#ff4d4d'};">${h.emoji} ${h.name}</div>
+          
+          <div style="display:flex; align-items:center;">
+            <span style="font-size:0.55rem; color:#888;">HP</span>
+            <div class="ff-bar-outer" style="flex:1;">
+              <div class="ff-bar-inner bar-hp" style="width: ${hpPct}%;"></div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center;">
+            <span style="font-size:0.55rem; color:#888;">MP</span>
+            <div class="ff-bar-outer" style="flex:1;">
+              <div class="ff-bar-inner bar-mp" style="width: ${mpPct}%;"></div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center;">
+            <span style="font-size:0.55rem; color:#888;">ATB</span>
+            <div class="ff-bar-outer" style="flex:1;">
+              <div class="ff-bar-inner bar-atb" style="width: ${atbPct}%;"></div>
+            </div>
+          </div>
+        `;
+        statusCol.appendChild(row);
+      });
+
+      if (!teamRaidEngine.isPaused) {
+        document.getElementById('ffActiveHeroName').innerText = `⚔️ 戰鬥進行中...`;
+        document.getElementById('ffCommandButtons').innerHTML = `
+          <button class="ff-btn" disabled>⚔️ 攻擊</button>
+          <button class="ff-btn" disabled>⚡ 特技</button>
+          <button class="ff-btn" disabled>🛡️ 防禦</button>
+          <button class="ff-btn" disabled>🏃 逃跑</button>
+        `;
+      }
+    }
+
+    // 5. 觸發戰鬥特效與飄字動畫
+    function triggerBattleAnimation(type, data) {
+      if (type === 'normal-attack' || type === 'slash-monkey' || type === 'slash-rabbit') {
+        const sprite = document.getElementById(`ff-monster-sprite-${selectedMonsterIndex}`);
+        if (sprite) {
+          sprite.classList.add('hit');
+          setTimeout(() => sprite.classList.remove('hit'), 400);
+        }
+        
+        let dmg = Math.floor(data.attacker.power * 0.8 * (0.8 + Math.random() * 0.4));
+        if (type === 'slash-monkey') {
+          dmg = Math.floor(dmg * 2.1);
+          if (typeof playSlashSFX === 'function') playSlashSFX();
+        }
+        if (type === 'slash-rabbit') {
+          dmg = Math.floor(dmg * 1.8);
+          if (typeof playSlashSFX === 'function') playSlashSFX();
+        }
+        if (type === 'normal-attack' && typeof playSlashSFX === 'function') {
+          playSlashSFX();
+        }
+        
+        createDmgPopup(dmg, `ff-monster-sprite-${selectedMonsterIndex}`, false);
+      }
+
+      if (type === 'lightning') {
+        if (typeof playSlashSFX === 'function') playSlashSFX();
+        data.targets.forEach((t, i) => {
+          const sprite = document.getElementById(`ff-monster-sprite-${teamRaidEngine.monsters.indexOf(t)}`);
+          if (sprite) {
+            sprite.classList.add('hit');
+            setTimeout(() => sprite.classList.remove('hit'), 400);
+            
+            let dmg = Math.floor(data.attacker.power * 1.5);
+            createDmgPopup(dmg, `ff-monster-sprite-${teamRaidEngine.monsters.indexOf(t)}`, false, 'shocked');
+          }
+        });
+      }
+
+      if (type === 'heal-shield') {
+        if (typeof playHealSFX === 'function') playHealSFX();
+        data.targets.forEach((h, i) => {
+          const sprite = document.getElementById(`ff-hero-sprite-${teamRaidEngine.heroes.indexOf(h)}`);
+          if (sprite) {
+            let heal = Math.floor(data.attacker.power * 1.2);
+            createDmgPopup(heal, `ff-hero-sprite-${teamRaidEngine.heroes.indexOf(h)}`, true);
+          }
+        });
+      }
+
+      if (type === 'monster-attack') {
+        if (typeof playSlashSFX === 'function') playSlashSFX();
+        const sprite = document.getElementById(`ff-hero-sprite-${teamRaidEngine.heroes.indexOf(data.target)}`);
+        if (sprite) {
+          sprite.classList.add('hit');
+          setTimeout(() => sprite.classList.remove('hit'), 400);
+        }
+        
+        let dmg = Math.floor(data.attacker.atk);
+        createDmgPopup(dmg, `ff-hero-sprite-${teamRaidEngine.heroes.indexOf(data.target)}`, false);
+      }
+    }
+
+    // 6. 生成 JRPG 經典浮動數值特效
+    function createDmgPopup(val, targetSpriteId, isHeal = false, specialClass = '') {
+      const targetEl = document.getElementById(targetSpriteId);
+      if (!targetEl) return;
+      
+      const popup = document.createElement('div');
+      popup.className = `ff-dmg-popup ${isHeal ? 'heal' : ''} ${specialClass}`;
+      popup.innerText = isHeal ? `+${val}` : `-${val}`;
+      
+      const rect = targetEl.getBoundingClientRect();
+      const parentRect = document.getElementById('teamRaidScreen').getBoundingClientRect();
+      
+      const x = rect.left - parentRect.left + rect.width / 2 - 15;
+      const y = rect.top - parentRect.top - 15;
+      
+      popup.style.left = `${x}px`;
+      popup.style.top = `${y}px`;
+      
+      document.getElementById('teamRaidScreen').appendChild(popup);
+      
+      setTimeout(() => popup.remove(), 700);
     }
 
     function showStageSelect() {
