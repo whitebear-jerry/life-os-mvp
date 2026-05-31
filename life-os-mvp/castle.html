@@ -1847,7 +1847,8 @@ function updatePlayer() {
     });
     candles.forEach(c => {
       if (!c.alive) return;
-      if (Math.abs(c.x - (player.x + player.w/2)) < player.w && Math.abs(c.y - (player.y + player.h/2)) < player.h) {
+      const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+      if (rectOverlap(dashHitbox, candleRect)) {
         breakCandle(c);
       }
     });
@@ -2056,7 +2057,8 @@ function updatePlayer() {
       });
       candles.forEach(c => {
         if (!c.alive) return;
-        if (Math.abs(c.x - (hx + hw/2)) < hw/2 + 12 && Math.abs(c.y - (hy + hh/2)) < hh/2 + 12) {
+        const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+        if (rectOverlap(hitbox, candleRect)) {
           breakCandle(c);
         }
       });
@@ -2078,7 +2080,8 @@ function updatePlayer() {
       });
       candles.forEach(c => {
         if (!c.alive) return;
-        if (Math.abs(c.x - (hx + hw/2)) < hw/2 + 12 && Math.abs(c.y - (hy + hh/2)) < hh/2 + 12) {
+        const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+        if (rectOverlap(hitbox, candleRect)) {
           breakCandle(c);
         }
       });
@@ -2613,7 +2616,9 @@ function updateProjectiles() {
 
       candles.forEach(c => {
         if (!c.alive) return;
-        if (Math.abs(c.x - p.x) < 14 && Math.abs(c.y - p.y) < 14) {
+        const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+        const projRect = { x: p.x - p.w/2, y: p.y - p.h/2, w: p.w, h: p.h };
+        if (rectOverlap(projRect, candleRect)) {
           breakCandle(c);
           if (!p.piercing) p.life = 0;
         }
@@ -2661,7 +2666,22 @@ function updateItems() {
     if (isSolid(mx, by)) { it.y = by * TILE - it.h; it.vy = 0; }
     it.life--;
     
-    if (rectOverlap(player, it)) {
+    let isPicked = false;
+    if (it.type === 'key') {
+      // Wide circular magnet attraction logic for the gold key (taking the floating bob animation into account!)
+      const px = player.x + player.w / 2;
+      const py = player.y + player.h / 2;
+      const kx = it.x + it.w / 2;
+      const ky = it.y + it.h / 2;
+      const bob = Math.sin(Date.now() * 0.005 + it.x) * 2;
+      if (Math.hypot(px - kx, py - (ky + bob)) < 36) {
+        isPicked = true;
+      }
+    } else {
+      isPicked = rectOverlap(player, it);
+    }
+
+    if (isPicked) {
       if (it.type === 'heart') {
         player.hp = Math.min(player.maxHp, player.hp + 20);
         floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+20HP', color: '#ff8888', life: 35, vy: -1.5 });
