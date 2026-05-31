@@ -1486,14 +1486,8 @@ function startGame() {
   floaters = [];
   items = [];
   
-  // Spawn golden key at map middle danger point! Dynamic floor scan logic (x = 38 * TILE)
-  let keyY = 6 * TILE;
-  for (let y = 2; y < MAP_H; y++) {
-    if (map[y] && map[y][38] === 1) {
-      keyY = y * TILE - 20; // 20 is the golden key's height
-      break;
-    }
-  }
+  // Spawn golden key flat on the bottom ground to guarantee easy & precise pickup!
+  let keyY = (MAP_H - 3) * TILE; // Lie flat on bottom ground (y = 15 * TILE)
   items.push({
     x: 38 * TILE, y: keyY, w: 20, h: 20,
     type: 'key', vy: 0, life: 999999
@@ -2671,13 +2665,12 @@ function updateItems() {
     
     let isPicked = false;
     if (it.type === 'key') {
-      // Precise 24px attraction check matching visual layout and accounting for bob wave!
+      // Precise 24px static collision check (flat on ground, no bob drift!)
       const px = player.x + player.w / 2;
       const py = player.y + player.h / 2;
       const kx = it.x + it.w / 2;
       const ky = it.y + it.h / 2;
-      const bob = Math.sin(Date.now() * 0.005 + it.x) * 2;
-      if (Math.hypot(px - kx, py - (ky + bob)) < 24) {
+      if (Math.hypot(px - kx, py - ky) < 24) {
         isPicked = true;
       }
     } else {
@@ -2916,7 +2909,7 @@ function render() {
       ctx.shadowBlur = 10;
       ctx.fillStyle = '#ffd700';
       ctx.font = '16px serif';
-      ctx.fillText('🔑', sx-2, sy+12+bob);
+      ctx.fillText('🔑', sx-2, sy+12); // No bob! Perfectly aligned and static on ground!
       ctx.restore();
     } else {
       ctx.fillStyle = '#ffd89c';
