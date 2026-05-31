@@ -2659,22 +2659,25 @@ function updateFloaters() {
 
 function updateItems() {
   items.forEach(it => {
-    it.vy += 0.3;
-    it.y += it.vy;
-    const by = Math.floor((it.y + it.h) / TILE);
-    const mx = Math.floor((it.x + it.w/2) / TILE);
-    if (isSolid(mx, by)) { it.y = by * TILE - it.h; it.vy = 0; }
+    // Keys are immune to gravity & physics updates, staying statically locked at scanned floor heights!
+    if (it.type !== 'key') {
+      it.vy += 0.3;
+      it.y += it.vy;
+      const by = Math.floor((it.y + it.h) / TILE);
+      const mx = Math.floor((it.x + it.w/2) / TILE);
+      if (isSolid(mx, by)) { it.y = by * TILE - it.h; it.vy = 0; }
+    }
     it.life--;
     
     let isPicked = false;
     if (it.type === 'key') {
-      // Wide circular magnet attraction logic for the gold key (taking the floating bob animation into account!)
+      // Precise 24px attraction check matching visual layout and accounting for bob wave!
       const px = player.x + player.w / 2;
       const py = player.y + player.h / 2;
       const kx = it.x + it.w / 2;
       const ky = it.y + it.h / 2;
       const bob = Math.sin(Date.now() * 0.005 + it.x) * 2;
-      if (Math.hypot(px - kx, py - (ky + bob)) < 36) {
+      if (Math.hypot(px - kx, py - (ky + bob)) < 24) {
         isPicked = true;
       }
     } else {
