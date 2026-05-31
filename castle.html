@@ -449,14 +449,14 @@
       </div>
       <div class="char-card" id="card_bunny" onclick="selectCharacter('bunny')">
         <span class="char-emoji">🐰</span>
-        <span class="char-name">龍槍小兔</span>
-        <span class="char-desc">職業：龍之槍兵 (Lancer)<br>主動：矛盾之突刺<br>矛盾之矛長距貫穿</span>
+        <span class="char-name">白魔小兔</span>
+        <span class="char-desc">職業：白魔導士 (Healer)<br>主動：神聖治癒術 (HP盾)<br>心形魔導追踪短杖</span>
         <span id="rec_bunny" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
       <div class="char-card" id="card_cat" onclick="selectCharacter('cat')">
         <span class="char-emoji">🐱</span>
-        <span class="char-name">白魔小貓</span>
-        <span class="char-desc">職業：白魔導士 (Healer)<br>主動：神聖治癒術 (HP盾)<br>心形魔導追踪短杖</span>
+        <span class="char-name">除錯小貓</span>
+        <span class="char-desc">職業：戰士 (Warrior)<br>主動：除錯專注擊<br>矛盾之矛長距貫穿</span>
         <span id="rec_cat" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
       </div>
     </div>
@@ -505,13 +505,13 @@
         </div>
 
         <div class="guide-skill-item">
-          <div class="guide-skill-name">🐰 龍槍小兔 (Lancer)</div>
-          <div class="guide-skill-desc">【技能：矛盾之突刺】前衝刺出巨型金色矛盾矛尖能量，長距離線性穿透！</div>
+          <div class="guide-skill-name">🐰 白魔小兔 (White Mage)</div>
+          <div class="guide-skill-desc">【技能：神聖治癒術】**補血！** 瞬間回復 45% 血量，並召喚旋轉聖光愛心護盾無敵 2 秒！</div>
         </div>
 
         <div class="guide-skill-item">
-          <div class="guide-skill-name">🐱 白魔小貓 (White Mage)</div>
-          <div class="guide-skill-desc">【技能：神聖治癒術】**補血！** 瞬間回復 45% 血量，並召喚旋轉聖光愛心護盾無敵 2 秒！</div>
+          <div class="guide-skill-name">🐱 除錯小貓 (Warrior)</div>
+          <div class="guide-skill-desc">【技能：除錯專注擊】前衝刺出巨型金色巨矛能量，長距離線性穿透打擊！</div>
         </div>
       </div>
     </div>
@@ -757,16 +757,16 @@ const CHARACTERS = {
     skillDesc: '向前無敵極速衝刺，揮舞無影分身撕裂路徑上的所有敵人和蠟燭！'
   },
   bunny: { 
-    emoji:'🐰', name:'龍槍小兔', color:'#fbfbfb', hpMul:0.85,spdMul:1.15,atkMul:1.1, 
-    canDoubleJump:false, jumpPow:12.5,
-    skillName: '矛盾之突刺', skillCD: 160,
-    skillDesc: '前衝並刺出巨型金色矛頭能量，超長距離線性穿透打擊！'
-  },
-  cat: { 
-    emoji:'🐱', name:'白魔小貓', color:'#ffa94d', hpMul:0.95,spdMul:1.05,atkMul:1.2, 
+    emoji:'🐰', name:'白魔小兔', color:'#fbfbfb', hpMul:0.95,spdMul:1.05,atkMul:1.2, 
     canDoubleJump:false, jumpPow:11.0,
     skillName: '神聖治癒術', skillCD: 300,
     skillDesc: '回復 45% 血量，並召喚旋轉聖光愛心護盾獲得無敵 2 秒！'
+  },
+  cat: { 
+    emoji:'🐱', name:'除錯小貓', color:'#ffa94d', hpMul:1.25,spdMul:1.15,atkMul:1.4, 
+    canDoubleJump:false, jumpPow:12.5,
+    skillName: '除錯專注擊', skillCD: 160,
+    skillDesc: '前衝並刺出巨型金色矛頭能量，超長距離線性穿透打擊！'
   }
 };
 
@@ -1451,8 +1451,8 @@ function startGame() {
   // Set default starting weapon based on animal class!
   if (charKey === 'bear') weaponIdx = 3;       // Bear Sage starts with Sage Wand
   else if (charKey === 'monkey') weaponIdx = 0; // Monkey Ninja starts with Ninja Katana
-  else if (charKey === 'bunny') weaponIdx = 2;  // Bunny Dragoon starts with Contradiction Spear
-  else if (charKey === 'cat') weaponIdx = 1;    // Cat Healer starts with Healing Staff
+  else if (charKey === 'bunny') weaponIdx = 1;  // Bunny White Mage starts with Healing Staff
+  else if (charKey === 'cat') weaponIdx = 2;    // Cat Warrior starts with Contradiction Spear
 
   // Init player
   const gear = getGearStats(info.level);
@@ -1612,7 +1612,20 @@ function triggerSkill() {
     player.vy = 0;
     player.invincible = Math.max(player.invincible, 20); // Invincible during dash
   } else if (charKey === 'bunny') {
-    // 🐰 Bunny Dragoon Skill: Spear of Contradiction Thrust
+    // 🐰 Bunny White Mage Skill: Holy Healing & Divine Shield (降噪防護罩)
+    const healVal = Math.floor(player.maxHp * 0.45);
+    player.hp = Math.min(player.maxHp, player.hp + healVal);
+    floaters.push({
+      x: player.x + player.w/2, y: player.y - 10,
+      text: '+' + healVal + 'HP ❤️', color: '#ff85a2', life: 50, vy: -2
+    });
+    
+    // Shield barriers
+    player.invincible = 120; // 2 seconds invincibility
+    player.hasShield = 120;
+    playHealSFX();
+  } else if (charKey === 'cat') {
+    // 🐱 Cat Warrior Skill: Debug Spear of Contradiction Thrust (除錯專注擊)
     const dmg = Math.floor(calcDmg() * 1.8);
     projectiles.push({
       x: player.x + player.w/2,
@@ -1631,19 +1644,6 @@ function triggerSkill() {
     });
     // Lunge dash recoil
     player.vx = player.dir * 6;
-  } else if (charKey === 'cat') {
-    // 🐱 Cat White Mage Skill: Holy Healing & Divine Shield
-    const healVal = Math.floor(player.maxHp * 0.45);
-    player.hp = Math.min(player.maxHp, player.hp + healVal);
-    floaters.push({
-      x: player.x + player.w/2, y: player.y - 10,
-      text: '+' + healVal + 'HP ❤️', color: '#ff85a2', life: 50, vy: -2
-    });
-    
-    // Shield barriers
-    player.invincible = 120; // 2 seconds invincibility
-    player.hasShield = 120;
-    playHealSFX();
   }
 }
 
@@ -3113,25 +3113,9 @@ function render() {
     ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3.5), cy - 2, 2, 2);
 
   } else if (charKey === 'bunny') {
-    // 🐰 Bunny Lancer: silver chest armor, spear carried on back
+    // 🐰 Bunny White Mage: white robe with red triangles, bunny ears & tail
     const furColor = '#fbfbfb';
-    const plateColor = '#bdc3c7';
-
-    // spear carried on back (drawn first in BG)
-    if (!player.attacking) {
-      ctx.strokeStyle = '#666666';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(cx - pdir * 4, player.y + 16);
-      ctx.lineTo(cx + pdir * 8, player.y - 4);
-      ctx.stroke();
-      ctx.fillStyle = '#f1c40f'; // golden contradiction spearhead
-      ctx.beginPath();
-      ctx.moveTo(cx + pdir * 8, player.y - 4);
-      ctx.lineTo(cx + pdir * 12, player.y - 8);
-      ctx.lineTo(cx + pdir * 10, player.y - 12);
-      ctx.fill();
-    }
+    const robeColor = '#ffffff';
 
     // fluffy ball tail in BG
     ctx.fillStyle = furColor;
@@ -3155,56 +3139,6 @@ function render() {
     ctx.ellipse(3.5, -8, 1.2, 7, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
-
-    // head
-    ctx.fillStyle = furColor;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    // warrior red headband
-    ctx.fillStyle = '#ff4d4d';
-    ctx.fillRect(cx - 8.5, cy - 1, 17, 2.5);
-
-    // dragoon plate armor body
-    ctx.fillStyle = plateColor;
-    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
-    ctx.fillStyle = '#f1c40f'; // golden emblem
-    ctx.fillRect(cx - 3, player.y + 13 + bounce, 6, 5);
-
-    // red eyes
-    ctx.fillStyle = '#e74c3c';
-    ctx.beginPath();
-    ctx.arc(cx + pdir * 3.5, cy, 1.5, 0, Math.PI * 2);
-    ctx.fill();
-    // nose
-    ctx.fillStyle = '#ffc0cb';
-    ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2, 1, 1);
-
-  } else if (charKey === 'cat') {
-    // 🐱 Cat White Mage: white robe with red triangles decoration
-    const furColor = '#ffa94d';
-    const robeColor = '#ffffff';
-
-    // tail
-    ctx.strokeStyle = furColor;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
-    ctx.quadraticCurveTo(cx - pdir * 14, player.y + 10 + Math.sin(Date.now()*0.015)*4, cx - pdir * 16, player.y + 7);
-    ctx.stroke();
-
-    // ears
-    ctx.fillStyle = furColor;
-    ctx.beginPath();
-    ctx.moveTo(cx - 7, cy - 4); ctx.lineTo(cx - 8, cy - 12); ctx.lineTo(cx - 2, cy - 7);
-    ctx.moveTo(cx + 7, cy - 4); ctx.lineTo(cx + 8, cy - 12); ctx.lineTo(cx + 2, cy - 7);
-    ctx.fill();
-    ctx.fillStyle = '#ffc0cb';
-    ctx.beginPath();
-    ctx.moveTo(cx - 6, cy - 5); ctx.lineTo(cx - 7, cy - 10); ctx.lineTo(cx - 3, cy - 7);
-    ctx.moveTo(cx + 6, cy - 5); ctx.lineTo(cx + 7, cy - 10); ctx.lineTo(cx + 3, cy - 7);
-    ctx.fill();
 
     // head
     ctx.fillStyle = furColor;
@@ -3242,6 +3176,72 @@ function render() {
     ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3), cy - 1, 2, 2.5);
     ctx.fillStyle = '#000000';
     ctx.fillRect(cx + pdir * 2.5 + (pdir > 0 ? 0.5 : -2.5), cy - 0.5, 1, 2.5);
+
+  } else if (charKey === 'cat') {
+    // 🐱 Cat Warrior: plate armor, spear on back, cat ears & tail & whiskers
+    const furColor = '#ffa94d';
+    const plateColor = '#bdc3c7';
+
+    // spear carried on back (drawn first in BG)
+    if (!player.attacking) {
+      ctx.strokeStyle = '#666666';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - pdir * 4, player.y + 16);
+      ctx.lineTo(cx + pdir * 8, player.y - 4);
+      ctx.stroke();
+      ctx.fillStyle = '#f1c40f'; // golden contradiction spearhead
+      ctx.beginPath();
+      ctx.moveTo(cx + pdir * 8, player.y - 4);
+      ctx.lineTo(cx + pdir * 12, player.y - 8);
+      ctx.lineTo(cx + pdir * 10, player.y - 12);
+      ctx.fill();
+    }
+
+    // cat tail
+    ctx.strokeStyle = furColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
+    ctx.quadraticCurveTo(cx - pdir * 14, player.y + 10 + Math.sin(Date.now()*0.015)*4, cx - pdir * 16, player.y + 7);
+    ctx.stroke();
+
+    // cat ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.moveTo(cx - 7, cy - 4); ctx.lineTo(cx - 8, cy - 12); ctx.lineTo(cx - 2, cy - 7);
+    ctx.moveTo(cx + 7, cy - 4); ctx.lineTo(cx + 8, cy - 12); ctx.lineTo(cx + 2, cy - 7);
+    ctx.fill();
+    ctx.fillStyle = '#ffc0cb';
+    ctx.beginPath();
+    ctx.moveTo(cx - 6, cy - 5); ctx.lineTo(cx - 7, cy - 10); ctx.lineTo(cx - 3, cy - 7);
+    ctx.moveTo(cx + 6, cy - 5); ctx.lineTo(cx + 7, cy - 10); ctx.lineTo(cx + 3, cy - 7);
+    ctx.fill();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // warrior red headband
+    ctx.fillStyle = '#ff4d4d';
+    ctx.fillRect(cx - 8.5, cy - 1, 17, 2.5);
+
+    // dragoon plate armor body
+    ctx.fillStyle = plateColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = '#f1c40f'; // golden emblem
+    ctx.fillRect(cx - 3, player.y + 13 + bounce, 6, 5);
+
+    // red eyes
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 3.5, cy, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    // nose
+    ctx.fillStyle = '#ffc0cb';
+    ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2, 1, 1);
 
     // whiskers
     ctx.strokeStyle = 'rgba(255,255,255,0.7)';

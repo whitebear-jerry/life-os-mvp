@@ -1,12 +1,12 @@
 /**
  * ⚔️ 《白熊人生戰役：太空戰士模式》獨立 JRPG 團隊戰鬥引擎
- * 職責：管理戰鬥狀態、成員與魔物屬性、ATB 時間軸充能、指令執行與關卡倍數機制
+ * 職責：管理戰鬥狀態、成員與魔物屬性、ATB 時間軸充能、指令執行與角色定位調換
  */
 
 class rpgCharacter {
   constructor(name, type, emoji, attrType, baseHp, baseMp, speed, power) {
     this.name = name;
-    this.type = type; // 'bear' (Sage), 'cat' (White Mage), 'rabbit' (Warrior), 'monkey' (Ninja)
+    this.type = type; // 'bear' (Sage), 'cat' (Warrior), 'rabbit' (White Mage), 'monkey' (Ninja)
     this.emoji = emoji;
     this.attrType = attrType; // 'int', 'vit', 'foc', 'agi'
     this.baseHp = baseHp;
@@ -23,8 +23,8 @@ class rpgCharacter {
     
     // 狀態
     this.alive = true;
-    this.isShielded = false; // 除錯防護罩 (減傷 50%)
-    this.isTaunting = false; // 小兔嘲諷
+    this.isShielded = false; // 降噪防護罩 (減傷 50%)
+    this.isTaunting = false; // 戰士嘲諷
   }
 
   reset() {
@@ -89,21 +89,21 @@ class rpgBattleEngine {
     const bearAgi = 25 + (gearStats.bonusAgi || 0);
     this.heroes.push(new rpgCharacter("白熊", "bear", "🐻‍❄️", "int", bearHp, 100, bearAgi, bearInt));
 
-    // 2. 🤍 白魔導士 ➔【除錯小貓】 (White Mage) - 核心，始終解鎖
-    const catHp = 100 + (gearStats.bonusMaxHp || 0);
+    // 2. 🪓 戰士 ➔【除錯小貓】 (Warrior) - 核心，始終解鎖 (把怪物當 Bug 除錯的勇猛前排)
+    const catHp = 160 + (gearStats.bonusMaxHp || 0); // 戰士血量高
     const catVit = 18 + (gearStats.bonusVit || 0);
-    const catAgi = 28 + (gearStats.bonusAgi || 0);
-    this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 120, catAgi, catVit));
+    const catAgi = 22 + (gearStats.bonusAgi || 0); // 前排中速
+    this.heroes.push(new rpgCharacter("除錯小貓", "cat", "🐱", "vit", catHp, 60, catAgi, catVit));
 
-    // 3. 🪓 戰士 ➔【降噪小兔】 (Warrior) - LV.5 解鎖
+    // 3. 🤍 白魔導士 ➔【降噪小兔】 (White Mage) - LV.5 解鎖 (心靈降噪治療擔當)
     if (userLevel >= 5) {
-      const rabbitHp = 160 + (gearStats.bonusMaxHp || 0);
+      const rabbitHp = 100 + (gearStats.bonusMaxHp || 0);
       const rabbitFoc = 15 + (gearStats.bonusFoc || 0);
-      const rabbitAgi = 20 + (gearStats.bonusAgi || 0);
-      this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 60, rabbitAgi, rabbitFoc));
+      const rabbitAgi = 28 + (gearStats.bonusAgi || 0); // 白魔導士高速補血
+      this.heroes.push(new rpgCharacter("降噪小兔", "rabbit", "🐰", "foc", rabbitHp, 120, rabbitAgi, rabbitFoc));
     }
 
-    // 4. 🗡️ 忍者 ➔【理智小猴】 (Ninja) - LV.15 解鎖
+    // 4. 🗡️ 忍者 ➔【理智小猴】 (Ninja) - LV.15 解鎖 (超敏捷執行力爆發)
     if (userLevel >= 15) {
       const monkeyHp = 90 + (gearStats.bonusMaxHp || 0);
       const monkeyAgi = 40 + (gearStats.bonusAgi || 0); // 忍者超高速
@@ -185,7 +185,7 @@ class rpgBattleEngine {
       }
     }
 
-    // 選擇攻擊目標：優先選擇嘲諷者，否則隨機選擇存活的英雄
+    // 選擇攻擊目標：優先選擇戰士嘲諷者，否則隨機選擇存活的英雄
     let target = null;
     const activeHeroes = this.heroes.filter(h => h.alive);
     if (activeHeroes.length === 0) return;
@@ -206,7 +206,7 @@ class rpgBattleEngine {
     if (target.isShielded) {
       dmg = Math.floor(dmg * 0.5);
       target.isShielded = false; // 護盾抵擋一次後消失
-      this.log(`🛡️ ${target.emoji}【${target.name}】使用【除錯防護罩】抵擋，傷害折半！`);
+      this.log(`🛡️ ${target.emoji}【${target.name}】使用【降噪防護罩】抵擋，傷害折半！`);
     }
 
     this.onAnimation('monster-attack', { attacker: monster, target: target });
@@ -331,15 +331,53 @@ class rpgBattleEngine {
       }, 600);
     }
 
-    // --- 🤍 3. 白魔導士除錯小貓 ➔ 🛡️除錯療癒光 (White Mage: Holy Heal) ---
+    // --- 🪓 3. 戰士除錯小貓 ➔ ⚡除錯專注擊 (Warrior: Debug Slash) ---
     else if (hero.type === 'cat') {
+      if (hero.mp < 18) {
+        this.log(`❌ 🪓 戰士【除錯小貓】MP 不足，無法釋放【除錯專注擊】！`);
+        this.isPaused = false;
+        return;
+      }
+      hero.mp -= 18;
+      this.log(`🪓 🐱 戰士【除錯小貓】全身爆發除錯代碼氣流，扛起巨刃悍不畏死發動【除錯專注擊】！`);
+      
+      this.onAnimation('slash-cat', { attacker: hero, target: realTarget });
+
+      setTimeout(() => {
+        // 心靈破防真實傷害 (無視防禦)
+        let dmg = Math.floor(hero.power * 1.4 * (0.95 + Math.random() * 0.1));
+        if (realTarget.isShocked) {
+          dmg = Math.floor(dmg * 1.15); // 感電加成
+        }
+        
+        realTarget.hp -= dmg;
+        hero.isTaunting = true; // 嘲諷敵人，使怪獸下一擊必打小貓
+        
+        this.log(`🛡️ 代碼精準破防！🐱【除錯小貓】一擊除錯！對 ${realTarget.emoji}${realTarget.name} 造成了 ${dmg} 點【無視防禦真實傷害】，並強行嘲諷魔物！`);
+        
+        if (realTarget.hp <= 0) {
+          realTarget.hp = 0;
+          realTarget.alive = false;
+          realTarget.atb = 0;
+          this.log(`💀 🟢 敵方 ${realTarget.emoji}${realTarget.name} 承受不住小貓的除錯重擊而崩潰！`);
+        }
+
+        hero.atb = 0;
+        this.checkBattleStatus();
+        this.isPaused = false;
+        this.onStateChange();
+      }, 600);
+    }
+
+    // --- 🤍 4. 白魔導士降噪小兔 ➔ 🛡️降噪防護罩 (White Mage: Noise Shelter) ---
+    else if (hero.type === 'rabbit') {
       if (hero.mp < 25) {
-        this.log(`❌ 🤍 白魔導士【除錯小貓】MP 不足，無法釋放【除錯療癒光】！`);
+        this.log(`❌ 🤍 白魔導士【降噪小兔】MP 不足，無法釋放【降噪防護罩】！`);
         this.isPaused = false;
         return;
       }
       hero.mp -= 25;
-      this.log(`🤍 🐱 白魔導士【除錯小貓】念動防護咒文，為全隊建立【全體・除錯療癒光】！`);
+      this.log(`🤍 🐰 白魔導士【降噪小兔】念動防護咒文，為全隊建立【全體・降噪防護罩】！`);
       
       this.onAnimation('heal-shield', { attacker: hero, targets: this.heroes.filter(h => h.alive) });
 
@@ -351,48 +389,10 @@ class rpgBattleEngine {
             h.hp += heal;
             if (h.hp > h.maxHp) h.hp = h.maxHp;
             h.isShielded = true; // 進入減傷狀態
-            this.log(`💚 🐱【除錯小貓】的除錯療癒力場溫暖浮現！【${h.name}】回復了 ${heal} 點 HP，並被除錯光膜所庇護（下一次受傷減半）！`);
+            this.log(`💚 🐰【降噪小兔】的降噪療癒力場溫暖浮現！【${h.name}】回復了 ${heal} 點 HP，並被降噪光膜所庇護（下一次受傷減半）！`);
           }
         });
         hero.atb = 0;
-        this.isPaused = false;
-        this.onStateChange();
-      }, 600);
-    }
-
-    // --- 🪓 4. 戰士降噪小兔 ➔ ⚡降噪專注擊 (Warrior: Noise Slash) ---
-    else if (hero.type === 'rabbit') {
-      if (hero.mp < 18) {
-        this.log(`❌ 🪓 戰士【降噪小兔】MP 不足，無法釋放【降噪專注擊】！`);
-        this.isPaused = false;
-        return;
-      }
-      hero.mp -= 18;
-      this.log(`🪓 🐰 戰士【降噪小兔】全身爆發金色專注氣流，扛起巨刃悍不畏死發動【降噪專注擊】！`);
-      
-      this.onAnimation('slash-rabbit', { attacker: hero, target: realTarget });
-
-      setTimeout(() => {
-        // 心靈破防真實傷害 (無視防禦)
-        let dmg = Math.floor(hero.power * 1.4 * (0.95 + Math.random() * 0.1));
-        if (realTarget.isShocked) {
-          dmg = Math.floor(dmg * 1.15); // 感電加成
-        }
-        
-        realTarget.hp -= dmg;
-        hero.isTaunting = true; // 嘲諷敵人，使怪獸下一擊必打小兔
-        
-        this.log(`🛡️ 專注力極致聚焦！🐰【降噪小兔】一擊降噪！對 ${realTarget.emoji}${realTarget.name} 造成了 ${dmg} 點【無視防禦真實傷害】，並強行嘲諷魔物！`);
-        
-        if (realTarget.hp <= 0) {
-          realTarget.hp = 0;
-          realTarget.alive = false;
-          realTarget.atb = 0;
-          this.log(`💀 🟢 敵方 ${realTarget.emoji}${realTarget.name} 承受不住小兔的降噪重擊而崩潰！`);
-        }
-
-        hero.atb = 0;
-        this.checkBattleStatus();
         this.isPaused = false;
         this.onStateChange();
       }, 600);

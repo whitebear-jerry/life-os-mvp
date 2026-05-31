@@ -1878,10 +1878,10 @@
       transition: all 0.3s ease;
     }
 
-    .ff-hero-container:nth-child(1) { margin-right: 50px; } /* 前排：戰士小兔 */
+    .ff-hero-container:nth-child(1) { margin-right: 50px; } /* 前排：戰士小貓 */
     .ff-hero-container:nth-child(2) { margin-right: 32px; } /* 中排：忍者小猴 */
     .ff-hero-container:nth-child(3) { margin-right: 14px; } /* 後排：賢者白熊 */
-    .ff-hero-container:nth-child(4) { margin-right: 0px; }  /* 後排：小貓 */
+    .ff-hero-container:nth-child(4) { margin-right: 0px; }  /* 後排：白魔導士小兔 */
 
     /* 精靈繪圖插畫與特效 */
     .ff-sprite {
@@ -3380,8 +3380,8 @@
       let mpCost = 0;
       if (activeHero.type === 'bear') { skillName = '⚡閃煉雷擊'; mpCost = 20; }
       else if (activeHero.type === 'monkey') { skillName = '⚔️執行斬'; mpCost = 15; }
-      else if (activeHero.type === 'cat') { skillName = '🛡️除錯療癒光'; mpCost = 25; }
-      else if (activeHero.type === 'rabbit') { skillName = '⚡降噪專注擊'; mpCost = 18; }
+      else if (activeHero.type === 'cat') { skillName = '⚡除錯專注擊'; mpCost = 18; }
+      else if (activeHero.type === 'rabbit') { skillName = '🛡️降噪防護罩'; mpCost = 25; }
 
       const skillBtn = document.createElement('button');
       skillBtn.className = 'ff-btn';
@@ -3465,11 +3465,17 @@
         enemiesSide.appendChild(mDiv);
       });
 
-      // (B) 渲染英雄 (斜排隊形)
+      // (B) 渲染英雄 (依照指定的前後排視覺順序渲染，讓 Warrior 最前，White Mage 最後)
       const heroesSide = document.getElementById('ffHeroesSide');
       heroesSide.innerHTML = '';
 
-      teamRaidEngine.heroes.forEach((h, idx) => {
+      const renderOrder = ['cat', 'monkey', 'bear', 'rabbit'];
+      const sortedHeroes = [...teamRaidEngine.heroes].sort((a, b) => {
+        return renderOrder.indexOf(a.type) - renderOrder.indexOf(b.type);
+      });
+
+      sortedHeroes.forEach((h) => {
+        const originalIdx = teamRaidEngine.heroes.indexOf(h);
         const hDiv = document.createElement('div');
         hDiv.className = 'ff-hero-container';
         hDiv.style.position = 'relative';
@@ -3481,7 +3487,7 @@
         const isActive = teamRaidEngine.isPaused && h.atb >= 100;
         
         hDiv.innerHTML = `
-          <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${idx}">
+          <div class="ff-sprite ${h.alive ? '' : 'dead'} ${isActive ? 'action-active' : ''}" id="ff-hero-sprite-${originalIdx}">
             ${h.emoji}
             ${buffBadge}
           </div>
@@ -3835,9 +3841,9 @@
       container.innerHTML = '';
 
       const actions = [
-        { key: 'int', charIdx: 0, label: '🧠 智慧雷擊 (白熊)', desc: 'INT 魔法大暴擊' },
-        { key: 'vit', charIdx: 1, label: '🛡️ 降噪防護 (小貓)', desc: 'VIT 全員恢復+防禦' },
-        { key: 'foc', charIdx: 2, label: '⚡ 專注突刺 (小兔)', desc: 'FOC 心靈真實傷害' },
+        { key: 'int', charIdx: 0, label: '🧠 閃煉雷擊 (白熊)', desc: 'INT 魔法大暴擊' },
+        { key: 'vit', charIdx: 1, label: '⚡ 除錯專注擊 (小貓)', desc: 'VIT 無視防禦真實破防' },
+        { key: 'foc', charIdx: 2, label: '🛡️ 降噪防護罩 (小兔)', desc: 'FOC 全員治療加防護罩' },
         { key: 'agi', charIdx: 3, label: '⚔️ 執行斬 (小猴)', desc: 'AGI 物理單體攻擊' }
       ];
 
@@ -4076,19 +4082,42 @@
           logMsg = `🐻【智者白熊】使出【智慧雷擊】！但大腦瞬間當機，雷擊未能釋放！`;
         }
       } else if (actionType === 'foc') {
-        // 小兔攻擊 (單體 FOC - 專注突刺)
-        const critRate = 0.22 + (userAttrs.foc + gear.bonusFoc) * 0.035 + gear.bonusCritRate;
+        // 🐰 降噪小兔治療與防禦 (全體 FOC - 降噪防護罩)
+        playHealSFX();
+        const heal = Math.floor(15 + userLevel * 0.3 + (userAttrs.foc + gear.bonusFoc) * 2.2 + Math.random() * 5);
+        party.forEach((m, idx) => {
+          if (m.hp > 0) {
+            m.hp = Math.min(m.maxHp, m.hp + heal);
+            spawnDamageText(`+${heal}`, 'player', idx);
+            
+            // 觸發小兔降噪護罩綠色泡泡防禦動畫
+            const row = document.getElementById(`pMember-${idx}`);
+            if (row) {
+              row.style.position = 'relative';
+              const fx = document.createElement('div');
+              fx.className = 'shield-effect';
+              row.appendChild(fx);
+              setTimeout(() => fx.remove(), 1000); // 延長生存時間防剪裁
+            }
+          }
+        });
+        isDefending = true;
+        logMsg = `🛡️ 🐰【降噪小兔】啟動【降噪防護罩】！為全員阻絕雜音，全隊回復了 ${heal} 點生命，並進入雙倍防禦姿態！`;
+        updatePartyUI();
+      } else if (actionType === 'vit') {
+        // 🐱 除錯小貓攻擊 (單體 VIT - 除錯專注擊)
+        const critRate = 0.22 + (userAttrs.vit + gear.bonusVit) * 0.035 + gear.bonusCritRate;
         if (Math.random() < 0.85) {
           playPierceSFX(); // 使用專屬物理刺擊音效！
           if (Math.random() < critRate) {
-            dmg = Math.floor(((8 + userLevel * 0.4 + (userAttrs.foc + gear.bonusFoc) * 2.2 + Math.random() * 4) * 2.5) * gear.bonusDmgPct);
+            dmg = Math.floor(((8 + userLevel * 0.4 + (userAttrs.vit + gear.bonusVit) * 2.2 + Math.random() * 4) * 2.5) * gear.bonusDmgPct);
             isCrit = true;
-            logMsg = `⚡ 專注力極致聚焦！🐰【降噪小兔】使出【專注突刺】命中心靈破綻！對${targetName}造成了 ${dmg} 點真實傷害！`;
+            logMsg = `⚡ 代碼精準破防！🐱【除錯小貓】使出【除錯專注擊】命中心靈破綻！對${targetName}造成了 ${dmg} 點真實傷害！`;
           } else {
-            dmg = Math.floor((5 + userLevel * 0.3 + (userAttrs.foc + gear.bonusFoc) * 1.2 + Math.random() * 3) * gear.bonusDmgPct);
-            logMsg = `🐰【降噪小兔】使出【專注突刺】，但未能擊中弱點，對${targetName}造成了微弱的 ${dmg} 點傷害。`;
+            dmg = Math.floor((5 + userLevel * 0.3 + (userAttrs.vit + gear.bonusVit) * 1.2 + Math.random() * 3) * gear.bonusDmgPct);
+            logMsg = `🐱【除錯小貓】使出【除錯專注擊】，對${targetName}造成了 ${dmg} 點傷害。`;
           }
-          // 觸發小兔專注突刺動畫 (極致穿刺線條 + 能量擴散衝擊波雙重特效)
+          // 觸發小貓專注突刺動畫 (極致穿刺線條 + 能量擴散衝擊波雙重特效)
           const wrapper = document.getElementById(`retroMonsterWrapper-${selectedMonsterIdx}`);
           if (wrapper) {
             const fx = document.createElement('div');
@@ -4104,34 +4133,11 @@
         } else {
           playErrorSFX();
           dmg = 0;
-          logMsg = `🐰【降噪小兔】試圖進行【專注突刺】，但受到外部噪音干擾，未能命中！`;
+          logMsg = `🐱【除錯小貓】試圖進行【除錯專注擊】，但受到外部 bug 干擾，未能命中！`;
         }
-      } else if (actionType === 'vit') {
-        // 小貓治療與防禦 (全體 VIT - 降噪防護罩)
-        playHealSFX();
-        const heal = Math.floor(15 + userLevel * 0.3 + (userAttrs.vit + gear.bonusVit) * 2.2 + Math.random() * 5);
-        party.forEach((m, idx) => {
-          if (m.hp > 0) {
-            m.hp = Math.min(m.maxHp, m.hp + heal);
-            spawnDamageText(`+${heal}`, 'player', idx);
-            
-            // 觸發小貓降噪護罩綠色泡泡防禦動畫
-            const row = document.getElementById(`pMember-${idx}`);
-            if (row) {
-              row.style.position = 'relative';
-              const fx = document.createElement('div');
-              fx.className = 'shield-effect';
-              row.appendChild(fx);
-              setTimeout(() => fx.remove(), 1000); // 延長生存時間防剪裁
-            }
-          }
-        });
-        isDefending = true;
-        logMsg = `🛡️ 🐱【除錯小貓】啟動【降噪防護罩】！為全員阻絕雜音，全隊回復了 ${heal} 點生命，並進入雙倍防禦姿態！`;
-        updatePartyUI();
       }
 
-      if (actionType !== 'vit' && dmg > 0) {
+      if (actionType !== 'foc' && dmg > 0) {
         const hitSprites = [];
         if (actionType === 'int') {
           // INT - 群體雷擊：電擊全體存活的怪物 (防禦力抵免)
