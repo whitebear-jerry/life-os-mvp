@@ -645,6 +645,115 @@
       background: #ffffff;
     }
 
+    /* 🛠️ 白熊工具箱 */
+    .link-tools {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .link-tools-head { margin: 4px 2px 2px; }
+    .link-tools-head h2 { font-size: 1.06rem; }
+    .link-tools-head p {
+      margin: 4px 0 0;
+      color: rgba(247, 247, 240, 0.58);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .link-tool {
+      padding: 14px 16px;
+      border: 1px solid rgba(74, 204, 122, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .link-tool:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(74, 204, 122, 0.42);
+      box-shadow: 0 16px 48px rgba(74, 204, 122, 0.08);
+    }
+    .link-tool-icon {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: rgba(74, 204, 122, 0.12);
+      border-radius: 12px;
+    }
+    .link-tool-body { flex: 1; min-width: 0; }
+    .link-tool-body h3 { font-size: 0.98rem; margin: 0; }
+    .link-tool-body p {
+      margin: 3px 0 0;
+      color: rgba(247, 247, 240, 0.7);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .link-tool-cta {
+      flex-shrink: 0;
+      min-height: 44px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4ACC7A, #2EA85A);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+    }
+    .link-tool-cta:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .link-tool-cta:active { transform: translateY(0); }
+    .link-tool-guide {
+      border: 1px solid rgba(74, 204, 122, 0.14);
+      border-radius: 10px;
+      background: rgba(74, 204, 122, 0.04);
+      padding: 0 14px;
+      margin-top: -2px;
+    }
+    .link-tool-guide summary {
+      cursor: pointer;
+      padding: 12px 0;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: rgba(247, 247, 240, 0.82);
+      list-style: none;
+    }
+    .link-tool-guide summary::-webkit-details-marker { display: none; }
+    .link-tool-guide summary::after { content: " ▾"; color: rgba(74, 204, 122, 0.7); }
+    .link-tool-guide[open] summary::after { content: " ▴"; }
+    .link-tool-guide ol {
+      margin: 0 0 14px;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .link-tool-guide li {
+      color: rgba(247, 247, 240, 0.7);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+    .link-tool-guide li b { color: rgba(247, 247, 240, 0.92); }
+    .link-tools-more {
+      text-align: center;
+      color: rgba(247, 247, 240, 0.4);
+      font-size: 0.8rem;
+      padding: 2px;
+    }
+    @media (max-width: 380px) {
+      .link-tool { flex-wrap: wrap; }
+      .link-tool-cta { width: 100%; }
+    }
+
     /* 冒險者公會 & 代表動物小遊戲 */
     .link-guild {
       margin-top: 24px;
@@ -2413,6 +2522,34 @@
           </div>
         </div>
       </article>
+    </section>
+
+    <!-- 🛠️ 白熊工具箱 -->
+    <section class="link-tools" aria-label="白熊工具箱">
+      <div class="link-tools-head">
+        <h2>🛠️ 白熊工具箱</h2>
+        <p>我自己每天在用的免費小工具，把書裡的方法變成你手上真的用得上的東西。</p>
+      </div>
+      <article class="link-tool">
+        <div class="link-tool-icon">🗣️</div>
+        <div class="link-tool-body">
+          <h3>LinguaFlow 語言學習器</h3>
+          <p>匯入你的單字／例句表，用聽的把零碎時間變成練習時間；手機可安裝。</p>
+        </div>
+        <a class="link-tool-cta" href="https://whitebear-jerry.github.io/lingua-flow/" target="_blank" rel="noopener" aria-label="免費使用 LinguaFlow 語言學習器">免費使用 →</a>
+      </article>
+      <details class="link-tool-guide">
+        <summary>📖 LinguaFlow 使用說明</summary>
+        <ol>
+          <li><b>準備學習表</b>：用 Excel 或 Google 試算表建兩欄——「英文」（要學的句子或單字）、「中文」（翻譯）；可再加第三欄「標籤」做分類（例：咖啡廳、面試、旅遊）。存成 <b>.xlsx</b> 或 <b>.csv</b>。</li>
+          <li><b>匯入</b>：打開工具 → 上傳你的檔案。系統會自動辨識中英欄位、一鍵生成學習卡片。</li>
+          <li><b>開始練習</b>：每張卡可 <b>▶ 播放</b>聽道地發音、<b>🔁 5x</b> 自動重複跟讀、<b>👁️ 顯示翻譯</b>（先遮住中文考自己，想不出再看）。熟了就標 <b>✅ 已熟悉</b>，上方進度條自動追蹤。</li>
+          <li><b>零碎時間免持背</b>：刷牙、通勤、洗碗時讓它自動連續播放，用「聽」的把句子記起來，不用一直盯螢幕。</li>
+          <li><b>裝到手機（像 App）</b>：手機瀏覽器打開 → 點「分享」→「加入主畫面」。<b>iPhone 首次使用</b>：到 <b>⚙️ 設定</b> 選「增強語音」（Karen／Samantha），發音會更自然。</li>
+          <li><b>進度自動保存</b>：下次打開接著練；之後重新匯入新的單字表，也不會洗掉你已經背熟的進度。</li>
+        </ol>
+      </details>
+      <p class="link-tools-more">更多工具開發中…🐻</p>
     </section>
 
     <!-- 🎮 冒險者公會 & 代表動物小遊戲 -->
