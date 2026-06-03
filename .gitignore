@@ -1,6 +1,34 @@
+# === 系統/暫存 ===
 node_modules/
 .DS_Store
 *.log
+
+# === 🔒 私密內容（書稿/音頻，絕對不上公開 repo）===
+創作1/
+創作2/
+創作3/
+創作*/
+*.docx
+audio/
 audio
+scripts/
 scripts
+
+# === Google Drive 內容（symlink，走 GDrive 同步、不進 git）===
+marketing/
+life-os-mvp/marketing/
+deliverables/
+life-os-mvp/deliverables/
+
+# === 大檔（影音，走 GDrive）===
+*.mp4
+*.mov
+*.m4a
+*.srt
+
+# === 其他 ===
 life-os-mvp/assets
+.venv*/
+outputs/
+samples/
+.claude/
