@@ -2387,6 +2387,166 @@
       .ff-hero-container:nth-child(3) { margin-right: 8px; }
       .ff-hero-container:nth-child(4) { margin-right: 0px; }
     }
+
+    /* 🎴 Email 金句卡漏斗 CSS */
+    .link-funnel {
+      margin-top: 24px;
+      padding: 22px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(196, 137, 53, 0.3); /* 品牌金 tint */
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .link-funnel:hover {
+      border-color: rgba(196, 137, 53, 0.5);
+      box-shadow: 0 20px 48px rgba(196, 137, 53, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .funnel-badge {
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      background: linear-gradient(135deg, #c48935 0%, #b27623 100%);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(196, 137, 53, 0.3);
+      z-index: 5;
+    }
+
+    .funnel-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #f7f7f0;
+      margin-top: 6px;
+      margin-bottom: 8px;
+    }
+
+    .funnel-intro {
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: rgba(247, 247, 240, 0.75);
+      margin-bottom: 12px;
+    }
+
+    .funnel-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .funnel-bullets li {
+      font-size: 0.82rem;
+      color: rgba(247, 247, 240, 0.9);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .funnel-bullets li span {
+      color: #c48935;
+      font-weight: bold;
+    }
+
+    .funnel-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .funnel-form .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .funnel-form input[type="email"] {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(220, 227, 217, 0.2);
+      background: rgba(0, 0, 0, 0.2);
+      color: #f7f7f0;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .funnel-form input[type="email"]:focus {
+      border-color: #c48935;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .funnel-btn {
+      min-height: 44px;
+      border-radius: 10px;
+      border: 1px solid rgba(196, 137, 53, 0.4);
+      background: linear-gradient(135deg, rgba(196, 137, 53, 0.7) 0%, rgba(30, 22, 12, 0.9) 100%);
+      color: #ffd89c;
+      font-size: 0.88rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0 20px;
+    }
+
+    .funnel-btn:hover {
+      border-color: rgba(196, 137, 53, 0.8);
+      background: linear-gradient(135deg, rgba(196, 137, 53, 0.9) 0%, rgba(45, 33, 18, 0.95) 100%);
+      box-shadow: 0 6px 20px rgba(196, 137, 53, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .funnel-btn:active {
+      transform: translateY(0) scale(0.97);
+      background: linear-gradient(135deg, rgba(196, 137, 53, 0.6) 0%, rgba(20, 14, 8, 0.9) 100%);
+    }
+
+    .funnel-security {
+      font-size: 0.72rem;
+      color: rgba(247, 247, 240, 0.4);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .funnel-msg {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      text-align: center;
+      display: none;
+    }
+
+    @media (min-width: 480px) {
+      .funnel-form .input-group {
+        flex-direction: row;
+        gap: 8px;
+      }
+      .funnel-form input[type="email"] {
+        width: auto;
+      }
+    }
   </style>
 </head>
 <body class="link-page">
@@ -2522,6 +2682,25 @@
           </div>
         </div>
       </article>
+    </section>
+
+    <!-- 🎴 Email 金句卡漏斗 -->
+    <section class="link-funnel" aria-label="免費領取金句小卡">
+      <div class="funnel-badge">🎴 限時免費</div>
+      <h2 class="funnel-title">免費領取｜人生複利金句小卡</h2>
+      <p class="funnel-intro">《人生複利》整本書裡最被讀者劃線、最能改變想法的 18 句話，做成手機小卡。</p>
+      <ul class="funnel-bullets">
+        <li><span>✔</span> 18 張金句小卡（可設手機桌布）</li>
+        <li><span>✔</span> 不定期的人生攻略筆記</li>
+      </ul>
+      <form id="bearForm" class="funnel-form">
+        <div class="input-group">
+          <input type="email" id="bearEmail" required placeholder="請輸入你的 Email..." aria-label="你的 email">
+          <button type="submit" class="funnel-btn">免費領取小卡 →</button>
+        </div>
+        <div class="funnel-security">🔒 不寄垃圾信，一鍵退訂</div>
+      </form>
+      <p id="bearMsg" class="funnel-msg"></p>
     </section>
 
     <!-- 🛠️ 白熊工具箱 -->
@@ -5480,8 +5659,64 @@
       });
     }
 
+    function initEmailFunnel() {
+      const form = document.getElementById('bearForm');
+      const msg = document.getElementById('bearMsg');
+      if (!form) return;
+      
+      form.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        const emailInput = document.getElementById('bearEmail');
+        const email = emailInput ? emailInput.value.trim() : '';
+        if (!email) return;
+        
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxsU8okrTP7T0Vm32d2XurTdsJo3nS79xXyL3rl-c0RxnJXV_J3nkpC3rP8inhEv9Ff/exec';
+        
+        // Show sending state
+        const btn = form.querySelector('.funnel-btn');
+        const originalBtnText = btn ? btn.innerHTML : '免費領取小卡 →';
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '⚡ 傳送中...';
+        }
+        
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams({ email })
+        })
+        .then(() => {
+          if (msg) {
+            msg.textContent = '✅ 已送出！金句小卡已寄到你的信箱，請查收（含垃圾信匣）。';
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(46, 125, 50, 0.15)';
+            msg.style.border = '1px solid rgba(46, 125, 50, 0.3)';
+            msg.style.color = '#a5d6a7';
+          }
+          form.reset();
+        })
+        .catch(err => {
+          console.error(err);
+          if (msg) {
+            msg.textContent = '❌ 送出失敗，請稍後再試，或直接聯繫白熊。';
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(211, 47, 47, 0.15)';
+            msg.style.border = '1px solid rgba(211, 47, 47, 0.3)';
+            msg.style.color = '#ff9d9d';
+          }
+        })
+        .finally(() => {
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalBtnText;
+          }
+        });
+      });
+    }
+
     initCounter();
     initBookLinksXPSystem();
+    initEmailFunnel();
   </script>
 </body>
 </html>
