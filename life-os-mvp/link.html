@@ -1506,6 +1506,130 @@
       margin-top: 4px;
       font-weight: normal;
     }
+
+    /* 價格與特價行銷樣式 */
+    .book-price-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      font-family: inherit;
+    }
+
+    .price-original {
+      text-decoration: line-through;
+      color: rgba(247, 247, 240, 0.45);
+      font-size: 0.82rem;
+      margin-right: 8px;
+    }
+
+    .price-sale {
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .book-fuli .price-sale {
+      color: var(--gold);
+    }
+
+    .book-game .price-sale {
+      color: #ff6b76;
+    }
+
+    .book-noise .price-sale {
+      color: #72b2d3;
+    }
+
+    .price-save-badge {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.15);
+      color: #ff6b6b;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-left: 8px;
+    }
+
+    /* 3冊合購套書卡片特殊樣式 */
+    .link-book.book-bundle {
+      background: linear-gradient(135deg, rgba(196, 137, 53, 0.12) 0%, rgba(160, 79, 85, 0.08) 100%);
+      border: 1.5px solid rgba(196, 137, 53, 0.45);
+      box-shadow: 0 16px 48px rgba(196, 137, 53, 0.12), inset 0 0 20px rgba(196, 137, 53, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-book.book-bundle::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 80%);
+      pointer-events: none;
+    }
+
+    .link-book.book-bundle h2 {
+      font-size: 1.15rem;
+      color: #ffd075;
+      font-weight: 900;
+    }
+
+    .link-book.book-bundle .price-sale {
+      color: #ffd075;
+      font-size: 1.25rem;
+    }
+
+    .link-book.book-bundle .price-save-badge {
+      background: rgba(255, 208, 117, 0.15);
+      color: #ffd075;
+      border-color: rgba(255, 208, 117, 0.4);
+    }
+
+    .bundle-header-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: linear-gradient(90deg, var(--gold), var(--rose));
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-bottom-left-radius: 8px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .bundle-links {
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-top: 14px;
+    }
+
+    .bundle-links a {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 208, 117, 0.3);
+      border-radius: 8px;
+      color: #1c1815;
+      background: linear-gradient(90deg, #ffd075, #ffb03a);
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(196, 137, 53, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+
+    .bundle-links a:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(196, 137, 53, 0.4);
+    }
   </style>
 </head>
 <body class="link-page">
@@ -1558,9 +1682,29 @@
     </section>
 
     <section class="link-books" aria-label="白熊三本書">
+      <!-- 🎁 3冊合購套書特惠包 (Pubu 獨家) -->
+      <article class="link-book book-bundle">
+        <div class="bundle-header-tag">🔥 限時特惠 58 折</div>
+        <h2>【圖解富足行動】三冊特惠合購包</h2>
+        <p>完整打包《人生複利》+《人生遊戲》+《降噪人生》圖文實戰版！一次建立您的變現與高能運作系統。(Pubu 獨家限時特惠)</p>
+        <div class="book-price-container">
+          <span class="price-original">原價 NT$860</span>
+          <span class="price-sale">合購價 NT$499</span>
+          <span class="price-save-badge">現省 $361</span>
+        </div>
+        <div class="bundle-links">
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買三冊合購包">🛒 立即前往 Pubu 購買合購套書 ($499)</a>
+        </div>
+      </article>
+
       <article class="link-book book-fuli">
         <h2>《人生複利》</h2>
         <p>從信念到財富的 45 個覺醒練習，幫你重設大腦關鍵字。</p>
+        <div class="book-price-container">
+          <span class="price-original">原價 NT$220</span>
+          <span class="price-sale">特價 NT$149</span>
+          <span class="price-save-badge">67折 (省 $71)</span>
+        </div>
         <div class="link-actions" aria-label="人生複利購買連結">
           <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
           <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
@@ -1571,6 +1715,11 @@
       <article class="link-book book-game">
         <h2>《人生遊戲》</h2>
         <p>40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
+        <div class="book-price-container">
+          <span class="price-original">原價 NT$280</span>
+          <span class="price-sale">特價 NT$199</span>
+          <span class="price-save-badge">71折 (省 $81)</span>
+        </div>
         <div class="link-actions" aria-label="人生遊戲購買連結">
           <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
           <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
@@ -1581,6 +1730,11 @@
       <article class="link-book book-noise">
         <h2>《降噪人生》</h2>
         <p>從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
+        <div class="book-price-container">
+          <span class="price-original">原價 NT$360</span>
+          <span class="price-sale">特價 NT$269</span>
+          <span class="price-save-badge">74折 (省 $91)</span>
+        </div>
         <div class="link-actions" aria-label="降噪人生購買連結">
           <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
           <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買降噪人生">Pubu</a>
