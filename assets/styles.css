@@ -738,3 +738,143 @@ figcaption {
     width: auto;
   }
 }
+
+/* Pubu 3冊合購套書特殊樣式 */
+.index-bundle-card {
+  margin: 20px 0 30px;
+  padding: 24px;
+  border: 1px solid rgba(196, 137, 53, 0.35);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(196, 137, 53, 0.08) 0%, rgba(160, 79, 85, 0.04) 100%);
+  box-shadow: 0 10px 34px rgba(196, 137, 53, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.index-bundle-card .bundle-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-bottom-left-radius: 8px;
+}
+
+.index-bundle-card h3 {
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.index-bundle-card p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+  max-width: 650px;
+  line-height: 1.5;
+}
+
+.index-price-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.index-price-tag .price-old {
+  text-decoration: line-through;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.index-price-tag .price-new {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+.index-price-tag .price-save {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.index-bundle-card .bundle-action a {
+  white-space: nowrap;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #ffd075, #ffb03a);
+  color: #1c1815;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(196, 137, 53, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+
+.index-bundle-card .bundle-action a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(196, 137, 53, 0.35);
+  filter: brightness(1.08);
+}
+
+/* 單書價格樣式 */
+.index-book-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.index-book-price .price-old {
+  text-decoration: line-through;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.index-book-price .price-new {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--gold);
+}
+
+.index-book-price .price-save {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .index-bundle-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+  .index-bundle-card .bundle-action {
+    width: 100%;
+  }
+  .index-bundle-card .bundle-action a {
+    width: 100%;
+  }
+}

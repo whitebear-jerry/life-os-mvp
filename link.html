@@ -2547,6 +2547,108 @@
         width: auto;
       }
     }
+
+    /* 價格與折扣標籤 */
+    .price-original-cross {
+      text-decoration: line-through;
+      color: rgba(247, 247, 240, 0.35);
+      font-size: 0.72rem;
+      margin-right: 6px;
+      font-weight: normal;
+    }
+
+    .discount-badge {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.2);
+      color: #ff6b6b;
+      border: 0.5px solid rgba(239, 68, 68, 0.4);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      margin-left: 6px;
+    }
+
+    /* 3冊合購套書卡片特殊樣式 */
+    .link-book.book-bundle {
+      background: linear-gradient(135deg, rgba(196, 137, 53, 0.12) 0%, rgba(160, 79, 85, 0.08) 100%);
+      border: 1.5px solid rgba(196, 137, 53, 0.45);
+      box-shadow: 0 16px 48px rgba(196, 137, 53, 0.12), inset 0 0 20px rgba(196, 137, 53, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-book.book-bundle::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 80%);
+      pointer-events: none;
+    }
+
+    .link-book.book-bundle h2 {
+      font-size: 1.15rem;
+      color: #ffd075 !important;
+      font-weight: 900;
+    }
+
+    .link-book.book-bundle .price-amount {
+      color: #ffd075;
+      text-shadow: 0 0 5px rgba(255, 208, 117, 0.4);
+    }
+
+    .link-book.book-bundle .discount-badge {
+      background: rgba(255, 208, 117, 0.15);
+      color: #ffd075;
+      border-color: rgba(255, 208, 117, 0.4);
+    }
+
+    .bundle-header-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: linear-gradient(90deg, var(--gold), var(--rose));
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-bottom-left-radius: 8px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      z-index: 10;
+    }
+
+    .bundle-links {
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-top: 14px;
+    }
+
+    .bundle-links a {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 208, 117, 0.3);
+      border-radius: 8px;
+      color: #1c1815 !important;
+      background: linear-gradient(90deg, #ffd075, #ffb03a);
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(196, 137, 53, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+
+    .bundle-links a:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(196, 137, 53, 0.4);
+    }
   </style>
 </head>
 <body class="link-page">
@@ -2599,6 +2701,38 @@
     </section>
 
     <section class="link-books" aria-label="白熊三本書">
+      <!-- 🎁 3冊合購套書特惠包 (Pubu 獨家) -->
+      <article class="link-book book-bundle">
+        <div class="bundle-header-tag">🔥 限時特惠 58 折</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book1.jpg" alt="三冊合購套書" class="book-cover" style="filter: brightness(1.05) contrast(1.02);" />
+          </div>
+          <div class="book-info">
+            <h2>【圖解富足行動】三冊特惠包</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">限時合購・Pubu 獨家</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>📦</span> 完整打包複利、遊戲、降噪三本圖文版</div>
+              <div class="selling-point"><span>⚙️</span> 一次建立個人變現與高效運作系統</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">合購價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$860</span>
+                <span class="price-gem">💎</span> NT$499
+                <span class="discount-badge">現省 $361</span>
+              </span>
+            </div>
+            <div class="bundle-links">
+              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買三冊合購包">🛒 立即前往 Pubu 購買合購套書 ($499)</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
       <article class="link-book book-fuli">
         <div class="book-tag">🔥 最多冒險者解鎖</div>
         <div class="book-card-content">
@@ -2616,8 +2750,12 @@
               <div class="selling-point"><span>🧠</span> 45 個覺醒練習，重設大腦關鍵字</div>
             </div>
             <div class="book-price">
-              <span class="price-label">解鎖價</span>
-              <span class="price-amount"><span class="price-gem">💎</span> NT$180</span>
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$220</span>
+                <span class="price-gem">💎</span> NT$149
+                <span class="discount-badge">67折 (省 $71)</span>
+              </span>
             </div>
             <div class="link-actions" aria-label="人生複利購買連結">
               <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
@@ -2644,8 +2782,12 @@
               <div class="selling-point"><span>🎭</span> 砍掉 80% 內心小劇場</div>
             </div>
             <div class="book-price">
-              <span class="price-label">解鎖價</span>
-              <span class="price-amount"><span class="price-gem">💎</span> NT$180</span>
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$280</span>
+                <span class="price-gem">💎</span> NT$199
+                <span class="discount-badge">71折 (省 $81)</span>
+              </span>
             </div>
             <div class="link-actions" aria-label="人生遊戲購買連結">
               <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
@@ -2671,8 +2813,12 @@
               <div class="selling-point"><span>🧘</span> 從焦慮過載到無壓力富足</div>
             </div>
             <div class="book-price">
-              <span class="price-label">解鎖價</span>
-              <span class="price-amount"><span class="price-gem">💎</span> NT$280</span>
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$360</span>
+                <span class="price-gem">💎</span> NT$269
+                <span class="discount-badge">74折 (省 $91)</span>
+              </span>
             </div>
             <div class="link-actions" aria-label="降噪人生購買連結">
               <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
