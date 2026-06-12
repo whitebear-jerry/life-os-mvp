@@ -10,6 +10,8 @@ segment or burns subtitles into the video.
 from __future__ import annotations
 
 import argparse
+import difflib
+import html
 import importlib.util
 import json
 import re
@@ -23,11 +25,67 @@ from pathlib import Path
 
 DEFAULT_VOCAB_PATH = Path(__file__).with_name("vocab.json")
 AUTO_EDITOR_VENV = Path.home() / ".venv-autoeditor" / "bin" / "auto-editor"
-TARGET_CHARS = 12
-MAX_CHARS = 16
+TARGET_CHARS = 20
+MAX_CHARS = 24
+MIN_SPLIT_CHARS = 6
+SOFT_SPLIT_MIN_CHARS = 12
+PAUSE_GAP_SECONDS = 0.42
 OUTPUT_WIDTH = 1920
 OUTPUT_HEIGHT = 1080
 OUTPUT_FPS = 60
+HARD_BREAK_CHARS = "。！？!?"
+SOFT_BREAK_CHARS = "，、；：,;"
+CLOSING_BREAK_CHARS = "」』）)]"
+SCRIPT_MATCH_RATIO = 0.86
+SCRIPT_WINDOW_MATCH_RATIO = 0.78
+PUNCTUATION_RESTORE_RATIO = 0.80
+SCRIPT_MAX_SEGMENT_WINDOW = 5
+SCRIPT_MAX_CHUNK_WINDOW = 3
+PROMPT_TERMS = {
+    "Readmoo",
+    "Pubu",
+    "Kobo",
+    "Notion",
+    "Obsidian",
+    "Evernote",
+    "蔡加尼克",
+    "房貸",
+    "瑣事",
+    "第二大腦",
+    "心靈 NAS",
+    "降噪人生",
+    "杏仁核",
+    "微習慣",
+    "自動導航",
+    "習慣迴圈",
+    "多巴胺",
+    "反脆弱躺平術",
+}
+PROTECTED_SPLIT_TERMS = PROMPT_TERMS | {
+    "大腦根本",
+    "將近38倍",
+    "起跑動作",
+    "超小行動",
+    "心智安全氣囊",
+}
+PUNCTUATION_RESTORE_RULES = [
+    (r"結果呢", "結果呢？"),
+    (r"第一(?=[，,是])", "第一"),
+    (r"第二(?=[，,是])", "第二"),
+    (r"第三(?=[，,是])", "第三"),
+    (r"我是白熊(?=今天|點選|我們)", "我是白熊。"),
+    (r"今天要告訴你(?=這)", "今天要告訴你，"),
+    (r"不是你沒毅力(?=你也|也)", "不是你沒毅力，"),
+    (r"不是沒有自制力(?=不信)", "不是沒有自制力。"),
+    (r"完全不需要勉強自己(?=我們來看)", "完全不需要勉強自己。"),
+    (r"我們來看阿翔(?=阿翔)", "我們來看阿翔。"),
+    (r"為什麼會這樣(?=請|$)", "為什麼會這樣？"),
+    (r"第一步(?=找到)", "第一步，"),
+    (r"第二步(?=設計)", "第二步，"),
+    (r"第三步(?=完成)", "第三步，"),
+    (r"反脆弱躺平術(?=我會|$)", "反脆弱躺平術。"),
+]
+SCRIPT_PATH_CANDIDATES = ("02-script.md", "02-script-web.md")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -47,6 +105,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--trim-threshold", type=float, default=0.78, help="Duplicate trim similarity threshold. Default: 0.78")
     parser.add_argument("--trim-gap", type=int, default=12, help="Duplicate trim max lookahead gap in subtitle blocks. Default: 12")
     parser.add_argument("--trim-dry-run", action="store_true", help="Print duplicate trim cuts without writing trimmed outputs")
+    parser.add_argument("--speed", type=float, default=1.0, help="Playback speed multiplier for final outputs. Default: 1.0")
     parser.add_argument("--transcribe-only", action="store_true", help="Only write SRT + transcript, not the final MP4")
     parser.add_argument("--force", action="store_true", help="Overwrite existing output files")
     parser.add_argument("--work-dir", type=Path, default=None, help="Local directory for intermediate files")
@@ -80,6 +139,144 @@ def join_text(left: str, right: str) -> str:
     if re.search(r"[A-Za-z0-9]$", left) and re.match(r"[A-Za-z0-9]", right):
         return f"{left} {right}"
     return left + right
+
+
+def ends_with_break(text: str, break_chars: str) -> bool:
+    stripped = text.strip()
+    while stripped and stripped[-1] in CLOSING_BREAK_CHARS:
+        stripped = stripped[:-1].rstrip()
+    return bool(stripped) and stripped[-1] in break_chars
+
+
+def ends_with_hard_break(text: str) -> bool:
+    return ends_with_break(text, HARD_BREAK_CHARS)
+
+
+def ends_with_soft_break(text: str) -> bool:
+    return ends_with_break(text, SOFT_BREAK_CHARS)
+
+
+def normalize_match_text(text: str) -> str:
+    return re.sub(r"[\s，。、；：！？!?,.;:「」『』（）()\[\]【】《》“”\"'`—…-]+", "", text)
+
+
+def atom_text(atoms: list[dict]) -> str:
+    text = ""
+    for atom in atoms:
+        text = join_text(text, str(atom["text"]))
+    return text
+
+
+def build_segment(atoms: list[dict]) -> dict:
+    return {"start": atoms[0]["start"], "end": atoms[-1]["end"], "text": atom_text(atoms)}
+
+
+def split_timed_text(text: str, start: float, end: float) -> list[dict]:
+    text = text.strip()
+    if not text:
+        return []
+    pieces = [piece.strip() for piece in re.findall(rf".*?[{re.escape(HARD_BREAK_CHARS + SOFT_BREAK_CHARS)}]+|.+$", text) if piece.strip()]
+    if len(pieces) == 1 and display_len(text) > MAX_CHARS:
+        pieces = split_text_for_subtitles(text)
+    if len(pieces) <= 1:
+        return [{"start": start, "end": end, "text": text}]
+
+    total_len = sum(max(display_len(piece), 1) for piece in pieces)
+    cursor = start
+    atoms: list[dict] = []
+    duration = max(end - start, 0.05)
+    for index, piece in enumerate(pieces):
+        if index == len(pieces) - 1:
+            piece_end = end
+        else:
+            piece_end = min(end, cursor + duration * max(display_len(piece), 1) / total_len)
+        atoms.append({"start": cursor, "end": max(piece_end, cursor + 0.01), "text": piece})
+        cursor = piece_end
+    return atoms
+
+
+def has_break_punctuation(text: str) -> bool:
+    return any(char in HARD_BREAK_CHARS + SOFT_BREAK_CHARS for char in text)
+
+
+def is_break_punctuation(char: str) -> bool:
+    return char in HARD_BREAK_CHARS + SOFT_BREAK_CHARS
+
+
+def inside_protected_term(text: str) -> bool:
+    normalized = normalize_match_text(text)
+    if not normalized:
+        return False
+    for term in PROTECTED_SPLIT_TERMS:
+        term_norm = normalize_match_text(term)
+        if len(term_norm) < 3 or normalized.endswith(term_norm):
+            continue
+        for split_at in range(1, len(term_norm)):
+            if normalized.endswith(term_norm[:split_at]):
+                return True
+    return False
+
+
+def split_text_for_subtitles(text: str) -> list[str]:
+    chunks: list[str] = []
+    current = ""
+    for char in text.strip():
+        current += char
+        if char in HARD_BREAK_CHARS:
+            if current.strip():
+                chunks.append(current.strip())
+            current = ""
+            continue
+        if char in SOFT_BREAK_CHARS and display_len(current) >= SOFT_SPLIT_MIN_CHARS:
+            if current.strip():
+                chunks.append(current.strip())
+            current = ""
+            continue
+        if display_len(current) >= MAX_CHARS and not inside_protected_term(current):
+            if current.strip():
+                chunks.append(current.strip())
+            current = ""
+    if current.strip():
+        chunks.append(current.strip())
+    return chunks
+
+
+def merge_short_segments(segments: list[dict]) -> list[dict]:
+    merged: list[dict] = []
+    pending_first: dict | None = None
+
+    for segment in segments:
+        text = segment["text"].strip()
+        if not text:
+            continue
+
+        current = segment
+        if pending_first is not None:
+            current = {
+                "start": pending_first["start"],
+                "end": segment["end"],
+                "text": join_text(pending_first["text"], text),
+            }
+            pending_first = None
+
+        if display_len(current["text"]) >= MIN_SPLIT_CHARS:
+            merged.append(current)
+            continue
+
+        if merged:
+            previous = merged[-1]
+            merged[-1] = {
+                "start": previous["start"],
+                "end": current["end"],
+                "text": join_text(previous["text"], current["text"]),
+            }
+        else:
+            pending_first = current
+
+    if pending_first is not None:
+        merged.append(pending_first)
+
+    return clean_timing(merged)
 
 
 def load_vocab(vocab_path: Path | None) -> dict[str, str]:
@@ -277,50 +474,94 @@ def atomize_whisper_segments(raw_segments: list[dict]) -> list[dict]:
     for segment in raw_segments:
         words = [word for word in segment.get("words", []) if str(word.get("word", "")).strip()]
         text = str(segment.get("text", "")).strip()
-        if not text:
-            text = "".join(str(word.get("word", "")).strip() for word in words)
+
+        if words:
+            for word in words:
+                word_text = str(word.get("word", "")).strip()
+                if not word_text:
+                    continue
+                start = float(word.get("start", segment.get("start", 0.0)))
+                end = float(word.get("end", segment.get("end", start)))
+                if end <= start:
+                    end = start + 0.05
+                atoms.extend(split_timed_text(word_text, start, end))
+            continue
+
         if not text:
             continue
 
-        if words:
-            start = float(words[0].get("start", segment.get("start", 0.0)))
-            end = float(words[-1].get("end", segment.get("end", start)))
-        else:
-            start = float(segment.get("start", 0.0))
-            end = float(segment.get("end", start))
+        start = float(segment.get("start", 0.0))
+        end = float(segment.get("end", start))
         if end <= start:
             end = start + 0.05
-        atoms.append({"start": start, "end": end, "text": text})
+        atoms.extend(split_timed_text(text, start, end))
     return atoms
 
 
 def merge_segments(atoms: list[dict]) -> list[dict]:
     merged: list[dict] = []
-    current: dict | None = None
+    current: list[dict] = []
 
     def flush() -> None:
         nonlocal current
-        if current and current["text"].strip():
-            merged.append(current)
-        current = None
+        if current:
+            segment = build_segment(current)
+            if segment["text"].strip():
+                merged.append(segment)
+        current = []
+
+    def split_at_soft_break(candidate: list[dict]) -> int | None:
+        best_index = None
+        left_text = ""
+        for index, atom in enumerate(candidate[:-1], start=1):
+            left_text = join_text(left_text, str(atom["text"]))
+            left_len = display_len(left_text)
+            if left_len < SOFT_SPLIT_MIN_CHARS:
+                continue
+            if ends_with_soft_break(left_text) and left_len <= MAX_CHARS:
+                best_index = index
+        return best_index
 
     for atom in atoms:
-        if current is None:
-            current = dict(atom)
+        if not current:
+            current = [atom]
+            if ends_with_hard_break(atom_text(current)):
+                flush()
             continue
 
-        candidate_text = join_text(current["text"], atom["text"])
-        current_len = display_len(current["text"])
-        candidate_len = display_len(candidate_text)
-        can_merge = current_len < TARGET_CHARS and candidate_len <= MAX_CHARS
-        if can_merge:
-            current["text"] = candidate_text
-            current["end"] = atom["end"]
-        else:
+        current_text = atom_text(current)
+        gap = float(atom["start"]) - float(current[-1]["end"])
+        if ends_with_hard_break(current_text) or (gap > PAUSE_GAP_SECONDS and display_len(current_text) >= MIN_SPLIT_CHARS):
             flush()
-            current = dict(atom)
+            current = [atom]
+            if ends_with_hard_break(atom_text(current)):
+                flush()
+            continue
+
+        candidate = current + [atom]
+        candidate_text = atom_text(candidate)
+        candidate_len = display_len(candidate_text)
+        if candidate_len <= MAX_CHARS:
+            current = candidate
+            if ends_with_hard_break(candidate_text):
+                flush()
+            continue
+
+        split_index = split_at_soft_break(candidate)
+        if split_index:
+            merged.append(build_segment(candidate[:split_index]))
+            current = candidate[split_index:]
+            if current and ends_with_hard_break(atom_text(current)):
+                flush()
+            continue
+
+        if display_len(current_text) >= TARGET_CHARS:
+            flush()
+            current = [atom]
+        else:
+            current = candidate
     flush()
-    return clean_timing(merged)
+    return merge_short_segments(clean_timing(merged))
 
 
 def apply_vocab_to_segments(segments: list[dict], replacements: dict[str, str]) -> list[dict]:
@@ -331,6 +572,370 @@ def apply_vocab_to_segments(segments: list[dict], replacements: dict[str, str]) 
             continue
         corrected.append({**segment, "text": text})
     return corrected
+
+
+def restore_rule_punctuation(text: str) -> str:
+    restored = text.strip()
+    if not restored:
+        return restored
+    for pattern, replacement in PUNCTUATION_RESTORE_RULES:
+        restored = re.sub(pattern, replacement, restored)
+    restored = re.sub(r"([。！？!?])([。！？!?])+", r"\1", restored)
+    restored = re.sub(r"([，、；：,;])([，、；：,;])+", r"\1", restored)
+    return restored
+
+
+def punctuation_after_reference_chars(reference: str) -> tuple[str, list[str]]:
+    normalized_chars: list[str] = []
+    punctuation_after: list[str] = []
+    last_index = -1
+
+    for char in reference:
+        if is_break_punctuation(char):
+            if last_index >= 0 and char not in punctuation_after[last_index]:
+                punctuation_after[last_index] += char
+            continue
+        if normalize_match_text(char):
+            normalized_chars.append(char)
+            punctuation_after.append("")
+            last_index += 1
+
+    return "".join(normalized_chars), punctuation_after
+
+
+def content_char_positions(text: str) -> tuple[str, list[int]]:
+    chars: list[str] = []
+    positions: list[int] = []
+    for index, char in enumerate(text):
+        if normalize_match_text(char):
+            chars.append(char)
+            positions.append(index)
+    return "".join(chars), positions
+
+
+def existing_punctuation_after(text: str, index: int) -> bool:
+    cursor = index + 1
+    while cursor < len(text) and text[cursor].isspace():
+        cursor += 1
+    return cursor < len(text) and is_break_punctuation(text[cursor])
+
+
+def align_reference_indices(asr_norm: str, reference_norm: str) -> dict[int, int]:
+    mapping: dict[int, int] = {}
+    matcher = difflib.SequenceMatcher(None, asr_norm, reference_norm)
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == "equal":
+            for offset in range(i2 - i1):
+                mapping[i1 + offset] = j1 + offset
+            continue
+        if tag != "replace":
+            continue
+        asr_len = i2 - i1
+        ref_len = j2 - j1
+        if asr_len <= 0 or ref_len <= 0:
+            continue
+        for offset in range(asr_len):
+            if asr_len == 1:
+                ref_offset = 0
+            else:
+                ref_offset = round(offset * (ref_len - 1) / (asr_len - 1))
+            mapping[i1 + offset] = j1 + ref_offset
+    return mapping
+
+
+def transfer_script_punctuation(asr_text: str, reference_text: str) -> str:
+    asr_norm, asr_positions = content_char_positions(asr_text)
+    reference_norm, reference_punctuation = punctuation_after_reference_chars(reference_text)
+    if len(asr_norm) < MIN_SPLIT_CHARS or len(reference_norm) < MIN_SPLIT_CHARS:
+        return asr_text
+
+    mapping = align_reference_indices(asr_norm, reference_norm)
+    insertions: dict[int, str] = {}
+    for asr_char_index, reference_char_index in mapping.items():
+        if reference_char_index >= len(reference_punctuation):
+            continue
+        punctuation = reference_punctuation[reference_char_index]
+        if not punctuation:
+            continue
+        original_index = asr_positions[asr_char_index]
+        if existing_punctuation_after(asr_text, original_index):
+            continue
+        insertions[original_index] = insertions.get(original_index, "") + punctuation
+
+    if not insertions:
+        return asr_text
+
+    output: list[str] = []
+    for index, char in enumerate(asr_text):
+        output.append(char)
+        if index in insertions:
+            output.append(insertions[index])
+    restored = "".join(output)
+    restored = re.sub(r"([。！？!?])([。！？!?])+", r"\1", restored)
+    restored = re.sub(r"([，、；：,;])([，、；：,;])+", r"\1", restored)
+    return restored
+
+
+def best_script_punctuation_match(text: str, script_chunks: list[str], cursor: int) -> tuple[str | None, int]:
+    normalized = normalize_match_text(text)
+    if len(normalized) < MIN_SPLIT_CHARS:
+        return None, cursor
+
+    best_text = None
+    best_index = cursor
+    best_ratio = 0.0
+    start = max(0, cursor - 6)
+    end = min(len(script_chunks), cursor + 22)
+    for chunk_index in range(start, end):
+        for chunk_window in range(1, min(SCRIPT_MAX_CHUNK_WINDOW + 1, len(script_chunks) - chunk_index) + 1):
+            reference = "".join(script_chunks[chunk_index : chunk_index + chunk_window])
+            reference_norm = normalize_match_text(reference)
+            if len(reference_norm) < MIN_SPLIT_CHARS:
+                continue
+            length_ratio = len(normalized) / max(len(reference_norm), 1)
+            if not 0.68 <= length_ratio <= 1.48:
+                continue
+            ratio = difflib.SequenceMatcher(None, normalized, reference_norm).ratio()
+            if ratio > best_ratio:
+                best_ratio = ratio
+                best_text = reference
+                best_index = chunk_index + chunk_window
+
+    if best_text and best_ratio >= PUNCTUATION_RESTORE_RATIO and has_break_punctuation(best_text):
+        return best_text, best_index
+    return None, cursor
+
+
+def restore_punctuation_to_raw_segments(raw_segments: list[dict], script_chunks: list[str]) -> list[dict]:
+    restored_segments = []
+    script_cursor = 0
+    for segment in raw_segments:
+        text = str(segment.get("text", "")).strip()
+        if not text:
+            restored_segments.append(segment)
+            continue
+
+        restored_text = restore_rule_punctuation(text)
+        script_text, next_cursor = best_script_punctuation_match(restored_text, script_chunks, script_cursor)
+        if script_text:
+            restored_text = transfer_script_punctuation(restored_text, script_text)
+            script_cursor = max(script_cursor, next_cursor)
+
+        if restored_text != text and has_break_punctuation(restored_text):
+            # Use proportional timing from the restored sentence text so the
+            # restored punctuation is visible before segmentation.
+            restored_segments.append({**segment, "text": restored_text, "words": []})
+        else:
+            restored_segments.append({**segment, "text": restored_text})
+    return restored_segments
+
+
+def strip_html_tags(text: str) -> str:
+    return html.unescape(re.sub(r"<[^>]+>", "", text)).strip()
+
+
+def extract_green_span_lines(markdown: str) -> list[str]:
+    pattern = re.compile(
+        r"<span\b[^>]*style=[\"'][^\"']*color\s*:\s*#1a9c4a[^\"']*[\"'][^>]*>(.*?)</span>",
+        re.IGNORECASE | re.DOTALL,
+    )
+    lines = []
+    for match in pattern.finditer(markdown):
+        text = strip_html_tags(match.group(1))
+        text = re.sub(r"\s+", " ", text).strip()
+        if text:
+            lines.append(text)
+    return lines
+
+
+def strip_script_markup(line: str) -> str:
+    line = strip_html_tags(line)
+    line = re.sub(r"`?\[[^\]]+\]`?", "", line)
+    line = re.sub(r"[（(][^）)]*(?:→|按|跳出|Slide|slide|標籤|字卡|泡泡)[^）)]*[）)]", "", line)
+    line = re.sub(r"\*\*([^*]+)\*\*", r"\1", line)
+    line = re.sub(r"[`*_]", "", line)
+    return line.strip()
+
+
+def split_script_chunks(text: str) -> list[str]:
+    chunks = []
+    for piece in re.findall(rf".*?[{re.escape(HARD_BREAK_CHARS)}]+|.+$", text):
+        cleaned = piece.strip()
+        if cleaned:
+            chunks.append(cleaned)
+    return chunks
+
+
+def chunks_from_script_lines(lines: list[str]) -> list[str]:
+    chunks: list[str] = []
+    for line in lines:
+        cleaned = strip_script_markup(line)
+        if not cleaned or cleaned.startswith(("[", "【")):
+            continue
+        if not re.search(r"[\u4e00-\u9fffA-Za-z0-9]", cleaned):
+            continue
+        chunks.extend(split_script_chunks(cleaned))
+    return chunks
+
+
+def time_text_chunks(chunks: list[str], start: float, end: float) -> list[dict]:
+    subtitle_chunks: list[str] = []
+    for chunk in chunks:
+        subtitle_chunks.extend(split_text_for_subtitles(chunk))
+    subtitle_chunks = [chunk for chunk in subtitle_chunks if chunk.strip()]
+    if not subtitle_chunks:
+        return []
+
+    duration = max(end - start, 0.05)
+    total_len = sum(max(display_len(chunk), 1) for chunk in subtitle_chunks)
+    cursor = start
+    segments = []
+    for index, chunk in enumerate(subtitle_chunks):
+        if index == len(subtitle_chunks) - 1:
+            chunk_end = end
+        else:
+            chunk_end = min(end, cursor + duration * max(display_len(chunk), 1) / total_len)
+        segments.append({"start": cursor, "end": max(chunk_end, cursor + 0.05), "text": chunk})
+        cursor = chunk_end
+    return segments
+
+
+def load_script_chunks(script_path: Path) -> list[str]:
+    if not script_path.exists():
+        return []
+
+    markdown = script_path.read_text(encoding="utf-8")
+    green_lines = extract_green_span_lines(markdown)
+    if green_lines:
+        return chunks_from_script_lines(green_lines)
+
+    lines: list[str] = []
+    in_frontmatter = False
+    frontmatter_seen = False
+    for raw_line in markdown.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if line == "---" and not frontmatter_seen:
+            in_frontmatter = True
+            frontmatter_seen = True
+            continue
+        if line == "---" and in_frontmatter:
+            in_frontmatter = False
+            continue
+        if in_frontmatter:
+            continue
+        if line.startswith("## 🎛️") or "按鍵速查" in line:
+            break
+        if line.startswith(("#", ">", "|", "---")):
+            continue
+        lines.append(line)
+    return chunks_from_script_lines(lines)
+
+
+def find_script_path(out_dir: Path) -> Path | None:
+    for filename in SCRIPT_PATH_CANDIDATES:
+        path = out_dir / filename
+        if path.exists():
+            return path
+    return None
+
+
+def correct_segments_with_script(segments: list[dict], script_chunks: list[str]) -> tuple[list[dict], int]:
+    if not script_chunks:
+        return segments, 0
+
+    corrected: list[dict] = []
+    script_cursor = 0
+    correction_count = 0
+    segment_index = 0
+
+    while segment_index < len(segments):
+        best_match = None
+        search_start = max(0, script_cursor - 5)
+        search_end = min(len(script_chunks), script_cursor + 20)
+        for segment_window in range(1, min(SCRIPT_MAX_SEGMENT_WINDOW, len(segments) - segment_index) + 1):
+            segment_slice = segments[segment_index : segment_index + segment_window]
+            combined_text = "".join(segment["text"].strip() for segment in segment_slice)
+            combined_norm = normalize_match_text(combined_text)
+            if len(combined_norm) < MIN_SPLIT_CHARS:
+                continue
+
+            for chunk_index in range(search_start, search_end):
+                for chunk_window in range(1, min(SCRIPT_MAX_CHUNK_WINDOW, len(script_chunks) - chunk_index) + 1):
+                    reference_chunks = script_chunks[chunk_index : chunk_index + chunk_window]
+                    reference_text = "".join(reference_chunks)
+                    reference_norm = normalize_match_text(reference_text)
+                    if len(reference_norm) < MIN_SPLIT_CHARS:
+                        continue
+                    length_ratio = len(combined_norm) / max(len(reference_norm), 1)
+                    if not 0.70 <= length_ratio <= 1.45:
+                        continue
+                    ratio = difflib.SequenceMatcher(None, combined_norm, reference_norm).ratio()
+                    if ratio < SCRIPT_WINDOW_MATCH_RATIO:
+                        continue
+                    score = ratio - abs(1.0 - length_ratio) * 0.08 + segment_window * 0.002
+                    if best_match is None or score > best_match["score"]:
+                        best_match = {
+                            "score": score,
+                            "ratio": ratio,
+                            "segment_window": segment_window,
+                            "chunk_index": chunk_index,
+                            "chunk_window": chunk_window,
+                            "reference_chunks": reference_chunks,
+                        }
+
+        if best_match:
+            segment_slice = segments[segment_index : segment_index + int(best_match["segment_window"])]
+            replacement = time_text_chunks(
+                list(best_match["reference_chunks"]),
+                float(segment_slice[0]["start"]),
+                float(segment_slice[-1]["end"]),
+            )
+            if replacement:
+                corrected.extend(replacement)
+                correction_count += 1
+                script_cursor = max(script_cursor, int(best_match["chunk_index"]) + int(best_match["chunk_window"]))
+                segment_index += int(best_match["segment_window"])
+                continue
+
+        segment = segments[segment_index]
+        text = segment["text"].strip()
+        normalized = normalize_match_text(text)
+        if len(normalized) < MIN_SPLIT_CHARS:
+            corrected.append(segment)
+            segment_index += 1
+            continue
+
+        best_index = -1
+        best_ratio = 0.0
+        start = max(0, script_cursor - 5)
+        end = min(len(script_chunks), script_cursor + 18)
+        for index in range(start, end):
+            candidate = script_chunks[index]
+            candidate_norm = normalize_match_text(candidate)
+            if len(candidate_norm) < MIN_SPLIT_CHARS:
+                continue
+            ratio = difflib.SequenceMatcher(None, normalized, candidate_norm).ratio()
+            if ratio > best_ratio:
+                best_ratio = ratio
+                best_index = index
+
+        if best_index >= 0 and best_ratio >= SCRIPT_MATCH_RATIO:
+            reference = script_chunks[best_index]
+            ref_norm = normalize_match_text(reference)
+            length_ratio = len(normalized) / max(len(ref_norm), 1)
+            if 0.75 <= length_ratio <= 1.35 and text != reference:
+                corrected.append({**segment, "text": reference})
+                correction_count += 1
+            else:
+                corrected.append(segment)
+            script_cursor = max(script_cursor, best_index + 1)
+        else:
+            corrected.append(segment)
+        segment_index += 1
+
+    return clean_timing(corrected), correction_count
 
 
 def clean_timing(segments: list[dict]) -> list[dict]:
@@ -361,10 +966,78 @@ def write_srt(segments: list[dict], srt_path: Path) -> None:
     srt_path.write_text("\n".join(entries) + "\n", encoding="utf-8")
 
 
+def parse_srt_timestamp(value: str) -> float:
+    hours, minutes, rest = value.strip().replace(",", ".").split(":")
+    return int(hours) * 3600 + int(minutes) * 60 + float(rest)
+
+
+def scale_srt_timestamps(srt_path: Path, speed: float) -> None:
+    content = srt_path.read_text(encoding="utf-8")
+
+    def repl(match: re.Match[str]) -> str:
+        start = parse_srt_timestamp(match.group(1)) / speed
+        end = parse_srt_timestamp(match.group(2)) / speed
+        return f"{srt_time(td(start))} --> {srt_time(td(end))}"
+
+    scaled = re.sub(
+        r"(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})",
+        repl,
+        content,
+    )
+    srt_path.write_text(scaled, encoding="utf-8")
+
+
+def apply_video_speed(input_path: Path, output_path: Path, speed: float, force: bool) -> None:
+    ensure_writable(output_path, force)
+    ffmpeg = find_ffmpeg()
+    cmd = [
+        str(ffmpeg),
+        "-y",
+        "-i",
+        str(input_path),
+        "-filter_complex",
+        f"[0:v]setpts=PTS/{speed:g}[v];[0:a]atempo={speed:g}[a]",
+        "-map",
+        "[v]",
+        "-map",
+        "[a]",
+        "-r",
+        str(OUTPUT_FPS),
+        "-fps_mode",
+        "cfr",
+        "-c:v",
+        "libx264",
+        "-crf",
+        "18",
+        "-preset",
+        "medium",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        str(output_path),
+    ]
+    run(cmd)
+
+
+def apply_speed_outputs(video_path: Path, srt_path: Path, speed: float, work_dir: Path) -> None:
+    if abs(speed - 1.0) < 1e-9:
+        return
+    if speed <= 0:
+        raise SystemExit("--speed must be greater than 0.")
+    sped_video_path = work_dir / f"{video_path.stem}-speed{speed:g}{video_path.suffix}"
+    apply_video_speed(video_path, sped_video_path, speed, force=True)
+    shutil.move(sped_video_path, video_path)
+    scale_srt_timestamps(srt_path, speed)
+
+
 def write_transcript(text: str, fallback_segments: list[dict], transcript_path: Path, replacements: dict[str, str]) -> None:
-    transcript = apply_vocab(text.strip(), replacements)
-    if not transcript:
-        transcript = "\n".join(segment["text"].strip() for segment in fallback_segments if segment["text"].strip())
+    segment_transcript = "\n".join(segment["text"].strip() for segment in fallback_segments if segment["text"].strip())
+    transcript = segment_transcript or apply_vocab(text.strip(), replacements)
     transcript_path.write_text(transcript.rstrip() + "\n", encoding="utf-8")
 
 
@@ -389,8 +1062,16 @@ def default_work_dir(input_path: Path, ep: str, suffix: str) -> Path:
     return Path(tempfile.gettempdir()) / "life-os-episode-pipeline" / safe_name
 
 
-def default_prompt(replacements: dict[str, str]) -> str:
-    terms = sorted(set(replacements.values()) | {"蔡加尼克", "Readmoo", "房貸", "瑣事", "第二大腦", "Pubu", "Notion", "Obsidian"})
+def default_prompt(replacements: dict[str, str], script_chunks: list[str] | None = None) -> str:
+    terms = set(replacements.values()) | PROMPT_TERMS
+    for chunk in script_chunks or []:
+        for term in PROMPT_TERMS:
+            if term in chunk:
+                terms.add(term)
+        for ascii_term in re.findall(r"[A-Za-z][A-Za-z0-9%+-]*(?: [A-Za-z0-9%+-]+)*", chunk):
+            if len(ascii_term) >= 2:
+                terms.add(ascii_term)
+    terms = sorted(terms)
     return "、".join(terms)
 
 
@@ -419,7 +1100,13 @@ def main() -> None:
     trimmed_video_path, trimmed_srt_path, trimmed_transcript_path = trimmed_output_paths(out_dir, args.ep, args.suffix)
     trim_enabled = not args.skip_trim and not args.transcribe_only
     replacements = load_vocab(args.vocab)
-    prompt = args.initial_prompt if args.initial_prompt is not None else default_prompt(replacements)
+    script_path = find_script_path(out_dir)
+    script_chunks = load_script_chunks(script_path) if script_path else []
+    if script_path:
+        print(f"Using script for punctuation: {script_path.name} ({len(script_chunks)} chunks)")
+    else:
+        print("No script found for punctuation restoration.")
+    prompt = args.initial_prompt if args.initial_prompt is not None else default_prompt(replacements, script_chunks)
 
     if args.skip_transcribe:
         if not srt_path.exists():
@@ -477,8 +1164,10 @@ def main() -> None:
     raw_segments, transcript = transcribe(transcribe_input, args.model, args.language, prompt)
     if not raw_segments:
         raise SystemExit("Whisper returned no segments.")
+    raw_segments = restore_punctuation_to_raw_segments(raw_segments, script_chunks)
     atoms = atomize_whisper_segments(raw_segments)
     segments = apply_vocab_to_segments(merge_segments(atoms), replacements)
+    script_correction_count = 0
     write_srt(segments, srt_path)
     write_transcript(transcript, segments, transcript_path, replacements)
     video_info = probe_video(transcribe_input)
@@ -498,6 +1187,11 @@ def main() -> None:
             force=args.force,
             ffmpeg_path=find_ffmpeg(),
         )
+    if not args.transcribe_only and not args.trim_dry_run:
+        if trim_enabled:
+            apply_speed_outputs(trimmed_video_path, trimmed_srt_path, args.speed, work_dir)
+        else:
+            apply_speed_outputs(video_path, srt_path, args.speed, work_dir)
     cleanup(transient_paths, args.keep_work)
 
     print(f"Wrote {srt_path}")
@@ -511,6 +1205,7 @@ def main() -> None:
         elif trim_enabled:
             print("Trim dry-run only: no trimmed outputs were written.")
     print(f"Subtitle segments: {len(segments)}")
+    print(f"Script corrections: {script_correction_count}")
     print(f"Clean video duration: {video_info['duration']:.1f}s")
 
 

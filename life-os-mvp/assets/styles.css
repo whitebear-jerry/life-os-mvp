@@ -755,6 +755,27 @@ figcaption {
   overflow: hidden;
 }
 
+.index-bundle-card .bundle-image {
+  flex-shrink: 0;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.index-bundle-card .bundle-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.index-bundle-card:hover .bundle-image img {
+  transform: scale(1.04) rotate(-1deg);
+}
+
 .index-bundle-card .bundle-badge {
   position: absolute;
   top: 0;
@@ -867,9 +888,17 @@ figcaption {
 @media (max-width: 768px) {
   .index-bundle-card {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 16px;
-    padding: 20px;
+    padding: 24px 20px;
+  }
+  .index-bundle-card .bundle-image {
+    width: 120px;
+    margin-top: 10px;
+  }
+  .index-price-tag {
+    justify-content: center;
   }
   .index-bundle-card .bundle-action {
     width: 100%;

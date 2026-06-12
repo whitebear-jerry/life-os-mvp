@@ -118,6 +118,58 @@ def preprocess_split_segments(segs: list[dict]) -> list[dict]:
     return result
 
 
+def clean_compare_text(text: str) -> str:
+    return re.sub(r"[^\w]", "", text)
+
+
+def text_similarity(left: str, right: str) -> float:
+    clean_left = clean_compare_text(left)
+    clean_right = clean_compare_text(right)
+    if not clean_left or not clean_right:
+        return 0.0
+    matcher = difflib.SequenceMatcher(None, clean_left, clean_right)
+    ratio = matcher.ratio()
+    longest = matcher.find_longest_match(0, len(clean_left), 0, len(clean_right)).size
+    containment = longest / max(min(len(clean_left), len(clean_right)), 1)
+    return max(ratio, containment)
+
+
+def detect_adjacent_sentence_duplicates(
+    segments: list[dict],
+    threshold: float = 0.68,
+    max_sentence_gap: int = 3,
+    max_time_gap: float = 20.0,
+) -> list[dict]:
+    duplicates = []
+    for i, left in enumerate(segments):
+        left_clean = clean_compare_text(left["text"])
+        if len(left_clean) < 8:
+            continue
+        for j in range(i + 1, min(i + max_sentence_gap + 1, len(segments))):
+            right = segments[j]
+            right_clean = clean_compare_text(right["text"])
+            if len(right_clean) < 8:
+                continue
+            if right["start"] - left["end"] > max_time_gap:
+                continue
+            ratio = text_similarity(left["text"], right["text"])
+            if ratio < threshold:
+                continue
+            duplicates.append({
+                "cut_index": i,
+                "keep_index": j,
+                "cut_start": left["start"],
+                "cut_end": left["end"],
+                "keep_start": right["start"],
+                "keep_end": right["end"],
+                "cut_text": left["text"],
+                "keep_text": right["text"],
+                "ratio": ratio,
+            })
+            break
+    return duplicates
+
+
 def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap: int = 12) -> list[dict]:
     n = len(segments)
     edges = {}  # maps source block index -> target block index (source is cut, target is keep)
@@ -125,8 +177,8 @@ def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap
     # Collect all matches
     matches = []
     # w_a is window size for Group A, w_b is window size for Group B
-    for w_a in range(6, 0, -1):
-        for w_b in range(6, 0, -1):
+    for w_a in range(8, 0, -1):
+        for w_b in range(8, 0, -1):
             for i in range(n - w_a):
                 # j starts at i + w_a (next block after Group A)
                 for j in range(i + w_a, min(i + w_a + max_block_gap, n - w_b + 1)):
@@ -136,13 +188,13 @@ def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap
                     text_a = "".join(s["text"] for s in group_a)
                     text_b = "".join(s["text"] for s in group_b)
                     
-                    clean_a = re.sub(r"[^\w]", "", text_a)
-                    clean_b = re.sub(r"[^\w]", "", text_b)
+                    clean_a = clean_compare_text(text_a)
+                    clean_b = clean_compare_text(text_b)
                     
                     if len(clean_a) < 3 or len(clean_b) < 3:
                         continue
                         
-                    ratio = difflib.SequenceMatcher(None, clean_a, clean_b).ratio()
+                    ratio = text_similarity(text_a, text_b)
                     if ratio >= threshold:
                         # No Drag-Along Rule:
                         # For every segment in group_a, there must be at least one segment in group_b
@@ -156,8 +208,8 @@ def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap
                                 if len(sa_clean) < 3 or len(sb_clean) < 3:
                                     has_match = True
                                     break
-                                r = difflib.SequenceMatcher(None, sa_clean, sb_clean).ratio()
-                                if r >= 0.40:
+                                r = text_similarity(sa["text"], sb["text"])
+                                if r >= 0.34:
                                     has_match = True
                                     break
                             if not has_match:
@@ -245,9 +297,22 @@ def detect_ng_takes(segments: list[dict], threshold: float = 0.78, max_block_gap
                 "keep_end": segments[keep_idx]["end"],
                 "cut_text": segments[c]["text"],
                 "keep_text": keep_text,
-                "ratio": difflib.SequenceMatcher(None, re.sub(r"[^\w]", "", segments[c]["text"]), re.sub(r"[^\w]", "", keep_text)).ratio()
+                "ratio": text_similarity(segments[c]["text"], keep_text)
             })
             
+    adjacent_duplicates = detect_adjacent_sentence_duplicates(
+        segments,
+        threshold=max(0.68, threshold - 0.10),
+    )
+    cut_indices = {duplicate["cut_index"] for duplicate in duplicates}
+    for duplicate in adjacent_duplicates:
+        if duplicate["cut_index"] in cut_indices:
+            continue
+        if duplicate["keep_index"] in cut_indices:
+            continue
+        duplicates.append(duplicate)
+        cut_indices.add(duplicate["cut_index"])
+
     duplicates.sort(key=lambda x: x["cut_start"])
     return duplicates
 
@@ -410,9 +475,11 @@ def trim_duplicate_takes(
         )
         new_idx += 1
 
+    tmp_video = out_video.with_name(f"{out_video.stem}.tmp-cut{out_video.suffix}")
+    tmp_video.unlink(missing_ok=True)
     if not duplicates:
         print("\n🎥 No duplicate intervals to cut; copying video and writing normalized subtitle outputs.")
-        shutil.copy2(video_path, out_video)
+        shutil.copy2(video_path, tmp_video)
     else:
         print(f"\n🎥 Slicing video using FFmpeg select filters...")
         duration = probe_duration(video_path)
@@ -439,11 +506,12 @@ def trim_duplicate_takes(
             "-pix_fmt", "yuv420p",
             "-c:a", "aac",
             "-b:a", "192k",
-            str(out_video)
+            str(tmp_video)
         ]
 
         print(f"+ {' '.join(ffmpeg_cmd)}")
         subprocess.run(ffmpeg_cmd, check=True)
+    tmp_video.replace(out_video)
     print(f"🎉 Wrote trimmed video: {out_video.name}")
 
     print(f"⏳ Recalculating subtitle timestamps...")
