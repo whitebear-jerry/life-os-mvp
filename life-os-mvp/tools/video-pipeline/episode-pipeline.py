@@ -734,14 +734,32 @@ def strip_html_tags(text: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", "", text)).strip()
 
 
-def extract_green_span_lines(markdown: str) -> list[str]:
+def is_dialogue_span_style(style: str) -> bool:
+    normalized = re.sub(r"\s+", "", style).lower()
+    return any(
+        token in normalized
+        for token in (
+            "color:#1a9c4a",
+            "color:#1565c0",
+            "color:#1a73e8",
+            "color:#2563eb",
+            "color:#1d4ed8",
+            "color:#0070c0",
+            "color:blue",
+        )
+    )
+
+
+def extract_dialogue_span_lines(markdown: str) -> list[str]:
     pattern = re.compile(
-        r"<span\b[^>]*style=[\"'][^\"']*color\s*:\s*#1a9c4a[^\"']*[\"'][^>]*>(.*?)</span>",
+        r"<span\b[^>]*style=[\"']([^\"']*)[\"'][^>]*>(.*?)</span>",
         re.IGNORECASE | re.DOTALL,
     )
     lines = []
     for match in pattern.finditer(markdown):
-        text = strip_html_tags(match.group(1))
+        if not is_dialogue_span_style(match.group(1)):
+            continue
+        text = strip_html_tags(match.group(2))
         text = re.sub(r"\s+", " ", text).strip()
         if text:
             lines.append(text)
@@ -805,9 +823,9 @@ def load_script_chunks(script_path: Path) -> list[str]:
         return []
 
     markdown = script_path.read_text(encoding="utf-8")
-    green_lines = extract_green_span_lines(markdown)
-    if green_lines:
-        return chunks_from_script_lines(green_lines)
+    dialogue_lines = extract_dialogue_span_lines(markdown)
+    if dialogue_lines:
+        return chunks_from_script_lines(dialogue_lines)
 
     lines: list[str] = []
     in_frontmatter = False
