@@ -2775,6 +2775,25 @@
       font-family: monospace;
       font-weight: 800;
     }
+
+    /* 避免首屏並列時，右側卡片文字被擠壓，強制定調為垂直卡片佈局 */
+    .first-screen-grid .book-card-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .first-screen-grid .book-cover-wrapper {
+      margin-bottom: 12px;
+    }
+    .first-screen-grid .book-rating {
+      justify-content: center;
+    }
+    .first-screen-grid .book-selling-points {
+      align-items: center;
+    }
+    .first-screen-grid .book-price {
+      justify-content: center;
+    }
   </style>
 </head>
 <body class="link-page">
@@ -2826,7 +2845,7 @@
             <div class="slide-image-area slide-book4"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-xinfu">創作 #4 ｜ 心富</span>
-              <p class="slide-description">把心顧好，錢自然長出來，重塑大腦的富足心理學與行為經濟學指南。</p>
+              <p class="slide-description">把心顧好，錢自然長出來的財富實戰手冊</p>
             </div>
           </div>
         </div>
@@ -2860,43 +2879,7 @@
         <p id="bearMsg" class="funnel-msg"></p>
       </section>
 
-      <!-- 📘 《人生複利》主推書卡 -->
-      <article class="link-book book-fuli">
-        <div class="book-tag">🔥 最多冒險者解鎖</div>
-        <div class="book-card-content">
-          <div class="book-cover-wrapper">
-            <img src="assets/book1.jpg" alt="《人生複利》書封" class="book-cover" />
-          </div>
-          <div class="book-info">
-            <h2>《人生複利》</h2>
-            <div class="book-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-text">6 位冒險者・5 篇書評</span>
-            </div>
-            <div class="book-selling-points">
-              <div class="selling-point"><span>📈</span> 每天進步 1%，一年強大 37 倍</div>
-              <div class="selling-point"><span>🧠</span> 45 個覺醒練習，重設大腦關鍵字</div>
-            </div>
-            <div class="book-price">
-              <span class="price-label">特惠價</span>
-              <span class="price-amount">
-                <span class="price-original-cross">原價 NT$220</span>
-                <span class="price-gem">💎</span> NT$149
-                <span class="discount-badge">67折 (省 $71)</span>
-              </span>
-            </div>
-            <div class="link-actions" aria-label="人生複利購買連結">
-              <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
-              <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生複利">Kobo</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    <section class="link-books" aria-label="白熊套書與系列書">
-      <!-- 🎁 4冊合購套書特惠包 -->
+      <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
       <article class="link-book book-bundle">
         <div class="bundle-header-tag">🔥 限時特惠 51 折</div>
         <div class="book-card-content">
@@ -2924,6 +2907,42 @@
             <div class="bundle-links">
               <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購</a>
               <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="link-books" aria-label="白熊套書與系列書">
+      <!-- 📘 《人生複利》次要書卡 -->
+      <article class="link-book book-fuli book-secondary">
+        <div class="book-tag">🔥 最多冒險者解鎖</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book1.jpg" alt="《人生複利》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《人生複利》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">6 位冒險者・5 篇書評</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>📈</span> 每天進步 1%，一年強大 37 倍</div>
+              <div class="selling-point"><span>🧠</span> 45 個覺醒練習，重設大腦關鍵字</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$220</span>
+                <span class="price-gem">💎</span> NT$149
+                <span class="discount-badge">67折 (省 $71)</span>
+              </span>
+            </div>
+            <div class="link-actions" aria-label="人生複利購買連結">
+              <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
+              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
+              <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生複利">Kobo</a>
             </div>
           </div>
         </div>
