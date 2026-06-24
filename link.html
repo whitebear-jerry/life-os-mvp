@@ -2675,6 +2675,12 @@
       box-shadow: 0 8px 25px rgba(196, 137, 53, 0.4);
     }
 
+    @media (max-width: 480px) {
+      .bundle-links {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
     .book-bundle .book-cover-wrapper {
       width: 120px;
       height: 90px; /* 橫圖 4:3 比例 */
@@ -2863,20 +2869,37 @@
               <div class="selling-point"><span>📦</span> 一次帶走複利、遊戲、降噪、心富四冊圖文版</div>
               <div class="selling-point"><span>⚙️</span> 建立完整富足思考與高效人生作業系統</div>
             </div>
-            <div class="book-price" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; border-radius: 8px; padding: 6px 12px; margin: 8px 0 12px; width: fit-content; background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08);">
-              <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5); font-weight: bold;">合購特惠 (原價 NT$1180)</span>
-              <span class="price-amount" style="font-size: 0.85rem; display: flex; align-items: center; gap: 3px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.4);">
-                <span class="price-gem">💎</span> Pubu NT$599 <span class="discount-badge" style="margin-left: 6px;">51折 (省 $581)</span>
-              </span>
-              <span class="price-amount" style="font-size: 0.85rem; display: flex; align-items: center; gap: 3px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.4); margin-top: 2px;">
-                <span class="price-gem">💎</span> Readmoo NT$716 <span class="discount-badge" style="margin-left: 6px;">6折 (省 $464)</span>
-              </span>
-            </div>
-            <div class="bundle-links">
-              <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$716)</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
+            
+            <!-- 🏷️ 整合最佳化價格表（以收據風格，讓價格排版大氣又易讀） -->
+            <div class="book-price" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; border-radius: 10px; padding: 10px 14px; margin: 12px 0 0; width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 208, 117, 0.15);">
+              <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.55); font-weight: bold; letter-spacing: 0.5px;">【合購套書限定特惠】 (原價 NT$1180)</span>
+              
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 2px;">
+                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.3);">
+                  <span class="price-gem">💎</span> Pubu 電子合輯
+                </span>
+                <span style="display: flex; align-items: center; gap: 6px;">
+                  <strong style="color: #ffd075; font-family: monospace; font-size: 0.95rem;">NT$599</strong>
+                  <span class="discount-badge" style="margin-left: 0; background: rgba(255, 208, 117, 0.15); color: #ffd075; border: 0.5px solid rgba(255, 208, 117, 0.4);">51折</span>
+                </span>
+              </div>
+              
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(255, 208, 117, 0.15);">
+                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.3);">
+                  <span class="price-gem">💎</span> Readmoo 電子合購
+                </span>
+                <span style="display: flex; align-items: center; gap: 6px;">
+                  <strong style="color: #ffd075; font-family: monospace; font-size: 0.95rem;">NT$716</strong>
+                  <span class="discount-badge" style="margin-left: 0; background: rgba(255, 208, 117, 0.15); color: #ffd075; border: 0.5px solid rgba(255, 208, 117, 0.4);">6折</span>
+                </span>
+              </div>
             </div>
           </div>
+        </div>
+        <!-- 🛒 行動按鈕移出主圖文區，佔滿卡片寬度，防止在手機或小螢幕擠壓造成換行跑版 -->
+        <div class="bundle-links" style="margin-top: 16px;">
+          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$716)</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
         </div>
       </article>
       <!-- 📘 《人生複利》次要書卡 -->
