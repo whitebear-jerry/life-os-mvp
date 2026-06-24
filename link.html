@@ -97,6 +97,11 @@
       box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06);
     }
 
+    .link-book.book-xinfu:hover {
+      border-color: rgba(212, 138, 55, 0.35);
+      box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06);
+    }
+
     .link-book h2 {
       font-size: 1.06rem;
       line-height: 1.28;
@@ -148,6 +153,11 @@
       box-shadow: 0 4px 12px rgba(64, 105, 132, 0.15);
     }
 
+    .book-xinfu .link-actions a {
+      background: #d48a37;
+      box-shadow: 0 4px 12px rgba(212, 138, 55, 0.15);
+    }
+
     .link-actions a:hover {
       filter: brightness(1.12);
       transform: translateY(-3px) scale(1.05);
@@ -164,6 +174,10 @@
 
     .book-noise .link-actions a:hover {
       box-shadow: 0 8px 24px rgba(64, 105, 132, 0.35);
+    }
+
+    .book-xinfu .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(212, 138, 55, 0.35);
     }
 
     .link-actions a:active {
@@ -571,6 +585,10 @@
       background-image: url('assets/book3_banner.jpg');
     }
 
+    .slide-book4 {
+      background-image: url('assets/book4_banner.jpg');
+    }
+
     /* 下方文字區域：深綠色系半透明毛玻璃質感 */
     .slide-text-area {
       padding: 14px 18px 16px;
@@ -610,6 +628,12 @@
       background: rgba(64, 105, 132, 0.25);
       color: #9cd4ff;
       border: 1px solid rgba(64, 105, 132, 0.4);
+    }
+
+    .badge-xinfu {
+      background: rgba(212, 138, 55, 0.25);
+      color: #ffcc80;
+      border: 1px solid rgba(212, 138, 55, 0.4);
     }
 
     .slide-description {
@@ -2624,12 +2648,13 @@
 
     .bundle-links {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
       margin-top: 14px;
     }
 
     .bundle-links a {
-      min-height: 50px;
+      min-height: 48px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -2649,6 +2674,107 @@
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 8px 25px rgba(196, 137, 53, 0.4);
     }
+
+    .book-bundle .book-cover-wrapper {
+      width: 120px;
+      height: 90px; /* 橫圖 4:3 比例 */
+    }
+
+    /* 首屏並列 */
+    .first-screen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .first-screen-grid .link-funnel {
+      margin-top: 0;
+    }
+    @media (min-width: 480px) {
+      .first-screen-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: stretch;
+      }
+    }
+
+    /* 次要書卡縮小 */
+    .link-book.book-secondary {
+      padding: 12px 12px;
+      border-color: rgba(220, 227, 217, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .book-secondary .book-cover-wrapper {
+      width: 76px;
+      height: 110px;
+    }
+    .book-secondary h2 {
+      font-size: 0.95rem;
+    }
+    .book-secondary .book-rating {
+      margin: 2px 0 6px;
+    }
+    .book-secondary .book-selling-points {
+      margin: 6px 0;
+      gap: 4px;
+    }
+    .book-secondary .selling-point {
+      font-size: 0.75rem;
+    }
+    .book-secondary .selling-point span {
+      font-size: 0.85rem;
+    }
+    .book-secondary .book-price {
+      margin: 4px 0 6px;
+    }
+    .book-secondary .link-actions {
+      margin-top: 8px;
+    }
+    .book-secondary .link-actions a {
+      min-height: 38px;
+      font-size: 0.82rem;
+    }
+    .bundle-links a.hidden-purchase {
+      display: none !important;
+    }
+    .bundle-links a.active-purchase {
+      grid-column: span 2 !important;
+      background: linear-gradient(135deg, #ff9800 0%, #e65100 100%) !important;
+      border-color: #ffd89c !important;
+      box-shadow: 0 0 15px rgba(230, 81, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.2) !important;
+      animation: buttonPulse 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    /* 頂部即時訪客統計徽章 */
+    .visitor-stats-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(12, 21, 17, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      color: rgba(247, 247, 240, 0.85);
+      margin-top: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    .visitor-stats-badge .live-indicator {
+      width: 6px;
+      height: 6px;
+      background-color: #4ef072;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #4ef072;
+      animation: pulseGreen 2s infinite alternate;
+    }
+    @keyframes pulseGreen {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+    .visitor-stats-badge strong {
+      color: #4ef072;
+      font-family: monospace;
+      font-weight: 800;
+    }
   </style>
 </head>
 <body class="link-page">
@@ -2660,6 +2786,11 @@
       </div>
       <h1>白熊人生攻略</h1>
       <p class="link-tagline">把人生變成可以升級的作業系統</p>
+      <!-- 🟢 即時訪客統計數據 -->
+      <div class="visitor-stats-badge" aria-label="訪客統計數據">
+        <span class="live-indicator"></span>
+        <span class="visitor-text">今日登錄: <strong id="liveUsersTop">--</strong> 人 ｜ 累計登錄: <strong id="totalUsersTop">--</strong> 人</span>
+      </div>
     </section>
 
     <!-- 📚 書籍故事動態橫幅 Carousel (雙區塊垂直堆疊版面設計) -->
@@ -2690,6 +2821,14 @@
               <p class="slide-description">從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
             </div>
           </div>
+          <!-- 幻燈片 #4 ｜ 心富 -->
+          <div class="carousel-slide" aria-label="創作 #4 ｜ 心富">
+            <div class="slide-image-area slide-book4"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-xinfu">創作 #4 ｜ 心富</span>
+              <p class="slide-description">把心顧好，錢自然長出來，重塑大腦的富足心理學與行為經濟學指南。</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 固定於右下角的點狀指示器 -->
@@ -2697,42 +2836,31 @@
         <span class="carousel-dot active" data-slide="0"></span>
         <span class="carousel-dot" data-slide="1"></span>
         <span class="carousel-dot" data-slide="2"></span>
+        <span class="carousel-dot" data-slide="3"></span>
       </div>
     </section>
 
-    <section class="link-books" aria-label="白熊三本書">
-      <!-- 🎁 3冊合購套書特惠包 (Pubu 獨家) -->
-      <article class="link-book book-bundle">
-        <div class="bundle-header-tag">🔥 限時特惠 58 折</div>
-        <div class="book-card-content">
-          <div class="book-cover-wrapper">
-            <img src="assets/book_bundle.jpg" alt="圖解富足行動三部曲合購套書" class="book-cover" style="filter: brightness(1.05) contrast(1.02);" />
+    <div class="first-screen-grid">
+      <!-- 🎴 Email 金句卡漏斗 -->
+      <section class="link-funnel" aria-label="免費領取金句小卡">
+        <div class="funnel-badge">🎴 免費索取</div>
+        <h2 class="funnel-title">免費領取｜人生複利金句小卡</h2>
+        <p class="funnel-intro">《人生複利》整本書裡最被讀者劃線、最能改變想法的 18 句話，做成手機小卡。</p>
+        <ul class="funnel-bullets">
+          <li><span>✔</span> 18 張金句小卡（可設手機桌布）</li>
+          <li><span>✔</span> 不定期的人生攻略筆記</li>
+        </ul>
+        <form id="bearForm" class="funnel-form">
+          <div class="input-group">
+            <input type="email" id="bearEmail" required placeholder="請輸入你的 Email..." aria-label="你的 email">
+            <button type="submit" class="funnel-btn">免費領取小卡 →</button>
           </div>
-          <div class="book-info">
-            <h2>【圖解富足行動】三冊特惠包</h2>
-            <div class="book-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-text">限時合購・Pubu 獨家</span>
-            </div>
-            <div class="book-selling-points">
-              <div class="selling-point"><span>📦</span> 完整打包複利、遊戲、降噪三本圖文版</div>
-              <div class="selling-point"><span>⚙️</span> 一次建立個人變現與高效運作系統</div>
-            </div>
-            <div class="book-price">
-              <span class="price-label">合購價</span>
-              <span class="price-amount">
-                <span class="price-original-cross">原價 NT$860</span>
-                <span class="price-gem">💎</span> NT$499
-                <span class="discount-badge">現省 $361</span>
-              </span>
-            </div>
-            <div class="bundle-links">
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買三冊合購包">🛒 立即前往 Pubu 購買合購套書 ($499)</a>
-            </div>
-          </div>
-        </div>
-      </article>
+          <div class="funnel-security">🔒 不寄垃圾信，一鍵退訂</div>
+        </form>
+        <p id="bearMsg" class="funnel-msg"></p>
+      </section>
 
+      <!-- 📘 《人生複利》主推書卡 -->
       <article class="link-book book-fuli">
         <div class="book-tag">🔥 最多冒險者解鎖</div>
         <div class="book-card-content">
@@ -2765,8 +2893,43 @@
           </div>
         </div>
       </article>
+    </div>
 
-      <article class="link-book book-game">
+    <section class="link-books" aria-label="白熊套書與系列書">
+      <!-- 🎁 4冊合購套書特惠包 -->
+      <article class="link-book book-bundle">
+        <div class="bundle-header-tag">🔥 限時特惠 51 折</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book_bundle.jpg" alt="圖解富足行動四部曲合購套書" class="book-cover" style="filter: brightness(1.05) contrast(1.02);" />
+          </div>
+          <div class="book-info">
+            <h2>【圖解富足行動】四冊特惠包</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">限時合購・全套珍藏</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>📦</span> 一次帶走複利、遊戲、降噪、心富四冊圖文版</div>
+              <div class="selling-point"><span>⚙️</span> 建立完整富足思考與高效人生作業系統</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">合購價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$1180</span>
+                <span class="price-gem">💎</span> NT$599
+                <span class="discount-badge">現省 $581</span>
+              </span>
+            </div>
+            <div class="bundle-links">
+              <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購</a>
+              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="link-book book-game book-secondary">
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book2.jpg" alt="《人生遊戲》書封" class="book-cover" />
@@ -2798,7 +2961,7 @@
         </div>
       </article>
 
-      <article class="link-book book-noise">
+      <article class="link-book book-noise book-secondary">
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book3.jpg" alt="《降噪人生》書封" class="book-cover" />
@@ -2828,25 +2991,38 @@
           </div>
         </div>
       </article>
-    </section>
 
-    <!-- 🎴 Email 金句卡漏斗 -->
-    <section class="link-funnel" aria-label="免費領取金句小卡">
-      <div class="funnel-badge">🎴 免費索取</div>
-      <h2 class="funnel-title">免費領取｜人生複利金句小卡</h2>
-      <p class="funnel-intro">《人生複利》整本書裡最被讀者劃線、最能改變想法的 18 句話，做成手機小卡。</p>
-      <ul class="funnel-bullets">
-        <li><span>✔</span> 18 張金句小卡（可設手機桌布）</li>
-        <li><span>✔</span> 不定期的人生攻略筆記</li>
-      </ul>
-      <form id="bearForm" class="funnel-form">
-        <div class="input-group">
-          <input type="email" id="bearEmail" required placeholder="請輸入你的 Email..." aria-label="你的 email">
-          <button type="submit" class="funnel-btn">免費領取小卡 →</button>
+      <!-- 📘 《心富》次要書卡 -->
+      <article class="link-book book-xinfu book-secondary">
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book4.jpg" alt="《心富》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《心富》</h2>
+            <div class="book-rating" style="min-height: 18px;">
+              <!-- 暫無評論 -->
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🪙</span> 把心顧好，錢自然長出來的富足思維</div>
+              <div class="selling-point"><span>🧠</span> 結合心理學與行為經濟學的行動指南</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original-cross">原價 NT$320</span>
+                <span class="price-gem">💎</span> NT$229
+                <span class="discount-badge">71折 (省 $91)</span>
+              </span>
+            </div>
+            <div class="link-actions" aria-label="心富購買連結">
+              <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買心富">Readmoo</a>
+              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買心富">Pubu</a>
+              <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買心富">Kobo</a>
+            </div>
+          </div>
         </div>
-        <div class="funnel-security">🔒 不寄垃圾信，一鍵退訂</div>
-      </form>
-      <p id="bearMsg" class="funnel-msg"></p>
+      </article>
     </section>
 
     <!-- 🛠️ 白熊工具箱 -->
@@ -5137,7 +5313,7 @@
     function startAutoSlide() {
       stopAutoSlide();
       slideTimer = setInterval(() => {
-        showSlide((currentSlide + 1) % 3);
+        showSlide((currentSlide + 1) % dots.length);
       }, 5000);
     }
 
@@ -5169,10 +5345,10 @@
       if (Math.abs(diff) > 40) {
         if (diff > 0) {
           // 往右滑 -> 上一張
-          showSlide((currentSlide - 1 + 3) % 3);
+          showSlide((currentSlide - 1 + dots.length) % dots.length);
         } else {
           // 往左滑 -> 下一張
-          showSlide((currentSlide + 1) % 3);
+          showSlide((currentSlide + 1) % dots.length);
         }
         isSwiping = false;
       }
@@ -5584,6 +5760,8 @@
     async function initCounter() {
       const liveUsersEl = document.getElementById('liveUsers');
       const totalUsersEl = document.getElementById('totalUsers');
+      const liveUsersTopEl = document.getElementById('liveUsersTop');
+      const totalUsersTopEl = document.getElementById('totalUsersTop');
       
       // 數字滾動動畫 (Ease Out Quad 效果，提供極致流暢視覺體驗)
       function animateValue(obj, start, end, duration) {
@@ -5593,11 +5771,18 @@
           const progress = Math.min((timestamp - startTimestamp) / duration, 1);
           const easeProgress = progress * (2 - progress);
           const current = Math.floor(easeProgress * (end - start) + start);
-          obj.innerText = current.toLocaleString();
+          const formatted = current.toLocaleString();
+          if (obj) obj.innerText = formatted;
+          if (obj === totalUsersEl && totalUsersTopEl) totalUsersTopEl.innerText = formatted;
+          if (obj === liveUsersEl && liveUsersTopEl) liveUsersTopEl.innerText = formatted;
+          
           if (progress < 1) {
             window.requestAnimationFrame(step);
           } else {
-            obj.innerText = end.toLocaleString();
+            const finalFormatted = end.toLocaleString();
+            if (obj) obj.innerText = finalFormatted;
+            if (obj === totalUsersEl && totalUsersTopEl) totalUsersTopEl.innerText = finalFormatted;
+            if (obj === liveUsersEl && liveUsersTopEl) liveUsersTopEl.innerText = finalFormatted;
           }
         };
         window.requestAnimationFrame(step);
@@ -5719,7 +5904,7 @@
     }
 
     function initBookLinksXPSystem() {
-      const bookLinks = document.querySelectorAll('.link-books .link-actions a');
+      const bookLinks = document.querySelectorAll('.link-book .link-actions a, .link-book .bundle-links a');
       const clickedLinksMap = {};
       let resetTimeoutMap = {};
 
@@ -5730,8 +5915,8 @@
 
         link.addEventListener('click', function(e) {
           const url = this.getAttribute('href');
-          const actionsContainer = this.closest('.link-actions');
-          const siblingLinks = actionsContainer.querySelectorAll('a');
+          const actionsContainer = this.closest('.link-actions') || this.closest('.bundle-links');
+          const siblingLinks = actionsContainer ? actionsContainer.querySelectorAll('a') : [];
           
           if (!clickedLinksMap[url]) {
             // 第一次點擊：阻斷跳轉
