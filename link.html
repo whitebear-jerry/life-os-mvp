@@ -2680,23 +2680,7 @@
       height: 90px; /* 橫圖 4:3 比例 */
     }
 
-    /* 首屏並列 */
-    .first-screen-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-      width: 100%;
-    }
-    .first-screen-grid .link-funnel {
-      margin-top: 0;
-    }
-    @media (min-width: 480px) {
-      .first-screen-grid {
-        grid-template-columns: 1.15fr 0.85fr;
-        align-items: stretch;
-      }
-    }
+
 
     /* 次要書卡縮小 */
     .link-book.book-secondary {
@@ -2776,24 +2760,7 @@
       font-weight: 800;
     }
 
-    /* 避免首屏並列時，右側卡片文字被擠壓，強制定調為垂直卡片佈局 */
-    .first-screen-grid .book-card-content {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .first-screen-grid .book-cover-wrapper {
-      margin-bottom: 12px;
-    }
-    .first-screen-grid .book-rating {
-      justify-content: center;
-    }
-    .first-screen-grid .book-selling-points {
-      align-items: center;
-    }
-    .first-screen-grid .book-price {
-      justify-content: center;
-    }
+
   </style>
 </head>
 <body class="link-page">
@@ -2859,26 +2826,26 @@
       </div>
     </section>
 
-    <div class="first-screen-grid">
-      <!-- 🎴 Email 金句卡漏斗 -->
-      <section class="link-funnel" aria-label="免費領取金句小卡">
-        <div class="funnel-badge">🎴 免費索取</div>
-        <h2 class="funnel-title">免費領取｜人生複利金句小卡</h2>
-        <p class="funnel-intro">《人生複利》整本書裡最被讀者劃線、最能改變想法的 18 句話，做成手機小卡。</p>
-        <ul class="funnel-bullets">
-          <li><span>✔</span> 18 張金句小卡（可設手機桌布）</li>
-          <li><span>✔</span> 不定期的人生攻略筆記</li>
-        </ul>
-        <form id="bearForm" class="funnel-form">
-          <div class="input-group">
-            <input type="email" id="bearEmail" required placeholder="請輸入你的 Email..." aria-label="你的 email">
-            <button type="submit" class="funnel-btn">免費領取小卡 →</button>
-          </div>
-          <div class="funnel-security">🔒 不寄垃圾信，一鍵退訂</div>
-        </form>
-        <p id="bearMsg" class="funnel-msg"></p>
-      </section>
+    <!-- 🎴 Email 金句卡漏斗 -->
+    <section class="link-funnel" aria-label="免費領取金句小卡" style="margin-top: 0; margin-bottom: 16px;">
+      <div class="funnel-badge">🎴 免費索取</div>
+      <h2 class="funnel-title">免費領取｜人生複利金句小卡</h2>
+      <p class="funnel-intro">《人生複利》整本書裡最被讀者劃線、最能改變想法的 18 句話，做成手機小卡。</p>
+      <ul class="funnel-bullets">
+        <li><span>✔</span> 18 張金句小卡（可設手機桌布）</li>
+        <li><span>✔</span> 不定期的人生攻略筆記</li>
+      </ul>
+      <form id="bearForm" class="funnel-form">
+        <div class="input-group">
+          <input type="email" id="bearEmail" required placeholder="請輸入你的 Email..." aria-label="你的 email">
+          <button type="submit" class="funnel-btn">免費領取小卡 →</button>
+        </div>
+        <div class="funnel-security">🔒 不寄垃圾信，一鍵退訂</div>
+      </form>
+      <p id="bearMsg" class="funnel-msg"></p>
+    </section>
 
+    <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
       <article class="link-book book-bundle">
         <div class="bundle-header-tag">🔥 限時特惠 51 折</div>
@@ -2896,24 +2863,22 @@
               <div class="selling-point"><span>📦</span> 一次帶走複利、遊戲、降噪、心富四冊圖文版</div>
               <div class="selling-point"><span>⚙️</span> 建立完整富足思考與高效人生作業系統</div>
             </div>
-            <div class="book-price">
-              <span class="price-label">合購價</span>
-              <span class="price-amount">
-                <span class="price-original-cross">原價 NT$1180</span>
-                <span class="price-gem">💎</span> NT$599
-                <span class="discount-badge">現省 $581</span>
+            <div class="book-price" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; border-radius: 8px; padding: 6px 12px; margin: 8px 0 12px; width: fit-content; background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08);">
+              <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5); font-weight: bold;">合購特惠 (原價 NT$1180)</span>
+              <span class="price-amount" style="font-size: 0.85rem; display: flex; align-items: center; gap: 3px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.4);">
+                <span class="price-gem">💎</span> Pubu NT$599 <span class="discount-badge" style="margin-left: 6px;">51折 (省 $581)</span>
+              </span>
+              <span class="price-amount" style="font-size: 0.85rem; display: flex; align-items: center; gap: 3px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.4); margin-top: 2px;">
+                <span class="price-gem">💎</span> Readmoo NT$716 <span class="discount-badge" style="margin-left: 6px;">6折 (省 $464)</span>
               </span>
             </div>
             <div class="bundle-links">
-              <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯</a>
+              <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$716)</a>
+              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
             </div>
           </div>
         </div>
       </article>
-    </div>
-
-    <section class="link-books" aria-label="白熊套書與系列書">
       <!-- 📘 《人生複利》次要書卡 -->
       <article class="link-book book-fuli book-secondary">
         <div class="book-tag">🔥 最多冒險者解鎖</div>
