@@ -251,7 +251,7 @@
       overflow: visible; /* 為了讓 book-tag 能浮出來 */
     }
 
-    /* 金色呼吸發光效果 (火車頭) */
+    /* 金色呼吸發光效果 (人生複利 & 特惠包) */
     @keyframes goldGlow {
       0% {
         border-color: rgba(255, 215, 0, 0.5);
@@ -267,10 +267,93 @@
       }
     }
 
+    /* 玫瑰紅呼吸發光效果 (人生遊戲) */
+    @keyframes roseGlow {
+      0% {
+        border-color: rgba(160, 79, 85, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(160, 79, 85, 0.15), inset 0 0 8px rgba(160, 79, 85, 0.05);
+      }
+      50% {
+        border-color: rgba(160, 79, 85, 1);
+        box-shadow: 0 16px 48px rgba(160, 79, 85, 0.06), 0 0 25px rgba(160, 79, 85, 0.45), inset 0 0 15px rgba(160, 79, 85, 0.15);
+      }
+      100% {
+        border-color: rgba(160, 79, 85, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(160, 79, 85, 0.15), inset 0 0 8px rgba(160, 79, 85, 0.05);
+      }
+    }
+
+    /* 鋼鐵藍呼吸發光效果 (降噪人生) */
+    @keyframes blueGlow {
+      0% {
+        border-color: rgba(64, 105, 132, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 105, 132, 0.15), inset 0 0 8px rgba(64, 105, 132, 0.05);
+      }
+      50% {
+        border-color: rgba(64, 105, 132, 1);
+        box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06), 0 0 25px rgba(64, 105, 132, 0.45), inset 0 0 15px rgba(64, 105, 132, 0.15);
+      }
+      100% {
+        border-color: rgba(64, 105, 132, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 105, 132, 0.15), inset 0 0 8px rgba(64, 105, 132, 0.05);
+      }
+    }
+
+    /* 琥珀金呼吸發光效果 (心富) */
+    @keyframes amberGlow {
+      0% {
+        border-color: rgba(212, 138, 55, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 138, 55, 0.15), inset 0 0 8px rgba(212, 138, 55, 0.05);
+      }
+      50% {
+        border-color: rgba(212, 138, 55, 1);
+        box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06), 0 0 25px rgba(212, 138, 55, 0.45), inset 0 0 15px rgba(212, 138, 55, 0.15);
+      }
+      100% {
+        border-color: rgba(212, 138, 55, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 138, 55, 0.15), inset 0 0 8px rgba(212, 138, 55, 0.05);
+      }
+    }
+
     .link-book.book-fuli {
       border: 1.5px solid rgba(255, 215, 0, 0.6);
       background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
       animation: goldGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-game {
+      border: 1.5px solid rgba(160, 79, 85, 0.6);
+      background: linear-gradient(135deg, rgba(160, 79, 85, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: roseGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-noise {
+      border: 1.5px solid rgba(64, 105, 132, 0.6);
+      background: linear-gradient(135deg, rgba(64, 105, 132, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: blueGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-xinfu {
+      border: 1.5px solid rgba(212, 138, 55, 0.6);
+      background: linear-gradient(135deg, rgba(212, 138, 55, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: amberGlow 3s infinite ease-in-out;
+    }
+
+    /* 各書標籤配色 */
+    .book-tag.tag-game {
+      background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3), 0 0 8px rgba(244, 63, 94, 0.2);
+    }
+    .book-tag.tag-noise {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3), 0 0 8px rgba(59, 130, 246, 0.2);
+    }
+    .book-tag.tag-xinfu {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      color: #0c1511;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3), 0 0 8px rgba(245, 158, 11, 0.2);
     }
 
     /* 3. 星等與發光金星 */
@@ -2942,6 +3025,7 @@
       </article>
 
       <article class="link-book book-game book-secondary">
+        <div class="book-tag tag-game">👾 逆境除錯指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book2.jpg" alt="《人生遊戲》書封" class="book-cover" />
@@ -2950,7 +3034,7 @@
             <h2>《人生遊戲》</h2>
             <div class="book-rating">
               <span class="stars">★★★★★</span>
-              <span class="rating-text">2 位冒險者</span>
+              <span class="rating-text">4 位冒險者 · 2 篇書評</span>
             </div>
             <div class="book-selling-points">
               <div class="selling-point"><span>👾</span> 把逆境當 BUG，學會幫人生除錯</div>
@@ -2974,14 +3058,16 @@
       </article>
 
       <article class="link-book book-noise book-secondary">
+        <div class="book-tag tag-noise">🔌 大腦卸載指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book3.jpg" alt="《降噪人生》書封" class="book-cover" />
           </div>
           <div class="book-info">
             <h2>《降噪人生》</h2>
-            <div class="book-rating" style="min-height: 18px;">
-              <!-- 暫無評論 -->
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">5 位冒險者 · 3 篇書評</span>
             </div>
             <div class="book-selling-points">
               <div class="selling-point"><span>🔌</span> 大腦太吵？幫它裝一顆第二大腦</div>
@@ -3006,14 +3092,16 @@
 
       <!-- 📘 《心富》次要書卡 -->
       <article class="link-book book-xinfu book-secondary">
+        <div class="book-tag tag-xinfu">🪙 顧好心錢自來</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book4.jpg" alt="《心富》書封" class="book-cover" />
           </div>
           <div class="book-info">
             <h2>《心富》</h2>
-            <div class="book-rating" style="min-height: 18px;">
-              <!-- 暫無評論 -->
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">2 位冒險者 · 1 篇書評</span>
             </div>
             <div class="book-selling-points">
               <div class="selling-point"><span>🪙</span> 把心顧好，錢自然長出來的富足思維</div>
