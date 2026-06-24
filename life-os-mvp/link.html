@@ -2573,12 +2573,17 @@
     }
 
     /* 價格與折扣標籤 */
-    .price-original-cross {
-      text-decoration: line-through;
+    .price-original {
       color: rgba(247, 247, 240, 0.35);
       font-size: 0.72rem;
-      margin-right: 6px;
       font-weight: normal;
+      margin-right: 6px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .price-original-cross {
+      text-decoration: line-through;
+      margin-left: 2px;
     }
 
     .discount-badge {
@@ -2679,6 +2684,23 @@
       .bundle-links {
         grid-template-columns: 1fr !important;
       }
+      .book-secondary .book-card-content {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+      }
+      .book-secondary .book-cover-wrapper {
+        margin-bottom: 0 !important;
+      }
+      .book-secondary .book-rating {
+        justify-content: flex-start !important;
+      }
+      .book-secondary .book-selling-points {
+        align-items: flex-start !important;
+      }
+      .book-secondary .book-price {
+        justify-content: flex-start !important;
+      }
     }
 
     .book-bundle .book-cover-wrapper {
@@ -2715,10 +2737,10 @@
       font-size: 0.85rem;
     }
     .book-secondary .book-price {
-      margin: 4px 0 6px;
+      margin: 6px 0 0;
     }
     .book-secondary .link-actions {
-      margin-top: 8px;
+      margin-top: 12px;
     }
     .book-secondary .link-actions a {
       min-height: 38px;
@@ -2913,7 +2935,7 @@
             <h2>《人生複利》</h2>
             <div class="book-rating">
               <span class="stars">★★★★★</span>
-              <span class="rating-text">6 位冒險者・5 篇書評</span>
+              <span class="rating-text">6 位冒險者 · 5 篇書評</span>
             </div>
             <div class="book-selling-points">
               <div class="selling-point"><span>📈</span> 每天進步 1%，一年強大 37 倍</div>
@@ -2922,17 +2944,17 @@
             <div class="book-price">
               <span class="price-label">特惠價</span>
               <span class="price-amount">
-                <span class="price-original-cross">原價 NT$220</span>
+                <span class="price-original">原價 <span class="price-original-cross">NT$220</span></span>
                 <span class="price-gem">💎</span> NT$149
                 <span class="discount-badge">67折 (省 $71)</span>
               </span>
             </div>
-            <div class="link-actions" aria-label="人生複利購買連結">
-              <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
-              <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生複利">Kobo</a>
-            </div>
           </div>
+        </div>
+        <div class="link-actions" aria-label="人生複利購買連結">
+          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生複利">Kobo</a>
         </div>
       </article>
 
@@ -2954,17 +2976,17 @@
             <div class="book-price">
               <span class="price-label">特惠價</span>
               <span class="price-amount">
-                <span class="price-original-cross">原價 NT$280</span>
+                <span class="price-original">原價 <span class="price-original-cross">NT$280</span></span>
                 <span class="price-gem">💎</span> NT$199
                 <span class="discount-badge">71折 (省 $81)</span>
               </span>
             </div>
-            <div class="link-actions" aria-label="人生遊戲購買連結">
-              <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
-              <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
-            </div>
           </div>
+        </div>
+        <div class="link-actions" aria-label="人生遊戲購買連結">
+          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
         </div>
       </article>
 
@@ -2985,17 +3007,17 @@
             <div class="book-price">
               <span class="price-label">特惠價</span>
               <span class="price-amount">
-                <span class="price-original-cross">原價 NT$360</span>
+                <span class="price-original">原價 <span class="price-original-cross">NT$360</span></span>
                 <span class="price-gem">💎</span> NT$269
                 <span class="discount-badge">74折 (省 $91)</span>
               </span>
             </div>
-            <div class="link-actions" aria-label="降噪人生購買連結">
-              <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買降噪人生">Pubu</a>
-              <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" aria-label="在 Kobo 購買降噪人生">Kobo</a>
-            </div>
           </div>
+        </div>
+        <div class="link-actions" aria-label="降噪人生購買連結">
+          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買降噪人生">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" aria-label="在 Kobo 購買降噪人生">Kobo</a>
         </div>
       </article>
 
@@ -3017,17 +3039,17 @@
             <div class="book-price">
               <span class="price-label">特惠價</span>
               <span class="price-amount">
-                <span class="price-original-cross">原價 NT$320</span>
+                <span class="price-original">原價 <span class="price-original-cross">NT$320</span></span>
                 <span class="price-gem">💎</span> NT$229
                 <span class="discount-badge">71折 (省 $91)</span>
               </span>
             </div>
-            <div class="link-actions" aria-label="心富購買連結">
-              <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買心富">Readmoo</a>
-              <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買心富">Pubu</a>
-              <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買心富">Kobo</a>
-            </div>
           </div>
+        </div>
+        <div class="link-actions" aria-label="心富購買連結">
+          <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買心富">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買心富">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買心富">Kobo</a>
         </div>
       </article>
     </section>
