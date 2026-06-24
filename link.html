@@ -2598,24 +2598,19 @@
       margin-left: 6px;
     }
 
-    /* 3冊合購套書卡片特殊樣式 */
+    /* 3冊合購套書卡片特殊樣式 (參考人生複利風格，改用金色發光邊框與微透漸層) */
     .link-book.book-bundle {
-      background: linear-gradient(135deg, rgba(196, 137, 53, 0.12) 0%, rgba(160, 79, 85, 0.08) 100%);
-      border: 1.5px solid rgba(196, 137, 53, 0.45);
-      box-shadow: 0 16px 48px rgba(196, 137, 53, 0.12), inset 0 0 20px rgba(196, 137, 53, 0.05);
+      border: 1.5px solid rgba(255, 215, 0, 0.6);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: goldGlow 3s infinite ease-in-out;
       position: relative;
-      overflow: hidden;
     }
 
-    .link-book.book-bundle::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 80%);
-      pointer-events: none;
+    /* 新增套書紅色標籤樣式，位置與人生複利相同 */
+    .book-bundle .book-tag {
+      background: linear-gradient(135deg, #ef4444 0%, #cc1111 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3), 0 0 8px rgba(239, 68, 68, 0.2);
     }
 
     .link-book.book-bundle h2 {
@@ -2635,22 +2630,6 @@
       border-color: rgba(255, 208, 117, 0.4);
     }
 
-    .bundle-header-tag {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: linear-gradient(90deg, var(--gold), var(--rose));
-      color: #fff;
-      font-size: 0.68rem;
-      font-weight: 900;
-      padding: 4px 10px;
-      border-bottom-left-radius: 8px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      z-index: 10;
-    }
-
     .bundle-links {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2663,21 +2642,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 208, 117, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
-      color: #1c1815 !important;
-      background: linear-gradient(90deg, #ffd075, #ffb03a);
-      font-size: 0.95rem;
-      font-weight: 900;
+      color: #ffffff !important;
+      background: var(--gold);
+      font-size: 0.92rem;
+      font-weight: 800;
       text-decoration: none;
-      box-shadow: 0 4px 15px rgba(196, 137, 53, 0.25);
-      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+      box-shadow: 0 4px 12px rgba(196, 137, 53, 0.15);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .bundle-links a:hover {
-      filter: brightness(1.1);
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 25px rgba(196, 137, 53, 0.4);
+      filter: brightness(1.12);
+      transform: translateY(-3px) scale(1.03);
+      border-color: rgba(255, 255, 255, 0.32);
+      box-shadow: 0 8px 24px rgba(196, 137, 53, 0.35);
     }
 
     @media (max-width: 480px) {
@@ -2876,7 +2859,7 @@
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
       <article class="link-book book-bundle">
-        <div class="bundle-header-tag">🔥 限時特惠 51 折</div>
+        <div class="book-tag">🔥 限時特惠 51 折</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book_bundle.jpg" alt="圖解富足行動四部曲合購套書" class="book-cover" style="filter: brightness(1.05) contrast(1.02);" />
