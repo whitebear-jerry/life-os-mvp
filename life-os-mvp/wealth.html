@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🛡️ 防禦型理財控制台 & FIRE 沙盒 App</title>
+    
+    <!-- Mobile App Optimizations -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="防禦理財">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230F172A'/><path d='M30 35 L50 20 L70 35 L70 65 L50 80 L30 65 Z' fill='none' stroke='%2338BDF8' stroke-width='6' stroke-linejoin='round'/><path d='M42 50 L48 56 L58 44' fill='none' stroke='%2338BDF8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+    <!-- We load Chart.js via CDN for beautiful rendering, but we provide an offline SVG fallback just in case -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #070913;
+            --card-bg: rgba(22, 28, 45, 0.45);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-color: #38BDF8;
+            --primary-gradient: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+            --secondary-color: #818CF8;
+            --accent-color: #FBBF24;
+            --accent-gradient: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+            --danger-color: #F87171;
+            --danger-gradient: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+            --success-color: #34D399;
+            --success-gradient: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+            --text-color: #F8FAFC;
+            --text-muted: #64748B;
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.06) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(129, 140, 248, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 80%, rgba(245, 158, 11, 0.03) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-color);
+            padding: 30px 24px;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 35px;
+        }
+
+        .logo-section h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-section h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-section p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .btn {
+            background: var(--primary-gradient);
+            color: #070913;
+            font-weight: 700;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px 0 rgba(56, 189, 248, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(56, 189, 248, 0.5);
+            opacity: 0.95;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            padding: 6px 12px;
+            box-shadow: none;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-gradient);
+            color: #070913;
+            box-shadow: 0 4px 12px 0 rgba(248, 113, 113, 0.3);
+            border-color: transparent;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px 0 rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 28px;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 26px;
+            margin-bottom: 28px;
+            box-shadow: var(--glass-shadow);
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 12px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 10px 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 15px;
+            vertical-align: middle;
+        }
+
+        input, select {
+            background-color: rgba(15, 23, 42, 0.3);
+            border: 1px solid transparent;
+            color: var(--text-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            width: 100%;
+            outline: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
+
+        input:hover, select:hover {
+            background-color: rgba(15, 23, 42, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        input:focus, select:focus {
+            background-color: rgba(15, 23, 42, 0.8);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            padding-right: 32px;
+        }
+
+        select:focus {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2338BDF8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+        }
+
+        .col-code { width: 14%; }
+        .col-name { width: 18%; }
+        .col-shares { width: 13%; }
+        .col-price { width: 13%; }
+        .col-value { width: 16%; }
+        .col-class { width: 13%; }
+        .col-region { width: 13%; }
+
+        .total-value-row {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 16px;
+        }
+
+        .total-value-row td {
+            border-top: 1px solid var(--border-color);
+            border-bottom: none;
+            padding-top: 18px;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 640px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-wrapper {
+            background: rgba(15, 23, 42, 0.35);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 240px;
+        }
+
+        .chart-wrapper h4 {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 180px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-group label span {
+            color: var(--text-color);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+            margin-top: 6px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+            box-shadow: 0 0 14px var(--primary-color), 0 0 4px #fff;
+        }
+
+        .progress-container {
+            background-color: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+            height: 24px;
+            width: 100%;
+            position: relative;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            height: 100%;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .result-highlight {
+            background: rgba(56, 189, 248, 0.04);
+            border: 1px dashed rgba(56, 189, 248, 0.25);
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-highlight h3 {
+            font-size: 26px;
+            font-family: 'Outfit', sans-serif;
+            color: var(--accent-color);
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+            }
+            .card {
+                border: none;
+                box-shadow: none;
+                background: white;
+                color: black;
+                page-break-inside: avoid;
+            }
+            .btn, input, select {
+                display: none;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            td, th {
+                border-bottom: 1px solid #ddd;
+                color: black;
+            }
+        }
+
+        /* 📱 手機版懸浮膠囊底部導覽列與分頁控制 */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 65px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            padding-bottom: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 23%;
+            height: 100%;
+            gap: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding: 16px 16px calc(95px + env(safe-area-inset-bottom)) 16px;
+            }
+
+            .logo-section h1 {
+                font-size: 20px;
+            }
+
+            .logo-section p {
+                font-size: 11px;
+            }
+
+            header {
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
+
+            .dashboard-grid {
+                display: block;
+            }
+
+            .bottom-nav {
+                display: flex;
+            }
+
+            .tab-panel {
+                display: none !important;
+            }
+            
+            .tab-panel.active {
+                display: block !important;
+                animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(6px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            /* 📱 手機版表格卡片化排版重構 */
+            #assetTable, #assetTable thead, #assetTable tbody, #assetTable tfoot, #assetTable tr, #assetTable td {
+                display: block;
+                width: 100% !important;
+            }
+
+            #assetTable thead {
+                display: none !important;
+            }
+
+            #assetBody tr {
+                background: rgba(22, 28, 45, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: 14px;
+                padding: 16px;
+                margin-bottom: 16px;
+                box-shadow: var(--glass-shadow);
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                position: relative;
+            }
+
+            #assetBody tr td {
+                padding: 0 !important;
+                border: none !important;
+            }
+            
+            #assetBody tr td:nth-child(1) { grid-column: span 1; }
+            #assetBody tr td:nth-child(2) { grid-column: span 1; }
+            #assetBody tr td:nth-child(3) { grid-column: span 1; }
+            #assetBody tr td:nth-child(4) { grid-column: span 1; }
+            #assetBody tr td:nth-child(5) { grid-column: span 2; }
+            #assetBody tr td:nth-child(6) { grid-column: span 1; }
+            #assetBody tr td:nth-child(7) { grid-column: span 1; }
+            #assetBody tr td:nth-child(8) { 
+                position: absolute; 
+                top: 8px; 
+                right: 8px; 
+                width: auto !important;
+                z-index: 10;
+            }
+
+            #assetBody tr td::before {
+                content: attr(data-label);
+                display: block;
+                font-size: 10px;
+                color: var(--text-muted);
+                font-weight: 700;
+                margin-bottom: 5px;
+                letter-spacing: 0.5px;
+            }
+
+            #assetBody tr td[id^="val-"] {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-end;
+                background: rgba(56, 189, 248, 0.05);
+                padding: 10px 14px !important;
+                border-radius: 8px !important;
+                border: 1px solid rgba(56, 189, 248, 0.12) !important;
+                font-size: 17px;
+                font-weight: 700;
+                color: var(--primary-color);
+            }
+
+            #assetTable tfoot tr {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+                padding: 16px;
+                background: rgba(56, 189, 248, 0.04);
+                border: 1px dashed rgba(56, 189, 248, 0.3);
+                border-radius: 12px;
+                margin-top: 12px;
+            }
+            
+            #assetTable tfoot td {
+                display: block !important;
+                width: auto !important;
+                padding: 0 !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            #assetTable tfoot td:nth-child(1) {
+                font-weight: 700;
+                color: var(--text-muted);
+                font-size: 13px;
+            }
+            
+            #assetTable tfoot td:nth-child(2) {
+                font-weight: 800;
+                color: var(--accent-color);
+                font-size: 18px;
+            }
+            
+            #assetTable tfoot td:nth-child(3) {
+                display: none !important;
+            }
+
+            .table-responsive {
+                margin: 0 -4px;
+                overflow-x: visible;
+            }
+            
+            input, select {
+                padding: 10px 12px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none !important;
+            }
+            .tab-panel {
+                display: block !important; /* 電腦版必須全部顯示 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>🛡️ 防禦型理財控制台 <span>& FIRE 沙盒</span></h1>
+                <p>100% 離線運行・極致隱私保護・自動股債/地域再平衡計算</p>
+            </div>
+            <div>
+                <button class="btn" onclick="window.print()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    匯出 PDF 報告
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Left Side: Asset Registration Table -->
+            <div class="left-column">
+                <div class="card tab-panel" id="panel-assets">
+                    <div class="card-title">
+                        <span>📊 投資持倉與自動估值登記</span>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="addAssetRow()">＋ 新增標的</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="assetTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-code">標的代號</th>
+                                    <th class="col-name">標的名稱</th>
+                                    <th class="col-shares">持有數量 (台股張數/其餘股數)</th>
+                                    <th class="col-price">即時單價 (元)</th>
+                                    <th class="col-value">總估值 (台幣)</th>
+                                    <th class="col-class">大類分類</th>
+                                    <th class="col-region">曝險地域</th>
+                                    <th style="width: 5%"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="assetBody">
+                                <!-- Pre-populated with default mock-up data resembling the user's setup -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-value-row">
+                                    <td colspan="4" style="text-align: right; padding-right: 20px;">總淨值 (Assets Total):</td>
+                                    <td id="grandTotal" style="text-align: right; padding-right: 8px;">$0</td>
+                                    <td colspan="3"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Charts Card -->
+                <div class="card tab-panel" id="panel-charts">
+                    <div class="card-title">📈 資產分配 & 地域風險視覺化</div>
+                    <div class="charts-container">
+                        <div class="chart-wrapper">
+                            <h4>大類資產配比 (目標 股 80 / 債 15 / 現 5)</h4>
+                            <canvas id="classChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h4>全球地域曝險分佈 (分散台美日)</h4>
+                            <canvas id="regionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Sandbox & Calculators -->
+            <div class="right-column">
+                <!-- Card 1: FIRE Sandbox -->
+                <div class="card tab-panel" id="panel-sandbox">
+                    <div class="card-title">🔥 FIRE 財務自由複利模擬沙盒</div>
+                    
+                    <div class="form-group">
+                        <label>目標自由金額 <span id="targetAmountText">$25,000,000</span></label>
+                        <input type="range" class="slider" id="targetAmount" min="5000000" max="50000000" step="1000000" value="25000000" oninput="updateSandbox()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>每月新增投資本金 <span id="monthlyDcaText">$45,000</span></label>
+                        <input type="range" class="slider" id="monthlyDca" min="5000" max="150000" step="5000" value="45000" oninput="updateSandbox()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>長期預估年化報酬率 <span id="roiText">7.0%</span></label>
+                        <input type="range" class="slider" id="roi" min="3" max="12" step="0.5" value="7.0" oninput="updateSandbox()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>目前自由進度</label>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                            <div class="progress-text" id="progressText">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="result-highlight">
+                        <div>
+                            <p style="font-size: 12px; color: var(--text-muted);">預估複利達成年限</p>
+                            <h3 id="yearsToFire">0 年</h3>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 12px; color: var(--text-muted);">達標時每月被動利息</p>
+                            <h3 id="passiveMonthlyIncome">$0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: DCA Engine Calculator -->
+                <div class="card tab-panel" id="panel-engine">
+                    <div class="card-title">⚙️ 以息養股與個股轉換計算器</div>
+                    
+                    <div class="form-group">
+                        <label>每月計畫定期定額扣款 <span id="dcaEngineText">$45,000</span></label>
+                        <input type="range" class="slider" id="dcaEngine" min="10000" max="100000" step="5000" value="45000" oninput="updateEngine()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>每月穩定息收流入 (債息/股息) <span id="interestText">$10,000</span></label>
+                        <input type="range" class="slider" id="interest" min="0" max="50000" step="2000" value="10000" oninput="updateEngine()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>手頭可變現存股總市值 <span id="stockValueText">$440,000</span></label>
+                        <input type="range" class="slider" id="stockValue" min="50000" max="2000000" step="50000" value="440000" oninput="updateEngine()">
+                    </div>
+
+                    <div class="result-highlight" style="background-color: rgba(129, 140, 248, 0.1); border-color: var(--secondary-color);">
+                        <div>
+                            <p style="font-size: 12px; color: var(--text-muted);">燃料可續航壽命</p>
+                            <h3 id="engineLifespan" style="color: var(--primary-color);">0.0 年</h3>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 12px; color: var(--text-muted);">每月燃料淨消耗</p>
+                            <h3 id="engineNetCost" style="color: var(--danger-color);">$0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pre-defined database of popular stock tickers for Taiwan & Global investors
+        const tickerDatabase = {
+            "006208": { name: "富邦台50 (台股大盤)", class: "股票", region: "台灣" },
+            "0050": { name: "元大台灣50 (台股大盤)", class: "股票", region: "台灣" },
+            "00679B": { name: "元大美債20年 (防禦長債)", class: "債券", region: "美國" },
+            "00687B": { name: "國泰美債20年 (防禦長債)", class: "債券", region: "美國" },
+            "VOO": { name: "Vanguard S&P500 (美股大盤)", class: "股票", region: "美國" },
+            "QQQ": { name: "Invesco Nasdaq 100", class: "股票", region: "美國" },
+            "1306": { name: "NF TOPIX 日股大盤", class: "股票", region: "日本" },
+            "2330": { name: "台積電 (台股個股)", class: "股票", region: "台灣" },
+            "2002": { name: "中鋼 (個股存股)", class: "股票", region: "台灣" },
+            "2884": { name: "玉山金 (金融存股)", class: "股票", region: "台灣" },
+            "2886": { name: "兆豐金 (金融存股)", class: "股票", region: "台灣" },
+            "00878": { name: "國泰永續高股息", class: "股票", region: "台灣" },
+            "0056": { name: "元大高股息", class: "股票", region: "台灣" }
+        };
+
+        let classChart = null;
+        let regionChart = null;
+
+        // Initialize with default mockup data that looks professional
+        // Initialize with default mockup data that looks professional (Taiwan assets in 'Zhang' unit)
+        const defaultAssets = [
+            { code: "006208", name: "富邦台50 (台股大盤)", shares: 2.5, price: 110, category: "股票", region: "台灣" },
+            { code: "00679B", name: "元大美債20年 (防禦長債)", shares: 6.5, price: 30, category: "債券", region: "台灣" },
+            { code: "VOO", name: "Vanguard S&P500 (美股大盤)", shares: 12, price: 15500, category: "股票", region: "美國" },
+            { code: "2002", name: "中鋼 (個股存股)", shares: 15, price: 23, category: "股票", region: "台灣" },
+            { code: "台幣活存", name: "防禦現金水庫", shares: 400000, price: 1, category: "現金", region: "台灣" }
+        ];
+
+        let usdTwdRate = 32.5; // 全域即時匯率，預設安全 Fallback 值
+
+        async function fetchExchangeRate() {
+            try {
+                const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/USDTWD=X')}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('匯率請求失敗');
+                const rawData = await response.json();
+                const data = JSON.parse(rawData.contents);
+                const rate = data.chart.result[0].meta.regularMarketPrice;
+                if (rate && !isNaN(rate)) {
+                    usdTwdRate = rate;
+                    console.log(`[即時匯率] 美元兌台幣即時匯率：${usdTwdRate}`);
+                }
+            } catch (error) {
+                console.warn('[即時匯率] 無法獲取即時匯率，將使用預設值 32.5。', error);
+            }
+        }
+
+        window.onload = async function() {
+            // 1. 異步獲取最新美元匯率
+            await fetchExchangeRate();
+            
+            // 2. 渲染預設模擬數據
+            populateDefaultAssets();
+            calculateAll();
+            
+            // 3. 初始即時股價連網抓取
+            const tbody = document.getElementById("assetBody");
+            for (let i = 0; i < tbody.children.length; i++) {
+                const row = tbody.children[i];
+                const index = row.id.split("-")[1];
+                const codeInput = row.querySelector('td:nth-child(1) input');
+                if (codeInput && codeInput.value) {
+                    fetchRealTimePrice(codeInput.value, index);
+                }
+            }
+            
+            // 4. 初始化手機版預設 Tab
+            switchTab('assets');
+        };
+
+        function populateDefaultAssets() {
+            const tbody = document.getElementById("assetBody");
+            tbody.innerHTML = "";
+            defaultAssets.forEach((asset, index) => {
+                tbody.appendChild(createRowHTML(asset, index));
+            });
+        }
+
+        function createRowHTML(asset, index) {
+            const tr = document.createElement("tr");
+            tr.id = `row-${index}`;
+            tr.innerHTML = `
+                <td data-label="標的代號"><input type="text" value="${asset.code}" onchange="lookupTicker(this, ${index})" style="text-align: center;"></td>
+                <td data-label="標的名稱"><input type="text" id="name-${index}" value="${asset.name}"></td>
+                <td data-label="持有數量"><input type="number" id="shares-${index}" value="${asset.shares}" oninput="calculateAll()" style="text-align: right;"></td>
+                <td data-label="即時單價 (元)"><input type="number" id="price-${index}" value="${asset.price}" oninput="calculateAll()" style="text-align: right;"></td>
+                <td id="val-${index}" data-label="總估值 (台幣)" style="text-align: right; font-weight: 600; padding-right: 15px;">$0</td>
+                <td data-label="大類分類">
+                    <select id="cat-${index}" onchange="calculateAll()">
+                        <option value="股票" ${asset.category === '股票' ? 'selected' : ''}>股票</option>
+                        <option value="債券" ${asset.category === '債券' ? 'selected' : ''}>債券</option>
+                        <option value="現金" ${asset.category === '現金' ? 'selected' : ''}>現金</option>
+                    </select>
+                </td>
+                <td data-label="曝險地域">
+                    <select id="reg-${index}" onchange="calculateAll()">
+                        <option value="台灣" ${asset.region === '台灣' ? 'selected' : ''}>台灣</option>
+                        <option value="美國" ${asset.region === '美國' ? 'selected' : ''}>美國</option>
+                        <option value="日本" ${asset.region === '日本' ? 'selected' : ''}>日本</option>
+                    </select>
+                </td>
+                <td><button class="btn btn-danger" style="padding: 2px 6px; font-size: 11px;" onclick="deleteRow(${index})">✕</button></td>
+            `;
+            return tr;
+        }
+
+        function addAssetRow() {
+            const tbody = document.getElementById("assetBody");
+            const index = tbody.children.length;
+            const newAsset = { code: "", name: "", shares: 0, price: 0, category: "股票", region: "台灣" };
+            tbody.appendChild(createRowHTML(newAsset, index));
+        }
+
+        function deleteRow(index) {
+            const row = document.getElementById(`row-${index}`);
+            if (row) {
+                row.remove();
+                calculateAll();
+            }
+        }
+
+        // 即時股價 API 異步抓取引擎
+        async function fetchRealTimePrice(ticker, index) {
+            const cleanTicker = ticker.trim().toUpperCase();
+            if (!cleanTicker) return;
+            
+            // 現金標的不需要抓取
+            if (cleanTicker === "台幣活存" || cleanTicker === "防禦現金水庫" || cleanTicker.includes("現金") || cleanTicker.includes("活存")) {
+                return;
+            }
+
+            // 判斷是否為台股，補上 .TW
+            const isTaiwanStock = /^\d{4,6}[A-Z]?$/.test(cleanTicker);
+            const symbol = isTaiwanStock ? `${cleanTicker}.TW` : cleanTicker;
+            const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
+
+            // 找到即時單價欄位
+            const priceInput = document.getElementById(`price-${index}`);
+            
+            try {
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error('網路請求失敗');
+                const rawData = await response.json();
+                const data = JSON.parse(rawData.contents);
+                
+                if (!data.chart || !data.chart.result || data.chart.result.length === 0) {
+                    throw new Error('未找到標的數據');
+                }
+
+                const result = data.chart.result[0];
+                let price = result.meta.regularMarketPrice;
+                const currency = result.meta.currency;
+
+                if (price && !isNaN(price)) {
+                    // 如果是美股(USD計價)，折合台幣
+                    if (currency === 'USD') {
+                        price = price * usdTwdRate;
+                        console.log(`[股價抓取] ${cleanTicker} 為美股(USD)，乘上即時匯率 ${usdTwdRate} = ${price.toFixed(2)} TWD`);
+                    } else {
+                        console.log(`[股價抓取] ${cleanTicker} 價格為 ${price} ${currency}`);
+                    }
+
+                    if (priceInput) {
+                        priceInput.value = price.toFixed(2);
+                        calculateAll();
+                    }
+                }
+            } catch (error) {
+                console.warn(`[股價抓取] 無法獲取 ${cleanTicker} 的即時價格，將維持預設值。`, error);
+            }
+        }
+
+        // AUTO-LOOKUP TICKER FUNCTION (解決輸入代碼不會動的痛點)
+        function lookupTicker(inputElement, index) {
+            const ticker = inputElement.value.trim().toUpperCase();
+            if (tickerDatabase[ticker]) {
+                const info = tickerDatabase[ticker];
+                document.getElementById(`name-${index}`).value = info.name;
+                document.getElementById(`cat-${index}`).value = info.class;
+                document.getElementById(`reg-${index}`).value = info.region;
+                
+                // 先填入預設的 fallback 價格
+                let basePrice = 100;
+                if (ticker === "VOO") basePrice = 16000;
+                else if (ticker === "006208" || ticker === "0050") basePrice = 110;
+                else if (ticker === "00679B") basePrice = 30;
+                else if (ticker === "2330") basePrice = 900;
+                
+                document.getElementById(`price-${index}`).value = basePrice;
+            } else {
+                // 如果資料庫中沒有，根據代號特徵自動預判
+                const isTaiwanStock = /^\d{4,6}[A-Z]?$/.test(ticker);
+                if (isTaiwanStock) {
+                    document.getElementById(`cat-${index}`).value = "股票";
+                    document.getElementById(`reg-${index}`).value = "台灣";
+                } else if (ticker) {
+                    document.getElementById(`cat-${index}`).value = "股票";
+                    document.getElementById(`reg-${index}`).value = "美國";
+                }
+            }
+
+            // 異步抓取即時價格
+            if (ticker) {
+                fetchRealTimePrice(ticker, index);
+            }
+            
+            calculateAll();
+        }
+
+        function calculateAll() {
+            const tbody = document.getElementById("assetBody");
+            let grandTotal = 0;
+            let classTotals = { "股票": 0, "債券": 0, "現金": 0 };
+            let regionTotals = { "台灣": 0, "美國": 0, "日本": 0 };
+
+            for (let i = 0; i < tbody.children.length; i++) {
+                const row = tbody.children[i];
+                const index = row.id.split("-")[1];
+                
+                const shares = parseFloat(document.getElementById(`shares-${index}`).value) || 0;
+                const price = parseFloat(document.getElementById(`price-${index}`).value) || 0;
+                const category = document.getElementById(`cat-${index}`).value;
+                const region = document.getElementById(`reg-${index}`).value;
+                
+                // 台灣地區的 股票 與 債券 持有數量以「張」為單位計算，1張 = 1000股
+                let value = 0;
+                if (region === '台灣' && (category === '股票' || category === '債券')) {
+                    value = shares * 1000 * price;
+                } else {
+                    value = shares * price;
+                }
+                
+                document.getElementById(`val-${index}`).innerText = formatCurrency(value);
+                
+                grandTotal += value;
+                classTotals[category] += value;
+                regionTotals[region] += value;
+            }
+
+            document.getElementById("grandTotal").innerText = formatCurrency(grandTotal);
+
+            // Update charts
+            updateCharts(classTotals, regionTotals, grandTotal);
+            
+            // Update sandbox & calculators using latest Grand Total
+            updateSandbox(grandTotal);
+            updateEngine();
+        }
+
+        function formatCurrency(val) {
+            return "$" + val.toLocaleString('zh-TW', { maximumFractionDigits: 0 });
+        }
+
+        // Dynamic Charting using Chart.js
+        function updateCharts(classTotals, regionTotals, grandTotal) {
+            if (grandTotal === 0) return;
+
+            const classData = [classTotals["股票"], classTotals["債券"], classTotals["現金"]];
+            const regionData = [regionTotals["台灣"], regionTotals["美國"], regionTotals["日本"]];
+
+            // Render Class Chart
+            if (classChart) classChart.destroy();
+            const ctx1 = document.getElementById('classChart').getContext('2d');
+            classChart = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['股票', '債券', '現金'],
+                    datasets: [{
+                        data: classData,
+                        backgroundColor: ['#818CF8', '#38BDF8', '#FBBF24'],
+                        borderWidth: 2,
+                        borderColor: '#161C2D'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                color: '#F8FAFC',
+                                font: { family: "'Inter', sans-serif", weight: '600', size: 11 }
+                            } 
+                        }
+                    }
+                }
+            });
+
+            // Render Region Chart
+            if (regionChart) regionChart.destroy();
+            const ctx2 = document.getElementById('regionChart').getContext('2d');
+            regionChart = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['台灣', '美國', '日本'],
+                    datasets: [{
+                        data: regionData,
+                        backgroundColor: ['#10B981', '#F43F5E', '#3B82F6'],
+                        borderWidth: 2,
+                        borderColor: '#161C2D'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                color: '#F8FAFC',
+                                font: { family: "'Inter', sans-serif", weight: '600', size: 11 }
+                            } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // FIRE Sandbox calculation (Using dynamic NPER algorithm)
+        function updateSandbox(providedTotal = null) {
+            const grandTotal = providedTotal !== null ? providedTotal : getGrandTotal();
+            
+            const targetAmount = parseFloat(document.getElementById("targetAmount").value);
+            const monthlyDca = parseFloat(document.getElementById("monthlyDca").value);
+            const roi = parseFloat(document.getElementById("roi").value) / 100;
+
+            document.getElementById("targetAmountText").innerText = formatCurrency(targetAmount);
+            document.getElementById("monthlyDcaText").innerText = formatCurrency(monthlyDca);
+            document.getElementById("roiText").innerText = (roi * 100).toFixed(1) + "%";
+
+            // Update Progress Bar
+            const progress = Math.min(100, (grandTotal / targetAmount) * 100);
+            document.getElementById("progressBar").style.width = progress + "%";
+            document.getElementById("progressText").innerText = progress.toFixed(1) + "%";
+
+            // Calculate Years to FIRE (NPER Formula)
+            let years = 0;
+            if (grandTotal >= targetAmount) {
+                years = 0;
+            } else {
+                const r = roi / 12;
+                const pmt = monthlyDca;
+                const pv = grandTotal;
+                const fv = targetAmount;
+                
+                // NPER Formula: n = ln((pmt - fv*r) / (pmt + pv*r)) / ln(1 + r)
+                // Using negative value convention for inflows
+                if (r === 0) {
+                    years = (fv - pv) / (pmt * 12);
+                } else {
+                    const num = pmt + fv * r;
+                    const den = pmt + pv * r;
+                    if (num / den > 0) {
+                        years = Math.log(num / den) / Math.log(1 + r) / 12;
+                    } else {
+                        years = 99; // Cap for error/unreachable states
+                    }
+                }
+            }
+
+            document.getElementById("yearsToFire").innerText = years >= 99 ? "無法達成" : (years === 0 ? "已達標！" : years.toFixed(1) + " 年");
+            
+            // Monthly passive income after FIRE (Safe withdrawal rate of long-term ROI)
+            const monthlyPassive = (targetAmount * roi) / 12;
+            document.getElementById("passiveMonthlyIncome").innerText = formatCurrency(monthlyPassive);
+        }
+
+        // DCA Engine Calculations
+        function updateEngine() {
+            const dcaEngine = parseFloat(document.getElementById("dcaEngine").value);
+            const interest = parseFloat(document.getElementById("interest").value);
+            const stockValue = parseFloat(document.getElementById("stockValue").value);
+
+            document.getElementById("dcaEngineText").innerText = formatCurrency(dcaEngine);
+            document.getElementById("interestText").innerText = formatCurrency(interest);
+            document.getElementById("stockValueText").innerText = formatCurrency(stockValue);
+
+            const netCost = Math.max(0, dcaEngine - interest);
+            document.getElementById("engineNetCost").innerText = formatCurrency(netCost);
+
+            let lifespan = 0;
+            if (netCost === 0) {
+                lifespan = 99; // Infinite lifespan since interest >= DCA
+            } else {
+                lifespan = (stockValue / netCost) / 12;
+            }
+
+            document.getElementById("engineLifespan").innerText = lifespan >= 99 ? "∞ 永久自給" : lifespan.toFixed(1) + " 年";
+        }
+
+        function getGrandTotal() {
+            const tbody = document.getElementById("assetBody");
+            let total = 0;
+            for (let i = 0; i < tbody.children.length; i++) {
+                const row = tbody.children[i];
+                const index = row.id.split("-")[1];
+                const shares = parseFloat(document.getElementById(`shares-${index}`).value) || 0;
+                const price = parseFloat(document.getElementById(`price-${index}`).value) || 0;
+                const category = document.getElementById(`cat-${index}`).value;
+                const region = document.getElementById(`reg-${index}`).value;
+                
+                if (region === '台灣' && (category === '股票' || category === '債券')) {
+                    total += shares * 1000 * price;
+                } else {
+                    total += shares * price;
+                }
+            }
+            return total;
+        }
+
+        // PWA Mobile Tab Switching Control
+        function switchTab(tabId) {
+            // 只有在手機版（螢幕寬度 < 768px）時才進行分頁控制
+            if (window.innerWidth >= 768) return;
+
+            // 切換 Panel 的 active 狀態
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            const activePanel = document.getElementById(`panel-${tabId}`);
+            if (activePanel) {
+                activePanel.classList.add('active');
+            }
+
+            // 切換導覽鈕的 active 狀態
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick').includes(`'${tabId}'`)) {
+                    item.classList.add('active');
+                }
+            });
+
+            // 切換 Tab 後自動滾動回頂部，獲得乾淨的頁面視覺
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+    <!-- Bottom Navigation Bar for Mobile -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('assets')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <span>持倉登記</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('charts')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>圖表分析</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('sandbox')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+            <span>FIRE沙盒</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('engine')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>以息養股</span>
+        </button>
+    </div>
+</body>
+</html>
