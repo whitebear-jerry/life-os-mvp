@@ -927,9 +927,20 @@
         let usdTwdRate = 32.5; // 全域即時匯率，預設安全 Fallback 值
         let jpyTwdRate = 0.20; // 全域即時日圓匯率，預設安全 Fallback 值
 
-        // 雙重 CORS 代理獲取引擎 (AllOrigins + CodeTabs 備用)
+        // 雙重 CORS 代理獲取引擎 (corsproxy.io 優先 + AllOrigins 備用)
         async function fetchWithProxy(targetUrl) {
-            // 優先使用 AllOrigins
+            // 優先使用 corsproxy.io (在瀏覽器端極為穩定快速)
+            const corsProxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`;
+            try {
+                const response = await fetch(corsProxyUrl);
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (e) {
+                console.warn(`[Proxy] corsproxy.io 失敗，嘗試備用 AllOrigins 代理。`, e);
+            }
+            
+            // 備用使用 AllOrigins ( contents 內部包裝 JSON )
             const allOriginsUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
             try {
                 const response = await fetch(allOriginsUrl);
@@ -938,18 +949,7 @@
                     return JSON.parse(rawData.contents);
                 }
             } catch (e) {
-                console.warn(`[Proxy] AllOrigins 失敗，嘗試備用代理。`, e);
-            }
-            
-            // 備用使用 CodeTabs
-            const codeTabsUrl = `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(targetUrl)}`;
-            try {
-                const response = await fetch(codeTabsUrl);
-                if (response.ok) {
-                    return await response.json();
-                }
-            } catch (e) {
-                console.warn(`[Proxy] CodeTabs 備用代理亦失敗。`, e);
+                console.warn(`[Proxy] AllOrigins 備用代理亦失敗。`, e);
             }
             
             throw new Error("所有代理連線失敗");
