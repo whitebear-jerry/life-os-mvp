@@ -912,6 +912,12 @@
             "VT": { name: "Vanguard 全球股票 ETF", class: "股票", region: "美國" },
             "BND": { name: "Vanguard 全球債券 ETF", class: "債券", region: "美國" },
             "1306": { name: "日股 TOPIX ETF", class: "股票", region: "日本" },
+            "1231": { name: "聯華食 (食品存股)", class: "股票", region: "台灣" },
+            "2317": { name: "鴻海 (科技權值)", class: "股票", region: "台灣" },
+            "2303": { name: "聯電 (晶圓代工)", class: "股票", region: "台灣" },
+            "2454": { name: "聯發科 (IC設計)", class: "股票", region: "台灣" },
+            "2308": { name: "台達電 (綠能科技)", class: "股票", region: "台灣" },
+            "2382": { name: "廣達 (AI伺服器)", class: "股票", region: "台灣" },
             "2330": { name: "台積電 (台股個股)", class: "股票", region: "台灣" },
             "2002": { name: "中鋼", class: "股票", region: "台灣" },
             "2884": { name: "玉山金", class: "股票", region: "台灣" },
@@ -1239,6 +1245,28 @@
                     if (priceInput) {
                         priceInput.value = price.toFixed(2);
                         calculateAll();
+                    }
+                }
+
+                // 異步自動抓取中英文名稱（僅當前名稱為「台股/海外資產 [代號]」或為空時，進行校正）
+                const nameInput = document.getElementById(`name-${index}`);
+                if (nameInput) {
+                    const currentName = nameInput.value.trim();
+                    if (!currentName || currentName === `台股 ${cleanTicker}` || currentName === `海外資產 ${cleanTicker}` || currentName.startsWith("台股 ") || currentName.startsWith("海外資產 ")) {
+                        try {
+                            const searchUrl = `https://query2.finance.yahoo.com/v1/finance/search?q=${symbol}`;
+                            const searchData = await fetchWithProxy(searchUrl);
+                            if (searchData && searchData.quotes && searchData.quotes.length > 0) {
+                                let fetchedName = searchData.quotes[0].shortname || searchData.quotes[0].longname || searchData.quotes[0].name;
+                                if (fetchedName) {
+                                    // 移除常見英文結尾以保持美觀
+                                    fetchedName = fetchedName.replace(/Corporation|Corp\.|Inc\.|Co\., Ltd\.|Co\.,Ltd\.|Ltd\./gi, "").trim();
+                                    nameInput.value = fetchedName;
+                                }
+                            }
+                        } catch (nameErr) {
+                            console.warn(`[名稱抓取] 無法獲取 ${symbol} 的名稱：`, nameErr);
+                        }
                     }
                 }
             } catch (error) {
