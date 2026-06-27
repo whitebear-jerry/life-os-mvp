@@ -1254,7 +1254,7 @@
                     const currentName = nameInput.value.trim();
                     if (!currentName || currentName === `台股 ${cleanTicker}` || currentName === `海外資產 ${cleanTicker}` || currentName.startsWith("台股 ") || currentName.startsWith("海外資產 ")) {
                         try {
-                            const searchUrl = `https://query2.finance.yahoo.com/v1/finance/search?q=${symbol}`;
+                            const searchUrl = `https://query2.finance.yahoo.com/v1/finance/search?q=${symbol}&lang=zh-Hant-TW&region=TW&corsDomain=tw.finance.yahoo.com`;
                             const searchData = await fetchWithProxy(searchUrl);
                             if (searchData && searchData.quotes && searchData.quotes.length > 0) {
                                 let fetchedName = searchData.quotes[0].shortname || searchData.quotes[0].longname || searchData.quotes[0].name;
