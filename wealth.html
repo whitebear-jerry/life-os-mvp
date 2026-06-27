@@ -916,8 +916,13 @@
 
         // Initialize with default mockup data that looks professional (Taiwan assets in 'Zhang' unit)
         // Initialize with default mockup data that looks professional (Taiwan assets in 'Zhang' unit)
-        // 使用者希望初始為清空狀態，本範本已清空，載入時將自動提供一行空白列
-        const defaultAssets = [];
+        // 預設採用市場標準全球資產配置範本 (0050 + VT + BND + 現金)
+        const defaultAssets = [
+            { code: "0050", name: "元大台灣50 (台股大盤)", shares: 3.5, price: 190, category: "股票", region: "台灣" },
+            { code: "VT", name: "Vanguard 全球股票 ETF", shares: 120, price: 3900, category: "股票", region: "美國" },
+            { code: "BND", name: "Vanguard 全球債券 ETF", shares: 60, price: 2400, category: "債券", region: "美國" },
+            { code: "台幣活存", name: "活存現金 (緊急預備金)", shares: 150000, price: 1, category: "現金", region: "台灣" }
+        ];
 
         let usdTwdRate = 32.5; // 全域即時匯率，預設安全 Fallback 值
         let jpyTwdRate = 0.20; // 全域即時日圓匯率，預設安全 Fallback 值
