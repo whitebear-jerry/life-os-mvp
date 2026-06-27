@@ -147,6 +147,53 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .instruction-card {
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        
+        .instruction-content {
+            margin-top: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .instruction-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 992px) {
+            .instruction-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .instruction-content ul {
+            margin-left: 20px;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+        
+        .instruction-content ul li {
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+        
+        .instruction-content b {
+            color: #f8fafc;
+        }
+
+        .instruction-content code {
+            background-color: rgba(56, 189, 248, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -254,16 +301,16 @@
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2338BDF8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
         }
 
-        .col-code { width: 10%; }
-        .col-name { width: 25%; }
-        .col-shares { width: 15%; }
+        .col-code { width: 14%; }
+        .col-name { width: 22%; }
+        .col-shares { width: 14%; }
         .col-price { width: 12%; }
         .col-value { width: 16%; }
         .col-class { width: 11%; }
         .col-region { width: 11%; }
 
         table input {
-            padding: 8px 8px;
+            padding: 8px 4px;
             font-size: 14px;
         }
 
@@ -671,13 +718,59 @@
             </div>
         </header>
 
+        <!-- 📖 使用說明與隱私宣告 Card -->
+        <div class="card instruction-card">
+            <div class="card-title" onclick="toggleInstructions()" style="cursor: pointer; justify-content: space-between;">
+                <span>📖 系統快速使用指南 & 隱私宣告</span>
+                <span id="instructionToggleBtn" style="font-size: 14px; color: var(--accent-color);">[ 收折 ]</span>
+            </div>
+            <div class="instruction-content" id="instructionContent" style="display: block;">
+                <div class="instruction-grid">
+                    <div>
+                        <h4 style="color: var(--accent-color); margin-bottom: 8px; font-size: 14px;">💡 操作流程與標的輸入規範</h4>
+                        <ul>
+                            <li><b>新增與登記</b>：點擊「＋ 新增標的」手動輸入標的代號、持有數量與單價（如有）。</li>
+                            <li><b>台灣掛牌資產（台股、台股美債 ETF）</b>：
+                                <ul>
+                                    <li><b>代號長度為 4 碼或 6 碼</b>（如 <code>0050</code>、<code>006208</code>、<code>00679B</code> 等）。</li>
+                                    <li><b>持有數量請輸入「張數」</b>（1 張 = 1000 股），系統會自動乘上 1000 來計算估值。</li>
+                                </ul>
+                            </li>
+                            <li><b>海外掛牌資產（美股、日股）</b>：
+                                <ul>
+                                    <li><b>代號為英文或日本代碼</b>（如 <code>VOO</code>、<code>1306</code>）。</li>
+                                    <li><b>持有數量請輸入「股數」</b>。地域請選擇對應的「美國」或「日本」。</li>
+                                </ul>
+                            </li>
+                            <li><b>現金資產</b>：代號如包含「現金」或「活存」，系統將不會連網抓取價格，價格即為原幣金額。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-color); margin-bottom: 8px; font-size: 14px;">🔄 價格自動更新與匯率折算</h4>
+                        <ul>
+                            <li><b>連網自動更新</b>：當您開啟網頁或點擊「🔄 更新最新股價」時，系統會自動透過 Yahoo Finance API 連網抓取最新價格，並自動轉換美股 (USD) 與日股 (JPY) 的價格折合為<b>新台幣 (TWD)</b>。</li>
+                            <li><b>海外曝險歸類</b>：若您將台股發行的美債 ETF（如 00679B）的「曝險地域」設定為「美國」，系統能正確將其歸類為美國資產，且保持「張數」倍率，確保再平衡圖表與估值兩全其美。</li>
+                            <li><b>🔒 100% 離線隱私</b>：本系統為純前端網頁，<b>無任何後端伺服器</b>。您的財務持倉資料僅儲存在您瀏覽器的記憶體中，重新整理或關閉網頁即自動清除，絕對不會有任何資安與隱私外洩風險。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="dashboard-grid">
             <!-- Left Side: Asset Registration Table -->
             <div class="left-column">
                 <div class="card tab-panel" id="panel-assets">
-                    <div class="card-title">
+                    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
                         <span>📊 投資持倉與自動估值登記</span>
-                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="addAssetRow()">＋ 新增標的</button>
+                        <div class="card-actions" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="refreshAllPrices()">🔄 更新最新股價</button>
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="exportToJSON()">📤 匯出 JSON</button>
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="triggerImport()">📥 匯入 JSON</button>
+                            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importFromJSON(this)">
+                            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="clearAllAssets()">🧹 一鍵清空</button>
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="addAssetRow()">＋ 新增標的</button>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table id="assetTable">
@@ -801,17 +894,19 @@
     <script>
         // Pre-defined database of popular stock tickers for Taiwan & Global investors
         const tickerDatabase = {
-            "006208": { name: "富邦台50 (台股大盤)", class: "股票", region: "台灣" },
             "0050": { name: "元大台灣50 (台股大盤)", class: "股票", region: "台灣" },
-            "00679B": { name: "元大美債20年 (防禦長債)", class: "債券", region: "美國" },
-            "00687B": { name: "國泰美債20年 (防禦長債)", class: "債券", region: "美國" },
+            "006208": { name: "富邦台50 (台股大盤)", class: "股票", region: "台灣" },
+            "00679B": { name: "元大美債20年", class: "債券", region: "美國" },
+            "00687B": { name: "國泰美債20年", class: "債券", region: "美國" },
             "VOO": { name: "Vanguard S&P500 (美股大盤)", class: "股票", region: "美國" },
             "QQQ": { name: "Invesco Nasdaq 100", class: "股票", region: "美國" },
-            "1306": { name: "NF TOPIX 日股大盤", class: "股票", region: "日本" },
+            "VT": { name: "Vanguard 全球股票 ETF", class: "股票", region: "美國" },
+            "BND": { name: "Vanguard 全球債券 ETF", class: "債券", region: "美國" },
+            "1306": { name: "日股 TOPIX ETF", class: "股票", region: "日本" },
             "2330": { name: "台積電 (台股個股)", class: "股票", region: "台灣" },
-            "2002": { name: "中鋼 (個股存股)", class: "股票", region: "台灣" },
-            "2884": { name: "玉山金 (金融存股)", class: "股票", region: "台灣" },
-            "2886": { name: "兆豐金 (金融存股)", class: "股票", region: "台灣" },
+            "2002": { name: "中鋼", class: "股票", region: "台灣" },
+            "2884": { name: "玉山金", class: "股票", region: "台灣" },
+            "2886": { name: "兆豐金", class: "股票", region: "台灣" },
             "00878": { name: "國泰永續高股息", class: "股票", region: "台灣" },
             "0056": { name: "元大高股息", class: "股票", region: "台灣" }
         };
@@ -819,37 +914,70 @@
         let classChart = null;
         let regionChart = null;
 
-        // Initialize with default mockup data that looks professional
         // Initialize with default mockup data that looks professional (Taiwan assets in 'Zhang' unit)
-        const defaultAssets = [
-            { code: "006208", name: "富邦台50 (台股大盤)", shares: 2.5, price: 110, category: "股票", region: "台灣" },
-            { code: "00679B", name: "元大美債20年 (防禦長債)", shares: 6.5, price: 30, category: "債券", region: "台灣" },
-            { code: "VOO", name: "Vanguard S&P500 (美股大盤)", shares: 12, price: 15500, category: "股票", region: "美國" },
-            { code: "2002", name: "中鋼 (個股存股)", shares: 15, price: 23, category: "股票", region: "台灣" },
-            { code: "台幣活存", name: "防禦現金水庫", shares: 400000, price: 1, category: "現金", region: "台灣" }
-        ];
+        // Initialize with default mockup data that looks professional (Taiwan assets in 'Zhang' unit)
+        // 使用者希望初始為清空狀態，本範本已清空，載入時將自動提供一行空白列
+        const defaultAssets = [];
 
         let usdTwdRate = 32.5; // 全域即時匯率，預設安全 Fallback 值
+        let jpyTwdRate = 0.20; // 全域即時日圓匯率，預設安全 Fallback 值
+
+        // 雙重 CORS 代理獲取引擎 (AllOrigins + CodeTabs 備用)
+        async function fetchWithProxy(targetUrl) {
+            // 優先使用 AllOrigins
+            const allOriginsUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+            try {
+                const response = await fetch(allOriginsUrl);
+                if (response.ok) {
+                    const rawData = await response.json();
+                    return JSON.parse(rawData.contents);
+                }
+            } catch (e) {
+                console.warn(`[Proxy] AllOrigins 失敗，嘗試備用代理。`, e);
+            }
+            
+            // 備用使用 CodeTabs
+            const codeTabsUrl = `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(targetUrl)}`;
+            try {
+                const response = await fetch(codeTabsUrl);
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (e) {
+                console.warn(`[Proxy] CodeTabs 備用代理亦失敗。`, e);
+            }
+            
+            throw new Error("所有代理連線失敗");
+        }
 
         async function fetchExchangeRate() {
             try {
-                const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/USDTWD=X')}`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('匯率請求失敗');
-                const rawData = await response.json();
-                const data = JSON.parse(rawData.contents);
+                // 獲取美元即時匯率
+                const data = await fetchWithProxy('https://query1.finance.yahoo.com/v8/finance/chart/USDTWD=X');
                 const rate = data.chart.result[0].meta.regularMarketPrice;
                 if (rate && !isNaN(rate)) {
                     usdTwdRate = rate;
                     console.log(`[即時匯率] 美元兌台幣即時匯率：${usdTwdRate}`);
                 }
             } catch (error) {
-                console.warn('[即時匯率] 無法獲取即時匯率，將使用預設值 32.5。', error);
+                console.warn('[即時匯率] 無法獲取美元即時匯率，將使用預設值 32.5。', error);
+            }
+
+            try {
+                // 獲取日圓即時匯率
+                const data = await fetchWithProxy('https://query1.finance.yahoo.com/v8/finance/chart/JPYTWD=X');
+                const rate = data.chart.result[0].meta.regularMarketPrice;
+                if (rate && !isNaN(rate)) {
+                    jpyTwdRate = rate;
+                    console.log(`[即時匯率] 日圓兌台幣即時匯率：${jpyTwdRate}`);
+                }
+            } catch (error) {
+                console.warn('[即時匯率] 無法獲取日圓即時匯率，將使用預設值 0.20。', error);
             }
         }
 
         window.onload = async function() {
-            // 1. 異步獲取最新美元匯率
+            // 1. 異步獲取最新匯率
             await fetchExchangeRate();
             
             // 2. 渲染預設模擬數據
@@ -871,12 +999,132 @@
             switchTab('assets');
         };
 
+        function toggleInstructions() {
+            const content = document.getElementById("instructionContent");
+            const btn = document.getElementById("instructionToggleBtn");
+            if (content.style.display === "none") {
+                content.style.display = "block";
+                btn.innerText = "[ 收折 ]";
+            } else {
+                content.style.display = "none";
+                btn.innerText = "[ 展開 / 閱讀指南 ]";
+            }
+        }
+
+        function clearAllAssets() {
+            if (confirm("確定要清空所有持倉登記嗎？此動作將清除您目前輸入的所有資料。")) {
+                const tbody = document.getElementById("assetBody");
+                tbody.innerHTML = "";
+                addAssetRow();
+                calculateAll();
+            }
+        }
+
+        async function refreshAllPrices() {
+            const tbody = document.getElementById("assetBody");
+            let fetchCount = 0;
+            const btn = document.querySelector("button[onclick='refreshAllPrices()']");
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "⏳ 載入中...";
+            btn.disabled = true;
+            
+            await fetchExchangeRate();
+            
+            const promises = [];
+            for (let i = 0; i < tbody.children.length; i++) {
+                const row = tbody.children[i];
+                const index = row.id.split("-")[1];
+                const codeInput = row.querySelector('td:nth-child(1) input');
+                if (codeInput && codeInput.value) {
+                    promises.push(fetchRealTimePrice(codeInput.value, index));
+                    fetchCount++;
+                }
+            }
+            
+            await Promise.all(promises);
+            calculateAll();
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            if (fetchCount > 0) {
+                alert("已成功發送即時股價與匯率更新請求！");
+            }
+        }
+
+        function exportToJSON() {
+            const tbody = document.getElementById("assetBody");
+            const assets = [];
+            for (let i = 0; i < tbody.children.length; i++) {
+                const row = tbody.children[i];
+                const index = row.id.split("-")[1];
+                const codeInput = row.querySelector('td:nth-child(1) input');
+                const code = codeInput ? codeInput.value.trim().toUpperCase() : "";
+                const name = document.getElementById(`name-${index}`).value.trim();
+                const shares = parseFloat(document.getElementById(`shares-${index}`).value) || 0;
+                const price = parseFloat(document.getElementById(`price-${index}`).value) || 0;
+                const category = document.getElementById(`cat-${index}`).value;
+                const region = document.getElementById(`reg-${index}`).value;
+                
+                if (code || name) {
+                    assets.push({ code, name, shares, price, category, region });
+                }
+            }
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(assets, null, 4));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "my_assets_allocation.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function triggerImport() {
+            document.getElementById("importFile").click();
+        }
+
+        function importFromJSON(inputElement) {
+            const file = inputElement.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const assets = JSON.parse(e.target.result);
+                    if (!Array.isArray(assets)) throw new Error("資料格式必須是陣列");
+                    
+                    const tbody = document.getElementById("assetBody");
+                    tbody.innerHTML = "";
+                    
+                    assets.forEach((asset, index) => {
+                        tbody.appendChild(createRowHTML(asset, index));
+                    });
+                    
+                    calculateAll();
+                    
+                    // 重新整理價格
+                    await refreshAllPrices();
+                    
+                    alert("已成功匯入持倉資料，並完成股價與匯率即時同步！");
+                } catch (err) {
+                    alert("匯入失敗，請確認 JSON 檔案格式是否正確。原因：" + err.message);
+                }
+                inputElement.value = "";
+            };
+            reader.readAsText(file);
+        }
+
         function populateDefaultAssets() {
             const tbody = document.getElementById("assetBody");
             tbody.innerHTML = "";
-            defaultAssets.forEach((asset, index) => {
-                tbody.appendChild(createRowHTML(asset, index));
-            });
+            if (defaultAssets.length === 0) {
+                addAssetRow();
+            } else {
+                defaultAssets.forEach((asset, index) => {
+                    tbody.appendChild(createRowHTML(asset, index));
+                });
+            }
         }
 
         function createRowHTML(asset, index) {
@@ -896,7 +1144,7 @@
                     </select>
                 </td>
                 <td data-label="曝險地域">
-                    <select id="reg-${index}" onchange="calculateAll()">
+                    <select id="reg-${index}" onchange="regionChanged(${index})">
                         <option value="台灣" ${asset.region === '台灣' ? 'selected' : ''}>台灣</option>
                         <option value="美國" ${asset.region === '美國' ? 'selected' : ''}>美國</option>
                         <option value="日本" ${asset.region === '日本' ? 'selected' : ''}>日本</option>
@@ -932,21 +1180,28 @@
                 return;
             }
 
-            // 判斷是否為台股，補上 .TW
-            const isTaiwanStock = /^\d{4,6}[A-Z]?$/.test(cleanTicker);
-            const symbol = isTaiwanStock ? `${cleanTicker}.TW` : cleanTicker;
-            const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`;
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
+            // 讀取當前選擇的曝險地域，以判斷是台股(.TW)還是日股(.T)
+            const regionEl = document.getElementById(`reg-${index}`);
+            const selectedRegion = regionEl ? regionEl.value : "台灣";
 
-            // 找到即時單價欄位
+            let symbol = cleanTicker;
+            // 只有在未手動指定字尾時，才根據地域預設加上字尾
+            if (!cleanTicker.includes('.')) {
+                const isNumericTicker = /^\d{4,6}$/.test(cleanTicker);
+                if (isNumericTicker) {
+                    if (selectedRegion === '台灣') {
+                        symbol = `${cleanTicker}.TW`;
+                    } else if (selectedRegion === '日本') {
+                        symbol = `${cleanTicker}.T`;
+                    }
+                }
+            }
+
+            const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`;
             const priceInput = document.getElementById(`price-${index}`);
             
             try {
-                const response = await fetch(proxyUrl);
-                if (!response.ok) throw new Error('網路請求失敗');
-                const rawData = await response.json();
-                const data = JSON.parse(rawData.contents);
-                
+                const data = await fetchWithProxy(yahooUrl);
                 if (!data.chart || !data.chart.result || data.chart.result.length === 0) {
                     throw new Error('未找到標的數據');
                 }
@@ -956,10 +1211,13 @@
                 const currency = result.meta.currency;
 
                 if (price && !isNaN(price)) {
-                    // 如果是美股(USD計價)，折合台幣
+                    // 根據幣別自動折合台幣
                     if (currency === 'USD') {
                         price = price * usdTwdRate;
                         console.log(`[股價抓取] ${cleanTicker} 為美股(USD)，乘上即時匯率 ${usdTwdRate} = ${price.toFixed(2)} TWD`);
+                    } else if (currency === 'JPY') {
+                        price = price * jpyTwdRate;
+                        console.log(`[股價抓取] ${cleanTicker} 為日股(JPY)，乘上即時匯率 ${jpyTwdRate} = ${price.toFixed(2)} TWD`);
                     } else {
                         console.log(`[股價抓取] ${cleanTicker} 價格為 ${price} ${currency}`);
                     }
@@ -970,8 +1228,16 @@
                     }
                 }
             } catch (error) {
-                console.warn(`[股價抓取] 無法獲取 ${cleanTicker} 的即時價格，將維持預設值。`, error);
+                console.warn(`[股價抓取] 無法獲取 ${cleanTicker} (${symbol}) 的即時價格，將維持預設值。`, error);
             }
+        }
+
+        function regionChanged(index) {
+            const codeInput = document.querySelector(`#row-${index} td:nth-child(1) input`);
+            if (codeInput && codeInput.value) {
+                fetchRealTimePrice(codeInput.value, index);
+            }
+            calculateAll();
         }
 
         // AUTO-LOOKUP TICKER FUNCTION (解決輸入代碼不會動的痛點)
@@ -986,9 +1252,12 @@
                 // 先填入預設的 fallback 價格
                 let basePrice = 100;
                 if (ticker === "VOO") basePrice = 16000;
-                else if (ticker === "006208" || ticker === "0050") basePrice = 110;
+                else if (ticker === "006208" || ticker === "0050") basePrice = 170;
                 else if (ticker === "00679B") basePrice = 30;
                 else if (ticker === "2330") basePrice = 900;
+                else if (ticker === "VT") basePrice = 3800;
+                else if (ticker === "BND") basePrice = 2400;
+                else if (ticker === "1306") basePrice = 580;
                 
                 document.getElementById(`price-${index}`).value = basePrice;
             } else {
@@ -1021,14 +1290,26 @@
                 const row = tbody.children[i];
                 const index = row.id.split("-")[1];
                 
+                const tickerInput = row.querySelector('td:nth-child(1) input');
+                const ticker = tickerInput ? tickerInput.value.trim().toUpperCase() : "";
+                const priceInput = document.getElementById(`price-${index}`);
+                
+                if (ticker === "美元現金") {
+                    priceInput.value = usdTwdRate.toFixed(2);
+                } else if (ticker === "日圓現金") {
+                    priceInput.value = jpyTwdRate.toFixed(4);
+                }
+
                 const shares = parseFloat(document.getElementById(`shares-${index}`).value) || 0;
-                const price = parseFloat(document.getElementById(`price-${index}`).value) || 0;
+                const price = parseFloat(priceInput.value) || 0;
                 const category = document.getElementById(`cat-${index}`).value;
                 const region = document.getElementById(`reg-${index}`).value;
                 
-                // 台灣地區的 股票 與 債券 持有數量以「張」為單位計算，1張 = 1000股
+                // 判斷是否以「張」為單位：曝險地域為「台灣」的股票/債券，或者代號是 5-6 位數的台灣掛牌 ETF (如 00679B、00687B)
+                const isZhangUnit = (region === '台灣' && (category === '股票' || category === '債券')) || 
+                                    (/^\d{5,6}[A-Z]?$/.test(ticker));
                 let value = 0;
-                if (region === '台灣' && (category === '股票' || category === '債券')) {
+                if (isZhangUnit && (category === '股票' || category === '債券')) {
                     value = shares * 1000 * price;
                 } else {
                     value = shares * price;
@@ -1197,12 +1478,19 @@
             for (let i = 0; i < tbody.children.length; i++) {
                 const row = tbody.children[i];
                 const index = row.id.split("-")[1];
+                
+                const tickerInput = row.querySelector('td:nth-child(1) input');
+                const ticker = tickerInput ? tickerInput.value.trim().toUpperCase() : "";
+                const priceInput = document.getElementById(`price-${index}`);
+                const price = parseFloat(priceInput.value) || 0;
+                
                 const shares = parseFloat(document.getElementById(`shares-${index}`).value) || 0;
-                const price = parseFloat(document.getElementById(`price-${index}`).value) || 0;
                 const category = document.getElementById(`cat-${index}`).value;
                 const region = document.getElementById(`reg-${index}`).value;
                 
-                if (region === '台灣' && (category === '股票' || category === '債券')) {
+                const isZhangUnit = (region === '台灣' && (category === '股票' || category === '債券')) || 
+                                    (/^\d{5,6}[A-Z]?$/.test(ticker));
+                if (isZhangUnit && (category === '股票' || category === '債券')) {
                     total += shares * 1000 * price;
                 } else {
                     total += shares * price;
