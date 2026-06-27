@@ -1205,14 +1205,15 @@
             const selectedRegion = regionEl ? regionEl.value : "台灣";
 
             let symbol = cleanTicker;
-            // 只有在未手動指定字尾時，才根據地域預設加上字尾
+            // 只有在未手動指定字尾時，才根據地域與特徵自動加上後綴
             if (!cleanTicker.includes('.')) {
-                const isNumericTicker = /^\d{4,6}$/.test(cleanTicker);
-                if (isNumericTicker) {
-                    if (selectedRegion === '台灣') {
-                        symbol = `${cleanTicker}.TW`;
-                    } else if (selectedRegion === '日本') {
+                const isDigitBased = /^\d{4,6}[A-Z]?$/i.test(cleanTicker);
+                if (isDigitBased) {
+                    if (selectedRegion === '日本') {
                         symbol = `${cleanTicker}.T`;
+                    } else {
+                        // 包含台灣本地股、在台灣掛牌的海外債券/美股 ETF (如 00679B, 00646)
+                        symbol = `${cleanTicker}.TW`;
                     }
                 }
             }
