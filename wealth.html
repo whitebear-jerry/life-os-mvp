@@ -896,8 +896,17 @@
         const tickerDatabase = {
             "0050": { name: "元大台灣50 (台股大盤)", class: "股票", region: "台灣" },
             "006208": { name: "富邦台50 (台股大盤)", class: "股票", region: "台灣" },
+            "00646": { name: "元大S&P500 (美股大盤)", class: "股票", region: "美國" },
+            "00662": { name: "富邦NASDAQ (科技大盤)", class: "股票", region: "美國" },
+            "00757": { name: "統一FANG+ (科技巨頭)", class: "股票", region: "美國" },
+            "00713": { name: "元大高息低波 (優質高息)", class: "股票", region: "台灣" },
+            "00919": { name: "群益台灣精選高息 (熱門高息)", class: "股票", region: "台灣" },
+            "00929": { name: "復華台灣科技優息 (熱門高息)", class: "股票", region: "台灣" },
+            "00940": { name: "元大台灣價值高息 (熱門高息)", class: "股票", region: "台灣" },
             "00679B": { name: "元大美債20年", class: "債券", region: "美國" },
             "00687B": { name: "國泰美債20年", class: "債券", region: "美國" },
+            "00772B": { name: "中信高評級公司債", class: "債券", region: "美國" },
+            "00720B": { name: "元大投資級公司債", class: "債券", region: "美國" },
             "VOO": { name: "Vanguard S&P500 (美股大盤)", class: "股票", region: "美國" },
             "QQQ": { name: "Invesco Nasdaq 100", class: "股票", region: "美國" },
             "VT": { name: "Vanguard 全球股票 ETF", class: "股票", region: "美國" },
@@ -1269,9 +1278,11 @@
                 // 如果資料庫中沒有，根據代號特徵自動預判
                 const isTaiwanStock = /^\d{4,6}[A-Z]?$/.test(ticker);
                 if (isTaiwanStock) {
+                    document.getElementById(`name-${index}`).value = `台股 ${ticker}`;
                     document.getElementById(`cat-${index}`).value = "股票";
                     document.getElementById(`reg-${index}`).value = "台灣";
                 } else if (ticker) {
+                    document.getElementById(`name-${index}`).value = `海外資產 ${ticker}`;
                     document.getElementById(`cat-${index}`).value = "股票";
                     document.getElementById(`reg-${index}`).value = "美國";
                 }
