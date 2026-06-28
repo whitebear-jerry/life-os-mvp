@@ -2920,24 +2920,6 @@
       </div>
     </section>
 
-    <!-- 🎴 Email 金句卡漏斗 -->
-    <section class="link-funnel" aria-label="免費領取金句小卡" style="margin-top: 0; margin-bottom: 16px;">
-      <div class="funnel-badge">🎴 免費索取</div>
-      <h2 class="funnel-title">免費領取｜人生複利金句小卡</h2>
-      <p class="funnel-intro">《人生複利》整本書裡最被讀者劃線、最能改變想法的 18 句話，做成手機小卡。</p>
-      <ul class="funnel-bullets">
-        <li><span>✔</span> 18 張金句小卡（可設手機桌布）</li>
-        <li><span>✔</span> 不定期的人生攻略筆記</li>
-      </ul>
-      <form id="bearForm" class="funnel-form">
-        <div class="input-group">
-          <input type="email" id="bearEmail" required placeholder="請輸入你的 Email..." aria-label="你的 email">
-          <button type="submit" class="funnel-btn">免費領取小卡 →</button>
-        </div>
-        <div class="funnel-security">🔒 不寄垃圾信，一鍵退訂</div>
-      </form>
-      <p id="bearMsg" class="funnel-msg"></p>
-    </section>
 
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
@@ -6072,64 +6054,8 @@
       });
     }
 
-    function initEmailFunnel() {
-      const form = document.getElementById('bearForm');
-      const msg = document.getElementById('bearMsg');
-      if (!form) return;
-      
-      form.addEventListener('submit', function(ev) {
-        ev.preventDefault();
-        const emailInput = document.getElementById('bearEmail');
-        const email = emailInput ? emailInput.value.trim() : '';
-        if (!email) return;
-        
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxsU8okrTP7T0Vm32d2XurTdsJo3nS79xXyL3rl-c0RxnJXV_J3nkpC3rP8inhEv9Ff/exec';
-        
-        // Show sending state
-        const btn = form.querySelector('.funnel-btn');
-        const originalBtnText = btn ? btn.innerHTML : '免費領取小卡 →';
-        if (btn) {
-          btn.disabled = true;
-          btn.innerHTML = '⚡ 傳送中...';
-        }
-        
-        fetch(WEB_APP_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: new URLSearchParams({ email })
-        })
-        .then(() => {
-          if (msg) {
-            msg.textContent = '✅ 已送出！金句小卡已寄到你的信箱，請查收（含垃圾信匣）。';
-            msg.style.display = 'block';
-            msg.style.background = 'rgba(46, 125, 50, 0.15)';
-            msg.style.border = '1px solid rgba(46, 125, 50, 0.3)';
-            msg.style.color = '#a5d6a7';
-          }
-          form.reset();
-        })
-        .catch(err => {
-          console.error(err);
-          if (msg) {
-            msg.textContent = '❌ 送出失敗，請稍後再試，或直接聯繫白熊。';
-            msg.style.display = 'block';
-            msg.style.background = 'rgba(211, 47, 47, 0.15)';
-            msg.style.border = '1px solid rgba(211, 47, 47, 0.3)';
-            msg.style.color = '#ff9d9d';
-          }
-        })
-        .finally(() => {
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = originalBtnText;
-          }
-        });
-      });
-    }
-
     initCounter();
     initBookLinksXPSystem();
-    initEmailFunnel();
   </script>
 </body>
 </html>
