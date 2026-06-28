@@ -942,38 +942,37 @@
         let usdTwdRate = 32.5; // 全域即時匯率，預設安全 Fallback 值
         let jpyTwdRate = 0.20; // 全域即時日圓匯率，預設安全 Fallback 值
 
-        // 雙重 CORS 代理獲取引擎 (AllOrigins 優先 + ThingProxy 備用)
+        // 雙重 CORS 代理獲取引擎 (AllOrigins 優先 + CodeTabs 備用)
         async function fetchWithProxy(targetUrl) {
-            const proxies = [
-                // 1. AllOrigins (無網域限制，最為穩定)
-                async () => {
-                    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error("AllOrigins 網路錯誤");
+            // 優先使用 AllOrigins
+            const allOriginsUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+            try {
+                const response = await fetch(allOriginsUrl);
+                if (response.ok) {
                     const rawData = await response.json();
-                    if (!rawData || !rawData.contents) throw new Error("AllOrigins 回傳空內容");
-                    const data = JSON.parse(rawData.contents);
-                    return data;
-                },
-                // 2. ThingProxy (備用代理)
-                async () => {
-                    const url = `https://thingproxy.freeboard.io/fetch/${targetUrl}`;
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error("ThingProxy 網路錯誤");
-                    return await response.json();
+                    if (rawData && rawData.contents) {
+                        const data = JSON.parse(rawData.contents);
+                        if (data && !data.error && !data.Error) {
+                            return data;
+                        }
+                    }
                 }
-            ];
-
-            for (const tryProxy of proxies) {
-                try {
-                    const data = await tryProxy();
-                    // 驗證回傳的格式是否包含 error (排除 corsproxy.io 限地錯誤或 proxy 錯誤)
+            } catch (e) {
+                console.warn(`[Proxy] AllOrigins 失敗，嘗試備用代理。`, e);
+            }
+            
+            // 備用使用 CodeTabs
+            const codeTabsUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+            try {
+                const response = await fetch(codeTabsUrl);
+                if (response.ok) {
+                    const data = await response.json();
                     if (data && !data.error && !data.Error) {
                         return data;
                     }
-                } catch (e) {
-                    console.warn(`[Proxy] 嘗試代理失敗，將嘗試下一個。錯誤：`, e);
                 }
+            } catch (e) {
+                console.warn(`[Proxy] CodeTabs 備用代理亦失敗。`, e);
             }
             
             throw new Error("所有代理連線失敗");
