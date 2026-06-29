@@ -315,6 +315,22 @@
       }
     }
 
+    /* 皇家紫呼吸發光效果 (四冊特惠包) */
+    @keyframes purpleGlow {
+      0% {
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(139, 92, 246, 0.15), inset 0 0 8px rgba(139, 92, 246, 0.05);
+      }
+      50% {
+        border-color: rgba(139, 92, 246, 1);
+        box-shadow: 0 16px 48px rgba(139, 92, 246, 0.06), 0 0 25px rgba(139, 92, 246, 0.45), inset 0 0 15px rgba(139, 92, 246, 0.15);
+      }
+      100% {
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(139, 92, 246, 0.15), inset 0 0 8px rgba(139, 92, 246, 0.05);
+      }
+    }
+
     .link-book.book-fuli {
       border: 1.5px solid rgba(255, 215, 0, 0.6);
       background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
@@ -2681,36 +2697,36 @@
       margin-left: 6px;
     }
 
-    /* 3冊合購套書卡片特殊樣式 (參考人生複利風格，改用金色發光邊框與微透漸層) */
+    /* 4冊合購套書卡片特殊樣式 (改用皇家紫發光邊框與微透漸層) */
     .link-book.book-bundle {
-      border: 1.5px solid rgba(255, 215, 0, 0.6);
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: goldGlow 3s infinite ease-in-out;
+      border: 1.5px solid rgba(139, 92, 246, 0.6);
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: purpleGlow 3s infinite ease-in-out;
       position: relative;
     }
 
-    /* 新增套書紅色標籤樣式，位置與人生複利相同 */
+    /* 新增套書紫色標籤樣式 */
     .book-bundle .book-tag {
-      background: linear-gradient(135deg, #ef4444 0%, #cc1111 100%);
+      background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3), 0 0 8px rgba(239, 68, 68, 0.2);
+      box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3), 0 0 8px rgba(124, 58, 237, 0.2);
     }
 
     .link-book.book-bundle h2 {
       font-size: 1.15rem;
-      color: #ffd075 !important;
+      color: #d8b4fe !important;
       font-weight: 900;
     }
 
     .link-book.book-bundle .price-amount {
-      color: #ffd075;
-      text-shadow: 0 0 5px rgba(255, 208, 117, 0.4);
+      color: #d8b4fe;
+      text-shadow: 0 0 5px rgba(216, 180, 254, 0.4);
     }
 
     .link-book.book-bundle .discount-badge {
-      background: rgba(255, 208, 117, 0.15);
-      color: #ffd075;
-      border-color: rgba(255, 208, 117, 0.4);
+      background: rgba(216, 180, 254, 0.15);
+      color: #d8b4fe;
+      border-color: rgba(216, 180, 254, 0.4);
     }
 
     .bundle-links {
@@ -2728,11 +2744,11 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
       color: #ffffff !important;
-      background: var(--gold);
+      background: #7c3aed;
       font-size: 0.92rem;
       font-weight: 800;
       text-decoration: none;
-      box-shadow: 0 4px 12px rgba(196, 137, 53, 0.15);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
                   box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
                   filter 0.2s cubic-bezier(0.16, 1, 0.3, 1),
@@ -2743,7 +2759,7 @@
       filter: brightness(1.12);
       transform: translateY(-3px) scale(1.03);
       border-color: rgba(255, 255, 255, 0.32);
-      box-shadow: 0 8px 24px rgba(196, 137, 53, 0.35);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
     }
 
     @media (max-width: 480px) {
@@ -2941,26 +2957,26 @@
             </div>
             
             <!-- 🏷️ 整合最佳化價格表（以收據風格，讓價格排版大氣又易讀） -->
-            <div class="book-price" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; border-radius: 10px; padding: 10px 14px; margin: 12px 0 0; width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 208, 117, 0.15);">
+            <div class="book-price" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; border-radius: 10px; padding: 10px 14px; margin: 12px 0 0; width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(216, 180, 254, 0.15);">
               <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.55); font-weight: bold; letter-spacing: 0.5px;">【合購套書限定特惠】 (原價 NT$1180)</span>
               
               <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 2px;">
-                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.3);">
+                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #d8b4fe; text-shadow: 0 0 5px rgba(216, 180, 254, 0.3);">
                   <span class="price-gem">💎</span> Pubu 電子合輯
                 </span>
                 <span style="display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #ffd075; font-family: monospace; font-size: 0.95rem;">NT$599</strong>
-                  <span class="discount-badge" style="margin-left: 0; background: rgba(255, 208, 117, 0.15); color: #ffd075; border: 0.5px solid rgba(255, 208, 117, 0.4);">51折</span>
+                  <strong style="color: #d8b4fe; font-family: monospace; font-size: 0.95rem;">NT$599</strong>
+                  <span class="discount-badge" style="margin-left: 0; background: rgba(216, 180, 254, 0.15); color: #d8b4fe; border: 0.5px solid rgba(216, 180, 254, 0.4);">51折</span>
                 </span>
               </div>
               
-              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(255, 208, 117, 0.15);">
-                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #ffd075; text-shadow: 0 0 5px rgba(255, 208, 117, 0.3);">
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(216, 180, 254, 0.15);">
+                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #d8b4fe; text-shadow: 0 0 5px rgba(216, 180, 254, 0.3);">
                   <span class="price-gem">💎</span> Readmoo 電子合購
                 </span>
                 <span style="display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #ffd075; font-family: monospace; font-size: 0.95rem;">NT$716</strong>
-                  <span class="discount-badge" style="margin-left: 0; background: rgba(255, 208, 117, 0.15); color: #ffd075; border: 0.5px solid rgba(255, 208, 117, 0.4);">6折</span>
+                  <strong style="color: #d8b4fe; font-family: monospace; font-size: 0.95rem;">NT$716</strong>
+                  <span class="discount-badge" style="margin-left: 0; background: rgba(216, 180, 254, 0.15); color: #d8b4fe; border: 0.5px solid rgba(216, 180, 254, 0.4);">6折</span>
                 </span>
               </div>
             </div>
