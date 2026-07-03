@@ -739,14 +739,14 @@ figcaption {
   }
 }
 
-/* Pubu 3冊合購套書特殊樣式 */
+/* Pubu 3/4冊合購套書特殊樣式 (皇家紫風格) */
 .index-bundle-card {
   margin: 20px 0 30px;
   padding: 24px;
-  border: 1px solid rgba(196, 137, 53, 0.35);
+  border: 1px solid rgba(139, 92, 246, 0.4);
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(196, 137, 53, 0.08) 0%, rgba(160, 79, 85, 0.04) 100%);
-  box-shadow: 0 10px 34px rgba(196, 137, 53, 0.05);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(124, 58, 237, 0.04) 100%);
+  box-shadow: 0 10px 34px rgba(139, 92, 246, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -780,7 +780,7 @@ figcaption {
   position: absolute;
   top: 0;
   right: 0;
-  background: linear-gradient(90deg, var(--gold), var(--rose));
+  background: linear-gradient(90deg, #a78bfa, #7c3aed);
   color: #fff;
   font-size: 0.75rem;
   font-weight: 800;
@@ -818,7 +818,8 @@ figcaption {
 .index-price-tag .price-new {
   font-weight: 800;
   font-size: 1.2rem;
-  color: var(--gold);
+  color: #4ef072;
+  text-shadow: 0 0 5px rgba(78, 240, 114, 0.4);
 }
 
 .index-price-tag .price-save {
@@ -837,21 +838,21 @@ figcaption {
   font-size: 0.95rem;
   font-weight: 900;
   border-radius: 8px;
-  background: linear-gradient(90deg, #ffd075, #ffb03a);
-  color: #1c1815;
+  background: linear-gradient(90deg, #a78bfa, #7c3aed);
+  color: #ffffff;
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(196, 137, 53, 0.25);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.25);
   transition: transform 0.2s, box-shadow 0.2s;
   text-decoration: none;
 }
 
 .index-bundle-card .bundle-action a:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(196, 137, 53, 0.35);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
   filter: brightness(1.08);
 }
 
