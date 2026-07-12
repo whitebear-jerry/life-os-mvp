@@ -204,7 +204,7 @@
     .book-cover-wrapper {
       position: relative;
       width: 90px;
-      height: 130px;
+      height: 144px; /* Changed from 130px to match 1.6 aspect ratio of book covers */
       border-radius: 6px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -923,6 +923,55 @@
       .social-links-area {
         margin-top: 32px;
       }
+    }
+
+    /* Bundle Cover Landscape Override (4:3 aspect ratio) */
+    .book-bundle .book-cover-wrapper {
+      width: 120px;
+      height: 90px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Bundle Action Buttons Grid (Premium Style) */
+    .bundle-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .bundle-links a {
+      min-height: 52px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6px 8px;
+      border: 1px solid rgba(216, 180, 254, 0.35);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      line-height: 1.35;
+      text-decoration: none;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(99, 102, 241, 0.3) 100%);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.18);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bundle-links a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(216, 180, 254, 0.65);
+      box-shadow: 0 6px 15px rgba(124, 58, 237, 0.35);
+      filter: brightness(1.15);
+    }
+
+    .bundle-links a:active {
+      transform: translateY(0);
     }
   </style>
 </head>
