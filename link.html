@@ -878,39 +878,32 @@
     }
 
   
-    /* PC / Desktop Responsive Layout */
-    @media (min-width: 860px) {
+
+    /* PC / Desktop Grid Layout */
+    @media (min-width: 768px) {
       .link-shell {
-        width: min(100%, 1020px);
-        max-width: 1020px;
-        display: grid;
-        grid-template-columns: 400px 1fr;
-        gap: 36px;
-        padding: 48px 24px;
-        align-items: start;
-      }
-      .link-left-column {
-        position: sticky;
-        top: 36px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+        width: min(100%, 820px);
+        max-width: 820px;
+        padding: 40px 20px;
       }
       .link-books {
-        grid-column: 2;
-        grid-row: 1 / span 2;
-        margin-top: 0 !important;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px !important;
+      }
+      .book-bundle {
+        grid-column: 1 / -1;
       }
       .social-links-area {
-        grid-column: 1;
-        margin-top: 12px;
+        margin-top: 32px;
       }
     }
   </style>
 </head>
 <body class="link-page">
   <main class="link-shell" aria-label="白熊人生攻略連結頁">
-    <div class="link-left-column">
+
     <section class="link-profile">
       <div class="avatar-container">
         <div class="bear-avatar" role="img" aria-label="白熊頭像"></div>
@@ -969,7 +962,6 @@
     </section>
 
 
-    </div>
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
       <article class="link-book book-bundle">
