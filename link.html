@@ -102,6 +102,11 @@
       box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06);
     }
 
+    .link-book.book-jieli:hover {
+      border-color: rgba(99, 126, 196, 0.35);
+      box-shadow: 0 16px 48px rgba(99, 126, 196, 0.06);
+    }
+
     .link-book h2 {
       font-size: 1.06rem;
       line-height: 1.28;
@@ -158,6 +163,11 @@
       box-shadow: 0 4px 12px rgba(212, 138, 55, 0.15);
     }
 
+    .book-jieli .link-actions a {
+      background: #637ec4;
+      box-shadow: 0 4px 12px rgba(99, 126, 196, 0.15);
+    }
+
     .link-actions a:hover {
       filter: brightness(1.12);
       transform: translateY(-3px) scale(1.05);
@@ -178,6 +188,10 @@
 
     .book-xinfu .link-actions a:hover {
       box-shadow: 0 8px 24px rgba(212, 138, 55, 0.35);
+    }
+
+    .book-jieli .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(99, 126, 196, 0.35);
     }
 
     .link-actions a:active {
@@ -315,6 +329,19 @@
       }
     }
 
+    /* 靛藍呼吸發光 (借力) */
+    @keyframes indigoGlow {
+      0%   { border-color: rgba(99,126,196,.5); box-shadow: 0 16px 48px rgba(0,0,0,.2), 0 0 10px rgba(99,126,196,.15), inset 0 0 8px rgba(99,126,196,.05); }
+      50%  { border-color: rgba(99,126,196,1);  box-shadow: 0 16px 48px rgba(99,126,196,.06), 0 0 25px rgba(99,126,196,.45), inset 0 0 15px rgba(99,126,196,.15); }
+      100% { border-color: rgba(99,126,196,.5); box-shadow: 0 16px 48px rgba(0,0,0,.2), 0 0 10px rgba(99,126,196,.15), inset 0 0 8px rgba(99,126,196,.05); }
+    }
+
+    /* 🌊 水波橫向流光（借力專屬，呼應「順流」主題） */
+    @keyframes waterFlow {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+
     /* 皇家紫呼吸發光效果 (四冊特惠包) */
     @keyframes purpleGlow {
       0% {
@@ -355,6 +382,25 @@
       animation: amberGlow 3s infinite ease-in-out;
     }
 
+    .link-book.book-jieli {
+      border-color: rgba(99,126,196,.5);
+      animation: indigoGlow 3s infinite ease-in-out;
+    }
+
+    /* 流光帶：靠 border-radius: inherit 收邊，不用 overflow:hidden（見上方坑 1） */
+    .link-book.book-jieli::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(115deg, transparent 40%, rgba(168,196,255,.10) 50%, transparent 60%);
+      background-size: 200% 100%;
+      animation: waterFlow 6s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .link-book.book-jieli > * { position: relative; z-index: 1; }
+
     /* 各書標籤配色 */
     .book-tag.tag-game {
       background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
@@ -370,6 +416,11 @@
       background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
       color: #0c1511;
       box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3), 0 0 8px rgba(245, 158, 11, 0.2);
+    }
+    .book-tag.tag-jieli {
+      background: linear-gradient(135deg, #637ec4 0%, #3b4e8c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(99, 126, 196, 0.3), 0 0 8px rgba(99, 126, 196, 0.2);
     }
 
     /* 3. 星等與發光金星 */
@@ -713,6 +764,10 @@
       background-image: url('assets/book4_banner.jpg');
     }
 
+    .slide-book5 {
+      background-image: url('assets/book5_banner.jpg');
+    }
+
     /* 下方文字區域：深綠色系半透明毛玻璃質感 */
     .slide-text-area {
       padding: 14px 18px 16px;
@@ -758,6 +813,12 @@
       background: rgba(212, 138, 55, 0.25);
       color: #ffcc80;
       border: 1px solid rgba(212, 138, 55, 0.4);
+    }
+
+    .badge-jieli {
+      background: rgba(99, 126, 196, 0.25);
+      color: #b9cdff;
+      border: 1px solid rgba(99, 126, 196, 0.4);
     }
 
     .slide-description {
@@ -1024,6 +1085,14 @@
               <p class="slide-description">把心顧好，錢自然長出來的財富實戰手冊</p>
             </div>
           </div>
+          <!-- 幻燈片 #5 ｜ 借力 -->
+          <div class="carousel-slide" aria-label="創作 #5 ｜ 借力">
+            <div class="slide-image-area slide-book5"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-jieli">創作 #5 ｜ 借力</span>
+              <p class="slide-description">借趨勢、借工具、借複利——順流的人，不必比誰更用力。</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 固定於右下角的點狀指示器 -->
@@ -1032,6 +1101,7 @@
         <span class="carousel-dot" data-slide="1"></span>
         <span class="carousel-dot" data-slide="2"></span>
         <span class="carousel-dot" data-slide="3"></span>
+        <span class="carousel-dot" data-slide="4"></span>
       </div>
     </section>
 
@@ -1218,6 +1288,40 @@
           <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買心富">Readmoo</a>
           <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買心富">Pubu</a>
           <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買心富">Kobo</a>
+        </div>
+      </article>
+
+      <!-- 📘 《借力》次要書卡 -->
+      <article class="link-book book-jieli book-secondary">
+        <div class="book-tag tag-jieli">✨ 最新上架</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book5.jpg" alt="《借力》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《借力》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">新書上市 · 搶先體驗</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🌊</span> 借趨勢、借工具、借複利，少做多得</div>
+              <div class="selling-point"><span>🧭</span> 8 章 40 節，每章附自檢清單</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$320</span></span>
+                <span class="price-gem">💎</span> NT$249
+                <span class="discount-badge">78折 (省 $71)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="借力購買連結">
+          <a href="https://readmoo.com/book/210488646000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買借力">Readmoo</a>
+          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買借力">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" target="_blank" rel="noopener" aria-label="在 Kobo 購買借力">Kobo</a>
         </div>
       </article>
     </section>
