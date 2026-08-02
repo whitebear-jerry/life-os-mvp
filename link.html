@@ -1035,8 +1035,22 @@
       transform: translateY(0);
     }
   </style>
-  <!-- 📊 網站數據分析代碼預留佔位 (例如 GoatCounter 或 Cloudflare Web Analytics) -->
-  <!-- <script data-goatcounter="https://YOUR_CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
+  <!-- 📊 Microsoft Clarity 數據分析與熱圖錄影 (含作者本人 noclarity 裝置排除開關) -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
 </head>
 <body class="link-page">
   <main class="link-shell" aria-label="白熊人生攻略連結頁">
@@ -1155,8 +1169,8 @@
         </div>
         <!-- 🛒 行動按鈕移出主圖文區，佔滿卡片寬度，防止在手機或小螢幕擠壓造成換行跑版 -->
         <div class="bundle-links" style="margin-top: 16px;">
-          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'bundle')" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$846)</a>
-          <a href="https://www.pubu.com.tw/combo/676006?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'bundle')" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
+          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '套書')" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$846)</a>
+          <a href="https://www.pubu.com.tw/combo/676006?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '套書')" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
         </div>
       </article>
 
@@ -1188,9 +1202,9 @@
           </div>
         </div>
         <div class="link-actions" aria-label="心富購買連結">
-          <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'xinfu')" aria-label="在 Readmoo 購買心富">Readmoo</a>
-          <a href="https://www.pubu.com.tw/ebook/675997?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'xinfu')" aria-label="在 Pubu 購買心富">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'xinfu')" aria-label="在 Kobo 購買心富">Kobo</a>
+          <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '心富')" aria-label="在 Readmoo 購買心富">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/675997?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '心富')" aria-label="在 Pubu 購買心富">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '心富')" aria-label="在 Kobo 購買心富">Kobo</a>
         </div>
       </article>
 
@@ -1222,9 +1236,9 @@
           </div>
         </div>
         <div class="link-actions" aria-label="人生複利購買連結">
-          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'fuli')" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
-          <a href="https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'fuli')" aria-label="在 Pubu 購買人生複利">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'fuli')" aria-label="在 Kobo 購買人生複利">Kobo</a>
+          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '人生複利')" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '人生複利')" aria-label="在 Pubu 購買人生複利">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '人生複利')" aria-label="在 Kobo 購買人生複利">Kobo</a>
         </div>
       </article>
 
@@ -1256,9 +1270,9 @@
           </div>
         </div>
         <div class="link-actions" aria-label="借力購買連結">
-          <a href="https://readmoo.com/book/210488646000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'jieli')" aria-label="在 Readmoo 購買借力">Readmoo</a>
-          <a href="https://www.pubu.com.tw/ebook/682111?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'jieli')" aria-label="在 Pubu 購買借力">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'jieli')" aria-label="在 Kobo 購買借力">Kobo</a>
+          <a href="https://readmoo.com/book/210488646000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '借力')" aria-label="在 Readmoo 購買借力">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/682111?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '借力')" aria-label="在 Pubu 購買借力">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '借力')" aria-label="在 Kobo 購買借力">Kobo</a>
         </div>
       </article>
 
@@ -1289,9 +1303,9 @@
           </div>
         </div>
         <div class="link-actions" aria-label="降噪人生購買連結">
-          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'noise')" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
-          <a href="https://www.pubu.com.tw/ebook/666582?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'noise')" aria-label="在 Pubu 購買降噪人生">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'noise')" aria-label="在 Kobo 購買降噪人生">Kobo</a>
+          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '降噪人生')" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/666582?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '降噪人生')" aria-label="在 Pubu 購買降噪人生">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '降噪人生')" aria-label="在 Kobo 購買降噪人生">Kobo</a>
         </div>
       </article>
 
@@ -1322,9 +1336,9 @@
           </div>
         </div>
         <div class="link-actions" aria-label="人生遊戲購買連結">
-          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'game')" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
-          <a href="https://www.pubu.com.tw/ebook/650682?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'game')" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'game')" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
+          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '人生遊戲')" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/650682?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '人生遊戲')" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '人生遊戲')" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
         </div>
       </article>
     </section>
@@ -1344,48 +1358,22 @@
   <!-- === 🛠️ 互動邏輯 JavaScript === -->
   <script>
     // ----------------------------------------------------
-    // 0. 流量來源與商店點擊追蹤 (UTM & Store Click Tracking)
+    // 0. 流量來源與商店點擊追蹤 (UTM & Microsoft Clarity Tracking)
     // ----------------------------------------------------
-    (function initUtmTracking() {
+    (function () {
       try {
-        const params = new URLSearchParams(window.location.search);
-        const utmSource = params.get('utm_source');
-        const utmMedium = params.get('utm_medium');
-        const utmCampaign = params.get('utm_campaign');
-        if (utmSource) sessionStorage.setItem('utm_source', utmSource);
-        if (utmMedium) sessionStorage.setItem('utm_medium', utmMedium);
-        if (utmCampaign) sessionStorage.setItem('utm_campaign', utmCampaign);
-      } catch (e) {
-        // Quietly ignore storage errors
-      }
+        var s = new URLSearchParams(location.search).get('utm_source');
+        if (s) sessionStorage.setItem('lifeos_utm', s);
+      } catch (e) {}
     })();
 
     function trackStoreClick(store, book) {
       try {
-        const source = sessionStorage.getItem('utm_source') || 'direct';
-        const path = `click-${store}-${book}-${source}`;
-        
-        // GoatCounter support if script loaded
-        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-          window.goatcounter.count({
-            path: path,
-            title: `Click ${store} - ${book} (${source})`,
-            event: true
-          });
-        }
-        
-        // Generic DataLayer support if loaded
-        if (window.dataLayer && Array.isArray(window.dataLayer)) {
-          window.dataLayer.push({
-            event: 'store_click',
-            store: store,
-            book: book,
-            source: source
-          });
-        }
-      } catch (e) {
-        // Quietly ignore tracking errors so user navigation is never blocked
-      }
+        if (!window.clarity) return;               // 未載入就安靜略過
+        clarity('event', 'click-' + store + '-' + book);
+        var u = sessionStorage.getItem('lifeos_utm');
+        if (u) clarity('set', 'utm_source', u);
+      } catch (e) {}                                // 絕不報錯、絕不阻擋跳轉
     }
 
     // ----------------------------------------------------
