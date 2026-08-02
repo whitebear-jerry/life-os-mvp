@@ -168,6 +168,11 @@
       box-shadow: 0 4px 12px rgba(99, 126, 196, 0.15);
     }
 
+    .book-series .link-actions a {
+      background: #34a89b;
+      box-shadow: 0 4px 12px rgba(52, 168, 155, 0.15);
+    }
+
     .link-actions a:hover {
       filter: brightness(1.12);
       transform: translateY(-3px) scale(1.05);
@@ -192,6 +197,10 @@
 
     .book-jieli .link-actions a:hover {
       box-shadow: 0 8px 24px rgba(99, 126, 196, 0.35);
+    }
+
+    .book-series .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(52, 168, 155, 0.35);
     }
 
     .link-actions a:active {
@@ -358,6 +367,22 @@
       }
     }
 
+    /* 青綠呼吸發光效果 (Readmoo 系列) */
+    @keyframes tealGlow {
+      0% {
+        border-color: rgba(52, 168, 155, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(52, 168, 155, 0.15), inset 0 0 8px rgba(52, 168, 155, 0.05);
+      }
+      50% {
+        border-color: rgba(52, 168, 155, 1);
+        box-shadow: 0 16px 48px rgba(52, 168, 155, 0.06), 0 0 25px rgba(52, 168, 155, 0.45), inset 0 0 15px rgba(52, 168, 155, 0.15);
+      }
+      100% {
+        border-color: rgba(52, 168, 155, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(52, 168, 155, 0.15), inset 0 0 8px rgba(52, 168, 155, 0.05);
+      }
+    }
+
     .link-book.book-fuli {
       border: 1.5px solid rgba(255, 215, 0, 0.6);
       background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
@@ -401,6 +426,17 @@
     }
     .link-book.book-jieli > *:not(.book-tag) { position: relative; z-index: 1; }
 
+    .link-book.book-series {
+      border: 1.5px solid rgba(52, 168, 155, 0.6);
+      background: linear-gradient(135deg, rgba(52, 168, 155, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: tealGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-series:hover {
+      border-color: rgba(52, 168, 155, 0.35);
+      box-shadow: 0 16px 48px rgba(52, 168, 155, 0.06);
+    }
+
     /* 各書標籤配色 */
     .book-tag.tag-game {
       background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
@@ -421,6 +457,11 @@
       background: linear-gradient(135deg, #637ec4 0%, #3b4e8c 100%);
       color: #ffffff;
       box-shadow: 0 4px 10px rgba(99, 126, 196, 0.3), 0 0 8px rgba(99, 126, 196, 0.2);
+    }
+    .book-tag.tag-series {
+      background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);
+      color: #0c1511;
+      box-shadow: 0 4px 10px rgba(45, 212, 191, 0.3), 0 0 8px rgba(45, 212, 191, 0.2);
     }
 
     /* 3. 星等與發光金星 */
@@ -1123,57 +1164,6 @@
 
 
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
-      <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
-      <article class="link-book book-bundle">
-        <div class="book-tag">🔥 限時特惠 51 折</div>
-        <div class="book-card-content">
-          <div class="book-cover-wrapper">
-            <img src="assets/book_bundle.jpg" alt="圖解富足行動四部曲合購套書" class="book-cover" style="filter: brightness(1.05) contrast(1.02);" />
-          </div>
-          <div class="book-info">
-            <h2>【圖解富足行動】四冊特惠包</h2>
-            <div class="book-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-text">限時合購・全套珍藏</span>
-            </div>
-            <div class="book-selling-points">
-              <div class="selling-point"><span>📦</span> 一次帶走複利、遊戲、降噪、心富四冊圖文版</div>
-              <div class="selling-point"><span>⚙️</span> 建立完整富足思考與高效人生作業系統</div>
-            </div>
-            
-            <!-- 🏷️ 整合最佳化價格表（以收據風格，讓價格排版大氣又易讀） -->
-            <div class="book-price" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; border-radius: 10px; padding: 10px 14px; margin: 12px 0 0; width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(216, 180, 254, 0.15);">
-              <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.55); font-weight: bold; letter-spacing: 0.5px;">【合購套書限定特惠】 (原價 NT$1180)</span>
-              
-              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 2px;">
-                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #d8b4fe; text-shadow: 0 0 5px rgba(216, 180, 254, 0.3);">
-                  <span class="price-gem">💎</span> Pubu 電子合輯
-                </span>
-                <span style="display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #4ef072; font-family: monospace; font-size: 0.95rem; text-shadow: 0 0 5px rgba(78, 240, 114, 0.4);">NT$599</strong>
-                  <span class="discount-badge" style="margin-left: 0; background: rgba(239, 68, 68, 0.2); color: #ff6b6b; border: 0.5px solid rgba(239, 68, 68, 0.4);">51折</span>
-                </span>
-              </div>
-              
-              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(216, 180, 254, 0.15);">
-                <span class="price-amount" style="font-size: 0.88rem; display: flex; align-items: center; gap: 4px; font-weight: 800; font-family: monospace; color: #d8b4fe; text-shadow: 0 0 5px rgba(216, 180, 254, 0.3);">
-                  <span class="price-gem">💎</span> Readmoo 電子合購
-                </span>
-                <span style="display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #4ef072; font-family: monospace; font-size: 0.95rem; text-shadow: 0 0 5px rgba(78, 240, 114, 0.4);">NT$846</strong>
-                  <span class="discount-badge" style="margin-left: 0; background: rgba(239, 68, 68, 0.2); color: #ff6b6b; border: 0.5px solid rgba(239, 68, 68, 0.4);">72折</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 🛒 行動按鈕移出主圖文區，佔滿卡片寬度，防止在手機或小螢幕擠壓造成換行跑版 -->
-        <div class="bundle-links" style="margin-top: 16px;">
-          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '套書')" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$846)</a>
-          <a href="https://www.pubu.com.tw/combo/676006?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '套書')" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
-        </div>
-      </article>
-
       <!-- 📘 《心富》次要書卡 -->
       <article class="link-book book-xinfu book-secondary">
         <div class="book-tag tag-xinfu">🔥 近期最熱</div>
@@ -1341,7 +1331,63 @@
           <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '人生遊戲')" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
         </div>
       </article>
-    </section>
+
+      <!-- 🎁 Pubu 合購包 (真優惠) -->
+      <article class="link-book book-bundle">
+        <div class="book-tag">🔥 最高省 $247</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book_bundle.jpg" alt="【圖解富足行動】合購包" class="book-cover" style="filter: brightness(1.05) contrast(1.02);" />
+          </div>
+          <div class="book-info">
+            <h2>【圖解富足行動】合購包</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">Pubu 限定・買越多省越多</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>📦</span> 三部曲（複利・遊戲・降噪）NT$499 ─ 省 $118</div>
+              <div class="selling-point"><span>📚</span> 四部曲（再加《心富》）NT$599 ─ 省 $247</div>
+            </div>
+          </div>
+        </div>
+        <div class="bundle-links" style="margin-top: 16px;">
+          <a href="https://www.pubu.com.tw/combo/13-675096?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '三部曲')" aria-label="在 Pubu 購買三部曲合購包">三部曲 NT$499</a>
+          <a href="https://www.pubu.com.tw/combo/676006?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '四部曲')" aria-label="在 Pubu 購買四部曲合輯">四部曲 NT$599</a>
+        </div>
+      </article>
+
+      <!-- 📚 Readmoo 全系列 (一鍵收齊) -->
+      <article class="link-book book-series">
+        <div class="book-tag tag-series">📚 全 5 冊</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book_bundle.jpg" alt="人生遊戲攻略系列" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>人生遊戲攻略・全系列</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">系列 10 人評分・5 星</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🛒</span> 一鍵把 5 冊全加入購物車，不漏書</div>
+              <div class="selling-point"><span>✨</span> 已含最新《借力》</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">系列售價</span>
+              <span class="price-amount">
+                <span class="price-gem">💎</span> NT$1,095
+                <span class="price-original">（5 冊合計）</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="Readmoo 系列連結">
+          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '系列')" aria-label="在 Readmoo 查看人生遊戲攻略全系列">Readmoo 全系列</a>
+        </div>
+      </article>
+</section>
 
     <!-- === 🔗 社群連結與頁尾 === -->
     <div class="social-links-area">
