@@ -168,7 +168,15 @@
       box-shadow: 0 4px 12px rgba(99, 126, 196, 0.15);
     }
 
+    .book-series .link-actions {
+      display: block;
+      margin-top: 16px;
+    }
+
     .book-series .link-actions a {
+      width: 100%;
+      min-height: 52px;
+      font-size: 1.05rem;
       background: #34a89b;
       box-shadow: 0 4px 12px rgba(52, 168, 155, 0.15);
     }
@@ -1019,7 +1027,8 @@
         gap: 16px;
         margin-top: 24px !important;
       }
-      .book-bundle {
+      .book-bundle,
+      .book-series {
         grid-column: 1 / -1;
       }
       .social-links-area {
@@ -1028,7 +1037,8 @@
     }
 
     /* Bundle Cover Landscape Override (4:3 aspect ratio) */
-    .book-bundle .book-cover-wrapper {
+    .book-bundle .book-cover-wrapper,
+    .book-series .book-cover-wrapper {
       width: 120px;
       height: 90px;
       border: 1px solid rgba(255, 255, 255, 0.15);
