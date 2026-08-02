@@ -399,7 +399,7 @@
       pointer-events: none;
       z-index: 0;
     }
-    .link-book.book-jieli > * { position: relative; z-index: 1; }
+    .link-book.book-jieli > *:not(.book-tag) { position: relative; z-index: 1; }
 
     /* 各書標籤配色 */
     .book-tag.tag-game {
@@ -1035,6 +1035,8 @@
       transform: translateY(0);
     }
   </style>
+  <!-- 📊 網站數據分析代碼預留佔位 (例如 GoatCounter 或 Cloudflare Web Analytics) -->
+  <!-- <script data-goatcounter="https://YOUR_CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
 </head>
 <body class="link-page">
   <main class="link-shell" aria-label="白熊人生攻略連結頁">
@@ -1153,113 +1155,14 @@
         </div>
         <!-- 🛒 行動按鈕移出主圖文區，佔滿卡片寬度，防止在手機或小螢幕擠壓造成換行跑版 -->
         <div class="bundle-links" style="margin-top: 16px;">
-          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$846)</a>
-          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
-        </div>
-      </article>
-      <!-- 📘 《人生複利》次要書卡 -->
-      <article class="link-book book-fuli book-secondary">
-        <div class="book-tag">🔥 最多冒險者解鎖</div>
-        <div class="book-card-content">
-          <div class="book-cover-wrapper">
-            <img src="assets/book1.jpg" alt="《人生複利》書封" class="book-cover" />
-          </div>
-          <div class="book-info">
-            <h2>《人生複利》</h2>
-            <div class="book-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-text">6 位冒險者 · 5 篇書評</span>
-            </div>
-            <div class="book-selling-points">
-              <div class="selling-point"><span>📈</span> 每天進步 1%，一年強大 37 倍</div>
-              <div class="selling-point"><span>🧠</span> 45 個覺醒練習，重設大腦關鍵字</div>
-            </div>
-            <div class="book-price">
-              <span class="price-label">特惠價</span>
-              <span class="price-amount">
-                <span class="price-original">原價 <span class="price-original-cross">NT$220</span></span>
-                <span class="price-gem">💎</span> NT$149
-                <span class="discount-badge">67折 (省 $71)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="link-actions" aria-label="人生複利購買連結">
-          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
-          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生複利">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生複利">Kobo</a>
-        </div>
-      </article>
-
-      <article class="link-book book-game book-secondary">
-        <div class="book-tag tag-game">👾 逆境除錯指南</div>
-        <div class="book-card-content">
-          <div class="book-cover-wrapper">
-            <img src="assets/book2.jpg" alt="《人生遊戲》書封" class="book-cover" />
-          </div>
-          <div class="book-info">
-            <h2>《人生遊戲》</h2>
-            <div class="book-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-text">4 位冒險者 · 2 篇書評</span>
-            </div>
-            <div class="book-selling-points">
-              <div class="selling-point"><span>👾</span> 把逆境當 BUG，學會幫人生除錯</div>
-              <div class="selling-point"><span>🎭</span> 砍掉 80% 內心小劇場</div>
-            </div>
-            <div class="book-price">
-              <span class="price-label">特惠價</span>
-              <span class="price-amount">
-                <span class="price-original">原價 <span class="price-original-cross">NT$280</span></span>
-                <span class="price-gem">💎</span> NT$199
-                <span class="discount-badge">71折 (省 $81)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="link-actions" aria-label="人生遊戲購買連結">
-          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
-          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
-        </div>
-      </article>
-
-      <article class="link-book book-noise book-secondary">
-        <div class="book-tag tag-noise">🔌 大腦卸載指南</div>
-        <div class="book-card-content">
-          <div class="book-cover-wrapper">
-            <img src="assets/book3.jpg" alt="《降噪人生》書封" class="book-cover" />
-          </div>
-          <div class="book-info">
-            <h2>《降噪人生》</h2>
-            <div class="book-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-text">5 位冒險者 · 3 篇書評</span>
-            </div>
-            <div class="book-selling-points">
-              <div class="selling-point"><span>🔌</span> 大腦太吵？幫它裝一顆第二大腦</div>
-              <div class="selling-point"><span>🧘</span> 從焦慮過載到無壓力富足</div>
-            </div>
-            <div class="book-price">
-              <span class="price-label">特惠價</span>
-              <span class="price-amount">
-                <span class="price-original">原價 <span class="price-original-cross">NT$360</span></span>
-                <span class="price-gem">💎</span> NT$269
-                <span class="discount-badge">74折 (省 $91)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="link-actions" aria-label="降噪人生購買連結">
-          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
-          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買降噪人生">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" aria-label="在 Kobo 購買降噪人生">Kobo</a>
+          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'bundle')" aria-label="在 Readmoo 購買四冊合購套書">Readmoo 合購 (NT$846)</a>
+          <a href="https://www.pubu.com.tw/combo/676006?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'bundle')" aria-label="在 Pubu 購買四冊合購套書">Pubu 合輯 (NT$599)</a>
         </div>
       </article>
 
       <!-- 📘 《心富》次要書卡 -->
       <article class="link-book book-xinfu book-secondary">
-        <div class="book-tag tag-xinfu">🪙 顧好心錢自來</div>
+        <div class="book-tag tag-xinfu">🔥 近期最熱</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book4.jpg" alt="《心富》書封" class="book-cover" />
@@ -1285,9 +1188,43 @@
           </div>
         </div>
         <div class="link-actions" aria-label="心富購買連結">
-          <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買心富">Readmoo</a>
-          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買心富">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" aria-label="在 Kobo 購買心富">Kobo</a>
+          <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'xinfu')" aria-label="在 Readmoo 購買心富">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/675997?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'xinfu')" aria-label="在 Pubu 購買心富">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'xinfu')" aria-label="在 Kobo 購買心富">Kobo</a>
+        </div>
+      </article>
+
+      <!-- 📘 《人生複利》次要書卡 -->
+      <article class="link-book book-fuli book-secondary">
+        <div class="book-tag">🏅 最多冒險者解鎖</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book1.jpg" alt="《人生複利》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《人生複利》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">6 位冒險者 · 5 篇書評</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>📈</span> 每天進步 1%，一年強大 37 倍</div>
+              <div class="selling-point"><span>🧠</span> 45 個覺醒練習，重設大腦關鍵字</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$220</span></span>
+                <span class="price-gem">💎</span> NT$149
+                <span class="discount-badge">67折 (省 $71)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="人生複利購買連結">
+          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'fuli')" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'fuli')" aria-label="在 Pubu 購買人生複利">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'fuli')" aria-label="在 Kobo 購買人生複利">Kobo</a>
         </div>
       </article>
 
@@ -1319,9 +1256,75 @@
           </div>
         </div>
         <div class="link-actions" aria-label="借力購買連結">
-          <a href="https://readmoo.com/book/210488646000101" target="_blank" rel="noopener" aria-label="在 Readmoo 購買借力">Readmoo</a>
-          <a href="https://www.pubu.com.tw/store/5265673?apKey=e08e864a73" target="_blank" rel="noopener" aria-label="在 Pubu 購買借力">Pubu</a>
-          <a href="https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" target="_blank" rel="noopener" aria-label="在 Kobo 購買借力">Kobo</a>
+          <a href="https://readmoo.com/book/210488646000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'jieli')" aria-label="在 Readmoo 購買借力">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/682111?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'jieli')" aria-label="在 Pubu 購買借力">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'jieli')" aria-label="在 Kobo 購買借力">Kobo</a>
+        </div>
+      </article>
+
+      <article class="link-book book-noise book-secondary">
+        <div class="book-tag tag-noise">🔌 大腦卸載指南</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book3.jpg" alt="《降噪人生》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《降噪人生》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">5 位冒險者 · 3 篇書評</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🔌</span> 大腦太吵？幫它裝一顆第二大腦</div>
+              <div class="selling-point"><span>🧘</span> 從焦慮過載到無壓力富足</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$360</span></span>
+                <span class="price-gem">💎</span> NT$269
+                <span class="discount-badge">74折 (省 $91)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="降噪人生購買連結">
+          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'noise')" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/666582?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'noise')" aria-label="在 Pubu 購買降噪人生">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'noise')" aria-label="在 Kobo 購買降噪人生">Kobo</a>
+        </div>
+      </article>
+
+      <article class="link-book book-game book-secondary">
+        <div class="book-tag tag-game">👾 逆境除錯指南</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book2.jpg" alt="《人生遊戲》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《人生遊戲》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">4 位冒險者 · 2 篇書評</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>👾</span> 把逆境當 BUG，學會幫人生除錯</div>
+              <div class="selling-point"><span>🎭</span> 砍掉 80% 內心小劇場</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$280</span></span>
+                <span class="price-gem">💎</span> NT$199
+                <span class="discount-badge">71折 (省 $81)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="人生遊戲購買連結">
+          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', 'game')" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/650682?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', 'game')" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', 'game')" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
         </div>
       </article>
     </section>
@@ -1340,6 +1343,51 @@
 
   <!-- === 🛠️ 互動邏輯 JavaScript === -->
   <script>
+    // ----------------------------------------------------
+    // 0. 流量來源與商店點擊追蹤 (UTM & Store Click Tracking)
+    // ----------------------------------------------------
+    (function initUtmTracking() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const utmSource = params.get('utm_source');
+        const utmMedium = params.get('utm_medium');
+        const utmCampaign = params.get('utm_campaign');
+        if (utmSource) sessionStorage.setItem('utm_source', utmSource);
+        if (utmMedium) sessionStorage.setItem('utm_medium', utmMedium);
+        if (utmCampaign) sessionStorage.setItem('utm_campaign', utmCampaign);
+      } catch (e) {
+        // Quietly ignore storage errors
+      }
+    })();
+
+    function trackStoreClick(store, book) {
+      try {
+        const source = sessionStorage.getItem('utm_source') || 'direct';
+        const path = `click-${store}-${book}-${source}`;
+        
+        // GoatCounter support if script loaded
+        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+          window.goatcounter.count({
+            path: path,
+            title: `Click ${store} - ${book} (${source})`,
+            event: true
+          });
+        }
+        
+        // Generic DataLayer support if loaded
+        if (window.dataLayer && Array.isArray(window.dataLayer)) {
+          window.dataLayer.push({
+            event: 'store_click',
+            store: store,
+            book: book,
+            source: source
+          });
+        }
+      } catch (e) {
+        // Quietly ignore tracking errors so user navigation is never blocked
+      }
+    }
+
     // ----------------------------------------------------
     // 1. 書籍橫幅輪播 (Carousel)
     // ----------------------------------------------------
