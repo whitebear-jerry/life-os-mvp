@@ -560,27 +560,27 @@
       const bookName = document.getElementById("rec-book-name");
       const bookReason = document.getElementById("rec-book-reason");
 
-      if (totalChecked <= 3) {
+      if (totalChecked <= 4) {
         levelEl.innerText = "Lv 1: 純體力挑水者";
         levelEl.style.color = "var(--gold)";
-        diagTitle.innerText = "白熊警示：小心手停口停";
-        diagDesc.innerText = "你絕大部分收益仍來自於肉身工時。只要停止工作，水庫就停止進水。當前首要目標是將高頻繁瑣任務外包給 AI 工具與建立定期定額水庫。";
+        diagTitle.innerText = "白熊警示：告別手停口停";
+        diagDesc.innerText = "你絕大部分收益仍來自於肉身工時。只要停止工作，水庫就停止進水。當前首要任務是學會借力思維，將高頻繁瑣任務外包給 AI 工具與建立定期定額水庫，打造自動化打水系統。";
         bookName.innerText = "《借力》";
-        bookReason.innerText = "少做多得的不費力人生：教你把時間買回來，組裝自動化水管。";
-      } else if (totalChecked <= 6) {
+        bookReason.innerText = "告別手停口停，打造自動化打水系統。";
+      } else if (totalChecked <= 7) {
         levelEl.innerText = "Lv 2: 齒輪組裝工";
         levelEl.style.color = "var(--primary)";
-        diagTitle.innerText = "白熊鼓勵：已建立初步自動化管道";
-        diagDesc.innerText = "你已經掌握了部分工具或投資槓桿，但可能缺乏零邊際成本的數位資產（如長青內容或數位產品）。只要打通第二槓桿，系統就能產生質變！";
+        diagTitle.innerText = "白熊鼓勵：組裝破關商業閉環";
+        diagDesc.innerText = "你已經掌握了部分工具或投資槓桿，但需要進一步將個人技能組裝成零邊際成本的數位資產與商業閉環，把日常挫折改寫為升級經驗值。";
         bookName.innerText = "《人生遊戲》";
-        bookReason.innerText = "將真實人生當作破關系統：打造你的高價值角色與商業副業。";
+        bookReason.innerText = "將技能組裝成破關商業閉環，化挫折為經驗值。";
       } else {
         levelEl.innerText = "Lv 3: 自動水庫架構師";
         levelEl.style.color = "var(--emerald)";
         diagTitle.innerText = "白熊讚許：自動打水系統運轉成熟";
-        diagDesc.innerText = "太棒了！你的時間、資產與內容已形成強大的正向飛輪。你正在享受「少做多得、睡後進水」的富足人生境界。";
+        diagDesc.innerText = "太棒了！你的時間、資產與內容已形成強大的正向飛輪。你正在享受「少做多得、睡後進水」的長期複利滾雪球境界。";
         bookName.innerText = "《人生複利》";
-        bookReason.innerText = "白熊富足演算法巔峰之作：讓資產與人生複利持續滾雪球。";
+        bookReason.innerText = "飛輪成熟運轉，享受長期複利滾雪球。";
       }
 
       // 更新柱狀圖
