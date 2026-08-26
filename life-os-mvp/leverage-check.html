@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>白熊少做多得檢測表｜自動打水系統成熟度評估</title>
+  <meta name="description" content="檢測你的個人打水槓桿指數：從借工具自動化、借趨勢槓桿到借複利資產，擺脫用時間換薪水的挑水循環。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(20, 27, 45, 0.75);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --emerald: #34d399;
+      --emerald-glow: rgba(52, 211, 153, 0.25);
+      --gold: #fbbf24;
+      --gold-glow: rgba(251, 191, 36, 0.25);
+      --purple: #c084fc;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(52, 211, 153, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+      color: var(--text);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-top: 12px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      color: var(--emerald);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 30%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 860px) {
+      .grid-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+    }
+
+    .category-group {
+      margin-bottom: 24px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .check-item:hover {
+      border-color: rgba(52, 211, 153, 0.3);
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .check-item.checked {
+      background: rgba(52, 211, 153, 0.08);
+      border-color: rgba(52, 211, 153, 0.4);
+    }
+
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .check-item.checked .custom-checkbox {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald-glow);
+    }
+
+    .custom-checkbox::after {
+      content: "✓";
+      color: #090d16;
+      font-size: 13px;
+      font-weight: 900;
+      display: none;
+    }
+
+    .check-item.checked .custom-checkbox::after {
+      display: block;
+    }
+
+    .check-text-wrap {
+      flex: 1;
+    }
+
+    .check-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 2px;
+    }
+
+    .check-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .sticky-panel {
+      position: sticky;
+      top: 24px;
+    }
+
+    .level-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .level-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .level-title {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--emerald);
+      margin-bottom: 6px;
+    }
+
+    .score-metric {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 220px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .diagnosis-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-top: 20px;
+    }
+
+    .diagnosis-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .bear-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--emerald);
+      color: #090d16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 16px var(--emerald-glow);
+      flex-shrink: 0;
+    }
+
+    .diagnosis-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .diagnosis-desc {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .book-rec-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .book-rec-icon {
+      font-size: 1.8rem;
+    }
+
+    .book-rec-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .book-rec-reason {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #34d399 0%, #38bdf8 100%);
+      color: #090d16;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(52, 211, 153, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(52, 211, 153, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-pill">⚙️ 槓桿思維 × 自動打水</div>
+      <h1>少做多得・自動打水系統成熟度檢測</h1>
+      <p class="subtitle">從「純體力挑水者」到「自動水庫架構師」：檢測你在工具、趨勢與資產三大維度的槓桿覆蓋率。</p>
+    </header>
+
+    <div class="grid-layout">
+      <!-- 左側：9條檢核清單 -->
+      <div class="card">
+        <h2>🛠️ 自動化打水 9 條檢核點</h2>
+        
+        <div class="category-group">
+          <div class="category-header"><span>🤖 維度一：借工具自動化（買回個人時間）</span></div>
+          <div id="group-tools"></div>
+        </div>
+
+        <div class="category-group">
+          <div class="category-header"><span>🚀 維度二：借趨勢槓桿（高邊際效益與個人 IP）</span></div>
+          <div id="group-trends"></div>
+        </div>
+
+        <div class="category-group">
+          <div class="category-header"><span>📈 維度三：借複利資產（水庫投資與被動現金流）</span></div>
+          <div id="group-assets"></div>
+        </div>
+      </div>
+
+      <!-- 右側：等級指標與雷達圖 -->
+      <div class="sticky-panel">
+        <div class="card">
+          <div class="level-banner">
+            <div class="level-label">當前打水系統成熟度</div>
+            <div class="level-title" id="level-name">純體力挑水者</div>
+            <div class="score-metric" id="score-metric">系統成熟度：0%（0/9 項完成）</div>
+          </div>
+
+          <div class="chart-box">
+            <canvas id="leverageChart"></canvas>
+          </div>
+
+          <div class="diagnosis-card">
+            <div class="diagnosis-header">
+              <div class="bear-badge">🐻</div>
+              <div>
+                <div class="diagnosis-title" id="diag-title">白熊槓桿處方</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">少做多得系統升級指引</div>
+              </div>
+            </div>
+            <p class="diagnosis-desc" id="diag-desc">
+              你目前處於純時間換金錢階段，手停口停。第一步請先從「最耗時的 1 個日常重複工作」開始引入自動化腳本或 AI 輔助！
+            </p>
+
+            <div class="book-rec-box">
+              <div class="book-rec-icon">📖</div>
+              <div>
+                <div class="book-rec-name" id="rec-book-name">《借力》</div>
+                <div class="book-rec-reason" id="rec-book-reason">少做多得的思維底層：如何打造不費力的自動打水系統。</div>
+              </div>
+            </div>
+
+            <a href="link.html" class="cta-btn" id="cta-link">
+              <span>解鎖白熊自動打水架構全集</span>
+              <span>➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      // Tools (維度一)
+      { id: 1, cat: "tools", title: "重複性工作 SOP 化與範本化", desc: "日常例行事務已拆解成標準步驟或常用 Template，不再每次重新思考。" },
+      { id: 2, cat: "tools", title: "AI 與無代碼工具深度融入工作流", desc: "主動使用 AI (如 ChatGPT/Claude/自動化腳本) 協助處理繁雜撰寫、整理與排版。" },
+      { id: 3, cat: "tools", title: "低價值瑣事主動外包或委派", desc: "懂得用金錢購買他人的時間（如外包修圖、會計、清潔），將精力留給高回報核心。" },
+
+      // Trends (維度二)
+      { id: 4, cat: "trends", title: "具備「邊際成本趨近於零」的產出", desc: "擁有一次製作、可無限複製銷售或傳播的數位載體（如電子書、代碼庫、影音內容）。" },
+      { id: 5, cat: "trends", title: "長青搜尋資產建立（Evergreen SEO）", desc: "不依賴天天發動態求流量，而是靠搜尋關鍵字、文章或 YouTube 帶來持續被動曝光。" },
+      { id: 6, cat: "trends", title: "個人品牌或專業信任護城河", desc: "在特定利基領域擁有不可替代的信用累積，形成自帶引力的專屬流量池。" },
+
+      // Assets (維度三)
+      { id: 7, cat: "assets", title: "設定自動化定期定額投資", desc: "每月薪資入帳當天，系統自動扣款買入全球/大盤指數 ETF，無需人工擇時操作。" },
+      { id: 8, cat: "assets", title: "清晰的 80/15/5 水庫資產配置", desc: "清楚劃分成長水庫 (80%)、安全防護水庫 (15%) 與流動備用金 (5%)，不因恐慌隨意砍倉。" },
+      { id: 9, cat: "assets", title: "每年 4% 自動打水現金流預期", desc: "清楚計算出自身 FIRE 自動打水數字，讓複利孳息持續覆蓋部分或全部生活基本開銷。" }
+    ];
+
+    let state = {};
+    items.forEach(item => state[item.id] = false);
+
+    function renderChecklist() {
+      const gTools = document.getElementById("group-tools");
+      const gTrends = document.getElementById("group-trends");
+      const gAssets = document.getElementById("group-assets");
+
+      items.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "check-item";
+        el.id = `item-${item.id}`;
+        el.onclick = () => toggleCheck(item.id);
+        el.innerHTML = `
+          <div class="custom-checkbox"></div>
+          <div class="check-text-wrap">
+            <div class="check-title">${item.title}</div>
+            <div class="check-desc">${item.desc}</div>
+          </div>
+        `;
+        if (item.cat === "tools") gTools.appendChild(el);
+        else if (item.cat === "trends") gTrends.appendChild(el);
+        else gAssets.appendChild(el);
+      });
+    }
+
+    function toggleCheck(id) {
+      state[id] = !state[id];
+      const el = document.getElementById(`item-${id}`);
+      el.classList.toggle("checked", state[id]);
+      updateDashboard();
+    }
+
+    let barChart;
+    function initChart() {
+      const ctx = document.getElementById("leverageChart").getContext("2d");
+      barChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["借工具自動化", "借趨勢槓桿", "借複利資產"],
+          datasets: [{
+            label: "維度成熟度 (%)",
+            data: [0, 0, 0],
+            backgroundColor: [
+              "rgba(56, 189, 248, 0.4)",
+              "rgba(192, 132, 252, 0.4)",
+              "rgba(52, 211, 153, 0.4)"
+            ],
+            borderColor: [
+              "#38bdf8",
+              "#c084fc",
+              "#34d399"
+            ],
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              grid: { color: "rgba(255, 255, 255, 0.08)" },
+              ticks: { color: "#94a3b8", callback: (val) => val + "%" }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: "#cbd5e1", font: { weight: "600" } }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    function updateDashboard() {
+      const toolsCount = [1, 2, 3].filter(id => state[id]).length;
+      const trendsCount = [4, 5, 6].filter(id => state[id]).length;
+      const assetsCount = [7, 8, 9].filter(id => state[id]).length;
+      const totalChecked = toolsCount + trendsCount + assetsCount;
+
+      const toolsPct = Math.round((toolsCount / 3) * 100);
+      const trendsPct = Math.round((trendsCount / 3) * 100);
+      const assetsPct = Math.round((assetsCount / 3) * 100);
+      const totalPct = Math.round((totalChecked / 9) * 100);
+
+      // 更新等級標題與百分比
+      const levelEl = document.getElementById("level-name");
+      const metricEl = document.getElementById("score-metric");
+      metricEl.innerText = `系統成熟度：${totalPct}%（${totalChecked}/9 項完成）`;
+
+      const diagTitle = document.getElementById("diag-title");
+      const diagDesc = document.getElementById("diag-desc");
+      const bookName = document.getElementById("rec-book-name");
+      const bookReason = document.getElementById("rec-book-reason");
+
+      if (totalChecked <= 3) {
+        levelEl.innerText = "Lv 1: 純體力挑水者";
+        levelEl.style.color = "var(--gold)";
+        diagTitle.innerText = "白熊警示：小心手停口停";
+        diagDesc.innerText = "你絕大部分收益仍來自於肉身工時。只要停止工作，水庫就停止進水。當前首要目標是將高頻繁瑣任務外包給 AI 工具與建立定期定額水庫。";
+        bookName.innerText = "《借力》";
+        bookReason.innerText = "少做多得的不費力人生：教你把時間買回來，組裝自動化水管。";
+      } else if (totalChecked <= 6) {
+        levelEl.innerText = "Lv 2: 齒輪組裝工";
+        levelEl.style.color = "var(--primary)";
+        diagTitle.innerText = "白熊鼓勵：已建立初步自動化管道";
+        diagDesc.innerText = "你已經掌握了部分工具或投資槓桿，但可能缺乏零邊際成本的數位資產（如長青內容或數位產品）。只要打通第二槓桿，系統就能產生質變！";
+        bookName.innerText = "《人生遊戲》";
+        bookReason.innerText = "將真實人生當作破關系統：打造你的高價值角色與商業副業。";
+      } else {
+        levelEl.innerText = "Lv 3: 自動水庫架構師";
+        levelEl.style.color = "var(--emerald)";
+        diagTitle.innerText = "白熊讚許：自動打水系統運轉成熟";
+        diagDesc.innerText = "太棒了！你的時間、資產與內容已形成強大的正向飛輪。你正在享受「少做多得、睡後進水」的富足人生境界。";
+        bookName.innerText = "《人生複利》";
+        bookReason.innerText = "白熊富足演算法巔峰之作：讓資產與人生複利持續滾雪球。";
+      }
+
+      // 更新柱狀圖
+      barChart.data.datasets[0].data = [toolsPct, trendsPct, assetsPct];
+      barChart.update();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderChecklist();
+      initChart();
+      updateDashboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>白熊心智降噪評估表｜精神內耗與能量漏水自測</title>
+  <meta name="description" content="10題深度檢測你的心智、時間、情緒與注意力漏水程度，立即產出專屬能量雷達圖與白熊降噪處方箋。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(20, 27, 45, 0.75);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --purple: #a855f7;
+      --purple-glow: rgba(168, 85, 247, 0.25);
+      --rose: #f43f5e;
+      --gold: #fbbf24;
+      --emerald: #34d399;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+      color: var(--text);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-top: 12px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #c084fc;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 30%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 860px) {
+      .grid-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+    }
+
+    .question-item {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .question-item:hover {
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+
+    .question-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .tag-time { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
+    .tag-attention { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .tag-emotion { background: rgba(244, 63, 94, 0.15); color: var(--rose); }
+    .tag-decision { background: rgba(251, 191, 36, 0.15); color: var(--gold); }
+
+    .question-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 12px;
+    }
+
+    .rating-options {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .rating-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-muted);
+      padding: 8px 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .rating-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    .rating-btn.active {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      border-color: #c084fc;
+      color: #ffffff;
+      box-shadow: 0 0 12px var(--purple-glow);
+    }
+
+    .rating-scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+
+    .sticky-panel {
+      position: sticky;
+      top: 24px;
+    }
+
+    .score-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .score-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .score-number {
+      font-family: "Outfit", sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .score-state {
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 240px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .dimension-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .dim-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+    }
+
+    .progress-bar-bg {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .diagnosis-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-top: 20px;
+    }
+
+    .diagnosis-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .bear-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 16px var(--purple-glow);
+      flex-shrink: 0;
+    }
+
+    .diagnosis-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .diagnosis-desc {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .book-rec-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .book-rec-icon {
+      font-size: 1.8rem;
+    }
+
+    .book-rec-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .book-rec-reason {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #a855f7 0%, #38bdf8 100%);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(168, 85, 247, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-pill">🧠 心智除噪 × 能量防護</div>
+      <h1>精神內耗與能量漏水自測</h1>
+      <p class="subtitle">花 2 分鐘回答 10 個生活微習慣，即時檢視時間、注意力、情緒與財務的隱形消耗。</p>
+    </header>
+
+    <div class="grid-layout">
+      <div class="card">
+        <h2>📋 能量漏水檢測清單</h2>
+        <div id="questions-container"></div>
+      </div>
+
+      <div class="sticky-panel">
+        <div class="card">
+          <div class="score-banner">
+            <div class="score-label">目前心智內耗指數</div>
+            <div class="score-number" id="total-score" style="color: var(--emerald);">20</div>
+            <span class="score-state" id="score-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--emerald);">能量充沛・清爽平靜</span>
+          </div>
+
+          <div class="chart-box">
+            <canvas id="leakageChart"></canvas>
+          </div>
+
+          <div class="dimension-progress" id="dimension-bars"></div>
+
+          <div class="diagnosis-card">
+            <div class="diagnosis-header">
+              <div class="bear-badge">🐻</div>
+              <div>
+                <div class="diagnosis-title" id="diag-title">白熊降噪處方</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">專屬能量修復建議</div>
+              </div>
+            </div>
+            <p class="diagnosis-desc" id="diag-desc">
+              你的心智防火牆非常穩健！日常多數能量都聚焦在核心產出上。請持續保持定期斷捨離與清空暫存區的好習慣。
+            </p>
+
+            <div class="book-rec-box">
+              <div class="book-rec-icon">📖</div>
+              <div>
+                <div class="book-rec-name" id="rec-book-name">《降噪人生》</div>
+                <div class="book-rec-reason" id="rec-book-reason">建立專屬心智防火牆，從此不再被瑣事與焦慮綁架。</div>
+              </div>
+            </div>
+
+            <a href="link.html" class="cta-btn" id="cta-link">
+              <span>獲取完整降噪演算法指南</span>
+              <span>➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { id: 1, dim: "attention", tag: "注意力", text: "工作中只要手機跳出通知或訊息，就會忍不住立刻點開查看。" },
+      { id: 2, dim: "attention", tag: "注意力", text: "經常在多個分頁、通訊軟體與任務間頻繁切換，感覺整天忙碌卻沒產出。" },
+      { id: 3, dim: "time", tag: "時間", text: "習慣把行事曆塞滿，難以對不重要或無效的社交邀約說「不」。" },
+      { id: 4, dim: "time", tag: "時間", text: "總在重要工作前拖延或反芻細節，導致深夜在焦慮中趕工。" },
+      { id: 5, dim: "emotion", tag: "情緒", text: "非常在意他人的評價或眼神，容易在對話結束後反覆猜想自己是否說錯話。" },
+      { id: 6, dim: "emotion", tag: "情緒", text: "看到社群上別人的高光生活容易產生 FOMO（錯失焦慮）或自我懷疑。" },
+      { id: 7, dim: "decision", tag: "決策/財務", text: "在疲憊或壓力大時，容易用「情緒性網購/吃大餐」來補償自己。" },
+      { id: 8, dim: "decision", tag: "決策/財務", text: "面臨日常小選擇（如吃什麼、買哪個牌子）常耗費過多時間與心力猶豫不決。" },
+      { id: 9, dim: "attention", tag: "注意力", text: "睡前習慣長時間刷短影音或社群動態，難以讓大腦真正關機。" },
+      { id: 10, dim: "emotion", tag: "情緒", text: "經常感到「必須討好所有人」的隱形壓力，不自覺承擔了他人的情緒責任。" }
+    ];
+
+    let answers = {};
+    questions.forEach(q => answers[q.id] = 1);
+
+    function renderQuestions() {
+      const container = document.getElementById("questions-container");
+      container.innerHTML = questions.map((q, idx) => `
+        <div class="question-item">
+          <span class="question-tag tag-${q.dim}">${q.tag}</span>
+          <div class="question-title">${idx + 1}. ${q.text}</div>
+          <div class="rating-options" data-qid="${q.id}">
+            ${[1, 2, 3, 4, 5].map(val => `
+              <button type="button" class="rating-btn ${answers[q.id] === val ? "active" : ""}" onclick="selectRating(${q.id}, ${val})">
+                ${val}分
+              </button>
+            `).join("")}
+          </div>
+          <div class="rating-scale-labels">
+            <span>完全不符合</span>
+            <span>非常符合</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function selectRating(qid, val) {
+      answers[qid] = val;
+      const opts = document.querySelectorAll(`[data-qid="${qid}"] .rating-btn`);
+      opts.forEach((btn, i) => {
+        btn.classList.toggle("active", (i + 1) === val);
+      });
+      updateCalculations();
+    }
+
+    let radarChart;
+    function initChart() {
+      const ctx = document.getElementById("leakageChart").getContext("2d");
+      radarChart = new Chart(ctx, {
+        type: "radar",
+        data: {
+          labels: ["注意力漏水", "時間黑洞", "情緒消耗", "決策疲勞"],
+          datasets: [{
+            label: "當前漏水指數",
+            data: [20, 20, 20, 20],
+            backgroundColor: "rgba(168, 85, 247, 0.25)",
+            borderColor: "#c084fc",
+            pointBackgroundColor: "#38bdf8",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "#38bdf8",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: "rgba(255, 255, 255, 0.08)" },
+              grid: { color: "rgba(255, 255, 255, 0.08)" },
+              pointLabels: {
+                color: "#cbd5e1",
+                font: { size: 12, family: "Plus Jakarta Sans", weight: "600" }
+              },
+              ticks: { display: false, min: 0, max: 100 }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    function updateCalculations() {
+      const dims = { attention: [], time: [], emotion: [], decision: [] };
+      questions.forEach(q => {
+        dims[q.dim].push(answers[q.id]);
+      });
+
+      const dimScores = {
+        attention: Math.round(((dims.attention.reduce((a, b) => a + b, 0) / dims.attention.length) - 1) / 4 * 100),
+        time: Math.round(((dims.time.reduce((a, b) => a + b, 0) / dims.time.length) - 1) / 4 * 100),
+        emotion: Math.round(((dims.emotion.reduce((a, b) => a + b, 0) / dims.emotion.length) - 1) / 4 * 100),
+        decision: Math.round(((dims.decision.reduce((a, b) => a + b, 0) / dims.decision.length) - 1) / 4 * 100)
+      };
+
+      const totalScore = Math.round((dimScores.attention + dimScores.time + dimScores.emotion + dimScores.decision) / 4);
+
+      const scoreEl = document.getElementById("total-score");
+      const badgeEl = document.getElementById("score-badge");
+      scoreEl.innerText = totalScore;
+
+      if (totalScore <= 30) {
+        scoreEl.style.color = "var(--emerald)";
+        badgeEl.style.background = "rgba(52, 211, 153, 0.15)";
+        badgeEl.style.color = "var(--emerald)";
+        badgeEl.innerText = "能量充沛・清爽平靜";
+      } else if (totalScore <= 65) {
+        scoreEl.style.color = "var(--gold)";
+        badgeEl.style.background = "rgba(251, 191, 36, 0.15)";
+        badgeEl.style.color = "var(--gold)";
+        badgeEl.innerText = "中度漏水・需建防火牆";
+      } else {
+        scoreEl.style.color = "var(--rose)";
+        badgeEl.style.background = "rgba(244, 63, 94, 0.15)";
+        badgeEl.style.color = "var(--rose)";
+        badgeEl.innerText = "重度內耗・急需全面降噪";
+      }
+
+      radarChart.data.datasets[0].data = [
+        dimScores.attention,
+        dimScores.time,
+        dimScores.emotion,
+        dimScores.decision
+      ];
+      radarChart.update();
+
+      const barsContainer = document.getElementById("dimension-bars");
+      barsContainer.innerHTML = `
+        <div>
+          <div class="dim-row"><span>🔍 注意力干擾</span><span style="color: #c084fc;">${dimScores.attention}%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${dimScores.attention}%; background: #c084fc;"></div></div>
+        </div>
+        <div>
+          <div class="dim-row"><span>⏱️ 時間被動撕裂</span><span style="color: var(--primary);">${dimScores.time}%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${dimScores.time}%; background: var(--primary);"></div></div>
+        </div>
+        <div>
+          <div class="dim-row"><span>💔 情緒過載與 FOMO</span><span style="color: var(--rose);">${dimScores.emotion}%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${dimScores.emotion}%; background: var(--rose);"></div></div>
+        </div>
+        <div>
+          <div class="dim-row"><span>⚖️ 決策疲勞與補償</span><span style="color: var(--gold);">${dimScores.decision}%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${dimScores.decision}%; background: var(--gold);"></div></div>
+        </div>
+      `;
+
+      const diagTitle = document.getElementById("diag-title");
+      const diagDesc = document.getElementById("diag-desc");
+      const bookName = document.getElementById("rec-book-name");
+      const bookReason = document.getElementById("rec-book-reason");
+
+      if (totalScore <= 30) {
+        diagTitle.innerText = "段位：心智自律者";
+        diagDesc.innerText = "你的心智防護極佳，能量漏水極少！下一個階段是將充沛的精力轉化為長期複利架構。";
+        bookName.innerText = "《人生複利》";
+        bookReason.innerText = "善用你強大的心智餘裕，打造全自動資產與智慧水庫。";
+      } else if (dimScores.emotion >= 60 || totalScore >= 65) {
+        diagTitle.innerText = "白熊警報：重度心智漏水";
+        diagDesc.innerText = "你的大部分疲憊並非身體勞累，而是被未清理的情緒、訊息通知與討好心態持續抽走能量。你需要一套系統化的心智降噪與邊界設定 SOP。";
+        bookName.innerText = "《降噪人生》";
+        bookReason.innerText = "白熊經典著作：建立心智防火牆，學會不費力過濾雜訊。";
+      } else if (dimScores.time >= 60 || dimScores.decision >= 60) {
+        diagTitle.innerText = "白熊診斷：系統過載與決策疲勞";
+        diagDesc.innerText = "你在用個人體力死扛所有瑣事，導致時間被撕碎、大腦持續過熱。你需要開始建立「自動化齒輪」與委派機制。";
+        bookName.innerText = "《借力》";
+        bookReason.innerText = "學會少做多得，用工具與槓桿把時間買回來。";
+      } else {
+        diagTitle.innerText = "白熊處方：心態升級與能量重整";
+        diagDesc.innerText = "你正處於能量轉型期，只要堵住 1~2 個關鍵注意力漏洞，就能找回專注的平靜心流。";
+        bookName.innerText = "《降噪人生》";
+        bookReason.innerText = "清理雜訊、卸載心智包袱的實戰工具書。";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderQuestions();
+      initChart();
+      updateCalculations();
+    });
+  </script>
+</body>
+</html>
