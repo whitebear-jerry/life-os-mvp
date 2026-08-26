@@ -42,6 +42,33 @@
       min-height: 100vh;
     }
 
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      transform: translateX(-2px);
+    }
+
     .container {
       max-width: 960px;
       margin: 0 auto;
@@ -342,6 +369,9 @@
 <body>
 
   <div class="container">
+    <div class="top-nav">
+      <a href="link.html" class="back-btn">← 返回白熊書房首頁</a>
+    </div>
     <header>
       <div class="badge-pill">🐻 白熊富足人生演算法</div>
       <h1>自動打水資產配置與 FIRE 試算器</h1>

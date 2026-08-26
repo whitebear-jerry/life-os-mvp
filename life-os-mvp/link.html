@@ -768,113 +768,170 @@
       background: #ffffff;
     }
 
-    /* 🛠️ 白熊工具箱 */
-    .link-tools {
-      display: grid;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .link-tools-head { margin: 4px 2px 2px; }
-    .link-tools-head h2 { font-size: 1.06rem; }
-    .link-tools-head p {
-      margin: 4px 0 0;
-      color: rgba(247, 247, 240, 0.58);
-      font-size: 0.82rem;
-      line-height: 1.5;
-    }
-    .link-tool {
-      padding: 14px 16px;
-      border: 1px solid rgba(74, 204, 122, 0.18);
-      border-radius: 12px;
+    /* 🛠️ 白熊演算法・免費實戰工具箱 */
+    .link-tools-section {
+      margin: 0 0 24px;
+      padding: 20px 20px 22px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
-    .link-tool:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(74, 204, 122, 0.42);
-      box-shadow: 0 16px 48px rgba(74, 204, 122, 0.08);
-    }
-    .link-tool-icon {
-      flex-shrink: 0;
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      background: rgba(74, 204, 122, 0.12);
-      border-radius: 12px;
-    }
-    .link-tool-body { flex: 1; min-width: 0; }
-    .link-tool-body h3 { font-size: 0.98rem; margin: 0; }
-    .link-tool-body p {
-      margin: 3px 0 0;
-      color: rgba(247, 247, 240, 0.7);
-      font-size: 0.82rem;
-      line-height: 1.45;
-    }
-    .link-tool-cta {
-      flex-shrink: 0;
-      min-height: 44px;
-      padding: 0 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #4ACC7A, #2EA85A);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.85rem;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
-    }
-    .link-tool-cta:hover { transform: translateY(-2px); filter: brightness(1.08); }
-    .link-tool-cta:active { transform: translateY(0); }
-    .link-tool-guide {
-      border: 1px solid rgba(74, 204, 122, 0.14);
-      border-radius: 10px;
-      background: rgba(74, 204, 122, 0.04);
-      padding: 0 14px;
-      margin-top: -2px;
-    }
-    .link-tool-guide summary {
-      cursor: pointer;
-      padding: 12px 0;
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: rgba(247, 247, 240, 0.82);
-      list-style: none;
-    }
-    .link-tool-guide summary::-webkit-details-marker { display: none; }
-    .link-tool-guide summary::after { content: " ▾"; color: rgba(74, 204, 122, 0.7); }
-    .link-tool-guide[open] summary::after { content: " ▴"; }
-    .link-tool-guide ol {
-      margin: 0 0 14px;
-      padding-left: 20px;
+
+    .tools-header {
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 5px;
+      margin-bottom: 16px;
+      text-align: left;
     }
-    .link-tool-guide li {
-      color: rgba(247, 247, 240, 0.7);
-      font-size: 0.82rem;
-      line-height: 1.55;
+
+    .tools-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      padding: 3px 10px;
+      border-radius: 999px;
     }
-    .link-tool-guide li b { color: rgba(247, 247, 240, 0.92); }
-    .link-tools-more {
-      text-align: center;
-      color: rgba(247, 247, 240, 0.4);
-      font-size: 0.8rem;
-      padding: 2px;
+
+    .tools-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.01em;
     }
-    @media (max-width: 380px) {
-      .link-tool { flex-wrap: wrap; }
-      .link-tool-cta { width: 100%; }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
+
+    .tool-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      min-height: 120px;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--tool-glow, #38bdf8), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--tool-glow, rgba(56, 189, 248, 0.4));
+      box-shadow: 0 10px 24px var(--tool-shadow, rgba(56, 189, 248, 0.22));
+    }
+
+    .tool-card:hover::before {
+      opacity: 1;
+    }
+
+    .tool-calculator {
+      --tool-glow: #38bdf8;
+      --tool-shadow: rgba(56, 189, 248, 0.22);
+    }
+
+    .tool-noise {
+      --tool-glow: #c084fc;
+      --tool-shadow: rgba(192, 132, 252, 0.22);
+    }
+
+    .tool-leverage {
+      --tool-glow: #34d399;
+      --tool-shadow: rgba(52, 211, 153, 0.22);
+    }
+
+    .tool-card-main {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .tool-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .tool-icon-wrap {
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .tool-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+    }
+
+    .tool-calculator .tool-tag { color: #38bdf8; background: rgba(56, 189, 248, 0.12); }
+    .tool-noise .tool-tag { color: #c084fc; background: rgba(192, 132, 252, 0.12); }
+    .tool-leverage .tool-tag { color: #34d399; background: rgba(52, 211, 153, 0.12); }
+
+    .tool-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tool-desc {
+      font-size: 0.76rem;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    .tool-arrow {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--tool-glow, #38bdf8);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* 冒險者公會 & 代表動物小遊戲 */
@@ -2936,6 +2993,53 @@
       </div>
     </section>
 
+    <!-- 🛠️ 白熊演算法・免費實戰互動工具箱 -->
+    <section class="link-tools-section" aria-label="免費實戰工具箱">
+      <div class="tools-header">
+        <span class="tools-badge">🛠️ 白熊演算法・免費互動工具箱</span>
+        <h2 class="tools-title">免費互動診斷・即時測算你的富足與心智指標</h2>
+      </div>
+      <div class="tools-grid">
+        <!-- 工具 1: 自動打水計算機 -->
+        <a href="calculator.html" class="tool-card tool-calculator" onclick="trackStoreClick('tool', 'calculator')">
+          <div class="tool-card-main">
+            <div class="tool-top">
+              <span class="tool-icon-wrap">🧮</span>
+              <span class="tool-tag">FIRE 試算</span>
+            </div>
+            <div class="tool-name">自動打水計算機</div>
+            <div class="tool-desc">試算你的 4% 自由水庫與 10 年資產複利增值</div>
+          </div>
+          <div class="tool-arrow">立即試算 <span>→</span></div>
+        </a>
+
+        <!-- 工具 2: 精神內耗自測 -->
+        <a href="noise-audit.html" class="tool-card tool-noise" onclick="trackStoreClick('tool', 'noise_audit')">
+          <div class="tool-card-main">
+            <div class="tool-top">
+              <span class="tool-icon-wrap">🧘</span>
+              <span class="tool-tag">雷達圖自測</span>
+            </div>
+            <div class="tool-name">精神內耗自測</div>
+            <div class="tool-desc">10 題檢測時間、注意力與情緒漏水，產出降噪處方</div>
+          </div>
+          <div class="tool-arrow">開始自測 <span>→</span></div>
+        </a>
+
+        <!-- 工具 3: 借力成熟度檢測 -->
+        <a href="leverage-check.html" class="tool-card tool-leverage" onclick="trackStoreClick('tool', 'leverage_check')">
+          <div class="tool-card-main">
+            <div class="tool-top">
+              <span class="tool-icon-wrap">⚙️</span>
+              <span class="tool-tag">槓桿評估</span>
+            </div>
+            <div class="tool-name">少做多得・借力檢測</div>
+            <div class="tool-desc">檢測工具、趨勢與資產 3 大槓桿，告別挑水模式</div>
+          </div>
+          <div class="tool-arrow">評估成熟度 <span>→</span></div>
+        </a>
+      </div>
+    </section>
 
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 🎁 4冊合購套書特惠包 (主推合輯) -->
@@ -6041,6 +6145,14 @@
           }
         });
       });
+    }
+
+    function trackStoreClick(category, name) {
+      try {
+        if (typeof window.clarity === 'function') {
+          window.clarity('event', `${category}_${name}`);
+        }
+      } catch (e) {}
     }
 
     initCounter();
