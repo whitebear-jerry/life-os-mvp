@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>白熊富足人生演算法｜資產配置與自動打水計算機</title>
+  <meta name="description" content="輸入你的月收入與配置，立即試算資產複利成長、每年自動打水現金流，以及達到富足自由的倒數年數。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(20, 27, 45, 0.7);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --gold: #fbbf24;
+      --gold-glow: rgba(251, 191, 36, 0.2);
+      --emerald: #34d399;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.08) 0px, transparent 50%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* 頂部 Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-top: 12px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* 主網格：左側輸入、右側即時成果 */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 840px) {
+      .grid-layout {
+        grid-template-columns: 380px 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+    }
+
+    /* 表單元件 */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+
+    .form-value-display {
+      color: var(--primary);
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      outline: none;
+      -webkit-appearance: none;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .input-number-wrap {
+      position: relative;
+    }
+
+    .input-number-wrap input {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .input-number-wrap input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    /* 成果指標面板 */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .metric-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-box.highlight {
+      border-color: rgba(251, 191, 36, 0.35);
+      background: linear-gradient(180deg, rgba(251, 191, 36, 0.08) 0%, rgba(0, 0, 0, 0.2) 100%);
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .metric-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .metric-box.highlight .metric-val {
+      color: var(--gold);
+    }
+
+    .metric-sub {
+      font-size: 0.75rem;
+      color: var(--emerald);
+      margin-top: 4px;
+    }
+
+    /* 圖表容器 */
+    .chart-container {
+      position: relative;
+      height: 230px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    /* 診斷卡片與導購區 (The Conversion Engine) */
+    .diagnosis-card {
+      margin-top: 24px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .diagnosis-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .bear-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+
+    .diagnosis-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .diagnosis-level {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .diagnosis-text {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .book-recommendation {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (min-width: 600px) {
+      .book-recommendation {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .book-meta h4 {
+      font-size: 0.95rem;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .book-meta p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+    }
+
+    /* 頁尾 */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge-pill">🐻 白熊富足人生演算法</div>
+      <h1>自動打水資產配置與 FIRE 試算器</h1>
+      <p class="subtitle">告別倉鼠滾輪。精準試算你的儲蓄複利水庫、每年被動現金流與財務自由倒數。</p>
+    </header>
+
+    <div class="grid-layout">
+      
+      <!-- 左側：參數輸入區 -->
+      <div class="card">
+        <h2>⚙️ 你的財務參數</h2>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>月收入 (TWD)</span>
+            <span class="form-value-display" id="val-income">$60,000</span>
+          </div>
+          <input type="range" id="input-income" min="30000" max="300000" step="5000" value="60000">
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>儲蓄投資率 (%)</span>
+            <span class="form-value-display" id="val-savings-rate">40%</span>
+          </div>
+          <input type="range" id="input-savings-rate" min="5" max="80" step="1" value="40">
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>目前已累積本金 (TWD)</span>
+            <span class="form-value-display" id="val-capital">$500,000</span>
+          </div>
+          <input type="range" id="input-capital" min="0" max="10000000" step="100000" value="500000">
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>資產配置策略</span>
+          </div>
+          <select id="input-strategy" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); color: #fff; border-radius: 8px;">
+            <option value="80_15_5" selected>白熊經典配置（股 80 / 債 15 / 現金 5）- 年化 7.2%</option>
+            <option value="100_0_0">純指數進攻（全市場 ETF 100%）- 年化 8.5%</option>
+            <option value="60_35_5">穩健防禦（股 60 / 債 35 / 現金 5）- 年化 6.0%</option>
+            <option value="0_0_100">全現金定存（不投資）- 年化 1.5%</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>每月理想退休支出</span>
+            <span class="form-value-display" id="val-expense">$40,000</span>
+          </div>
+          <input type="range" id="input-expense" min="20000" max="150000" step="5000" value="40000">
+        </div>
+      </div>
+
+      <!-- 右側：即時運算面板與圖表 -->
+      <div class="card">
+        <h2>📊 複利水庫與自動打水預測</h2>
+
+        <div class="metric-grid">
+          <div class="metric-box">
+            <div class="metric-label">每月自動存入水庫</div>
+            <div class="metric-val" id="metric-monthly-invest">$24,000</div>
+            <div class="metric-sub">本金燃料</div>
+          </div>
+
+          <div class="metric-box highlight">
+            <div class="metric-label">10 年後資產總額</div>
+            <div class="metric-val" id="metric-10y-wealth">$5.4M</div>
+            <div class="metric-sub" id="metric-10y-sub">+280% 成長</div>
+          </div>
+
+          <div class="metric-box">
+            <div class="metric-label">每年被動打水現金流 (4%)</div>
+            <div class="metric-val" id="metric-annual-cashflow">$216,000</div>
+            <div class="metric-sub" id="metric-monthly-cashflow">等同月增 $18,000</div>
+          </div>
+
+          <div class="metric-box">
+            <div class="metric-label">距離 FIRE 自由倒數</div>
+            <div class="metric-val" id="metric-fire-years" style="color: var(--primary);">14.2 年</div>
+            <div class="metric-sub" id="metric-target-capital">目標本金 $1,200 萬</div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="wealthChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 底部：量身智慧診斷與書籍導購 (高轉換引擎) -->
+    <div class="diagnosis-card">
+      <div class="diagnosis-header">
+        <div class="bear-badge">🐻</div>
+        <div>
+          <div class="diagnosis-title" id="diag-title">白熊演算法診斷報告</div>
+          <div class="diagnosis-level" id="diag-level">段位評估：黃金打水學徒（良好軌道）</div>
+        </div>
+      </div>
+      <p class="diagnosis-text" id="diag-desc">
+        你的儲蓄率達到 40%，每月有 24,000 元持續注入水庫。搭配 80/15/5 的自動打水配置，你將在約 14 年內達成被動收入覆蓋全額生活開銷。若想再提早 4 年達成，關鍵不是省小錢，而是學會用槓桿思維放大單位時間產值。
+      </p>
+
+      <div class="book-recommendation">
+        <div class="book-meta">
+          <h4 id="rec-book-title">📖 推薦進階閱讀：《借力》少做多得的不費力人生</h4>
+          <p id="rec-book-desc">學會借趨勢、借工具、借複利，打造不用看老闆臉色的自動化被動打水系統。</p>
+        </div>
+        <a href="link.html" class="cta-btn" id="rec-book-link" target="_blank">
+          查看書籍完整攻略 ➔
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      <p>白熊富足人生演算法 © 2026 ｜ 秉持真實、誠實與複利哲學 ｜ <a href="link.html">探索全系列書籍</a></p>
+    </footer>
+
+  </div>
+
+  <script>
+    // 格式化千分位
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+    const fmtShort = n => {
+      if (n >= 100000000) return '$' + (n / 100000000).toFixed(1) + ' 億';
+      if (n >= 10000) return '$' + (n / 10000).toFixed(0) + ' 萬';
+      return '$' + Math.round(n).toLocaleString('en-US');
+    };
+
+    // DOM 元素
+    const inIncome = document.getElementById('input-income');
+    const inSavingsRate = document.getElementById('input-savings-rate');
+    const inCapital = document.getElementById('input-capital');
+    const inStrategy = document.getElementById('input-strategy');
+    const inExpense = document.getElementById('input-expense');
+
+    const valIncome = document.getElementById('val-income');
+    const valSavingsRate = document.getElementById('val-savings-rate');
+    const valCapital = document.getElementById('val-capital');
+    const valExpense = document.getElementById('val-expense');
+
+    const metMonthlyInvest = document.getElementById('metric-monthly-invest');
+    const met10yWealth = document.getElementById('metric-10y-wealth');
+    const met10ySub = document.getElementById('metric-10y-sub');
+    const metAnnualCashflow = document.getElementById('metric-annual-cashflow');
+    const metMonthlyCashflow = document.getElementById('metric-monthly-cashflow');
+    const metFireYears = document.getElementById('metric-fire-years');
+    const metTargetCapital = document.getElementById('metric-target-capital');
+
+    const diagTitle = document.getElementById('diag-title');
+    const diagLevel = document.getElementById('diag-level');
+    const diagDesc = document.getElementById('diag-desc');
+    const recBookTitle = document.getElementById('rec-book-title');
+    const recBookDesc = document.getElementById('rec-book-desc');
+
+    // Chart.js 初始化
+    let chartInstance = null;
+    function initChart() {
+      const ctx = document.getElementById('wealthChart').getContext('2d');
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['現在', '2年', '4年', '6年', '8年', '10年', '15年', '20年'],
+          datasets: [
+            {
+              label: '複利總資產',
+              data: [0, 0, 0, 0, 0, 0, 0, 0],
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.12)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              pointRadius: 4,
+              pointBackgroundColor: '#38bdf8'
+            },
+            {
+              label: '單純存本金（無投資）',
+              data: [0, 0, 0, 0, 0, 0, 0, 0],
+              borderColor: 'rgba(148, 163, 184, 0.5)',
+              borderDash: [5, 5],
+              fill: false,
+              tension: 0,
+              borderWidth: 2,
+              pointRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: '#94a3b8', font: { size: 11 } }
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => ctx.dataset.label + ': ' + fmtShort(ctx.raw)
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8' }
+            },
+            y: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#94a3b8',
+                callback: val => fmtShort(val)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // 核心計算邏輯
+    function calculate() {
+      const income = parseFloat(inIncome.value);
+      const savingsRate = parseFloat(inSavingsRate.value) / 100;
+      const initialCapital = parseFloat(inCapital.value);
+      const targetExpense = parseFloat(inExpense.value);
+      
+      const strategyRates = {
+        '80_15_5': 0.072,
+        '100_0_0': 0.085,
+        '60_35_5': 0.060,
+        '0_0_100': 0.015
+      };
+      const annualRate = strategyRates[inStrategy.value] || 0.072;
+      const monthlyRate = annualRate / 12;
+
+      // 更新顯示文字
+      valIncome.textContent = fmt(income);
+      valSavingsRate.textContent = Math.round(savingsRate * 100) + '%';
+      valCapital.textContent = fmt(initialCapital);
+      valExpense.textContent = fmt(targetExpense);
+
+      const monthlyInvest = income * savingsRate;
+      metMonthlyInvest.textContent = fmt(monthlyInvest);
+
+      // FIRE 目標（4% 法則）
+      const fireTargetCapital = targetExpense * 12 * 25;
+      metTargetCapital.textContent = `目標本金 ${fmtShort(fireTargetCapital)}`;
+
+      // 試算各年資產
+      const years = [0, 2, 4, 6, 8, 10, 15, 20];
+      const wealthData = [];
+      const cashOnlyData = [];
+
+      years.forEach(y => {
+        const months = y * 12;
+        let futureValue = initialCapital * Math.pow(1 + monthlyRate, months);
+        if (monthlyRate > 0) {
+          futureValue += monthlyInvest * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+        } else {
+          futureValue += monthlyInvest * months;
+        }
+        wealthData.push(Math.round(futureValue));
+        cashOnlyData.push(Math.round(initialCapital + (monthlyInvest * months)));
+      });
+
+      const wealth10y = wealthData[5];
+      met10yWealth.textContent = fmtShort(wealth10y);
+      const totalInvested10y = initialCapital + (monthlyInvest * 120);
+      const gainPercent = totalInvested10y > 0 ? Math.round(((wealth10y - totalInvested10y) / totalInvested10y) * 100) : 0;
+      met10ySub.textContent = `複利增值 +${gainPercent}%`;
+
+      // 10年後的每年 4% 自動打水現金流
+      const annualCashflow = wealth10y * 0.04;
+      metAnnualCashflow.textContent = fmt(annualCashflow);
+      metMonthlyCashflow.textContent = `等同月增 ${fmt(annualCashflow / 12)}`;
+
+      // 計算達到 FIRE 年數
+      let currentWealth = initialCapital;
+      let monthsToFire = 0;
+      const maxMonths = 600; // 最多算 50 年
+
+      if (currentWealth >= fireTargetCapital) {
+        metFireYears.textContent = '已達成 🎉';
+      } else {
+        while (currentWealth < fireTargetCapital && monthsToFire < maxMonths) {
+          currentWealth = (currentWealth * (1 + monthlyRate)) + monthlyInvest;
+          monthsToFire++;
+        }
+        if (monthsToFire >= maxMonths) {
+          metFireYears.textContent = '> 40 年';
+        } else {
+          const yrs = (monthsToFire / 12).toFixed(1);
+          metFireYears.textContent = `${yrs} 年`;
+        }
+      }
+
+      // 更新圖表
+      if (chartInstance) {
+        chartInstance.data.datasets[0].data = wealthData;
+        chartInstance.data.datasets[1].data = cashOnlyData;
+        chartInstance.update();
+      }
+
+      // 智慧診斷與書籍導購策略
+      updateDiagnosis(savingsRate, annualRate, monthsToFire / 12, wealth10y);
+    }
+
+    function updateDiagnosis(savingsRate, annualRate, yearsToFire, wealth10y) {
+      if (savingsRate < 0.25) {
+        diagTitle.textContent = '白熊演算法診斷：內耗過濾與能量重構期';
+        diagLevel.textContent = '段位評估：青銅蓄力者（亟需清理財務雜音）';
+        diagDesc.textContent = '目前的儲蓄率偏低，生活開銷可能被過多不必要的隱性雜音與情緒消費蠶食。此階段最有效的不是硬省錢，而是透過心智降噪，辨識出哪些開銷根本沒有為你帶來真正的幸福感。';
+        recBookTitle.textContent = '📖 推薦閱讀：《降噪人生》在混亂世界找回專注與平靜';
+        recBookDesc.textContent = '清除生活與心靈的過載雜訊，建立低內耗的極簡能量管理系統。';
+      } else if (annualRate <= 0.02) {
+        diagTitle.textContent = '白熊演算法診斷：資產失血警報（通膨吞噬中）';
+        diagLevel.textContent = '段位評估：白銀守護者（防禦有餘，進攻不足）';
+        diagDesc.textContent = '你的儲蓄習慣非常好，但資產全放在低收益定存中，實質購買力正被通膨無聲侵蝕。你需要的是一套「不看盤、睡得著、自動化」的 80/15/5 核心指數投資底層架構。';
+        recBookTitle.textContent = '📖 推薦閱讀：《心富》心態富足與資產配置的終極指南';
+        recBookDesc.textContent = '掌握指數化投資與台美股資產配置，打造心安且穩健增長的財務水庫。';
+      } else if (yearsToFire <= 12) {
+        diagTitle.textContent = '白熊演算法診斷：高效自動打水巡航狀態！';
+        diagLevel.textContent = '段位評估：黃金打水大師（高自由度軌道）';
+        diagDesc.textContent = '太棒了！你的儲蓄率與配置組合處於極高效率區間。接下來的關鍵不是更努力工作，而是「借力」——借工具自動化、借趨勢放大影響力，讓你的系統替你工作。';
+        recBookTitle.textContent = '📖 推薦閱讀：《借力》少做多得的不費力人生';
+        recBookDesc.textContent = '學會槓桿思維，用系統與複利取代體力勞動，進入不費力的自運轉境界。';
+      } else {
+        diagTitle.textContent = '白熊演算法診斷：複利蓄水池穩定成長中';
+        diagLevel.textContent = '段位評估：白銀實踐者（正向累積中）';
+        diagDesc.textContent = '你的系統已經步入正軌！只要維持紀律定期定額，複利會在 6~8 年後迎來指數級拐點。建議同步建立第二大腦與心智防禦模型，避免在市場波動時被情緒干擾。';
+        recBookTitle.textContent = '📖 推薦閱讀：《人生複利》讓時間站在你這邊的底層邏輯';
+        recBookDesc.textContent = '重塑信念與行為閉環，讓習慣與資產同步產生指數型複利效應。';
+      }
+    }
+
+    // 事件監聽
+    [inIncome, inSavingsRate, inCapital, inExpense].forEach(el => {
+      el.addEventListener('input', calculate);
+    });
+    inStrategy.addEventListener('change', calculate);
+
+    // 啟動
+    window.addEventListener('DOMContentLoaded', () => {
+      initChart();
+      calculate();
+    });
+  </script>
+</body>
+</html>
