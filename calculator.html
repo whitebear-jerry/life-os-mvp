@@ -684,28 +684,29 @@
     function updateDiagnosis(savingsRate, annualRate, yearsToFire, wealth10y) {
       if (savingsRate < 0.25) {
         diagTitle.textContent = '白熊演算法診斷：內耗過濾與能量重構期';
-        diagLevel.textContent = '段位評估：青銅蓄力者（亟需清理財務雜音）';
-        diagDesc.textContent = '目前的儲蓄率偏低，生活開銷可能被過多不必要的隱性雜音與情緒消費蠶食。此階段最有效的不是硬省錢，而是透過心智降噪，辨識出哪些開銷根本沒有為你帶來真正的幸福感。';
+        diagLevel.textContent = '段位評估：青銅蓄力者（亟需清理生活雜音）';
+        diagDesc.textContent = '目前的儲蓄率偏低，生活開銷容易被過多不必要的隱性雜音與情緒消費蠶食。此階段最有效的不是硬省錢，而是透過心智降噪，辨識出哪些開銷根本沒有帶來真正的幸福感。';
         recBookTitle.textContent = '📖 推薦閱讀：《降噪人生》在混亂世界找回專注與平靜';
         recBookDesc.textContent = '清除生活與心靈的過載雜訊，建立低內耗的極簡能量管理系統。';
       } else if (annualRate <= 0.02) {
         diagTitle.textContent = '白熊演算法診斷：資產失血警報（通膨吞噬中）';
         diagLevel.textContent = '段位評估：白銀守護者（防禦有餘，進攻不足）';
-        diagDesc.textContent = '你的儲蓄習慣非常好，但資產全放在低收益定存中，實質購買力正被通膨無聲侵蝕。你需要的是一套「不看盤、睡得著、自動化」的 80/15/5 核心指數投資底層架構。';
-        recBookTitle.textContent = '📖 推薦閱讀：《心富》心態富足與資產配置的終極指南';
-        recBookDesc.textContent = '掌握指數化投資與台美股資產配置，打造心安且穩健增長的財務水庫。';
-      } else if (yearsToFire <= 12) {
+        diagDesc.textContent = '你的儲蓄習慣非常好，但資產全放在低收益定存中，實質購買力正被通膨無聲侵蝕。你需要重塑對時間與資產的底層信念，讓時間站在你這邊。';
+        recBookTitle.textContent = '📖 推薦閱讀：《人生複利》讓時間站在你這邊的底層邏輯';
+        recBookDesc.textContent = '重塑信念與行為閉環，讓習慣與資產同步產生指數型複利效應。';
+      } else if (yearsToFire <= 10) {
         diagTitle.textContent = '白熊演算法診斷：高效自動打水巡航狀態！';
         diagLevel.textContent = '段位評估：黃金打水大師（高自由度軌道）';
-        diagDesc.textContent = '太棒了！你的儲蓄率與配置組合處於極高效率區間。接下來的關鍵不是更努力工作，而是「借力」——借工具自動化、借趨勢放大影響力，讓你的系統替你工作。';
+        diagDesc.textContent = '太棒了！你的儲蓄率與配置組合處於極高效率區間。接下來的關鍵不是更努力工作，而是「借力」——借工具自動化、借趨勢放大影響力，讓系統替你打水。';
         recBookTitle.textContent = '📖 推薦閱讀：《借力》少做多得的不費力人生';
         recBookDesc.textContent = '學會槓桿思維，用系統與複利取代體力勞動，進入不費力的自運轉境界。';
       } else {
+        // 🌟 預設核心推薦：最常出現的穩健累積狀態
         diagTitle.textContent = '白熊演算法診斷：複利蓄水池穩定成長中';
-        diagLevel.textContent = '段位評估：白銀實踐者（正向累積中）';
-        diagDesc.textContent = '你的系統已經步入正軌！只要維持紀律定期定額，複利會在 6~8 年後迎來指數級拐點。建議同步建立第二大腦與心智防禦模型，避免在市場波動時被情緒干擾。';
-        recBookTitle.textContent = '📖 推薦閱讀：《人生複利》讓時間站在你這邊的底層邏輯';
-        recBookDesc.textContent = '重塑信念與行為閉環，讓習慣與資產同步產生指數型複利效應。';
+        diagLevel.textContent = '段位評估：白銀實踐者（正向軌道）';
+        diagDesc.textContent = '你的系統已經步入正軌！只要維持紀律定期定額，透過 80/15/5 的自動打水配置，複利會在 6~8 年後迎來指數級拐點。掌握心安且不看盤的底層投資架構，是走得長遠的關鍵。';
+        recBookTitle.textContent = '📖 推薦閱讀：《心富》心態富足與資產配置的終極指南';
+        recBookDesc.textContent = '掌握指數化投資與台美股資產配置，打造心安且穩健增長的財務水庫。';
       }
     }
 
