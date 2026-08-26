@@ -600,25 +600,25 @@
       const bookReason = document.getElementById("rec-book-reason");
 
       if (totalScore <= 30) {
-        diagTitle.innerText = "段位：心智自律者";
-        diagDesc.innerText = "你的心智防護極佳，能量漏水極少！下一個階段是將充沛的精力轉化為長期複利架構。";
+        diagTitle.innerText = "段位：清爽平靜（能量充沛）";
+        diagDesc.innerText = "你的心智防護極佳，日常能量漏水極少！此時你擁有極大的心智餘裕，最適合將精力轉化為長期複利架構。";
         bookName.innerText = "《人生複利》";
-        bookReason.innerText = "善用你強大的心智餘裕，打造全自動資產與智慧水庫。";
-      } else if (dimScores.emotion >= 60 || totalScore >= 65) {
-        diagTitle.innerText = "白熊警報：重度心智漏水";
-        diagDesc.innerText = "你的大部分疲憊並非身體勞累，而是被未清理的情緒、訊息通知與討好心態持續抽走能量。你需要一套系統化的心智降噪與邊界設定 SOP。";
+        bookReason.innerText = "心智餘裕極大，進一步打造長期複利滾雪球。";
+      } else if (totalScore > 35 || dimScores.emotion >= 50) {
+        diagTitle.innerText = "白熊處方：心智降噪與防火牆建置";
+        diagDesc.innerText = "你的大部分疲憊並非身體勞累，而是心智在背景持續無聲漏水。你需要對症下藥：幫大腦卸載、替心靈把關，建立不可穿透的心智防火牆。";
         bookName.innerText = "《降噪人生》";
-        bookReason.innerText = "白熊經典著作：建立心智防火牆，學會不費力過濾雜訊。";
-      } else if (dimScores.time >= 60 || dimScores.decision >= 60) {
-        diagTitle.innerText = "白熊診斷：系統過載與決策疲勞";
-        diagDesc.innerText = "你在用個人體力死扛所有瑣事，導致時間被撕碎、大腦持續過熱。你需要開始建立「自動化齒輪」與委派機制。";
+        bookReason.innerText = "對症下藥：幫大腦卸載、替心靈把關，建立心智防火牆。";
+      } else if (dimScores.time >= 35 || dimScores.decision >= 35) {
+        diagTitle.innerText = "白熊診斷：系統過載與瑣事死扛";
+        diagDesc.innerText = "你在用個人體力死扛所有瑣事，導致時間被撕碎、大腦持續過熱。你需要開始建立「自動化齒輪」與委派機制，學會用 AI 與 SOP 買回時間。";
         bookName.innerText = "《借力》";
-        bookReason.innerText = "學會少做多得，用工具與槓桿把時間買回來。";
+        bookReason.innerText = "死扛瑣事導致大腦過熱，學會用 AI 與 SOP 買回時間。";
       } else {
-        diagTitle.innerText = "白熊處方：心態升級與能量重整";
-        diagDesc.innerText = "你正處於能量轉型期，只要堵住 1~2 個關鍵注意力漏洞，就能找回專注的平靜心流。";
+        diagTitle.innerText = "白熊處方：心智降噪與能量重整";
+        diagDesc.innerText = "只要堵住 1~2 個關鍵注意力與情緒漏洞，就能迅速找回專注平靜的高效心流。";
         bookName.innerText = "《降噪人生》";
-        bookReason.innerText = "清理雜訊、卸載心智包袱的實戰工具書。";
+        bookReason.innerText = "建立專屬心智防火牆，從此不再被瑣事與焦慮綁架。";
       }
     }
 
