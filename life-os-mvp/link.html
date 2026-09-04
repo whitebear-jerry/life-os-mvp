@@ -168,6 +168,11 @@
       box-shadow: 0 4px 12px rgba(99, 126, 196, 0.15);
     }
 
+    .book-xuhang .link-actions a {
+      background: #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    }
+
     .book-series .link-actions {
       display: block;
       margin-top: 16px;
@@ -205,6 +210,10 @@
 
     .book-jieli .link-actions a:hover {
       box-shadow: 0 8px 24px rgba(99, 126, 196, 0.35);
+    }
+
+    .book-xuhang .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
     }
 
     .book-series .link-actions a:hover {
@@ -359,6 +368,22 @@
       100% { background-position:  200% 0; }
     }
 
+    /* 翡翠極光綠呼吸發光效果 (續航) */
+    @keyframes emeraldGlow {
+      0% {
+        border-color: rgba(16, 185, 129, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(16, 185, 129, 0.15), inset 0 0 8px rgba(16, 185, 129, 0.05);
+      }
+      50% {
+        border-color: rgba(16, 185, 129, 1);
+        box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06), 0 0 25px rgba(16, 185, 129, 0.45), inset 0 0 15px rgba(16, 185, 129, 0.15);
+      }
+      100% {
+        border-color: rgba(16, 185, 129, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(16, 185, 129, 0.15), inset 0 0 8px rgba(16, 185, 129, 0.05);
+      }
+    }
+
     /* 皇家紫呼吸發光效果 (四冊特惠包) */
     @keyframes purpleGlow {
       0% {
@@ -434,6 +459,17 @@
     }
     .link-book.book-jieli > *:not(.book-tag) { position: relative; z-index: 1; }
 
+    .link-book.book-xuhang {
+      border: 1.5px solid rgba(16, 185, 129, 0.6);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: emeraldGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-xuhang:hover {
+      border-color: rgba(16, 185, 129, 0.35);
+      box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06);
+    }
+
     .link-book.book-bundle {
       border: 1.5px solid rgba(139, 92, 246, 0.6);
       background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
@@ -486,6 +522,11 @@
       background: linear-gradient(135deg, #ffd700 0%, #c48935 100%);
       color: #0c1511;
       box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 215, 0, 0.2);
+    }
+    .book-tag.tag-xuhang {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3), 0 0 8px rgba(16, 185, 129, 0.2);
     }
 
     /* 3. 星等與發光金星 */
@@ -833,6 +874,10 @@
       background-image: url('assets/book5_banner.jpg');
     }
 
+    .slide-book6 {
+      background-image: url('assets/book6_banner.jpg');
+    }
+
     /* 下方文字區域：深綠色系半透明毛玻璃質感 */
     .slide-text-area {
       padding: 14px 18px 16px;
@@ -884,6 +929,12 @@
       background: rgba(99, 126, 196, 0.25);
       color: #b9cdff;
       border: 1px solid rgba(99, 126, 196, 0.4);
+    }
+
+    .badge-xuhang {
+      background: rgba(16, 185, 129, 0.25);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
     .slide-description {
@@ -1176,6 +1227,14 @@
               <p class="slide-description">借趨勢、借工具、借複利——順流的人，不必比誰更用力。</p>
             </div>
           </div>
+          <!-- 幻燈片 #6 ｜ 續航 -->
+          <div class="carousel-slide" aria-label="創作 #6 ｜ 續航">
+            <div class="slide-image-area slide-book6"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-xuhang">創作 #6 ｜ 續航</span>
+              <p class="slide-description">走得遠的人，不靠意志力燃燒自己，而是靠設計系統。</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 固定於右下角的點狀指示器 -->
@@ -1185,6 +1244,7 @@
         <span class="carousel-dot" data-slide="2"></span>
         <span class="carousel-dot" data-slide="3"></span>
         <span class="carousel-dot" data-slide="4"></span>
+        <span class="carousel-dot" data-slide="5"></span>
       </div>
     </section>
 
@@ -1284,9 +1344,42 @@
         </div>
       </article>
 
+      <!-- ⚡ 《續航》新書上市書卡 -->
+      <article class="link-book book-xuhang book-secondary">
+        <div class="book-tag tag-xuhang">✨ 最新上架</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book6.jpg" alt="《續航》書封" class="book-cover" />
+          </div>
+          <div class="book-info">
+            <h2>《續航》</h2>
+            <div class="book-rating">
+              <span class="rating-text">新書上市 · 搶先體驗</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🔋</span> 缺的是系統不是意志力，打造不中斷的最小單元</div>
+              <div class="selling-point"><span>🛡️</span> 構築物理防火牆，掌握低消耗高產出的不缺心態</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$350</span></span>
+                <span class="price-gem">💎</span> NT$259
+                <span class="discount-badge">74折 (省 $91)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="續航購買連結">
+          <a href="https://readmoo.com/book/210498507000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '續航')" aria-label="在 Readmoo 購買續航">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/691655?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '續航')" aria-label="在 Pubu 購買續航">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/SBhjgFJM6DSrzeDmMqUGYw?sId=ca03978c-6e70-488f-a053-1e83a3d21c6f&ssId=aLHYUHEB-JP3E_fU8HhKW&cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '續航')" aria-label="在 Kobo 購買續航">Kobo</a>
+        </div>
+      </article>
+
       <!-- 📘 《借力》次要書卡 -->
       <article class="link-book book-jieli book-secondary">
-        <div class="book-tag tag-jieli">✨ 最新上架</div>
+        <div class="book-tag tag-jieli">🌊 順流借力指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book5.jpg" alt="《借力》書封" class="book-cover" />
@@ -1383,12 +1476,12 @@
         </div>
       </article>
 
-      <!-- 📚 Readmoo 5 冊全系列原廠標準卡片 -->
+      <!-- 📚 Readmoo 6 冊全系列原廠標準卡片 -->
       <article class="link-book book-series" style="margin-top: 16px;">
-        <div class="book-tag tag-series">📚 全 5 冊</div>
+        <div class="book-tag tag-series">📚 全 6 冊</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper" style="width: 86px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-            <img src="assets/book_bundle_5books.jpg?v=20260802" alt="人生遊戲攻略全五冊系列" class="book-cover" style="width: 100%; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.4);" />
+            <img src="assets/book_bundle_6books.jpg?v=20260904" alt="人生遊戲攻略全六冊系列" class="book-cover" style="width: 100%; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.4);" />
           </div>
           <div class="book-info">
             <h2 style="font-size: 1.06rem;">人生遊戲攻略・全系列</h2>
@@ -1397,14 +1490,14 @@
               <span class="rating-text" style="color: rgba(247, 247, 240, 0.7); font-size: 0.76rem;">系列 12 人評分・5 星</span>
             </div>
             <div class="book-selling-points" style="font-size: 0.82rem; color: rgba(247, 247, 240, 0.75); line-height: 1.5;">
-              <div class="selling-point" style="margin-bottom: 2px;"><span>🛒</span> 一鍵把 5 冊全加入購物車，不漏書</div>
-              <div class="selling-point"><span>✨</span> 已含最新《借力》</div>
+              <div class="selling-point" style="margin-bottom: 2px;"><span>🛒</span> 一鍵把 6 冊全加入購物車，不漏書</div>
+              <div class="selling-point"><span>✨</span> 已含最新《續航》與《借力》</div>
             </div>
             <div class="book-price" style="margin-top: 8px;">
               <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5);">系列售價</span>
               <span class="price-amount" style="font-size: 1.15rem; font-weight: 800; color: #2dd4bf; margin-left: 4px;">
-                <span class="price-gem">💎</span> NT$1,095
-                <span class="price-original" style="font-size: 0.75rem; font-weight: 400; color: rgba(247, 247, 240, 0.5);">（5 冊合計）</span>
+                <span class="price-gem">💎</span> NT$1,354
+                <span class="price-original" style="font-size: 0.75rem; font-weight: 400; color: rgba(247, 247, 240, 0.5);">（6 冊合計）</span>
               </span>
             </div>
           </div>
