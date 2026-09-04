@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>EP01 — 大腦 RAM 清倉術</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a2e26;
+    --green: #2D5F4F;
+    --green-soft: #E8EFE9;
+    --gray: #94A3B8;
+    --gray-line: #CBD5E1;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #444;
+    font-family: "Noto Sans TC", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide {
+    width: 1376px;
+    height: 768px;
+    background: var(--white);
+    padding: 64px 88px;
+    position: relative;
+    margin: 24px auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .ep-tag {
+    font-family: "Inter", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+  }
+  .title {
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-top: 28px;
+  }
+  .title.sm { font-size: 50px; }
+  .divider {
+    height: 1.5px;
+    background: var(--gray-line);
+    margin: 36px 0 32px;
+    width: 100%;
+  }
+  .lead {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.55;
+    margin-top: 24px;
+  }
+  .bullets {
+    list-style: none;
+    margin-top: 16px;
+  }
+  .bullets li {
+    font-size: 26px;
+    line-height: 1.7;
+    color: var(--ink);
+    padding-left: 36px;
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .bullets li::before {
+    content: "▸";
+    color: var(--green);
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .bullets li b { color: var(--green); font-weight: 700; }
+  .quote {
+    margin-top: auto;
+    font-size: 24px;
+    font-style: italic;
+    color: var(--green);
+    line-height: 1.6;
+    border-left: 4px solid var(--green);
+    padding-left: 20px;
+  }
+  .quote .author {
+    font-style: normal;
+    color: var(--gray);
+    font-size: 20px;
+    margin-left: 8px;
+  }
+  .footer-brand {
+    position: absolute;
+    bottom: 32px;
+    right: 88px;
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    color: var(--gray);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+  /* === Slide 1 封面 === */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 100px;
+  }
+  .cover .ep-tag { font-size: 28px; }
+  .cover .title {
+    font-size: 96px;
+    margin-top: 32px;
+  }
+  .cover .lead {
+    font-size: 36px;
+    margin-top: 36px;
+    color: var(--gray);
+    font-weight: 400;
+  }
+  .cover .badge {
+    margin-top: 64px;
+    display: inline-block;
+    background: var(--green-soft);
+    color: var(--green);
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 20px;
+    font-weight: 600;
+    width: fit-content;
+  }
+  /* === icon panel (right side optional) === */
+  .with-icon {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .icon-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1.5px solid var(--green);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 140px;
+    color: var(--green);
+    background: var(--green-soft);
+  }
+  /* === 步驟卡 === */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .step {
+    border: 1.5px solid var(--gray-line);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+  }
+  .step .num {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+  }
+  .step .step-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green);
+    margin-top: 12px;
+  }
+  .step .step-desc {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-top: 10px;
+  }
+  /* === CTA 結尾 === */
+  .cta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .cta-chip {
+    background: var(--green-soft);
+    color: var(--green);
+    text-align: center;
+    padding: 28px 16px;
+    border-radius: 16px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .next-ep {
+    margin-top: 36px;
+    padding: 24px 32px;
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .next-ep .label {
+    background: #ffffff22;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .next-ep .ep-title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  /* === Print friendly === */
+  @page { size: 1376px 768px; margin: 0; }
+  @media print {
+    html, body { background: var(--white); }
+    .slide {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+    .slide:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SLIDE 1：封面 ============ -->
+<section class="slide cover">
+  <div class="ep-tag">EP.01 / 降噪人生第一季</div>
+  <h1 class="title">大腦 RAM<br>清倉術</h1>
+  <p class="lead">你大腦現在跑了幾個 App？</p>
+  <span class="badge">📚 出自《降噪人生》第 5.1 章</span>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 2：痛點場景 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">你是不是這樣？</h2>
+  <div class="divider"></div>
+  <ul class="bullets">
+    <li>下班躺沙發，<b>累得像被卡車輾過</b>，但你沒搬磚也沒運動</li>
+    <li>洗澡洗到一半，突然驚覺：「啊！下午忘記打給客戶」</li>
+    <li>躺床想睡，腦袋像 <b>30 個沒關的瀏覽器分頁</b>，越想睡越燙</li>
+  </ul>
+  <p class="quote">越想睡，腦袋越燙。最後只能滑手機到凌晨兩點。</p>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 3：不是體力差 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">不是體力差<br>是大腦當機了</h2>
+  <div class="divider"></div>
+  <p class="lead">這不是你抗壓性差。<br>是你的<b style="color:var(--green)">大腦 RAM 跑滿了</b>。</p>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 4：蔡加尼克效應 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title sm">蔡加尼克效應<br><span style="font-family:Inter;font-size:32px;color:var(--gray);font-weight:600;">Zeigarnik Effect</span></h2>
+  <div class="divider"></div>
+  <p class="lead">大腦對「沒做完的事」會保持高度警覺，<br>在你意識不到的地方一直循環播放：</p>
+  <ul class="bullets" style="margin-top:24px;">
+    <li>「打給客戶」、「買牛奶」、「房貸」、「靈感」</li>
+    <li>30 件還沒做的事 = <b>30 個極度耗電的背景 App</b></li>
+    <li>狂耗注意力，造成慢性焦慮</li>
+  </ul>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 5：大腦是 CPU ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">大腦是 CPU<br>不是硬碟</h2>
+  <div class="divider"></div>
+  <ul class="bullets">
+    <li>大腦<b>擅長</b>：思考、判斷、捕捉靈感</li>
+    <li>大腦<b>不擅長</b>：當作長期儲存</li>
+  </ul>
+  <p class="quote">「大腦是用來『思考』的，不是用來『記憶』的。」<span class="author">— 大衛・艾倫</span></p>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 6：解方 第二大腦 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">解方：<br>幫大腦買個外接硬碟</h2>
+  <div class="divider"></div>
+  <ul class="bullets">
+    <li>它叫做<b>「第二大腦」</b>（Second Brain）</li>
+    <li>Notion / Obsidian / Evernote / 手機備忘錄都行</li>
+    <li><b>工具不重要，丟進去最重要</b></li>
+    <li>不分類、不修飾、不排序 — 先卸載</li>
+  </ul>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 7：倉鼠 → 指揮官 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">從倉鼠 → 指揮官</h2>
+  <div class="divider"></div>
+  <p class="lead">當你把雜事卸載到第二大腦的那一刻，<br>大腦會瞬間「冷卻」下來。</p>
+  <p class="quote">「別當被瑣事追著跑的倉鼠，<br>當開啟上帝視角的指揮官。」</p>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 8：三步驟操作 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">三步驟<br>5 分鐘啟動</h2>
+  <div class="divider"></div>
+  <div class="steps">
+    <div class="step">
+      <div class="num">STEP 01</div>
+      <div class="step-title">準備外接硬碟</div>
+      <p class="step-desc">打開 Notion、Obsidian 或手機備忘錄。新建頁面叫「我的第二大腦」。</p>
+    </div>
+    <div class="step">
+      <div class="num">STEP 02</div>
+      <div class="step-title">徹底傾倒</div>
+      <p class="step-desc">把腦袋掛念的全部丟進去。不分類、不排序、不修飾。寫得越亂越好。</p>
+    </div>
+    <div class="step">
+      <div class="num">STEP 03</div>
+      <div class="step-title">跟大腦溝通</div>
+      <p class="step-desc">深呼吸，跟自己說：「我已經外包記下來了。你可以停止發送警報了。」</p>
+    </div>
+  </div>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 9：現在就做 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title">現在，立刻 →</h2>
+  <div class="divider"></div>
+  <ul class="bullets">
+    <li>拿出手機，打開備忘錄</li>
+    <li>寫下這個當下「<b>最掛念的 3 件小事</b>」</li>
+    <li>深呼吸，告訴自己：「<b>我已經外包了</b>」</li>
+    <li>去感受那個瞬間的清爽</li>
+  </ul>
+  <p class="quote">如果你做了，留言告訴我你寫了哪 3 件。<br>看看大家最常掛念的事是什麼。</p>
+  <div class="footer-brand">Life OS</div>
+</section>
+
+<!-- ============ SLIDE 10：CTA + 下集預告 ============ -->
+<section class="slide">
+  <div class="ep-tag">EP.01</div>
+  <h2 class="title sm">完整方法在<br>《降噪人生》第 5.1 章</h2>
+  <div class="divider"></div>
+  <div class="cta-grid">
+    <div class="cta-chip">📚 Readmoo</div>
+    <div class="cta-chip">📱 Pubu</div>
+    <div class="cta-chip">📖 樂天 Kobo</div>
+  </div>
+  <div class="next-ep">
+    <span class="label">下集 EP.02</span>
+    <div>
+      <div class="ep-title">心靈防火牆</div>
+      <div style="font-size:18px;opacity:0.7;margin-top:4px;">為什麼你越懂事越累？</div>
+    </div>
+  </div>
+  <div class="footer-brand">Life OS · 每週三上新片</div>
+</section>
+
+</body>
+</html>

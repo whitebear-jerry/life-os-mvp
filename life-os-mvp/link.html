@@ -1,0 +1,1649 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>白熊人生攻略｜Life OS</title>
+  <meta name="description" content="白熊人生攻略：把人生變成可以升級的作業系統。">
+  <link rel="stylesheet" href="assets/styles.css">
+  <!-- ⚡ 首屏關鍵圖片優先預載 (LCP 加速) -->
+  <link rel="preload" as="image" href="assets/book1_banner.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/bear-avatar.jpg">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .link-book:target {
+      animation: bookTargetHighlight 2.5s ease-out;
+    }
+
+    @keyframes bookTargetHighlight {
+      0% {
+        box-shadow: 0 0 0 4px #fbbf24, 0 0 35px rgba(251, 191, 36, 0.7);
+        transform: scale(1.02);
+      }
+      70% {
+        box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.5), 0 0 20px rgba(251, 191, 36, 0.3);
+        transform: scale(1.01);
+      }
+      100% {
+        box-shadow: none;
+        transform: scale(1);
+      }
+    }
+
+    body.link-page {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(47, 107, 79, 0.38), transparent 34rem),
+        linear-gradient(180deg, #0c1511 0%, #121912 52%, #17201a 100%);
+      color: #f7f7f0;
+    }
+
+    .link-shell {
+      width: min(100%, 520px);
+      margin: 0 auto;
+      padding: 28px 18px 30px;
+    }
+
+    .link-profile {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      text-align: center;
+      padding: 12px 0 20px;
+    }
+
+    .bear-avatar {
+      width: 92px;
+      aspect-ratio: 1;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50%;
+      background: url('assets/bear-avatar.jpg') no-repeat center 20%;
+      background-size: 135%;
+      image-rendering: pixelated;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.48), 0 0 16px rgba(47, 107, 79, 0.4);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bear-avatar:hover {
+      transform: scale(1.08) rotate(3deg);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.58), 0 0 24px rgba(47, 107, 79, 0.7);
+    }
+
+    .link-profile h1 {
+      max-width: 100%;
+      font-size: 1.72rem;
+      line-height: 1.12;
+    }
+
+    .link-tagline {
+      margin: 0;
+      color: rgba(247, 247, 240, 0.78);
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+
+    .link-books {
+      display: grid;
+      gap: 12px;
+    }
+
+    .link-book {
+      padding: 18px 16px;
+      border: 1px solid rgba(220, 227, 217, 0.16);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .link-book:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .link-book.book-fuli:hover {
+      border-color: rgba(196, 137, 53, 0.35);
+      box-shadow: 0 16px 48px rgba(196, 137, 53, 0.06);
+    }
+
+    .link-book.book-game:hover {
+      border-color: rgba(160, 79, 85, 0.35);
+      box-shadow: 0 16px 48px rgba(160, 79, 85, 0.06);
+    }
+
+    .link-book.book-noise:hover {
+      border-color: rgba(64, 105, 132, 0.35);
+      box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06);
+    }
+
+    .link-book.book-xinfu:hover {
+      border-color: rgba(212, 138, 55, 0.35);
+      box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06);
+    }
+
+    .link-book.book-jieli:hover {
+      border-color: rgba(99, 126, 196, 0.35);
+      box-shadow: 0 16px 48px rgba(99, 126, 196, 0.06);
+    }
+
+    .link-book h2 {
+      font-size: 1.06rem;
+      line-height: 1.28;
+    }
+
+    .link-book p {
+      margin: 8px 0 0;
+      color: rgba(247, 247, 240, 0.72);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .link-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .link-actions a {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .book-fuli .link-actions a {
+      background: var(--gold);
+      box-shadow: 0 4px 12px rgba(196, 137, 53, 0.15);
+    }
+
+    .book-game .link-actions a {
+      background: var(--rose);
+      box-shadow: 0 4px 12px rgba(160, 79, 85, 0.15);
+    }
+
+    .book-noise .link-actions a {
+      background: var(--blue);
+      box-shadow: 0 4px 12px rgba(64, 105, 132, 0.15);
+    }
+
+    .book-xinfu .link-actions a {
+      background: #d48a37;
+      box-shadow: 0 4px 12px rgba(212, 138, 55, 0.15);
+    }
+
+    .book-jieli .link-actions a {
+      background: #637ec4;
+      box-shadow: 0 4px 12px rgba(99, 126, 196, 0.15);
+    }
+
+    .book-xuhang .link-actions a {
+      background: #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    }
+
+    .book-series .link-actions {
+      display: block;
+      margin-top: 16px;
+    }
+
+    .book-series .link-actions a {
+      width: 100%;
+      min-height: 52px;
+      font-size: 1.05rem;
+      background: #34a89b;
+      box-shadow: 0 4px 12px rgba(52, 168, 155, 0.15);
+    }
+
+    .link-actions a:hover {
+      filter: brightness(1.12);
+      transform: translateY(-3px) scale(1.05);
+      border-color: rgba(255, 255, 255, 0.32);
+    }
+
+    .book-fuli .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(196, 137, 53, 0.35);
+    }
+
+    .book-game .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(160, 79, 85, 0.35);
+    }
+
+    .book-noise .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(64, 105, 132, 0.35);
+    }
+
+    .book-xinfu .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(212, 138, 55, 0.35);
+    }
+
+    .book-jieli .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(99, 126, 196, 0.35);
+    }
+
+    .book-xuhang .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+    }
+
+    .book-series .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(52, 168, 155, 0.35);
+    }
+
+    .link-actions a:active {
+      transform: translateY(0) scale(0.97);
+      filter: brightness(0.95);
+    }
+
+    .link-actions a:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.6);
+      outline-offset: 3px;
+    }
+
+    /* ==================================================== */
+    /* 🏰 冒險者神裝書卡 & 水晶社群控制台全新 CSS 樣式 */
+    /* ==================================================== */
+
+    /* 1. 書卡左右與自適應佈局 */
+    .book-card-content {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .book-cover-wrapper {
+      position: relative;
+      width: 90px;
+      height: 144px; /* Changed from 130px to match 1.6 aspect ratio of book covers */
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .link-book:hover .book-cover {
+      transform: scale(1.08);
+    }
+
+    .book-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* 2. 最多冒險者解鎖標記與火車頭金色發光邊框 */
+    .book-tag {
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      background: linear-gradient(135deg, #ffd700 0%, #ff9800 100%);
+      color: #0c1511;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 215, 0, 0.2);
+      z-index: 5;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .link-book {
+      position: relative;
+      overflow: visible; /* 為了讓 book-tag 能浮出來 */
+    }
+
+    /* 金色呼吸發光效果 (人生複利 & 特惠包) */
+    @keyframes goldGlow {
+      0% {
+        border-color: rgba(255, 215, 0, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 215, 0, 0.15), inset 0 0 8px rgba(255, 215, 0, 0.05);
+      }
+      50% {
+        border-color: rgba(255, 215, 0, 1);
+        box-shadow: 0 16px 48px rgba(255, 215, 0, 0.06), 0 0 25px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(255, 215, 0, 0.15);
+      }
+      100% {
+        border-color: rgba(255, 215, 0, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 215, 0, 0.15), inset 0 0 8px rgba(255, 215, 0, 0.05);
+      }
+    }
+
+    /* 玫瑰紅呼吸發光效果 (人生遊戲) */
+    @keyframes roseGlow {
+      0% {
+        border-color: rgba(160, 79, 85, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(160, 79, 85, 0.15), inset 0 0 8px rgba(160, 79, 85, 0.05);
+      }
+      50% {
+        border-color: rgba(160, 79, 85, 1);
+        box-shadow: 0 16px 48px rgba(160, 79, 85, 0.06), 0 0 25px rgba(160, 79, 85, 0.45), inset 0 0 15px rgba(160, 79, 85, 0.15);
+      }
+      100% {
+        border-color: rgba(160, 79, 85, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(160, 79, 85, 0.15), inset 0 0 8px rgba(160, 79, 85, 0.05);
+      }
+    }
+
+    /* 鋼鐵藍呼吸發光效果 (降噪人生) */
+    @keyframes blueGlow {
+      0% {
+        border-color: rgba(64, 105, 132, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 105, 132, 0.15), inset 0 0 8px rgba(64, 105, 132, 0.05);
+      }
+      50% {
+        border-color: rgba(64, 105, 132, 1);
+        box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06), 0 0 25px rgba(64, 105, 132, 0.45), inset 0 0 15px rgba(64, 105, 132, 0.15);
+      }
+      100% {
+        border-color: rgba(64, 105, 132, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 105, 132, 0.15), inset 0 0 8px rgba(64, 105, 132, 0.05);
+      }
+    }
+
+    /* 琥珀金呼吸發光效果 (心富) */
+    @keyframes amberGlow {
+      0% {
+        border-color: rgba(212, 138, 55, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 138, 55, 0.15), inset 0 0 8px rgba(212, 138, 55, 0.05);
+      }
+      50% {
+        border-color: rgba(212, 138, 55, 1);
+        box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06), 0 0 25px rgba(212, 138, 55, 0.45), inset 0 0 15px rgba(212, 138, 55, 0.15);
+      }
+      100% {
+        border-color: rgba(212, 138, 55, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 138, 55, 0.15), inset 0 0 8px rgba(212, 138, 55, 0.05);
+      }
+    }
+
+    /* 靛藍呼吸發光 (借力) */
+    @keyframes indigoGlow {
+      0%   { border-color: rgba(99,126,196,.5); box-shadow: 0 16px 48px rgba(0,0,0,.2), 0 0 10px rgba(99,126,196,.15), inset 0 0 8px rgba(99,126,196,.05); }
+      50%  { border-color: rgba(99,126,196,1);  box-shadow: 0 16px 48px rgba(99,126,196,.06), 0 0 25px rgba(99,126,196,.45), inset 0 0 15px rgba(99,126,196,.15); }
+      100% { border-color: rgba(99,126,196,.5); box-shadow: 0 16px 48px rgba(0,0,0,.2), 0 0 10px rgba(99,126,196,.15), inset 0 0 8px rgba(99,126,196,.05); }
+    }
+
+    /* 🌊 水波橫向流光（借力專屬，呼應「順流」主題） */
+    @keyframes waterFlow {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+
+    /* 翡翠極光綠呼吸發光效果 (續航) */
+    @keyframes emeraldGlow {
+      0% {
+        border-color: rgba(16, 185, 129, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(16, 185, 129, 0.15), inset 0 0 8px rgba(16, 185, 129, 0.05);
+      }
+      50% {
+        border-color: rgba(16, 185, 129, 1);
+        box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06), 0 0 25px rgba(16, 185, 129, 0.45), inset 0 0 15px rgba(16, 185, 129, 0.15);
+      }
+      100% {
+        border-color: rgba(16, 185, 129, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(16, 185, 129, 0.15), inset 0 0 8px rgba(16, 185, 129, 0.05);
+      }
+    }
+
+    /* 皇家紫呼吸發光效果 (四冊特惠包) */
+    @keyframes purpleGlow {
+      0% {
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(139, 92, 246, 0.15), inset 0 0 8px rgba(139, 92, 246, 0.05);
+      }
+      50% {
+        border-color: rgba(139, 92, 246, 1);
+        box-shadow: 0 16px 48px rgba(139, 92, 246, 0.06), 0 0 25px rgba(139, 92, 246, 0.45), inset 0 0 15px rgba(139, 92, 246, 0.15);
+      }
+      100% {
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(139, 92, 246, 0.15), inset 0 0 8px rgba(139, 92, 246, 0.05);
+      }
+    }
+
+    /* 青綠呼吸發光效果 (Readmoo 系列) */
+    @keyframes tealGlow {
+      0% {
+        border-color: rgba(52, 168, 155, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(52, 168, 155, 0.15), inset 0 0 8px rgba(52, 168, 155, 0.05);
+      }
+      50% {
+        border-color: rgba(52, 168, 155, 1);
+        box-shadow: 0 16px 48px rgba(52, 168, 155, 0.06), 0 0 25px rgba(52, 168, 155, 0.45), inset 0 0 15px rgba(52, 168, 155, 0.15);
+      }
+      100% {
+        border-color: rgba(52, 168, 155, 0.5);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(52, 168, 155, 0.15), inset 0 0 8px rgba(52, 168, 155, 0.05);
+      }
+    }
+
+    .link-book.book-fuli {
+      border: 1.5px solid rgba(255, 215, 0, 0.6);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: goldGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-game {
+      border: 1.5px solid rgba(160, 79, 85, 0.6);
+      background: linear-gradient(135deg, rgba(160, 79, 85, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: roseGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-noise {
+      border: 1.5px solid rgba(64, 105, 132, 0.6);
+      background: linear-gradient(135deg, rgba(64, 105, 132, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: blueGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-xinfu {
+      border: 1.5px solid rgba(212, 138, 55, 0.6);
+      background: linear-gradient(135deg, rgba(212, 138, 55, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: amberGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-jieli {
+      border-color: rgba(99,126,196,.5);
+      animation: indigoGlow 3s infinite ease-in-out;
+    }
+
+    /* 流光帶：靠 border-radius: inherit 收邊，不用 overflow:hidden（見上方坑 1） */
+    .link-book.book-jieli::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(115deg, transparent 40%, rgba(168,196,255,.10) 50%, transparent 60%);
+      background-size: 200% 100%;
+      animation: waterFlow 6s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .link-book.book-jieli > *:not(.book-tag) { position: relative; z-index: 1; }
+
+    .link-book.book-xuhang {
+      border: 1.5px solid rgba(16, 185, 129, 0.6);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: emeraldGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-xuhang:hover {
+      border-color: rgba(16, 185, 129, 0.35);
+      box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06);
+    }
+
+    .link-book.book-bundle {
+      border: 1.5px solid rgba(139, 92, 246, 0.6);
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: purpleGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-bundle:hover {
+      border-color: rgba(139, 92, 246, 0.35);
+      box-shadow: 0 16px 48px rgba(139, 92, 246, 0.06);
+    }
+
+    .link-book.book-series {
+      border: 1.5px solid rgba(52, 168, 155, 0.6);
+      background: linear-gradient(135deg, rgba(52, 168, 155, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+      animation: tealGlow 3s infinite ease-in-out;
+    }
+
+    .link-book.book-series:hover {
+      border-color: rgba(52, 168, 155, 0.35);
+      box-shadow: 0 16px 48px rgba(52, 168, 155, 0.06);
+    }
+
+    /* 各書標籤配色 */
+    .book-tag.tag-game {
+      background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3), 0 0 8px rgba(244, 63, 94, 0.2);
+    }
+    .book-tag.tag-noise {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3), 0 0 8px rgba(59, 130, 246, 0.2);
+    }
+    .book-tag.tag-xinfu {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      color: #0c1511;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3), 0 0 8px rgba(245, 158, 11, 0.2);
+    }
+    .book-tag.tag-jieli {
+      background: linear-gradient(135deg, #637ec4 0%, #3b4e8c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(99, 126, 196, 0.3), 0 0 8px rgba(99, 126, 196, 0.2);
+    }
+    .book-tag.tag-series {
+      background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);
+      color: #0c1511;
+      box-shadow: 0 4px 10px rgba(45, 212, 191, 0.3), 0 0 8px rgba(45, 212, 191, 0.2);
+    }
+    .book-tag.tag-fuli {
+      background: linear-gradient(135deg, #ffd700 0%, #c48935 100%);
+      color: #0c1511;
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 215, 0, 0.2);
+    }
+    .book-tag.tag-xuhang {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3), 0 0 8px rgba(16, 185, 129, 0.2);
+    }
+
+    /* 3. 星等與發光金星 */
+    .book-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0 8px;
+    }
+
+    .stars {
+      color: #ffd700;
+      text-shadow: 0 0 6px rgba(255, 215, 0, 0.9), 0 0 12px rgba(255, 215, 0, 0.4);
+      font-size: 0.82rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .rating-text {
+      color: rgba(247, 247, 240, 0.55);
+      font-size: 0.75rem;
+    }
+
+    .book-selling-points {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 10px 0;
+    }
+
+    .selling-point {
+      font-size: 0.8rem;
+      color: rgba(247, 247, 240, 0.85);
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .selling-point span {
+      font-size: 0.95rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      flex-shrink: 0;
+    }
+
+    /* 4. 遊戲寶石價格風格 */
+    .book-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin: 6px 0 10px;
+    }
+
+    .price-label {
+      font-size: 0.7rem;
+      color: rgba(247, 247, 240, 0.5);
+      font-weight: bold;
+    }
+
+    .price-amount {
+      font-size: 0.85rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: #4ef072;
+      text-shadow: 0 0 5px rgba(78, 240, 114, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .price-original {
+      color: rgba(247, 247, 240, 0.45);
+      font-size: 0.72rem;
+      margin-right: 2px;
+      white-space: nowrap;
+      font-weight: normal;
+    }
+
+    .price-original-cross {
+      text-decoration: line-through;
+    }
+
+    .discount-badge {
+      background: rgba(255, 107, 107, 0.16);
+      color: #ff8b8b;
+      border: 0.5px solid rgba(255, 107, 107, 0.3);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      margin-left: 5px;
+      white-space: nowrap;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .price-gem {
+      font-size: 0.95rem;
+      animation: gemShine 2.5s infinite ease-in-out;
+      display: inline-block;
+    }
+
+    @keyframes gemShine {
+      0%, 100% { filter: brightness(1) drop-shadow(0 0 2px rgba(78, 205, 255, 0.5)); }
+      50% { filter: brightness(1.25) drop-shadow(0 0 6px rgba(78, 205, 255, 0.9)); }
+    }
+
+    /* 5. 遊戲化點擊與防跑版樣式 */
+    .link-actions a.hidden-purchase {
+      display: none !important;
+    }
+
+    .link-actions a.active-purchase {
+      grid-column: span 3 !important;
+      background: linear-gradient(135deg, #ff9800 0%, #e65100 100%) !important;
+      border-color: #ffd89c !important;
+      box-shadow: 0 0 15px rgba(230, 81, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.2) !important;
+      animation: buttonPulse 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes buttonPulse {
+      0% { transform: scale(0.95); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    /* 6. 水晶社群情報站 CSS */
+    .social-links-area {
+      margin: 32px 0 16px;
+      padding: 20px 0 0;
+      border-top: 1px solid rgba(220, 227, 217, 0.12);
+      text-align: center;
+    }
+
+    .social-label {
+      display: block;
+      font-size: 0.82rem;
+      color: rgba(247, 247, 240, 0.5);
+      margin-bottom: 14px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .social-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .social-icon-btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      filter: brightness(1.15);
+    }
+
+    .social-icon-btn:active {
+      transform: translateY(0);
+      filter: brightness(0.9);
+    }
+
+    .social-icon-btn svg {
+      flex-shrink: 0;
+    }
+
+    /* 各平台水晶色澤 */
+    .threads-btn {
+      background: linear-gradient(135deg, rgba(16, 16, 16, 0.4) 0%, rgba(32, 32, 32, 0.7) 100%);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .threads-btn:hover {
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .ig-btn {
+      background: linear-gradient(135deg, rgba(225, 48, 108, 0.15) 0%, rgba(225, 48, 108, 0.35) 100%);
+      border-color: rgba(225, 48, 108, 0.25);
+    }
+    .ig-btn:hover {
+      box-shadow: 0 0 12px rgba(225, 48, 108, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .yt-btn {
+      background: linear-gradient(135deg, rgba(205, 32, 31, 0.15) 0%, rgba(205, 32, 31, 0.35) 100%);
+      border-color: rgba(205, 32, 31, 0.25);
+    }
+    .yt-btn:hover {
+      box-shadow: 0 0 12px rgba(205, 32, 31, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .fb-btn {
+      background: linear-gradient(135deg, rgba(59, 89, 152, 0.15) 0%, rgba(59, 89, 152, 0.35) 100%);
+      border-color: rgba(59, 89, 152, 0.25);
+    }
+    .fb-btn:hover {
+      box-shadow: 0 0 12px rgba(59, 89, 152, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 7. 手機窄螢幕自適應 */
+    @media (max-width: 480px) {
+      .book-card-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .book-cover-wrapper {
+        margin-bottom: 12px;
+      }
+      .book-rating {
+        justify-content: center;
+      }
+      .book-selling-points {
+        align-items: center;
+      }
+      .book-price {
+        justify-content: center;
+      }
+    }
+
+    /* === 🚀 互動升級全新視覺樣式 (Carousel & Guild) === */
+    .avatar-container {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      margin: 0 auto;
+    }
+
+    .avatar-container .bear-avatar {
+      width: 100%;
+      height: 100%;
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 28px;
+      height: 28px;
+      background: rgba(12, 21, 17, 0.95);
+      border: 1.5px solid #ffd89c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 8px rgba(196, 137, 53, 0.3);
+      animation: popBadge 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 2;
+      user-select: none;
+    }
+
+    @keyframes popBadge {
+      0% { transform: scale(0.01) rotate(-45deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+
+    /* 書籍動態橫幅 Carousel */
+    .link-carousel {
+      position: relative;
+      margin: 0 0 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(220, 227, 217, 0.14);
+      background: rgba(12, 21, 17, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow: hidden;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      touch-action: pan-y;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carousel-track-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      cursor: grab;
+    }
+
+    .carousel-slide:active {
+      cursor: grabbing;
+    }
+
+    /* 頂部圖片區域：完美 16:9 比例，100% 原圖無遮擋，無暗色漸層 */
+    .slide-image-area {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .slide-book1 {
+      background-image: url('assets/book1_banner.jpg');
+    }
+
+    .slide-book2 {
+      background-image: url('assets/book2_banner.jpg');
+    }
+
+    .slide-book3 {
+      background-image: url('assets/book3_banner.jpg');
+    }
+
+    .slide-book4 {
+      background-image: url('assets/book4_banner.jpg');
+    }
+
+    .slide-book5 {
+      background-image: url('assets/book5_banner.jpg');
+    }
+
+    .slide-book6 {
+      background-image: url('assets/book6_banner.jpg');
+    }
+
+    /* 下方文字區域：深綠色系半透明毛玻璃質感 */
+    .slide-text-area {
+      padding: 14px 18px 16px;
+      padding-right: 80px; /* 留出空間給右下角固定的 carousel-dots */
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      text-align: left;
+    }
+
+    /* 頂部控制列文字 & 標籤樣式 */
+    .slide-badge {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
+      padding: 2px 8px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .badge-fuli {
+      background: rgba(196, 137, 53, 0.2);
+      color: #ffd89c;
+      border: 1px solid rgba(196, 137, 53, 0.4);
+    }
+
+    .badge-game {
+      background: rgba(160, 79, 85, 0.25);
+      color: #ffa8ae;
+      border: 1px solid rgba(160, 79, 85, 0.4);
+    }
+
+    .badge-noise {
+      background: rgba(64, 105, 132, 0.25);
+      color: #9cd4ff;
+      border: 1px solid rgba(64, 105, 132, 0.4);
+    }
+
+    .badge-xinfu {
+      background: rgba(212, 138, 55, 0.25);
+      color: #ffcc80;
+      border: 1px solid rgba(212, 138, 55, 0.4);
+    }
+
+    .badge-jieli {
+      background: rgba(99, 126, 196, 0.25);
+      color: #b9cdff;
+      border: 1px solid rgba(99, 126, 196, 0.4);
+    }
+
+    .badge-xuhang {
+      background: rgba(16, 185, 129, 0.25);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .slide-description {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: rgba(247, 247, 240, 0.75);
+    }
+
+    /* 固定於右下角的 Dots 指示器 */
+    .carousel-dots {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.32);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .carousel-dot.active {
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+    }
+
+    /* 🛠️ 白熊工具箱 */
+    .link-tools {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .link-tools-head { margin: 4px 2px 2px; }
+    .link-tools-head h2 { font-size: 1.06rem; }
+    .link-tools-head p {
+      margin: 4px 0 0;
+      color: rgba(247, 247, 240, 0.58);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .link-tool {
+      padding: 14px 16px;
+      border: 1px solid rgba(74, 204, 122, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .link-tool:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(74, 204, 122, 0.42);
+      box-shadow: 0 16px 48px rgba(74, 204, 122, 0.08);
+    }
+    .link-tool-icon {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: rgba(74, 204, 122, 0.12);
+      border-radius: 12px;
+    }
+    .link-tool-body { flex: 1; min-width: 0; }
+    .link-tool-body h3 { font-size: 0.98rem; margin: 0; }
+    .link-tool-body p {
+      margin: 3px 0 0;
+      color: rgba(247, 247, 240, 0.7);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .link-tool-cta {
+      flex-shrink: 0;
+      min-height: 44px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4ACC7A, #2EA85A);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+    }
+    .link-tool-cta:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .link-tool-cta:active { transform: translateY(0); }
+    .link-tool-guide {
+      border: 1px solid rgba(74, 204, 122, 0.14);
+      border-radius: 10px;
+      background: rgba(74, 204, 122, 0.04);
+      padding: 0 14px;
+      margin-top: -2px;
+    }
+    .link-tool-guide summary {
+      cursor: pointer;
+      padding: 12px 0;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: rgba(247, 247, 240, 0.82);
+      list-style: none;
+    }
+    .link-tool-guide summary::-webkit-details-marker { display: none; }
+    .link-tool-guide summary::after { content: " ▾"; color: rgba(74, 204, 122, 0.7); }
+    .link-tool-guide[open] summary::after { content: " ▴"; }
+    .link-tool-guide ol {
+      margin: 0 0 14px;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .link-tool-guide li {
+      color: rgba(247, 247, 240, 0.7);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+    .link-tool-guide li b { color: rgba(247, 247, 240, 0.92); }
+    .link-tools-more {
+      text-align: center;
+      color: rgba(247, 247, 240, 0.4);
+      font-size: 0.8rem;
+      padding: 2px;
+    }
+    @media (max-width: 380px) {
+      .link-tool { flex-wrap: wrap; }
+      .link-tool-cta { width: 100%; }
+    }
+
+  
+
+    /* PC / Desktop Grid Layout */
+    @media (min-width: 768px) {
+      .link-shell {
+        width: min(100%, 960px);
+        max-width: 960px;
+        padding: 40px 20px;
+      }
+      .link-books {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px !important;
+      }
+      .book-bundle,
+      .book-series {
+        grid-column: 1 / -1;
+      }
+      .social-links-area {
+        margin-top: 32px;
+      }
+    }
+
+    /* Bundle Cover Landscape Override (4:3 aspect ratio) */
+    .book-bundle .book-cover-wrapper,
+    .book-series .book-cover-wrapper {
+      width: 120px;
+      height: 90px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Bundle Action Buttons Grid (Premium Style) */
+    .bundle-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .bundle-links a {
+      min-height: 52px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6px 8px;
+      border: 1px solid rgba(216, 180, 254, 0.35);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      line-height: 1.35;
+      text-decoration: none;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(99, 102, 241, 0.3) 100%);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.18);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bundle-links a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(216, 180, 254, 0.65);
+      box-shadow: 0 6px 15px rgba(124, 58, 237, 0.35);
+      filter: brightness(1.15);
+    }
+
+    .bundle-links a:active {
+      transform: translateY(0);
+    }
+  </style>
+  <!-- 📊 Microsoft Clarity 數據分析與熱圖錄影 (含作者本人 noclarity 裝置排除開關) -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+</head>
+<body class="link-page">
+  <main class="link-shell" aria-label="白熊人生攻略連結頁">
+
+    <section class="link-profile">
+      <div class="avatar-container">
+        <div class="bear-avatar" role="img" aria-label="白熊頭像"></div>
+        <div class="avatar-badge" id="avatarBadge" style="display: none;">🐻</div>
+      </div>
+      <h1>白熊人生攻略</h1>
+      <p class="link-tagline">把人生變成可以升級的作業系統</p>
+      
+    </section>
+
+    <!-- 📚 書籍故事動態橫幅 Carousel (雙區塊垂直堆疊版面設計) -->
+    <section class="link-carousel" aria-label="創作理念輪播">
+      <div class="carousel-track-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- 幻燈片 #1 ｜ 人生複利 -->
+          <div class="carousel-slide" aria-label="創作 #1 ｜ 人生複利">
+            <div class="slide-image-area slide-book1"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-fuli">創作 #1 ｜ 人生複利</span>
+              <p class="slide-description">從信念到財富的 45 個覺醒練習，幫你重設大腦關鍵字。</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #2 ｜ 人生遊戲 -->
+          <div class="carousel-slide" aria-label="創作 #2 ｜ 人生遊戲">
+            <div class="slide-image-area slide-book2"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-game">創作 #2 ｜ 人生遊戲</span>
+              <p class="slide-description">40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #3 ｜ 降噪人生 -->
+          <div class="carousel-slide" aria-label="創作 #3 ｜ 降噪人生">
+            <div class="slide-image-area slide-book3"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-noise">創作 #3 ｜ 降噪人生</span>
+              <p class="slide-description">從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #4 ｜ 心富 -->
+          <div class="carousel-slide" aria-label="創作 #4 ｜ 心富">
+            <div class="slide-image-area slide-book4"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-xinfu">創作 #4 ｜ 心富</span>
+              <p class="slide-description">把心顧好，錢自然長出來的財富實戰手冊</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #5 ｜ 借力 -->
+          <div class="carousel-slide" aria-label="創作 #5 ｜ 借力">
+            <div class="slide-image-area slide-book5"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-jieli">創作 #5 ｜ 借力</span>
+              <p class="slide-description">借趨勢、借工具、借複利——順流的人，不必比誰更用力。</p>
+            </div>
+          </div>
+          <!-- 幻燈片 #6 ｜ 續航 -->
+          <div class="carousel-slide" aria-label="創作 #6 ｜ 續航">
+            <div class="slide-image-area slide-book6"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-xuhang">創作 #6 ｜ 續航</span>
+              <p class="slide-description">走得遠的人，不靠意志力燃燒自己，而是靠設計系統。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 固定於右下角的點狀指示器 -->
+      <div class="carousel-dots" id="carouselDots">
+        <span class="carousel-dot active" data-slide="0"></span>
+        <span class="carousel-dot" data-slide="1"></span>
+        <span class="carousel-dot" data-slide="2"></span>
+        <span class="carousel-dot" data-slide="3"></span>
+        <span class="carousel-dot" data-slide="4"></span>
+        <span class="carousel-dot" data-slide="5"></span>
+      </div>
+    </section>
+
+    <!-- 🛠️ 白熊人生演算法・免費實戰工具箱 -->
+    <section class="link-tools-section" aria-label="免費實戰工具箱" style="margin: 16px 0 24px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 4px;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          🛠️ 白熊演算法・免費實戰工具
+        </span>
+        <span style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5);">免登入・即開即用</span>
+      </div>
+      <div class="tools-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+        <a href="calculator.html" class="tool-btn" onclick="trackStoreClick('tool', 'calculator')" style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 14px 8px; text-decoration: none; color: #fff; text-align: center; transition: all 0.2s; display: block;">
+          <div style="font-size: 1.3rem; margin-bottom: 4px;">🧮</div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #38bdf8;">打水計算機</div>
+          <div style="font-size: 0.7rem; color: rgba(247, 247, 240, 0.6); margin-top: 2px;">4% 自由水庫</div>
+        </a>
+        <a href="noise-audit.html" class="tool-btn" onclick="trackStoreClick('tool', 'noise-audit')" style="background: rgba(148, 163, 184, 0.08); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 12px; padding: 14px 8px; text-decoration: none; color: #fff; text-align: center; transition: all 0.2s; display: block;">
+          <div style="font-size: 1.3rem; margin-bottom: 4px;">🧘</div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #cbd5e1;">內耗自測表</div>
+          <div style="font-size: 0.7rem; color: rgba(247, 247, 240, 0.6); margin-top: 2px;">能量漏水審計</div>
+        </a>
+        <a href="leverage-check.html" class="tool-btn" onclick="trackStoreClick('tool', 'leverage-check')" style="background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.25); border-radius: 12px; padding: 14px 8px; text-decoration: none; color: #fff; text-align: center; transition: all 0.2s; display: block;">
+          <div style="font-size: 1.3rem; margin-bottom: 4px;">⚙️</div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #fbbf24;">借力檢測</div>
+          <div style="font-size: 0.7rem; color: rgba(247, 247, 240, 0.6); margin-top: 2px;">少做多得成熟度</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
+      <!-- 📘 《心富》次要書卡 -->
+      <article class="link-book book-xinfu book-secondary" id="book-xinfu">
+        <div class="book-tag tag-xinfu">🔥 近期最熱</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book4.jpg" alt="《心富》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《心富》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">1 人評分 · 7 則劃線</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🪙</span> 把心顧好，錢自然長出來的富足思維</div>
+              <div class="selling-point"><span>🧠</span> 結合心理學與行為經濟學的行動指南</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$320</span></span>
+                <span class="price-gem">💎</span> NT$229
+                <span class="discount-badge">72折 (省 $91)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="心富購買連結">
+          <a href="https://readmoo.com/book/210482574000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '心富')" aria-label="在 Readmoo 購買心富">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/675997?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '心富')" aria-label="在 Pubu 購買心富">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '心富')" aria-label="在 Kobo 購買心富">Kobo</a>
+        </div>
+      </article>
+
+      <!-- 📘 《人生複利》次要書卡 -->
+      <article class="link-book book-fuli book-secondary" id="book-fuli">
+        <div class="book-tag tag-fuli">🏅 最多人解鎖</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book1.jpg" alt="《人生複利》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《人生複利》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">8 人評分 · 5 篇書評 · 266 則劃線</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>📈</span> 每天進步 1%，一年強大 37 倍</div>
+              <div class="selling-point"><span>🧠</span> 45 個覺醒練習，重設大腦關鍵字</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$220</span></span>
+                <span class="price-gem">💎</span> NT$149
+                <span class="discount-badge">68折 (省 $71)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="人生複利購買連結">
+          <a href="https://readmoo.com/book/210446460000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '人生複利')" aria-label="在 Readmoo 購買人生複利">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '人生複利')" aria-label="在 Pubu 購買人生複利">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '人生複利')" aria-label="在 Kobo 購買人生複利">Kobo</a>
+        </div>
+      </article>
+
+      <!-- ⚡ 《續航》新書上市書卡 -->
+      <article class="link-book book-xuhang book-secondary" id="book-xuhang">
+        <div class="book-tag tag-xuhang">✨ 最新上架</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book6.jpg" alt="《續航》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《續航》</h2>
+            <div class="book-rating">
+              <span class="rating-text">新書上市 · 搶先體驗</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🔋</span> 缺的是系統不是意志力，打造不中斷的最小單元</div>
+              <div class="selling-point"><span>🛡️</span> 構築物理防火牆，掌握低消耗高產出的不缺心態</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$350</span></span>
+                <span class="price-gem">💎</span> NT$259
+                <span class="discount-badge">74折 (省 $91)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="續航購買連結">
+          <a href="https://readmoo.com/book/210498507000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '續航')" aria-label="在 Readmoo 購買續航">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/691655?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '續航')" aria-label="在 Pubu 購買續航">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/SBhjgFJM6DSrzeDmMqUGYw?sId=ca03978c-6e70-488f-a053-1e83a3d21c6f&ssId=aLHYUHEB-JP3E_fU8HhKW&cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '續航')" aria-label="在 Kobo 購買續航">Kobo</a>
+        </div>
+      </article>
+
+      <!-- 📘 《借力》次要書卡 -->
+      <article class="link-book book-jieli book-secondary" id="book-jieli">
+        <div class="book-tag tag-jieli">🌊 順流借力指南</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book5.jpg" alt="《借力》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《借力》</h2>
+            <div class="book-rating">
+              <span class="rating-text">新書上市 · 搶先體驗</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🌊</span> 借趨勢、借工具、借複利，少做多得</div>
+              <div class="selling-point"><span>🧭</span> 8 章 40 節，每章附自檢清單</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$320</span></span>
+                <span class="price-gem">💎</span> NT$249
+                <span class="discount-badge">78折 (省 $71)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="借力購買連結">
+          <a href="https://readmoo.com/book/210488646000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '借力')" aria-label="在 Readmoo 購買借力">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/682111?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '借力')" aria-label="在 Pubu 購買借力">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '借力')" aria-label="在 Kobo 購買借力">Kobo</a>
+        </div>
+      </article>
+
+      <article class="link-book book-noise book-secondary" id="book-noise">
+        <div class="book-tag tag-noise">🔌 大腦卸載指南</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book3.jpg" alt="《降噪人生》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《降噪人生》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">1 人評分 · 33 則劃線</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🔌</span> 大腦太吵？幫它裝一顆第二大腦</div>
+              <div class="selling-point"><span>🧘</span> 從焦慮過載到無壓力富足</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$360</span></span>
+                <span class="price-gem">💎</span> NT$269
+                <span class="discount-badge">75折 (省 $91)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="降噪人生購買連結">
+          <a href="https://readmoo.com/book/210470441000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '降噪人生')" aria-label="在 Readmoo 購買降噪人生">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/666582?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '降噪人生')" aria-label="在 Pubu 購買降噪人生">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '降噪人生')" aria-label="在 Kobo 購買降噪人生">Kobo</a>
+        </div>
+      </article>
+
+      <article class="link-book book-game book-secondary" id="book-game">
+        <div class="book-tag tag-game">👾 逆境除錯指南</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book2.jpg" alt="《人生遊戲》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《人生遊戲》</h2>
+            <div class="book-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">2 人評分 · 2 篇書評 · 96 則劃線</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>👾</span> 把逆境當 BUG，學會幫人生除錯</div>
+              <div class="selling-point"><span>🎭</span> 砍掉 80% 內心小劇場</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$280</span></span>
+                <span class="price-gem">💎</span> NT$199
+                <span class="discount-badge">71折 (省 $81)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="人生遊戲購買連結">
+          <a href="https://readmoo.com/book/210455098000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '人生遊戲')" aria-label="在 Readmoo 購買人生遊戲">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/650682?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '人生遊戲')" aria-label="在 Pubu 購買人生遊戲">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '人生遊戲')" aria-label="在 Kobo 購買人生遊戲">Kobo</a>
+        </div>
+      </article>
+
+      <!-- 📚 Readmoo 6 冊全系列原廠標準卡片 -->
+      <article class="link-book book-series" id="book-series" style="margin-top: 16px;">
+        <div class="book-tag tag-series">📚 全 6 冊</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper" style="width: 86px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <img src="assets/book_bundle_6books.jpg?v=20260904" alt="人生遊戲攻略全六冊系列" class="book-cover" loading="lazy" decoding="async" width="86" height="65" style="width: 100%; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.4);" />
+          </div>
+          <div class="book-info">
+            <h2 style="font-size: 1.06rem;">人生遊戲攻略・全系列</h2>
+            <div class="book-rating" style="display: flex; align-items: center; gap: 6px; margin: 4px 0 6px;">
+              <span class="stars" style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
+              <span class="rating-text" style="color: rgba(247, 247, 240, 0.7); font-size: 0.76rem;">系列 12 人評分・5 星</span>
+            </div>
+            <div class="book-selling-points" style="font-size: 0.82rem; color: rgba(247, 247, 240, 0.75); line-height: 1.5;">
+              <div class="selling-point" style="margin-bottom: 2px;"><span>🛒</span> 一鍵把 6 冊全加入購物車，不漏書</div>
+              <div class="selling-point"><span>✨</span> 已含最新《續航》與《借力》</div>
+            </div>
+            <div class="book-price" style="margin-top: 8px;">
+              <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5);">系列售價</span>
+              <span class="price-amount" style="font-size: 1.15rem; font-weight: 800; color: #2dd4bf; margin-left: 4px;">
+                <span class="price-gem">💎</span> NT$1,354
+                <span class="price-original" style="font-size: 0.75rem; font-weight: 400; color: rgba(247, 247, 240, 0.5);">（6 冊合計）</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="Readmoo 系列連結" style="grid-template-columns: 1fr; margin-top: 14px;">
+          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '系列')" aria-label="在 Readmoo 查看人生遊戲攻略全系列" style="background: linear-gradient(135deg, #0d9488 0%, #2dd4bf 100%); color: #0c1511; font-weight: 800; min-height: 48px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
+            在 Readmoo 查看人生遊戲攻略全系列 ➔
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <!-- === 🔗 社群連結與頁尾 === -->
+    <div class="social-links-area">
+      <span class="social-label">🌐 冒險情報站：</span>
+      <div class="social-icons">
+        <a href="https://www.threads.net/@baixiong.lifeos" target="_blank" rel="noopener" class="social-icon-btn threads-btn" title="Threads">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.3 12.8c-.5.4-1.2.6-2 .6h-.1c-1.8 0-3.1-1.1-3.1-3.2v-.2c0-2 1.3-3.2 3.1-3.2h.1c1.5 0 2.5 1 2.6 2.3h-1.3c-.1-.7-.6-1.1-1.3-1.1h-.1c-1 0-1.7.7-1.7 2v.2c0 1.3.7 2 1.7 2h.1c.5 0 .9-.1 1.2-.4l.9.9z"/></svg>
+          Threads
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- === 🛠️ 互動邏輯 JavaScript === -->
+  <script>
+    // ----------------------------------------------------
+    // 0. 流量來源與商店點擊追蹤 (UTM & Microsoft Clarity Tracking)
+    // ----------------------------------------------------
+    (function () {
+      try {
+        var s = new URLSearchParams(location.search).get('utm_source');
+        if (s) sessionStorage.setItem('lifeos_utm', s);
+      } catch (e) {}
+    })();
+
+    function trackStoreClick(store, book) {
+      try {
+        if (!window.clarity) return;               // 未載入就安靜略過
+        clarity('event', 'click-' + store + '-' + book);
+        var u = sessionStorage.getItem('lifeos_utm');
+        if (u) clarity('set', 'utm_source', u);
+      } catch (e) {}                                // 絕不報錯、絕不阻擋跳轉
+    }
+
+    // ----------------------------------------------------
+    // 1. 書籍橫幅輪播 (Carousel)
+    // ----------------------------------------------------
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    let slideTimer = null;
+
+    function showSlide(index) {
+      currentSlide = index;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      
+      dots.forEach((dot, idx) => {
+        if (idx === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function startAutoSlide() {
+      stopAutoSlide();
+      slideTimer = setInterval(() => {
+        showSlide((currentSlide + 1) % dots.length);
+      }, 5000);
+    }
+
+    function stopAutoSlide() {
+      if (slideTimer) clearInterval(slideTimer);
+    }
+
+    // 點擊 Dots 切換
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        startAutoSlide();
+      });
+    });
+
+    // 觸控滑動支援 (Swipe)
+    let startX = 0;
+    let isSwiping = false;
+
+    track.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      isSwiping = true;
+      stopAutoSlide();
+    });
+
+    track.addEventListener('touchmove', e => {
+      if (!isSwiping) return;
+      const diff = e.touches[0].clientX - startX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          showSlide((currentSlide - 1 + dots.length) % dots.length);
+        } else {
+          showSlide((currentSlide + 1) % dots.length);
+        }
+        isSwiping = false;
+      }
+    });
+
+    track.addEventListener('touchend', () => {
+      isSwiping = false;
+      startAutoSlide();
+    });
+
+    // 滑鼠懸停暫停輪播
+    const carouselSection = document.querySelector('.link-carousel');
+    carouselSection.addEventListener('mouseenter', stopAutoSlide);
+    carouselSection.addEventListener('mouseleave', startAutoSlide);
+
+    // 啟動輪播
+    startAutoSlide();
+  </script>
+</body>
+</html>
