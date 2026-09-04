@@ -14,6 +14,29 @@
       color-scheme: dark;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .link-book:target {
+      animation: bookTargetHighlight 2.5s ease-out;
+    }
+
+    @keyframes bookTargetHighlight {
+      0% {
+        box-shadow: 0 0 0 4px #fbbf24, 0 0 35px rgba(251, 191, 36, 0.7);
+        transform: scale(1.02);
+      }
+      70% {
+        box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.5), 0 0 20px rgba(251, 191, 36, 0.3);
+        transform: scale(1.01);
+      }
+      100% {
+        box-shadow: none;
+        transform: scale(1);
+      }
+    }
+
     body.link-page {
       min-height: 100vh;
       background:
@@ -1280,7 +1303,7 @@
 
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 📘 《心富》次要書卡 -->
-      <article class="link-book book-xinfu book-secondary">
+      <article class="link-book book-xinfu book-secondary" id="book-xinfu">
         <div class="book-tag tag-xinfu">🔥 近期最熱</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
@@ -1314,7 +1337,7 @@
       </article>
 
       <!-- 📘 《人生複利》次要書卡 -->
-      <article class="link-book book-fuli book-secondary">
+      <article class="link-book book-fuli book-secondary" id="book-fuli">
         <div class="book-tag tag-fuli">🏅 最多人解鎖</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
@@ -1348,7 +1371,7 @@
       </article>
 
       <!-- ⚡ 《續航》新書上市書卡 -->
-      <article class="link-book book-xuhang book-secondary">
+      <article class="link-book book-xuhang book-secondary" id="book-xuhang">
         <div class="book-tag tag-xuhang">✨ 最新上架</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
@@ -1381,7 +1404,7 @@
       </article>
 
       <!-- 📘 《借力》次要書卡 -->
-      <article class="link-book book-jieli book-secondary">
+      <article class="link-book book-jieli book-secondary" id="book-jieli">
         <div class="book-tag tag-jieli">🌊 順流借力指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
@@ -1413,7 +1436,7 @@
         </div>
       </article>
 
-      <article class="link-book book-noise book-secondary">
+      <article class="link-book book-noise book-secondary" id="book-noise">
         <div class="book-tag tag-noise">🔌 大腦卸載指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
@@ -1446,7 +1469,7 @@
         </div>
       </article>
 
-      <article class="link-book book-game book-secondary">
+      <article class="link-book book-game book-secondary" id="book-game">
         <div class="book-tag tag-game">👾 逆境除錯指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
@@ -1480,7 +1503,7 @@
       </article>
 
       <!-- 📚 Readmoo 6 冊全系列原廠標準卡片 -->
-      <article class="link-book book-series" style="margin-top: 16px;">
+      <article class="link-book book-series" id="book-series" style="margin-top: 16px;">
         <div class="book-tag tag-series">📚 全 6 冊</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper" style="width: 86px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">

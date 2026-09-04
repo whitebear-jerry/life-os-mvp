@@ -457,6 +457,12 @@
             <div class="metric-val" id="metric-fire-years" style="color: var(--primary);">14.2 年</div>
             <div class="metric-sub" id="metric-target-capital">目標本金 $1,200 萬</div>
           </div>
+
+          <div class="metric-box">
+            <div class="metric-label">MLC 生存水庫防線</div>
+            <div class="metric-val" id="metric-mlc-val" style="color: #34d399;">$780 萬</div>
+            <div class="metric-sub" id="metric-mlc-sub">基礎自由安全線</div>
+          </div>
         </div>
 
         <div class="chart-container">
@@ -469,7 +475,7 @@
     <!-- 底部：量身智慧診斷與書籍導購 (高轉換引擎) -->
     <div class="diagnosis-card">
       <div class="diagnosis-header">
-        <div class="bear-badge">🐻</div>
+        <div class="bear-badge" id="diag-badge-icon">🐻</div>
         <div>
           <div class="diagnosis-title" id="diag-title">白熊演算法診斷報告</div>
           <div class="diagnosis-level" id="diag-level">段位評估：黃金打水學徒（良好軌道）</div>
@@ -480,11 +486,13 @@
       </p>
 
       <div class="book-recommendation">
-        <div class="book-meta">
-          <h4 id="rec-book-title">📖 推薦進階閱讀：《借力》少做多得的不費力人生</h4>
-          <p id="rec-book-desc">學會借趨勢、借工具、借複利，打造不用看老闆臉色的自動化被動打水系統。</p>
+        <img src="assets/book4.jpg" alt="推薦書封" id="rec-book-img" style="width: 52px; height: 74px; border-radius: 6px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.4); flex-shrink: 0;" />
+        <div class="book-meta" style="flex: 1; min-width: 0;">
+          <h4 id="rec-book-title">📖 推薦進階閱讀：《心富》心態富足與資產配置的終極指南</h4>
+          <div id="rec-book-price" style="font-size: 0.76rem; color: #4ef072; font-weight: 700; margin-bottom: 3px; font-family: monospace;">💎 特惠價 NT$229 (72折 · 省 $91)</div>
+          <p id="rec-book-desc">心財同源！掌握 80/15/5 指數化資產配置與睡得著投資法。</p>
         </div>
-        <a href="link.html" class="cta-btn" id="rec-book-link" target="_blank">
+        <a href="link.html#book-xinfu" class="cta-btn" id="rec-book-link">
           查看書籍完整攻略 ➔
         </a>
       </div>
@@ -524,12 +532,18 @@
     const metMonthlyCashflow = document.getElementById('metric-monthly-cashflow');
     const metFireYears = document.getElementById('metric-fire-years');
     const metTargetCapital = document.getElementById('metric-target-capital');
+    const metMlcVal = document.getElementById('metric-mlc-val');
+    const metMlcSub = document.getElementById('metric-mlc-sub');
 
+    const diagBadgeIcon = document.getElementById('diag-badge-icon');
     const diagTitle = document.getElementById('diag-title');
     const diagLevel = document.getElementById('diag-level');
     const diagDesc = document.getElementById('diag-desc');
+    const recBookImg = document.getElementById('rec-book-img');
     const recBookTitle = document.getElementById('rec-book-title');
+    const recBookPrice = document.getElementById('rec-book-price');
     const recBookDesc = document.getElementById('rec-book-desc');
+    const recBookLink = document.getElementById('rec-book-link');
 
     // Chart.js 初始化
     let chartInstance = null;
@@ -622,6 +636,13 @@
       const fireTargetCapital = targetExpense * 12 * 25;
       metTargetCapital.textContent = `目標本金 ${fmtShort(fireTargetCapital)}`;
 
+      // MLC 最低生存水庫防護線（基礎生活基本開銷約佔理想退休 65%）
+      const mlcExpense = targetExpense * 0.65;
+      const mlcTargetCapital = mlcExpense * 12 * 25;
+      const mlcPct = Math.min(100, Math.round((initialCapital / mlcTargetCapital) * 100));
+      metMlcVal.textContent = fmtShort(mlcTargetCapital);
+      metMlcSub.textContent = `現已達成 ${mlcPct}%（生存防線）`;
+
       // 試算各年資產
       const years = [0, 2, 4, 6, 8, 10, 15, 20];
       const wealthData = [];
@@ -678,35 +699,70 @@
       }
 
       // 智慧診斷與書籍導購策略
-      updateDiagnosis(savingsRate, annualRate, monthsToFire / 12, wealth10y);
+      updateDiagnosis(savingsRate, annualRate, monthsToFire / 12, wealth10y, initialCapital);
     }
 
-    function updateDiagnosis(savingsRate, annualRate, yearsToFire, wealth10y) {
+    function updateDiagnosis(savingsRate, annualRate, yearsToFire, wealth10y, initialCapital) {
       if (savingsRate < 0.25) {
+        // 情況 1：儲蓄率過低 -> 《降噪人生》
+        diagBadgeIcon.innerText = "🔌";
         diagTitle.textContent = '白熊演算法診斷：內耗過濾與能量重構期';
-        diagLevel.textContent = '段位評估：青銅蓄力者（亟需清理生活雜音）';
-        diagDesc.textContent = '目前的儲蓄率偏低，生活開銷容易被過多不必要的隱性雜音與情緒消費蠶食。此階段最有效的不是硬省錢，而是透過心智降噪，辨識出哪些開銷根本沒有帶來真正的幸福感。';
+        diagLevel.textContent = '段位評估：青銅蓄力者（隱性雜音漏水）';
+        diagDesc.textContent = '目前的儲蓄率偏低，生活開銷容易被過多不必要的隱性雜音與情緒代償消費蠶食。此階段最有效的不是硬省錢，而是透過心智降噪與心靈 NAS 權限管理，辨識出哪些開銷根本沒有帶來真正的幸福感。';
+        recBookImg.src = 'assets/book3.jpg';
         recBookTitle.textContent = '📖 推薦閱讀：《降噪人生》在混亂世界找回專注與平靜';
-        recBookDesc.textContent = '清理情緒消費與隱性雜音，建立低內耗的極簡能量管理系統。';
+        recBookPrice.textContent = '💎 特惠價 NT$269 (75折 · 省 $91)';
+        recBookDesc.textContent = '清理情緒消費與隱性雜音，幫大腦卸載、替心靈把關，建立低內耗極簡系統。';
+        recBookLink.href = 'link.html#book-noise';
+        recBookLink.textContent = '直達《降噪人生》解鎖心智降噪 ➔';
       } else if (annualRate <= 0.02) {
+        // 情況 2：低收益定存 -> 《人生複利》
+        diagBadgeIcon.innerText = "📈";
         diagTitle.textContent = '白熊演算法診斷：資產失血警報（通膨吞噬中）';
         diagLevel.textContent = '段位評估：白銀守護者（防禦有餘，進攻不足）';
-        diagDesc.textContent = '你的儲蓄習慣非常好，但資產全放在低收益定存中，實質購買力正被通膨無聲侵蝕。你需要重塑對時間與資產的底層信念，讓時間站在你這邊。';
+        diagDesc.textContent = '你的儲蓄習慣非常好，但資產全放在低收益定存中，實質購買力正被通膨無聲侵蝕。你需要重塑對時間與資產的底層信念，輸入正向大腦關鍵字，讓時間與指數複利站在你這邊。';
+        recBookImg.src = 'assets/book1.jpg';
         recBookTitle.textContent = '📖 推薦閱讀：《人生複利》讓時間站在你這邊的底層邏輯';
-        recBookDesc.textContent = '重塑時間複利與底層心智信念，讓習慣與資產同步產生指數型複利效應。';
+        recBookPrice.textContent = '💎 特惠價 NT$149 (68折 · 省 $71)';
+        recBookDesc.textContent = '重塑時間複利與底層心智信念，讓習慣與資產同步產生 37 倍指數型複利效應。';
+        recBookLink.href = 'link.html#book-fuli';
+        recBookLink.textContent = '直達《人生複利》重設大腦關鍵字 ➔';
+      } else if (yearsToFire > 14 && initialCapital < 1000000) {
+        // 情況 3：漫長複利平原期 -> 《續航》
+        diagBadgeIcon.innerText = "🔋";
+        diagTitle.textContent = '白熊演算法診斷：複利平原期・亟需自轉系統';
+        diagLevel.textContent = '段位評估：青銅長跑者（漫長平原期考驗）';
+        diagDesc.textContent = '你的理財方向完全正確，但距離目標年數較長。複利前期進展緩慢，最容易因熱情消退或生活意外而中途斷鏈！走得遠的人不靠意志力燃燒自己，而是靠設計系統。你需要打造「雙螺旋續航引擎」與不中斷的最小單元。';
+        recBookImg.src = 'assets/book6.jpg';
+        recBookTitle.textContent = '📖 推薦閱讀：《續航》走得遠的人不靠意志力，而是靠設計系統';
+        recBookPrice.textContent = '💎 特惠價 NT$259 (74折 · 省 $91)';
+        recBookDesc.textContent = '缺的是系統不是意志力！掌握不中斷的最小單元與物理防火牆，安穩度過複利平原期。';
+        recBookLink.href = 'link.html#book-xuhang';
+        recBookLink.textContent = '直達《續航》解鎖持續自轉系統 ➔';
       } else if (yearsToFire <= 10) {
+        // 情況 4：高效自由倒數 -> 《借力》
+        diagBadgeIcon.innerText = "🌊";
         diagTitle.textContent = '白熊演算法診斷：高效自動打水巡航狀態！';
         diagLevel.textContent = '段位評估：黃金打水師（高自由度軌道）';
-        diagDesc.textContent = '太棒了！你的儲蓄率與配置組合處於極高效率區間。接下來的關鍵不是更努力工作，而是「借力」——借工具自動化、借趨勢放大單位時間產值，讓系統替你打水。';
+        diagDesc.textContent = '太棒了！你的儲蓄率與配置組合處於極高效率區間。接下來的關鍵不是更努力用肉身加班，而是「順流借力」——借工具自動化、借趨勢放大單位時間產值，用系統與複利進入不費力的自運轉境界。';
+        recBookImg.src = 'assets/book5.jpg';
         recBookTitle.textContent = '📖 推薦閱讀：《借力》少做多得的不費力人生';
-        recBookDesc.textContent = '借趨勢與工具放大單位時間產值，用系統與複利進入不費力的自運轉境界。';
+        recBookPrice.textContent = '💎 特惠價 NT$249 (78折 · 省 $71)';
+        recBookDesc.textContent = '順流的人不必比誰更用力！借趨勢、借工具、借複利，打造不費力的自動打水系統。';
+        recBookLink.href = 'link.html#book-jieli';
+        recBookLink.textContent = '直達《借力》解鎖不費力人生 ➔';
       } else {
-        // 🌟 預設核心推薦：最常出現的穩健累積狀態
+        // 情況 5：穩健標準水庫累積 -> 《心富》
+        diagBadgeIcon.innerText = "🪙";
         diagTitle.textContent = '白熊演算法診斷：複利蓄水池穩定成長中';
         diagLevel.textContent = '段位評估：白銀實踐者（正向軌道）';
-        diagDesc.textContent = '你的系統已經步入正軌！只要維持紀律定期定額，透過 80/15/5 的自動打水配置，複利會在 6~8 年後迎來指數級拐點。心財同源，掌握心安且不看盤的底層投資架構是走得長遠的關鍵。';
+        diagDesc.textContent = '你的系統已經步入正軌！只要維持紀律定期定額，透過 80/15/5 的自動打水配置，複利會在 6~8 年後迎來指數級拐點。心財同源，掌握「心安且不看盤」的睡得著投資架構是走得長遠的關鍵。';
+        recBookImg.src = 'assets/book4.jpg';
         recBookTitle.textContent = '📖 推薦閱讀：《心富》心態富足與資產配置的終極指南';
-        recBookDesc.textContent = '心財同源！掌握 80/15/5 指數化資產配置與睡得著投資法。';
+        recBookPrice.textContent = '💎 特惠價 NT$229 (72折 · 省 $91)';
+        recBookDesc.textContent = '心財同源！把心顧好錢自然長出來，掌握 80/15/5 指數化資產配置與睡得著投資法。';
+        recBookLink.href = 'link.html#book-xinfu';
+        recBookLink.textContent = '直達《心富》解鎖富足資產配置 ➔';
       }
     }
 
