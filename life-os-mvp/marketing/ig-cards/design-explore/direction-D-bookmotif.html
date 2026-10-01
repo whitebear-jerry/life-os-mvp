@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IG Card Direction D - Book Motif</title>
+  <style>
+    :root {
+      --green: #1a4d3a;
+      --gold: #c48935;
+      --ivory: #fdfdfb;
+      --ink: #1a1a1a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #ece9e2;
+      font-family: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+    }
+
+    .card {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(253, 253, 251, 0.98), rgba(249, 246, 238, 0.98)),
+        var(--ivory);
+      box-shadow: 0 28px 72px rgba(26, 26, 26, 0.18);
+    }
+
+    .noise-lines {
+      position: absolute;
+      inset: 0;
+      opacity: 0.16;
+      color: var(--green);
+    }
+
+    .top-rule {
+      position: absolute;
+      left: 126px;
+      top: 164px;
+      width: 178px;
+      height: 4px;
+      background: var(--gold);
+    }
+
+    .book-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 252px;
+      background: linear-gradient(180deg, transparent, rgba(26, 77, 58, 0.08));
+    }
+
+    .content {
+      position: absolute;
+      left: 126px;
+      right: 126px;
+      top: 300px;
+    }
+
+    .eyebrow {
+      margin: 0 0 84px;
+      color: rgba(26, 77, 58, 0.84);
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .quote {
+      margin: 0;
+      color: var(--green);
+      font-size: 86px;
+      line-height: 1.24;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .note {
+      margin: 88px 0 0;
+      max-width: 640px;
+      color: rgba(26, 26, 26, 0.76);
+      font-size: 34px;
+      line-height: 1.75;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .footer {
+      position: absolute;
+      left: 90px;
+      right: 90px;
+      bottom: 78px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 48px;
+      color: var(--green);
+    }
+
+    .handle {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .book {
+      color: var(--gold);
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+  </style>
+</head>
+<body>
+  <main class="card" aria-label="白熊人生攻略 IG 金句卡">
+    <svg class="noise-lines" viewBox="0 0 1080 1350" aria-hidden="true" preserveAspectRatio="none">
+      <path d="M-40 202 C 120 160, 250 245, 420 198 S 732 152, 1094 206" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M-20 292 C 138 258, 260 326, 418 288 S 764 246, 1100 298" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M14 1002 C 160 936, 310 1050, 460 986 S 758 902, 1090 984" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M34 1084 C 178 1030, 330 1110, 486 1062 S 804 1008, 1106 1068" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M74 1160 C 218 1118, 354 1168, 500 1134 S 826 1092, 1088 1138" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M792 358 C 860 366, 918 394, 960 438 C 916 462, 858 474, 790 468 C 834 438, 832 390, 792 358Z" fill="none" stroke="#c48935" stroke-width="4" opacity="0.64"/>
+      <path d="M852 384 C 880 412, 880 436, 850 462" fill="none" stroke="#c48935" stroke-width="3" opacity="0.5"/>
+    </svg>
+    <div class="book-strip" aria-hidden="true"></div>
+    <div class="top-rule" aria-hidden="true"></div>
+    <section class="content">
+      <p class="eyebrow">白熊人生攻略｜醒腦練習</p>
+      <h1 class="quote">你不是不努力，是人生雜訊太多。</h1>
+      <p class="note">真正該做的，不是把自己逼到更用力，而是先替大腦降噪，把主導權拿回來。</p>
+    </section>
+    <footer class="footer">
+      <div class="handle">@baixiong.lifeos + 🐻‍❄️</div>
+      <div class="book">《降噪人生》</div>
+    </footer>
+  </main>
+</body>
+</html>
