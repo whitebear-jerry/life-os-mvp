@@ -189,8 +189,36 @@
   .l-heart{--c:var(--l-heart)}.l-system{--c:var(--l-system)}.l-money{--c:var(--l-money)}.l-judge{--c:var(--l-judge)}.l-home{--c:var(--l-home)}
 
   /* ---------- coming soon & published ---------- */
-  .spine.is-coming{filter:grayscale(1);opacity:.45}
-  .stop img.is-coming,.home img.is-coming{filter:grayscale(1);opacity:.45}
+  /* 未上架 ＝ 書架上預留的位置，不是壞掉的圖。
+     書脊改成虛線空框（底色透出來），書名用該主題線色；
+     封面保留原本的牛皮紙暖色，只降存在感並加虛線外框。 */
+  .spine.is-coming{
+    background:transparent;
+    color:var(--c);
+    box-shadow:none;
+    border:1.5px dashed var(--c);                                  /* 後備 */
+    border-color:color-mix(in srgb, var(--c) 50%, transparent);
+    opacity:1;
+  }
+  .spine.is-coming::before,.spine.is-coming::after{display:none}
+  .spine.is-coming:hover{transform:translateY(-4px)}
+  .spine.is-coming i{opacity:.65}
+
+  .stop img.is-coming,.home img.is-coming{
+    filter:none;
+    opacity:.72;
+    border:1.5px dashed var(--c);                                  /* 後備 */
+    border-color:color-mix(in srgb, var(--c) 45%, transparent);
+    border-radius:4px;
+    background:var(--card);
+  }
+  /* 整張卡片也改虛線，呼應「還沒成形」 */
+  /* 卡片也用虛線呼應「還沒成形」，但要細、要淡，不能搶過已上架的書 */
+  .stop.is-coming,.home.is-coming{
+    border:1px dashed var(--rule);                                 /* 後備 */
+    border-color:color-mix(in srgb, var(--c) 30%, transparent);
+    background:rgba(255,252,246,.45);
+  }
   .badge-coming{font-family:var(--f-body);font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:999px;
     background:rgba(120,100,80,.12);color:var(--ink-soft);border:1px solid var(--rule);vertical-align:middle;display:inline-block;margin-left:6px}
 
