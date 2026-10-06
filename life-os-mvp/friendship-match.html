@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>白熊友誼賽指數｜玻璃心與心態緊繃自測</title>
+  <meta name="description" content="你把人生當生死戰，還是友誼賽？10 題測出你的玻璃心指數，看看哪些球你其實輸得起。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+  <style>
+
+    :root {
+      --bg: #f6f0e4;
+      --card-bg: rgba(253, 250, 244, 0.86);
+      --card-border: rgba(140, 115, 80, 0.22);
+      --primary: #406984;
+      --primary-glow: rgba(64, 105, 132, 0.18);
+      --purple: #7a50d8;
+      --purple-glow: rgba(122, 80, 216, 0.16);
+      --rose: #a04f55;
+      --gold: #7f6b00;
+      --emerald: #7a50d8;
+      --text: #443527;
+      --text-muted: #786957;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(122, 80, 216, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(160, 140, 100, 0.18) 0px, transparent 50%);
+      color: var(--text);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+      min-height: 100vh;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .back-btn {
+      color: #5c4a36;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: #f4ecdc;
+      border: 1px solid rgba(140, 115, 80, 0.28);
+      color: #5c4a36;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: #ece0c8;
+      color: #ffffff;
+      transform: translateX(-2px);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-top: 12px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(122, 80, 216, 0.12);
+      border: 1px solid rgba(122, 80, 216, 0.35);
+      color: var(--emerald);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #443527 30%, #7a50d8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 860px) {
+      .grid-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 12px 30px -14px rgba(90, 70, 40, 0.32);
+    }
+
+    .card h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #443527;
+    }
+
+    .category-group {
+      margin-bottom: 24px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(253, 250, 244, 0.9);
+      border: 1px solid rgba(140, 115, 80, 0.18);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .check-item:hover {
+      border-color: rgba(122, 80, 216, 0.3);
+      background: #f4ecdc;
+    }
+
+    .check-item.checked {
+      background: rgba(122, 80, 216, 0.08);
+      border-color: rgba(122, 80, 216, 0.4);
+    }
+
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+      background: #fdfaf4;
+    }
+
+    .check-item.checked .custom-checkbox {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald-glow);
+    }
+
+    .custom-checkbox::after {
+      content: "✓";
+      color: #fdfaf4;
+      font-size: 13px;
+      font-weight: 900;
+      display: none;
+    }
+
+    .check-item.checked .custom-checkbox::after {
+      display: block;
+    }
+
+    .check-text-wrap {
+      flex: 1;
+    }
+
+    .check-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #443527;
+      margin-bottom: 2px;
+    }
+
+    .check-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .sticky-panel {
+      position: sticky;
+      top: 24px;
+    }
+
+    .level-banner {
+      background: linear-gradient(135deg, #fdfaf4 0%, #f7f0e2 100%);
+      border: 1px solid rgba(122, 80, 216, 0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .level-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .level-title {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--emerald);
+      margin-bottom: 6px;
+    }
+
+    .score-metric {
+      font-size: 0.9rem;
+      color: #5c4a36;
+      font-weight: 500;
+    }
+
+    .diagnosis-card {
+      background: linear-gradient(135deg, #fdfaf4 0%, #f7f0e2 100%);
+      border: 1px solid rgba(122, 80, 216, 0.35);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-top: 20px;
+    }
+
+    .diagnosis-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .bear-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--emerald);
+      color: #fdfaf4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 16px var(--emerald-glow);
+      flex-shrink: 0;
+    }
+
+    .diagnosis-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #443527;
+    }
+
+    .diagnosis-desc {
+      font-size: 0.88rem;
+      color: #5c4a36;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .rx-box {
+      background: rgba(122, 80, 216, 0.08);
+      border: 1px solid rgba(122, 80, 216, 0.25);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+
+    .rx-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--emerald);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rx-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.8rem;
+      color: #5c4a36;
+      line-height: 1.5;
+    }
+
+    .rx-list li {
+      margin-bottom: 4px;
+    }
+
+    .book-rec-box {
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid rgba(140, 115, 80, 0.22);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .book-rec-cover {
+      width: 52px;
+      height: 74px;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .book-rec-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .book-rec-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #443527;
+      margin-bottom: 2px;
+    }
+
+    .book-rec-price {
+      font-size: 0.76rem;
+      color: #0a6b4a;
+      font-weight: 700;
+      margin-bottom: 3px;
+      font-family: monospace;
+    }
+
+    .book-rec-reason {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7a50d8 0%, #5b34a8 100%);
+      color: #fdfaf4;
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(122, 80, 216, 0.35);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(122, 80, 216, 0.5);
+    }
+  
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="link.html" class="back-btn">← 返回白熊書房首頁</a>
+
+    <header style="text-align:center; margin: 18px 0 26px;">
+      <div class="badge-pill">🏓 心態檢測 × 玻璃心自測</div>
+      <h1>你把人生當生死戰，還是友誼賽？</h1>
+      <p class="subtitle">同樣一場球，有人打得像生死戰，有人打得像友誼賽。勾選最近一個月真的發生過的情況，10 題算出你的玻璃心指數。</p>
+    </header>
+
+    <div class="grid-layout">
+      <div class="card">
+        <h2>🏓 心態檢測 10 題</h2>
+        <div id="checklist"></div>
+      </div>
+
+      <div class="sticky-panel">
+        <div class="card">
+          <div class="level-banner">
+            <div class="level-label">目前的玻璃心指數</div>
+            <div class="level-title" id="level-name">Lv 4: 友誼賽玩家</div>
+            <div class="score-metric" id="score-metric">勾選 0 題（0/10）</div>
+          </div>
+
+          <div class="diagnosis-card" id="diag-card">
+            <div class="diagnosis-header">
+              <div class="bear-badge" id="diag-icon">🏓</div>
+              <div>
+                <div class="diagnosis-title" id="diag-title">白熊判讀：你已經打得很鬆了</div>
+                <div class="diagnosis-subtitle" id="diag-sub">心態診斷：輸得起・還有下一球</div>
+              </div>
+            </div>
+            <p id="diag-desc">你對失誤的容忍度很高，不太會把單一結果放大成對自己的否定。這份從容是稀缺資產——下一步是讓它變成會長大的東西。</p>
+
+            <div class="rx-box">
+              <div class="rx-title" id="rx-title">⚡ 白熊 3 步處方：</div>
+              <ul class="rx-list" id="rx-list"></ul>
+            </div>
+
+            <div class="book-rec-box">
+              <img src="assets/book1.jpg" alt="推薦書封" class="book-rec-cover" id="rec-book-img" />
+              <div class="book-rec-content">
+                <div class="book-rec-name" id="rec-book-name">《人生複利》</div>
+                <div class="book-rec-price" id="rec-book-price">💎 特惠價 NT$149（68折 · 省 $71）</div>
+                <div class="book-rec-reason" id="rec-book-reason">心態已經夠鬆，下一步是把這份從容變成每天進步 1% 的複利。</div>
+              </div>
+            </div>
+
+            <a href="link.html#book-fuli" class="cta-btn" id="cta-link">
+              <span id="cta-text">直達《人生複利》解鎖長期複利攻略</span>
+              <span>➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer style="text-align:center; margin-top: 34px; font-size: 0.8rem; color: var(--text-muted);">
+      白熊富足人生演算法 © 2026 ｜ 秉持真實、誠實與複利哲學 ｜
+      <a href="link.html" style="color: var(--emerald); text-decoration: none;">探索全系列書籍</a>
+    </footer>
+  </div>
+
+<script>
+  const ITEMS = [
+  {
+    "id": 1,
+    "cat": "把對手當敵人",
+    "title": "遇到難搞的人，我會在心裡反覆重播對話",
+    "desc": "一句話可以在腦中播十遍，每遍都更刺。"
+  },
+  {
+    "id": 2,
+    "cat": "把對手當敵人",
+    "title": "被插隊、被白目對待，我當下就會上火",
+    "desc": "明知道不值得，但身體比理智快。"
+  },
+  {
+    "id": 3,
+    "cat": "把對手當敵人",
+    "title": "我很在意別人是不是故意針對我",
+    "desc": "花很多力氣推敲對方的動機。"
+  },
+  {
+    "id": 4,
+    "cat": "每一球都輸不起",
+    "title": "一件事沒做好，我會懷疑整個自己",
+    "desc": "單一失誤會擴大成對自我的否定。"
+  },
+  {
+    "id": 5,
+    "cat": "每一球都輸不起",
+    "title": "我常想「等我準備好再開始」，然後一直沒開始",
+    "desc": "準備是假的，怕輸是真的。"
+  },
+  {
+    "id": 6,
+    "cat": "每一球都輸不起",
+    "title": "失誤之後我會卡住，很難進到下一件事",
+    "desc": "一球沒接到，接下來整場都亂。"
+  },
+  {
+    "id": 7,
+    "cat": "每一球都輸不起",
+    "title": "我會為了一個小失誤整晚睡不著",
+    "desc": "白天過去了，腦子沒有。"
+  },
+  {
+    "id": 8,
+    "cat": "情緒地雷沒掃",
+    "title": "我常常是情緒爆了才發現自己在累積",
+    "desc": "沒有中間預警，只有臨界點。"
+  },
+  {
+    "id": 9,
+    "cat": "情緒地雷沒掃",
+    "title": "同一種狀況，我會重複被惹毛很多次",
+    "desc": "同一顆地雷踩了不只一次。"
+  },
+  {
+    "id": 10,
+    "cat": "情緒地雷沒掃",
+    "title": "我很難把鳥事當笑話講給別人聽",
+    "desc": "事情過了，但還是笑不出來。"
+  }
+];
+  const CATS  = ["把對手當敵人", "每一球都輸不起", "情緒地雷沒掃"];
+  const checked = new Set();
+
+  // ── 四級診斷：勾越多＝越把人生當生死戰 ──
+  const TIERS = [
+    { max: 2,  level: "Lv 4: 友誼賽玩家",   icon: "🏓",
+      title: "白熊判讀：你已經打得很鬆了",
+      sub:   "心態診斷：輸得起・還有下一球",
+      desc:  "你對失誤的容忍度很高，不太會把單一結果放大成對自己的否定。這份從容是稀缺資產——下一步是讓它變成會長大的東西。",
+      rx: ["把「還有下一球」寫下來，貼在最常焦慮的那個場景旁。",
+           "挑一件已經做得順的事，設計成每天都會發生的最小單元。",
+           "把省下來的情緒力氣，投進一個會複利的習慣。"],
+      book: { img: "assets/book1.jpg", name: "《人生複利》",
+              price: "💎 特惠價 NT$149（68折 · 省 $71）",
+              reason: "心態已經夠鬆，下一步是把這份從容變成每天進步 1% 的複利。",
+              href: "link.html#book-fuli", cta: "直達《人生複利》解鎖長期複利攻略" } },
+    { max: 5,  level: "Lv 3: 偶爾上火的選手", icon: "🔋",
+      title: "白熊判讀：心態還行，續航先垮",
+      sub:   "心態診斷：撐得住・但撐不久",
+      desc:  "你大致還能把事情當球打，真正會垮的不是心態而是續航力。走得遠的人不是靠意志力硬扛，是靠設計系統讓自己不中斷。",
+      rx: ["找出你最常「斷掉」的那個環節，先降級成做得到的版本。",
+           "一個習慣定出迷你、標準、加強三檔，狀態差時用迷你檔。",
+           "把恢復時間排進行事曆，不要等到耗盡才休息。"],
+      book: { img: "assets/book6.jpg", name: "《續航》",
+              price: "💎 特惠價 NT$259（74折 · 省 $91）",
+              reason: "缺的是系統不是意志力：打造不中斷的最小單元與物理防火牆。",
+              href: "link.html#book-xuhang", cta: "直達《續航》解鎖持續自轉系統" } },
+    { max: 8,  level: "Lv 2: 全程緊繃的球員", icon: "🎭",
+      title: "白熊判讀：你把太多球當成輸不起",
+      sub:   "心態診斷：每一分都在意・全場無法放鬆",
+      desc:  "問題不在對手有多強，在你戴的那副眼鏡。生死戰裡每一球都輸不起，全程緊繃；友誼賽裡你當然想贏，但失誤了也不慌，因為你知道還有下一球。",
+      rx: ["把難纏的人當成遊戲裡的 NPC：他有他的腳本，不是針對你寫的。",
+           "情緒上來時用三步排洪法，在引爆前先把壓力放掉。",
+           "把「等我準備好」換成「先發球再說」，先讓球過網。"],
+      book: { img: "assets/book7.jpg", name: "《人生友誼賽》",
+              price: "💎 特惠價 NT$249（78折 · 省 $71）",
+              reason: "輸了也好玩，把磨難打成一場輕鬆的對打——8 章 40 節，每章附自檢清單。",
+              href: "link.html#book-youyi", cta: "直達《人生友誼賽》把生死戰打成輕鬆對打" } },
+    { max: 10, level: "Lv 1: 生死戰選手",   icon: "🥊",
+      title: "白熊判讀：你不是運氣差，是戴錯眼鏡",
+      sub:   "心態診斷：每一球都是決勝分",
+      desc:  "你把日常的每一件事都當成不能輸的決賽在打。難關不會因此變少，但你的消耗會翻倍。不是要你不在乎，是要你知道哪些球其實輸得起。",
+      rx: ["先承認一件事：今天搞砸的那件事，一週後多半沒人記得。",
+           "挑一個最常引爆你的場景，寫下「如果輸了，最糟會怎樣」。",
+           "把被插隊、被白目當成一齣免費的短劇，先看戲再決定要不要入戲。"],
+      book: { img: "assets/book7.jpg", name: "《人生友誼賽》",
+              price: "💎 特惠價 NT$249（78折 · 省 $71）",
+              reason: "同樣一場球，有人打得像生死戰，有人打得像友誼賽。差別不在對手，在你戴哪副眼鏡。",
+              href: "link.html#book-youyi", cta: "直達《人生友誼賽》把生死戰打成輕鬆對打" } },
+  ];
+
+  function renderChecklist() {
+    const root = document.getElementById("checklist");
+    CATS.forEach(cat => {
+      const g = document.createElement("div");
+      g.className = "category-group";
+      g.innerHTML = `<div class="category-header">${cat}</div>`;
+      ITEMS.filter(i => i.cat === cat).forEach(item => {
+        const el = document.createElement("div");
+        el.className = "check-item";
+        el.id = `item-${item.id}`;
+        el.onclick = () => toggleCheck(item.id);
+        el.innerHTML = `
+          <div class="custom-checkbox"></div>
+          <div class="check-text-wrap">
+            <div class="check-title">${item.title}</div>
+            <div class="check-desc">${item.desc}</div>
+          </div>`;
+        g.appendChild(el);
+      });
+      root.appendChild(g);
+    });
+  }
+
+  function toggleCheck(id) {
+    const el = document.getElementById(`item-${id}`);
+    if (checked.has(id)) { checked.delete(id); el.classList.remove("checked"); }
+    else { checked.add(id); el.classList.add("checked"); }
+    update();
+  }
+
+  function update() {
+    const n = checked.size;
+    const t = TIERS.find(x => n <= x.max);
+    document.getElementById("level-name").innerText = t.level;
+    document.getElementById("score-metric").innerText = `勾選 ${n} 題（${n}/10）`;
+    document.getElementById("diag-icon").innerText = t.icon;
+    document.getElementById("diag-title").innerText = t.title;
+    document.getElementById("diag-sub").innerText = t.sub;
+    document.getElementById("diag-desc").innerText = t.desc;
+    document.getElementById("rx-list").innerHTML =
+      t.rx.map((s, i) => `<li>${i + 1}. ${s}</li>`).join("");
+    document.getElementById("rec-book-img").src = t.book.img;
+    document.getElementById("rec-book-name").innerText = t.book.name;
+    document.getElementById("rec-book-price").innerText = t.book.price;
+    document.getElementById("rec-book-reason").innerText = t.book.reason;
+    const link = document.getElementById("cta-link");
+    link.href = t.book.href;
+    document.getElementById("cta-text").innerText = t.book.cta;
+    link.setAttribute("onclick",
+      `trackStoreClick('tool-rec', '${t.book.name.replace(/[《》]/g, "")}')`);
+  }
+
+  // 追蹤：失敗也絕不擋住跳轉
+  function trackStoreClick(store, book) {
+    try {
+      if (!window.clarity) return;
+      clarity('event', 'click-' + store + '-' + book);
+    } catch (e) {}
+  }
+
+  window.addEventListener("DOMContentLoaded", () => { renderChecklist(); update(); });
+</script>
+</body>
+</html>
