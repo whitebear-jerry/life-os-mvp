@@ -24,7 +24,7 @@
 
     @keyframes bookTargetHighlight {
       0% {
-        box-shadow: 0 0 0 4px #fbbf24, 0 0 35px rgba(251, 191, 36, 0.7);
+        box-shadow: 0 0 0 4px #7f6b00, 0 0 35px rgba(251, 191, 36, 0.7);
         transform: scale(1.02);
       }
       70% {
@@ -40,9 +40,10 @@
     body.link-page {
       min-height: 100vh;
       background:
-        radial-gradient(circle at top, rgba(47, 107, 79, 0.38), transparent 34rem),
-        linear-gradient(180deg, #0c1511 0%, #121912 52%, #17201a 100%);
-      color: #f7f7f0;
+        radial-gradient(circle at top, rgba(214, 190, 150, 0.45), transparent 32rem),
+        linear-gradient(180deg, #f6f0e4 0%, #f1e9d9 54%, #ece2cd 100%);
+      background-attachment: fixed;
+      color: #443527;
     }
 
     .link-shell {
@@ -85,7 +86,7 @@
 
     .link-tagline {
       margin: 0;
-      color: rgba(247, 247, 240, 0.78);
+      color: rgba(68, 53, 39, 0.86);
       font-size: 0.98rem;
       line-height: 1.55;
     }
@@ -96,41 +97,47 @@
     }
 
     .link-book {
-      padding: 18px 16px;
-      border: 1px solid rgba(220, 227, 217, 0.16);
+      padding: 18px 16px 18px 20px;
+      border: 1px solid rgba(140, 115, 80, 0.2);
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      background: #fdfaf4;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 10px 26px -14px rgba(90, 70, 40, 0.3);
       transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     }
 
     .link-book:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: #fffdf8;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(90, 70, 40, 0.38);
     }
 
     .link-book.book-fuli:hover {
-      border-color: rgba(196, 137, 53, 0.35);
-      box-shadow: 0 16px 48px rgba(196, 137, 53, 0.06);
+      border-color: rgba(127,107,0, 0.35);
+      border-left-color: #7f6b00;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(127,107,0, 0.4);
     }
 
     .link-book.book-game:hover {
-      border-color: rgba(160, 79, 85, 0.35);
-      box-shadow: 0 16px 48px rgba(160, 79, 85, 0.06);
+      border-color: rgba(160,79,85, 0.35);
+      border-left-color: #a04f55;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(160,79,85, 0.4);
     }
 
     .link-book.book-noise:hover {
-      border-color: rgba(64, 105, 132, 0.35);
-      box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06);
+      border-color: rgba(64,105,132, 0.35);
+      border-left-color: #406984;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(64,105,132, 0.4);
     }
 
     .link-book.book-xinfu:hover {
-      border-color: rgba(212, 138, 55, 0.35);
-      box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06);
+      border-color: rgba(148,96,38, 0.35);
+      border-left-color: #946026;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(148,96,38, 0.4);
     }
 
     .link-book.book-jieli:hover {
-      border-color: rgba(99, 126, 196, 0.35);
-      box-shadow: 0 16px 48px rgba(99, 126, 196, 0.06);
+      border-color: rgba(85,108,168, 0.35);
+      border-left-color: #556ca8;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(85,108,168, 0.4);
     }
 
     .link-book h2 {
@@ -140,7 +147,7 @@
 
     .link-book p {
       margin: 8px 0 0;
-      color: rgba(247, 247, 240, 0.72);
+      color: rgba(68, 53, 39, 0.82);
       font-size: 0.88rem;
       line-height: 1.55;
     }
@@ -157,7 +164,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: none;
       border-radius: 8px;
       color: #ffffff;
       font-size: 0.9rem;
@@ -170,33 +177,33 @@
     }
 
     .book-fuli .link-actions a {
-      background: var(--gold);
-      box-shadow: 0 4px 12px rgba(196, 137, 53, 0.15);
+      background: #7f6b00;
+      box-shadow: 0 2px 6px rgba(127,107,0, 0.25);
     }
 
     .book-game .link-actions a {
-      background: var(--rose);
-      box-shadow: 0 4px 12px rgba(160, 79, 85, 0.15);
+      background: #a04f55;
+      box-shadow: 0 2px 6px rgba(160,79,85, 0.25);
     }
 
     .book-noise .link-actions a {
-      background: var(--blue);
-      box-shadow: 0 4px 12px rgba(64, 105, 132, 0.15);
+      background: #406984;
+      box-shadow: 0 2px 6px rgba(64,105,132, 0.25);
     }
 
     .book-xinfu .link-actions a {
-      background: #d48a37;
-      box-shadow: 0 4px 12px rgba(212, 138, 55, 0.15);
+      background: #946026;
+      box-shadow: 0 2px 6px rgba(148,96,38, 0.25);
     }
 
     .book-jieli .link-actions a {
-      background: #637ec4;
-      box-shadow: 0 4px 12px rgba(99, 126, 196, 0.15);
+      background: #556ca8;
+      box-shadow: 0 2px 6px rgba(85,108,168, 0.25);
     }
 
     .book-xuhang .link-actions a {
-      background: #10b981;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      background: #0a7d57;
+      box-shadow: 0 2px 6px rgba(10,125,87, 0.25);
     }
 
     .book-series .link-actions {
@@ -205,11 +212,8 @@
     }
 
     .book-series .link-actions a {
-      width: 100%;
-      min-height: 52px;
-      font-size: 1.05rem;
-      background: #34a89b;
-      box-shadow: 0 4px 12px rgba(52, 168, 155, 0.15);
+      background: #25786f;
+      box-shadow: 0 2px 6px rgba(37,120,111, 0.25);
     }
 
     .link-actions a:hover {
@@ -219,40 +223,40 @@
     }
 
     .book-fuli .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(196, 137, 53, 0.35);
+      box-shadow: 0 6px 16px rgba(127,107,0, 0.4);
     }
 
     .book-game .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(160, 79, 85, 0.35);
+      box-shadow: 0 6px 16px rgba(160,79,85, 0.4);
     }
 
     .book-noise .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(64, 105, 132, 0.35);
+      box-shadow: 0 6px 16px rgba(64,105,132, 0.4);
     }
 
     .book-xinfu .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(212, 138, 55, 0.35);
+      box-shadow: 0 6px 16px rgba(148,96,38, 0.4);
     }
 
     .book-jieli .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(99, 126, 196, 0.35);
+      box-shadow: 0 6px 16px rgba(85,108,168, 0.4);
     }
 
     .book-xuhang .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 6px 16px rgba(10,125,87, 0.4);
     }
 
     .book-youyi .link-actions a {
-      background: #8b5cf6;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+      background: #7a50d8;
+      box-shadow: 0 2px 6px rgba(122,80,216, 0.25);
     }
 
     .book-youyi .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+      box-shadow: 0 6px 16px rgba(122,80,216, 0.4);
     }
 
     .book-series .link-actions a:hover {
-      box-shadow: 0 8px 24px rgba(52, 168, 155, 0.35);
+      box-shadow: 0 6px 16px rgba(37,120,111, 0.4);
     }
 
     .link-actions a:active {
@@ -309,13 +313,13 @@
       position: absolute;
       top: -10px;
       left: 16px;
-      background: linear-gradient(135deg, #ffd700 0%, #ff9800 100%);
-      color: #0c1511;
+      background: #7f6b00;
+      color: #ffffff;
       font-size: 0.72rem;
       font-weight: 900;
       padding: 3px 10px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 215, 0, 0.2);
+      box-shadow: 0 2px 6px rgba(127, 107, 0, 0.3);
       z-index: 5;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -327,75 +331,14 @@
     }
 
     /* 金色呼吸發光效果 (人生複利 & 特惠包) */
-    @keyframes goldGlow {
-      0% {
-        border-color: rgba(255, 215, 0, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 215, 0, 0.15), inset 0 0 8px rgba(255, 215, 0, 0.05);
-      }
-      50% {
-        border-color: rgba(255, 215, 0, 1);
-        box-shadow: 0 16px 48px rgba(255, 215, 0, 0.06), 0 0 25px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(255, 215, 0, 0.15);
-      }
-      100% {
-        border-color: rgba(255, 215, 0, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 215, 0, 0.15), inset 0 0 8px rgba(255, 215, 0, 0.05);
-      }
-    }
 
     /* 玫瑰紅呼吸發光效果 (人生遊戲) */
-    @keyframes roseGlow {
-      0% {
-        border-color: rgba(160, 79, 85, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(160, 79, 85, 0.15), inset 0 0 8px rgba(160, 79, 85, 0.05);
-      }
-      50% {
-        border-color: rgba(160, 79, 85, 1);
-        box-shadow: 0 16px 48px rgba(160, 79, 85, 0.06), 0 0 25px rgba(160, 79, 85, 0.45), inset 0 0 15px rgba(160, 79, 85, 0.15);
-      }
-      100% {
-        border-color: rgba(160, 79, 85, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(160, 79, 85, 0.15), inset 0 0 8px rgba(160, 79, 85, 0.05);
-      }
-    }
 
     /* 鋼鐵藍呼吸發光效果 (降噪人生) */
-    @keyframes blueGlow {
-      0% {
-        border-color: rgba(64, 105, 132, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 105, 132, 0.15), inset 0 0 8px rgba(64, 105, 132, 0.05);
-      }
-      50% {
-        border-color: rgba(64, 105, 132, 1);
-        box-shadow: 0 16px 48px rgba(64, 105, 132, 0.06), 0 0 25px rgba(64, 105, 132, 0.45), inset 0 0 15px rgba(64, 105, 132, 0.15);
-      }
-      100% {
-        border-color: rgba(64, 105, 132, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 105, 132, 0.15), inset 0 0 8px rgba(64, 105, 132, 0.05);
-      }
-    }
 
     /* 琥珀金呼吸發光效果 (心富) */
-    @keyframes amberGlow {
-      0% {
-        border-color: rgba(212, 138, 55, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 138, 55, 0.15), inset 0 0 8px rgba(212, 138, 55, 0.05);
-      }
-      50% {
-        border-color: rgba(212, 138, 55, 1);
-        box-shadow: 0 16px 48px rgba(212, 138, 55, 0.06), 0 0 25px rgba(212, 138, 55, 0.45), inset 0 0 15px rgba(212, 138, 55, 0.15);
-      }
-      100% {
-        border-color: rgba(212, 138, 55, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 138, 55, 0.15), inset 0 0 8px rgba(212, 138, 55, 0.05);
-      }
-    }
 
     /* 靛藍呼吸發光 (借力) */
-    @keyframes indigoGlow {
-      0%   { border-color: rgba(99,126,196,.5); box-shadow: 0 16px 48px rgba(0,0,0,.2), 0 0 10px rgba(99,126,196,.15), inset 0 0 8px rgba(99,126,196,.05); }
-      50%  { border-color: rgba(99,126,196,1);  box-shadow: 0 16px 48px rgba(99,126,196,.06), 0 0 25px rgba(99,126,196,.45), inset 0 0 15px rgba(99,126,196,.15); }
-      100% { border-color: rgba(99,126,196,.5); box-shadow: 0 16px 48px rgba(0,0,0,.2), 0 0 10px rgba(99,126,196,.15), inset 0 0 8px rgba(99,126,196,.05); }
-    }
 
     /* 🌊 水波橫向流光（借力專屬，呼應「順流」主題） */
     @keyframes waterFlow {
@@ -404,80 +347,39 @@
     }
 
     /* 翡翠極光綠呼吸發光效果 (續航) */
-    @keyframes emeraldGlow {
-      0% {
-        border-color: rgba(16, 185, 129, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(16, 185, 129, 0.15), inset 0 0 8px rgba(16, 185, 129, 0.05);
-      }
-      50% {
-        border-color: rgba(16, 185, 129, 1);
-        box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06), 0 0 25px rgba(16, 185, 129, 0.45), inset 0 0 15px rgba(16, 185, 129, 0.15);
-      }
-      100% {
-        border-color: rgba(16, 185, 129, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(16, 185, 129, 0.15), inset 0 0 8px rgba(16, 185, 129, 0.05);
-      }
-    }
 
     /* 皇家紫呼吸發光效果 (四冊特惠包) */
-    @keyframes purpleGlow {
-      0% {
-        border-color: rgba(139, 92, 246, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(139, 92, 246, 0.15), inset 0 0 8px rgba(139, 92, 246, 0.05);
-      }
-      50% {
-        border-color: rgba(139, 92, 246, 1);
-        box-shadow: 0 16px 48px rgba(139, 92, 246, 0.06), 0 0 25px rgba(139, 92, 246, 0.45), inset 0 0 15px rgba(139, 92, 246, 0.15);
-      }
-      100% {
-        border-color: rgba(139, 92, 246, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(139, 92, 246, 0.15), inset 0 0 8px rgba(139, 92, 246, 0.05);
-      }
-    }
 
     /* 青綠呼吸發光效果 (Readmoo 系列) */
-    @keyframes tealGlow {
-      0% {
-        border-color: rgba(52, 168, 155, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(52, 168, 155, 0.15), inset 0 0 8px rgba(52, 168, 155, 0.05);
-      }
-      50% {
-        border-color: rgba(52, 168, 155, 1);
-        box-shadow: 0 16px 48px rgba(52, 168, 155, 0.06), 0 0 25px rgba(52, 168, 155, 0.45), inset 0 0 15px rgba(52, 168, 155, 0.15);
-      }
-      100% {
-        border-color: rgba(52, 168, 155, 0.5);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 10px rgba(52, 168, 155, 0.15), inset 0 0 8px rgba(52, 168, 155, 0.05);
-      }
-    }
 
     .link-book.book-fuli {
-      border: 1.5px solid rgba(255, 215, 0, 0.6);
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: goldGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #7f6b00;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-game {
-      border: 1.5px solid rgba(160, 79, 85, 0.6);
-      background: linear-gradient(135deg, rgba(160, 79, 85, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: roseGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #a04f55;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-noise {
-      border: 1.5px solid rgba(64, 105, 132, 0.6);
-      background: linear-gradient(135deg, rgba(64, 105, 132, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: blueGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #406984;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-xinfu {
-      border: 1.5px solid rgba(212, 138, 55, 0.6);
-      background: linear-gradient(135deg, rgba(212, 138, 55, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: amberGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #946026;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-jieli {
-      border-color: rgba(99,126,196,.5);
-      animation: indigoGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #556ca8;
+      background: #fdfaf4 !important;
     }
 
     /* 流光帶：靠 border-radius: inherit 收邊，不用 overflow:hidden（見上方坑 1） */
@@ -495,79 +397,83 @@
     .link-book.book-jieli > *:not(.book-tag) { position: relative; z-index: 1; }
 
     .link-book.book-xuhang {
-      border: 1.5px solid rgba(16, 185, 129, 0.6);
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: emeraldGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #0a7d57;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-xuhang:hover {
-      border-color: rgba(16, 185, 129, 0.35);
-      box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06);
+      border-color: rgba(10,125,87, 0.35);
+      border-left-color: #0a7d57;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(10,125,87, 0.4);
     }
 
     .link-book.book-youyi {
-      border: 1.5px solid rgba(139, 92, 246, 0.6);
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: purpleGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #7a50d8;
+      animation: accentPulse 3.2s infinite ease-in-out;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-youyi:hover {
-      border-color: rgba(139, 92, 246, 0.35);
-      box-shadow: 0 16px 48px rgba(139, 92, 246, 0.06);
+      border-color: rgba(122,80,216, 0.35);
+      border-left-color: #7a50d8;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(122,80,216, 0.4);
     }
 
     .link-book.book-series {
-      border: 1.5px solid rgba(52, 168, 155, 0.6);
-      background: linear-gradient(135deg, rgba(52, 168, 155, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-      animation: tealGlow 3s infinite ease-in-out;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #25786f;
+      background: #fdfaf4 !important;
     }
 
     .link-book.book-series:hover {
-      border-color: rgba(52, 168, 155, 0.35);
-      box-shadow: 0 16px 48px rgba(52, 168, 155, 0.06);
+      border-color: rgba(37,120,111, 0.35);
+      border-left-color: #25786f;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(37,120,111, 0.4);
     }
 
     /* 各書標籤配色 */
     .book-tag.tag-game {
-      background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+      background: #a04f55;
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3), 0 0 8px rgba(244, 63, 94, 0.2);
+      box-shadow: 0 2px 6px rgba(160,79,85, 0.3);
     }
     .book-tag.tag-noise {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      background: #406984;
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3), 0 0 8px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 2px 6px rgba(64,105,132, 0.3);
     }
     .book-tag.tag-xinfu {
-      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
-      color: #0c1511;
-      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3), 0 0 8px rgba(245, 158, 11, 0.2);
+      background: #946026;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(148,96,38, 0.3);
     }
     .book-tag.tag-jieli {
-      background: linear-gradient(135deg, #637ec4 0%, #3b4e8c 100%);
+      background: #556ca8;
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(99, 126, 196, 0.3), 0 0 8px rgba(99, 126, 196, 0.2);
+      box-shadow: 0 2px 6px rgba(85,108,168, 0.3);
     }
     .book-tag.tag-series {
-      background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);
-      color: #0c1511;
-      box-shadow: 0 4px 10px rgba(45, 212, 191, 0.3), 0 0 8px rgba(45, 212, 191, 0.2);
+      background: #25786f;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(37,120,111, 0.3);
     }
     .book-tag.tag-fuli {
-      background: linear-gradient(135deg, #ffd700 0%, #c48935 100%);
-      color: #0c1511;
-      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 215, 0, 0.2);
+      background: #7f6b00;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(127,107,0, 0.3);
     }
     .book-tag.tag-xuhang {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      background: #0a7d57;
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3), 0 0 8px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 2px 6px rgba(10,125,87, 0.3);
     }
 
     .book-tag.tag-youyi {
-      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+      background: #7a50d8;
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3), 0 0 8px rgba(139, 92, 246, 0.2);
+      box-shadow: 0 2px 6px rgba(122,80,216, 0.3);
     }
 
     /* 3. 星等與發光金星 */
@@ -579,7 +485,7 @@
     }
 
     .stars {
-      color: #ffd700;
+      color: #7f6b00;
       text-shadow: 0 0 6px rgba(255, 215, 0, 0.9), 0 0 12px rgba(255, 215, 0, 0.4);
       font-size: 0.82rem;
       font-weight: bold;
@@ -587,7 +493,7 @@
     }
 
     .rating-text {
-      color: rgba(247, 247, 240, 0.55);
+      color: rgba(68, 53, 39, 0.68);
       font-size: 0.75rem;
     }
 
@@ -600,7 +506,7 @@
 
     .selling-point {
       font-size: 0.8rem;
-      color: rgba(247, 247, 240, 0.85);
+      color: rgba(68, 53, 39, 0.9);
       display: flex;
       align-items: flex-start;
       gap: 6px;
@@ -619,16 +525,16 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(0, 0, 0, 0.35);
+      background: #f4ecdc;
       padding: 3px 10px;
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(140, 115, 80, 0.18);
       margin: 6px 0 10px;
     }
 
     .price-label {
       font-size: 0.7rem;
-      color: rgba(247, 247, 240, 0.5);
+      color: rgba(68, 53, 39, 0.64);
       font-weight: bold;
     }
 
@@ -636,15 +542,14 @@
       font-size: 0.85rem;
       font-weight: 800;
       font-family: monospace;
-      color: #4ef072;
-      text-shadow: 0 0 5px rgba(78, 240, 114, 0.4);
+      color: #0a6b4a;
       display: flex;
       align-items: center;
       gap: 3px;
     }
 
     .price-original {
-      color: rgba(247, 247, 240, 0.45);
+      color: #6e5a44;
       font-size: 0.72rem;
       margin-right: 2px;
       white-space: nowrap;
@@ -656,9 +561,9 @@
     }
 
     .discount-badge {
-      background: rgba(255, 107, 107, 0.16);
-      color: #ff8b8b;
-      border: 0.5px solid rgba(255, 107, 107, 0.3);
+      background: rgba(160, 79, 85, 0.1);
+      color: #96414a;
+      border: 0.5px solid rgba(160, 79, 85, 0.3);
       padding: 1px 5px;
       border-radius: 4px;
       font-size: 0.7rem;
@@ -674,6 +579,52 @@
       display: inline-block;
     }
 
+
+    /* ── 免費實戰工具：整寬列，手機上每一列都是完整點擊區 ── */
+    .link-tools-section { margin: 18px 0 26px; display: grid; gap: 8px; }
+    .tools-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 8px; padding: 0 2px 2px; flex-wrap: wrap;
+    }
+    .tools-title { font-size: 0.92rem; font-weight: 800; color: #443527; }
+    .tools-note  { font-size: 0.74rem; color: rgba(68, 53, 39, 0.6); }
+
+    .tool-row {
+      display: grid; grid-template-columns: 38px minmax(0, 1fr) 18px;
+      align-items: center; gap: 12px;
+      padding: 13px 14px;
+      background: #fdfaf4;
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid var(--tc);
+      border-radius: 10px;
+      text-decoration: none; color: #443527;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+    .tool-row:hover, .tool-row:active {
+      background: #fffdf8;
+      transform: translateY(-1px);
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 10px 22px -12px rgba(90, 70, 40, 0.4);
+    }
+    .tool-ico  { font-size: 1.45rem; line-height: 1; text-align: center; }
+    .tool-text { display: grid; gap: 2px; min-width: 0; }
+    .tool-name { font-size: 0.92rem; font-weight: 800; color: var(--tc); line-height: 1.35; }
+    .tool-desc { font-size: 0.76rem; color: rgba(68, 53, 39, 0.72); line-height: 1.45; }
+    .tool-go   { color: var(--tc); font-weight: 900; font-size: 1rem; }
+
+    .t-money  { --tc: #946026; }
+    .t-blue   { --tc: #406984; }
+    .t-indigo { --tc: #556ca8; }
+    .t-teal   { --tc: #25786f; }
+
+    /* 閱讀地圖是冷流量最該點的一個，給它多一點份量 */
+    .tool-feature { background: #f9f3e6; border-color: rgba(37, 120, 111, 0.3); }
+
+    @keyframes accentPulse {
+      0%, 100% { border-left-color: #7a50d8; }
+      50%      { border-left-color: #a688ea; }
+    }
+
     @keyframes gemShine {
       0%, 100% { filter: brightness(1) drop-shadow(0 0 2px rgba(78, 205, 255, 0.5)); }
       50% { filter: brightness(1.25) drop-shadow(0 0 6px rgba(78, 205, 255, 0.9)); }
@@ -686,8 +637,8 @@
 
     .link-actions a.active-purchase {
       grid-column: span 3 !important;
-      background: linear-gradient(135deg, #ff9800 0%, #e65100 100%) !important;
-      border-color: #ffd89c !important;
+      background: linear-gradient(135deg, #946026 0%, #e65100 100%) !important;
+      border-color: #946026 !important;
       box-shadow: 0 0 15px rgba(230, 81, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.2) !important;
       animation: buttonPulse 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -709,7 +660,7 @@
     .social-label {
       display: block;
       font-size: 0.82rem;
-      color: rgba(247, 247, 240, 0.5);
+      color: rgba(68, 53, 39, 0.64);
       margin-bottom: 14px;
       font-weight: bold;
       letter-spacing: 0.5px;
@@ -827,8 +778,8 @@
       right: -4px;
       width: 28px;
       height: 28px;
-      background: rgba(12, 21, 17, 0.95);
-      border: 1.5px solid #ffd89c;
+      background: rgba(253, 250, 244, 0.96);
+      border: 1.5px solid #946026;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -850,12 +801,12 @@
       position: relative;
       margin: 0 0 24px;
       border-radius: 16px;
-      border: 1px solid rgba(220, 227, 217, 0.14);
-      background: rgba(12, 21, 17, 0.55);
+      border: 1px solid rgba(140, 115, 80, 0.22);
+      background: #fdfaf4;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       overflow: hidden;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 14px 32px -16px rgba(90, 70, 40, 0.35);
       touch-action: pan-y;
       user-select: none;
       display: flex;
@@ -899,30 +850,6 @@
       background-image: url('assets/book1_banner.jpg');
     }
 
-    .slide-book2 {
-      background-image: url('assets/book2_banner.jpg');
-    }
-
-    .slide-book3 {
-      background-image: url('assets/book3_banner.jpg');
-    }
-
-    .slide-book4 {
-      background-image: url('assets/book4_banner.jpg');
-    }
-
-    .slide-book5 {
-      background-image: url('assets/book5_banner.jpg');
-    }
-
-    .slide-book6 {
-      background-image: url('assets/book6_banner.jpg');
-    }
-
-    .slide-book7 {
-      background-image: url('assets/book7_banner.jpg');
-    }
-
     /* 下方文字區域：深綠色系半透明毛玻璃質感 */
     .slide-text-area {
       padding: 14px 18px 16px;
@@ -947,52 +874,52 @@
     }
 
     .badge-fuli {
-      background: rgba(196, 137, 53, 0.2);
-      color: #ffd89c;
-      border: 1px solid rgba(196, 137, 53, 0.4);
+      background: rgba(127,107,0, 0.12);
+      color: #7f6b00;
+      border: 1px solid rgba(127,107,0, 0.35);
     }
 
     .badge-game {
-      background: rgba(160, 79, 85, 0.25);
-      color: #ffa8ae;
-      border: 1px solid rgba(160, 79, 85, 0.4);
+      background: rgba(160,79,85, 0.12);
+      color: #a04f55;
+      border: 1px solid rgba(160,79,85, 0.35);
     }
 
     .badge-noise {
-      background: rgba(64, 105, 132, 0.25);
-      color: #9cd4ff;
-      border: 1px solid rgba(64, 105, 132, 0.4);
+      background: rgba(64,105,132, 0.12);
+      color: #406984;
+      border: 1px solid rgba(64,105,132, 0.35);
     }
 
     .badge-xinfu {
-      background: rgba(212, 138, 55, 0.25);
-      color: #ffcc80;
-      border: 1px solid rgba(212, 138, 55, 0.4);
+      background: rgba(148,96,38, 0.12);
+      color: #946026;
+      border: 1px solid rgba(148,96,38, 0.35);
     }
 
     .badge-jieli {
-      background: rgba(99, 126, 196, 0.25);
-      color: #b9cdff;
-      border: 1px solid rgba(99, 126, 196, 0.4);
+      background: rgba(85,108,168, 0.12);
+      color: #556ca8;
+      border: 1px solid rgba(85,108,168, 0.35);
     }
 
     .badge-xuhang {
-      background: rgba(16, 185, 129, 0.25);
-      color: #6ee7b7;
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      background: rgba(10,125,87, 0.12);
+      color: #0a7d57;
+      border: 1px solid rgba(10,125,87, 0.35);
     }
 
     .badge-youyi {
-      background: rgba(139, 92, 246, 0.25);
-      color: #c4b5fd;
-      border: 1px solid rgba(139, 92, 246, 0.4);
+      background: rgba(122,80,216, 0.12);
+      color: #7a50d8;
+      border: 1px solid rgba(122,80,216, 0.35);
     }
 
     .slide-description {
       margin: 0;
       font-size: 0.8rem;
       line-height: 1.5;
-      color: rgba(247, 247, 240, 0.75);
+      color: rgba(68, 53, 39, 0.84);
     }
 
     /* 固定於右下角的 Dots 指示器 */
@@ -1031,7 +958,7 @@
     .link-tools-head h2 { font-size: 1.06rem; }
     .link-tools-head p {
       margin: 4px 0 0;
-      color: rgba(247, 247, 240, 0.58);
+      color: rgba(68, 53, 39, 0.7);
       font-size: 0.82rem;
       line-height: 1.5;
     }
@@ -1066,7 +993,7 @@
     .link-tool-body h3 { font-size: 0.98rem; margin: 0; }
     .link-tool-body p {
       margin: 3px 0 0;
-      color: rgba(247, 247, 240, 0.7);
+      color: rgba(68, 53, 39, 0.8);
       font-size: 0.82rem;
       line-height: 1.45;
     }
@@ -1100,7 +1027,7 @@
       padding: 12px 0;
       font-size: 0.86rem;
       font-weight: 700;
-      color: rgba(247, 247, 240, 0.82);
+      color: rgba(68, 53, 39, 0.88);
       list-style: none;
     }
     .link-tool-guide summary::-webkit-details-marker { display: none; }
@@ -1114,14 +1041,14 @@
       gap: 9px;
     }
     .link-tool-guide li {
-      color: rgba(247, 247, 240, 0.7);
+      color: rgba(68, 53, 39, 0.8);
       font-size: 0.82rem;
       line-height: 1.55;
     }
-    .link-tool-guide li b { color: rgba(247, 247, 240, 0.92); }
+    .link-tool-guide li b { color: rgba(68, 53, 39, 0.96); }
     .link-tools-more {
       text-align: center;
-      color: rgba(247, 247, 240, 0.4);
+      color: rgba(68, 53, 39, 0.58);
       font-size: 0.8rem;
       padding: 2px;
     }
@@ -1246,7 +1173,7 @@
           </div>
           <!-- 幻燈片 #2 ｜ 人生遊戲 -->
           <div class="carousel-slide" aria-label="創作 #2 ｜ 人生遊戲">
-            <div class="slide-image-area slide-book2"></div>
+            <div class="slide-image-area" data-bg="assets/book2_banner.jpg"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-game">創作 #2 ｜ 人生遊戲</span>
               <p class="slide-description">40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
@@ -1254,7 +1181,7 @@
           </div>
           <!-- 幻燈片 #3 ｜ 降噪人生 -->
           <div class="carousel-slide" aria-label="創作 #3 ｜ 降噪人生">
-            <div class="slide-image-area slide-book3"></div>
+            <div class="slide-image-area" data-bg="assets/book3_banner.jpg"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-noise">創作 #3 ｜ 降噪人生</span>
               <p class="slide-description">從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
@@ -1262,7 +1189,7 @@
           </div>
           <!-- 幻燈片 #4 ｜ 心富 -->
           <div class="carousel-slide" aria-label="創作 #4 ｜ 心富">
-            <div class="slide-image-area slide-book4"></div>
+            <div class="slide-image-area" data-bg="assets/book4_banner.jpg"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-xinfu">創作 #4 ｜ 心富</span>
               <p class="slide-description">把心顧好，錢自然長出來的財富實戰手冊</p>
@@ -1270,7 +1197,7 @@
           </div>
           <!-- 幻燈片 #5 ｜ 借力 -->
           <div class="carousel-slide" aria-label="創作 #5 ｜ 借力">
-            <div class="slide-image-area slide-book5"></div>
+            <div class="slide-image-area" data-bg="assets/book5_banner.jpg"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-jieli">創作 #5 ｜ 借力</span>
               <p class="slide-description">借趨勢、借工具、借複利——順流的人，不必比誰更用力。</p>
@@ -1278,7 +1205,7 @@
           </div>
           <!-- 幻燈片 #6 ｜ 續航 -->
           <div class="carousel-slide" aria-label="創作 #6 ｜ 續航">
-            <div class="slide-image-area slide-book6"></div>
+            <div class="slide-image-area" data-bg="assets/book6_banner.jpg"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-xuhang">創作 #6 ｜ 續航</span>
               <p class="slide-description">走得遠的人，不靠意志力燃燒自己，而是靠設計系統。</p>
@@ -1286,7 +1213,7 @@
           </div>
           <!-- 幻燈片 #7 ｜ 人生友誼賽 -->
           <div class="carousel-slide" aria-label="創作 #7 ｜ 人生友誼賽">
-            <div class="slide-image-area slide-book7"></div>
+            <div class="slide-image-area" data-bg="assets/book7_banner.jpg"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-youyi">創作 #7 ｜ 人生友誼賽</span>
               <p class="slide-description">同樣一場球，有人打得像生死戰，有人打得像友誼賽。</p>
@@ -1306,76 +1233,49 @@
       </div>
     </section>
 
-    <!-- 🛠️ 白熊人生演算法・免費實戰工具箱 -->
-    <section class="link-tools-section" aria-label="免費實戰工具箱" style="margin: 16px 0 24px;">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 4px;">
-        <span style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-          🛠️ 白熊演算法・免費實戰工具
-        </span>
-        <span style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5);">免登入・即開即用</span>
+    <!-- 🛠️ 白熊演算法・免費實戰工具 -->
+    <section class="link-tools-section" aria-label="免費實戰工具">
+      <div class="tools-head">
+        <span class="tools-title">🛠️ 白熊演算法・免費實戰工具</span>
+        <span class="tools-note">免登入・即開即用</span>
       </div>
-      <div class="tools-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
-        <a href="calculator.html" class="tool-btn" onclick="trackStoreClick('tool', 'calculator')" style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 14px 8px; text-decoration: none; color: #fff; text-align: center; transition: all 0.2s; display: block;">
-          <div style="font-size: 1.3rem; margin-bottom: 4px;">🧮</div>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #38bdf8;">打水計算機</div>
-          <div style="font-size: 0.7rem; color: rgba(247, 247, 240, 0.6); margin-top: 2px;">4% 自由水庫</div>
-        </a>
-        <a href="noise-audit.html" class="tool-btn" onclick="trackStoreClick('tool', 'noise-audit')" style="background: rgba(148, 163, 184, 0.08); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 12px; padding: 14px 8px; text-decoration: none; color: #fff; text-align: center; transition: all 0.2s; display: block;">
-          <div style="font-size: 1.3rem; margin-bottom: 4px;">🧘</div>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #cbd5e1;">內耗自測表</div>
-          <div style="font-size: 0.7rem; color: rgba(247, 247, 240, 0.6); margin-top: 2px;">能量漏水審計</div>
-        </a>
-        <a href="leverage-check.html" class="tool-btn" onclick="trackStoreClick('tool', 'leverage-check')" style="background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.25); border-radius: 12px; padding: 14px 8px; text-decoration: none; color: #fff; text-align: center; transition: all 0.2s; display: block;">
-          <div style="font-size: 1.3rem; margin-bottom: 4px;">⚙️</div>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #fbbf24;">借力檢測</div>
-          <div style="font-size: 0.7rem; color: rgba(247, 247, 240, 0.6); margin-top: 2px;">少做多得成熟度</div>
-        </a>
-      </div>
-      <div style="margin-top: 10px;">
-        <a href="stealth-bear.html" class="tool-btn" onclick="trackStoreClick('game', 'stealth-bear')" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.25)); border: 1.5px solid rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 12px 14px; text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.6rem;">🥷</span>
-            <div style="text-align: left;">
-              <div style="font-size: 0.9rem; font-weight: 800; color: #34d399; display: flex; align-items: center; gap: 6px;">
-                <span>白熊特工：降噪大作戰 3D</span>
-                <span style="background: #10b981; color: #fff; font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; font-weight: 900;">3D 潛行</span>
-              </div>
-              <div style="font-size: 0.72rem; color: rgba(247, 247, 240, 0.7); margin-top: 2px;">3D 俯視角潛行 · 繞背暗殺內耗怪 · 收集專注金幣</div>
-            </div>
-          </div>
-          <span style="color: #34d399; font-weight: 900; font-size: 1.1rem;">➔</span>
-        </a>
-      </div>
-      <div style="margin-top: 8px;">
-        <a href="zelda-bear.html" class="tool-btn" onclick="trackStoreClick('game', 'zelda-bear')" style="background: linear-gradient(135deg, rgba(235, 203, 139, 0.15), rgba(76, 86, 106, 0.25)); border: 1.5px solid rgba(235, 203, 139, 0.4); border-radius: 12px; padding: 12px 14px; text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.6rem;">🗡️</span>
-            <div style="text-align: left;">
-              <div style="font-size: 0.9rem; font-weight: 800; color: #ebcb8b; display: flex; align-items: center; gap: 6px;">
-                <span>白熊傳說：眾神的降噪秘笈</span>
-                <span style="background: #d08770; color: #fff; font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; font-weight: 900;">薩爾達像素風</span>
-              </div>
-              <div style="font-size: 0.72rem; color: rgba(247, 247, 240, 0.7); margin-top: 2px;">任天堂 16-bit 經典介面 · 砍草尋寶 · 擊退內耗怪 · 開寶箱奪秘笈</div>
-            </div>
-          </div>
-          <span style="color: #ebcb8b; font-weight: 900; font-size: 1.1rem;">➔</span>
-        </a>
-      </div>
-    </section>
 
-    <!-- 🗺️ 閱讀地圖導覽入口 -->
-    <div style="margin-top: 16px;">
-      <a href="reading-map.html" class="tool-btn" onclick="trackStoreClick('tool', 'reading-map')" style="background: linear-gradient(135deg, rgba(235, 203, 139, 0.15), rgba(76, 86, 106, 0.25)); border: 1.5px solid rgba(235, 203, 139, 0.4); border-radius: 12px; padding: 12px 14px; text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 1.6rem;">🗺️</span>
-          <div style="text-align: left;">
-            <div style="font-size: 0.92rem; font-weight: 800; color: #ebcb8b;">不知道從哪本開始？看閱讀地圖</div>
-            <div style="font-size: 0.74rem; color: rgba(247, 247, 240, 0.7); margin-top: 2px;">十本書・十個月・一條路線</div>
-          </div>
-        </div>
-        <span style="color: #ebcb8b; font-weight: 900; font-size: 1.1rem;">➔</span>
+      <a href="calculator.html" class="tool-row t-money" onclick="trackStoreClick('tool', 'calculator')">
+        <span class="tool-ico">🧮</span>
+        <span class="tool-text">
+          <span class="tool-name">打水計算機</span>
+          <span class="tool-desc">算出你的自由水庫要存到多少才夠用</span>
+        </span>
+        <span class="tool-go">➔</span>
       </a>
-    </div>
+
+      <a href="noise-audit.html" class="tool-row t-blue" onclick="trackStoreClick('tool', 'noise-audit')">
+        <span class="tool-ico">🧘</span>
+        <span class="tool-text">
+          <span class="tool-name">內耗自測表</span>
+          <span class="tool-desc">找出你的能量正從哪幾個洞漏掉</span>
+        </span>
+        <span class="tool-go">➔</span>
+      </a>
+
+      <a href="leverage-check.html" class="tool-row t-indigo" onclick="trackStoreClick('tool', 'leverage-check')">
+        <span class="tool-ico">⚙️</span>
+        <span class="tool-text">
+          <span class="tool-name">借力檢測</span>
+          <span class="tool-desc">測你的「少做多得」成熟度落在哪一級</span>
+        </span>
+        <span class="tool-go">➔</span>
+      </a>
+
+      <a href="reading-map.html" class="tool-row t-teal tool-feature" onclick="trackStoreClick('tool', 'reading-map')">
+        <span class="tool-ico">🗺️</span>
+        <span class="tool-text">
+          <span class="tool-name">不知道從哪本開始？看閱讀地圖</span>
+          <span class="tool-desc">十本書・十個月・一條從頭到尾的路線</span>
+        </span>
+        <span class="tool-go">➔</span>
+      </a>
+    </section>
 
     <section class="link-books" aria-label="白熊套書與系列書" style="margin-top: 16px;">
       <!-- 📘 《心富》次要書卡 -->
@@ -1621,24 +1521,24 @@
           <div class="book-info">
             <h2 style="font-size: 1.06rem;">人生遊戲攻略・全系列</h2>
             <div class="book-rating" style="display: flex; align-items: center; gap: 6px; margin: 4px 0 6px;">
-              <span class="stars" style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
-              <span class="rating-text" style="color: rgba(247, 247, 240, 0.7); font-size: 0.76rem;">系列 14 人評分・5 星</span>
+              <span class="stars" style="color: #7f6b00; font-size: 0.85rem;">★★★★★</span>
+              <span class="rating-text" style="color: rgba(68, 53, 39, 0.8); font-size: 0.76rem;">系列 14 人評分・5 星</span>
             </div>
-            <div class="book-selling-points" style="font-size: 0.82rem; color: rgba(247, 247, 240, 0.75); line-height: 1.5;">
+            <div class="book-selling-points" style="font-size: 0.82rem; color: rgba(68, 53, 39, 0.84); line-height: 1.5;">
               <div class="selling-point" style="margin-bottom: 2px;"><span>🛒</span> 一鍵把 7 冊全加入購物車，不漏書</div>
               <div class="selling-point"><span>✨</span> 已含最新《人生友誼賽》與《續航》</div>
             </div>
             <div class="book-price" style="margin-top: 8px;">
-              <span class="price-label" style="font-size: 0.75rem; color: rgba(247, 247, 240, 0.5);">系列售價</span>
-              <span class="price-amount" style="font-size: 1.15rem; font-weight: 800; color: #2dd4bf; margin-left: 4px;">
+              <span class="price-label" style="font-size: 0.75rem; color: rgba(68, 53, 39, 0.64);">系列售價</span>
+              <span class="price-amount" style="font-size: 1.15rem; font-weight: 800; color: #25786f; margin-left: 4px;">
                 <span class="price-gem">💎</span> NT$1,603
-                <span class="price-original" style="font-size: 0.75rem; font-weight: 400; color: rgba(247, 247, 240, 0.5);">（7 冊合計）</span>
+                <span class="price-original" style="font-size: 0.75rem; font-weight: 400; color: rgba(68, 53, 39, 0.64);">（7 冊合計）</span>
               </span>
             </div>
           </div>
         </div>
         <div class="link-actions" aria-label="Readmoo 系列連結" style="grid-template-columns: 1fr; margin-top: 14px;">
-          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '系列')" aria-label="在 Readmoo 查看人生遊戲攻略全系列" style="background: linear-gradient(135deg, #0d9488 0%, #2dd4bf 100%); color: #0c1511; font-weight: 800; min-height: 48px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
+          <a href="https://readmoo.com/installment/20194" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '系列')" aria-label="在 Readmoo 查看人生遊戲攻略全系列" style="background: linear-gradient(135deg, #0d9488 0%, #25786f 100%); color: #0c1511; font-weight: 800; min-height: 48px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
             在 Readmoo 查看人生遊戲攻略全系列 ➔
           </a>
         </div>
@@ -1686,10 +1586,25 @@
     let currentSlide = 0;
     let slideTimer = null;
 
+    // 只載入指定那張的底圖，載過就不再處理
+    const slideEls = document.querySelectorAll('.carousel-slide');
+    function loadSlideBg(i) {
+      const slide = slideEls[i];
+      if (!slide) return;
+      const el = slide.querySelector('.slide-image-area[data-bg]');
+      if (!el) return;
+      el.style.backgroundImage = `url('${el.dataset.bg}')`;
+      el.removeAttribute('data-bg');
+    }
+
     function showSlide(index) {
       currentSlide = index;
       track.style.transform = `translateX(-${index * 100}%)`;
       
+      // 載入當前張與下一張，其餘不抓
+      loadSlideBg(index);
+      loadSlideBg((index + 1) % dots.length);
+
       dots.forEach((dot, idx) => {
         if (idx === index) {
           dot.classList.add('active');
@@ -1752,6 +1667,7 @@
     carouselSection.addEventListener('mouseleave', startAutoSlide);
 
     // 啟動輪播
+    loadSlideBg(1);   // 第 1 張由 CSS 直接畫，這裡先備好第 2 張
     startAutoSlide();
   </script>
 </body>
