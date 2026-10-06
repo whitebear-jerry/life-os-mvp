@@ -11,16 +11,18 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(20, 27, 45, 0.7);
-      --card-border: rgba(255, 255, 255, 0.09);
-      --primary: #38bdf8;
-      --primary-glow: rgba(56, 189, 248, 0.25);
-      --gold: #fbbf24;
-      --gold-glow: rgba(251, 191, 36, 0.2);
-      --emerald: #34d399;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg: #f6f0e4;
+      --card-bg: rgba(253, 250, 244, 0.86);
+      --card-border: rgba(140, 115, 80, 0.22);
+      --primary: #406984;
+      --primary-glow: rgba(64, 105, 132, 0.18);
+      --purple: #7a50d8;
+      --purple-glow: rgba(122, 80, 216, 0.16);
+      --rose: #a04f55;
+      --gold: #7f6b00;
+      --emerald: #0a7d57;
+      --text: #443527;
+      --text-muted: #7a6b58;
       --radius: 16px;
     }
 
@@ -54,9 +56,9 @@
       gap: 6px;
       padding: 6px 14px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #94a3b8;
+      background: #f4ecdc;
+      border: 1px solid rgba(140, 115, 80, 0.28);
+      color: #7a6b58;
       font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
@@ -100,7 +102,7 @@
       font-size: clamp(1.8rem, 4vw, 2.5rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      background: linear-gradient(135deg, #443527 30%, #406984 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
@@ -143,7 +145,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #ffffff;
+      color: #443527;
     }
 
     /* 表單元件 */
@@ -157,7 +159,7 @@
       align-items: center;
       font-size: 0.9rem;
       font-weight: 600;
-      color: #cbd5e1;
+      color: #5c4a36;
       margin-bottom: 8px;
     }
 
@@ -209,7 +211,7 @@
 
     .metric-box {
       background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(140, 115, 80, 0.18);
       border-radius: 12px;
       padding: 16px;
       text-align: center;
@@ -233,7 +235,7 @@
       font-family: 'Outfit', sans-serif;
       font-size: 1.5rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #443527;
     }
 
     .metric-box.highlight .metric-val {
@@ -285,7 +287,7 @@
     .diagnosis-title {
       font-size: 1.1rem;
       font-weight: 700;
-      color: #ffffff;
+      color: #443527;
     }
 
     .diagnosis-level {
@@ -296,7 +298,7 @@
 
     .diagnosis-text {
       font-size: 0.92rem;
-      color: #cbd5e1;
+      color: #5c4a36;
       margin-bottom: 18px;
       line-height: 1.6;
     }
@@ -460,7 +462,7 @@
 
           <div class="metric-box">
             <div class="metric-label">MLC 生存水庫防線</div>
-            <div class="metric-val" id="metric-mlc-val" style="color: #34d399;">$780 萬</div>
+            <div class="metric-val" id="metric-mlc-val" style="color: #0a7d57;">$780 萬</div>
             <div class="metric-sub" id="metric-mlc-sub">基礎自由安全線</div>
           </div>
         </div>
@@ -489,7 +491,7 @@
         <img src="assets/book4.jpg" alt="推薦書封" id="rec-book-img" style="width: 52px; height: 74px; border-radius: 6px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.4); flex-shrink: 0;" />
         <div class="book-meta" style="flex: 1; min-width: 0;">
           <h4 id="rec-book-title">📖 推薦進階閱讀：《心富》心態富足與資產配置的終極指南</h4>
-          <div id="rec-book-price" style="font-size: 0.76rem; color: #4ef072; font-weight: 700; margin-bottom: 3px; font-family: monospace;">💎 特惠價 NT$229 (72折 · 省 $91)</div>
+          <div id="rec-book-price" style="font-size: 0.76rem; color: #0a6b4a; font-weight: 700; margin-bottom: 3px; font-family: monospace;">💎 特惠價 NT$229 (72折 · 省 $91)</div>
           <p id="rec-book-desc">心財同源！掌握 80/15/5 指數化資產配置與睡得著投資法。</p>
         </div>
         <a href="link.html#book-xinfu" class="cta-btn" id="rec-book-link">
