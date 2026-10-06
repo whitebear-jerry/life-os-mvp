@@ -242,6 +242,15 @@
       box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
     }
 
+    .book-youyi .link-actions a {
+      background: #8b5cf6;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    }
+
+    .book-youyi .link-actions a:hover {
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+    }
+
     .book-series .link-actions a:hover {
       box-shadow: 0 8px 24px rgba(52, 168, 155, 0.35);
     }
@@ -496,13 +505,13 @@
       box-shadow: 0 16px 48px rgba(16, 185, 129, 0.06);
     }
 
-    .link-book.book-bundle {
+    .link-book.book-youyi {
       border: 1.5px solid rgba(139, 92, 246, 0.6);
       background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
       animation: purpleGlow 3s infinite ease-in-out;
     }
 
-    .link-book.book-bundle:hover {
+    .link-book.book-youyi:hover {
       border-color: rgba(139, 92, 246, 0.35);
       box-shadow: 0 16px 48px rgba(139, 92, 246, 0.06);
     }
@@ -553,6 +562,12 @@
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #ffffff;
       box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3), 0 0 8px rgba(16, 185, 129, 0.2);
+    }
+
+    .book-tag.tag-youyi {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3), 0 0 8px rgba(139, 92, 246, 0.2);
     }
 
     /* 3. 星等與發光金星 */
@@ -904,6 +919,10 @@
       background-image: url('assets/book6_banner.jpg');
     }
 
+    .slide-book7 {
+      background-image: url('assets/book7_banner.jpg');
+    }
+
     /* 下方文字區域：深綠色系半透明毛玻璃質感 */
     .slide-text-area {
       padding: 14px 18px 16px;
@@ -961,6 +980,12 @@
       background: rgba(16, 185, 129, 0.25);
       color: #6ee7b7;
       border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-youyi {
+      background: rgba(139, 92, 246, 0.25);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.4);
     }
 
     .slide-description {
@@ -1120,7 +1145,6 @@
         gap: 16px;
         margin-top: 24px !important;
       }
-      .book-bundle,
       .book-series {
         grid-column: 1 / -1;
       }
@@ -1130,7 +1154,6 @@
     }
 
     /* Bundle Cover Landscape Override (4:3 aspect ratio) */
-    .book-bundle .book-cover-wrapper,
     .book-series .book-cover-wrapper {
       width: 120px;
       height: 90px;
@@ -1261,6 +1284,14 @@
               <p class="slide-description">走得遠的人，不靠意志力燃燒自己，而是靠設計系統。</p>
             </div>
           </div>
+          <!-- 幻燈片 #7 ｜ 人生友誼賽 -->
+          <div class="carousel-slide" aria-label="創作 #7 ｜ 人生友誼賽">
+            <div class="slide-image-area slide-book7"></div>
+            <div class="slide-text-area">
+              <span class="slide-badge badge-youyi">創作 #7 ｜ 人生友誼賽</span>
+              <p class="slide-description">同樣一場球，有人打得像生死戰，有人打得像友誼賽。</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 固定於右下角的點狀指示器 -->
@@ -1271,6 +1302,7 @@
         <span class="carousel-dot" data-slide="3"></span>
         <span class="carousel-dot" data-slide="4"></span>
         <span class="carousel-dot" data-slide="5"></span>
+        <span class="carousel-dot" data-slide="6"></span>
       </div>
     </section>
 
@@ -1366,6 +1398,39 @@
         </div>
       </article>
 
+      <!-- 🏓 《人生友誼賽》次要書卡 -->
+      <article class="link-book book-youyi book-secondary" id="book-youyi">
+        <div class="book-tag tag-youyi">✨ 最新上架</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="assets/book7.jpg" alt="《人生友誼賽》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《人生友誼賽》</h2>
+            <div class="book-rating">
+              <span class="rating-text">新書上市 · 搶先體驗</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🏓</span> 把生死戰的眼鏡換成友誼賽，輸了也還有下一球</div>
+              <div class="selling-point"><span>🎮</span> 難纏的人當 NPC，情緒地雷在引爆前先掃掉</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$320</span></span>
+                <span class="price-gem">💎</span> NT$249
+                <span class="discount-badge">78折 (省 $71)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="人生友誼賽購買連結">
+          <a href="https://readmoo.com/book/210503806000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '人生友誼賽')" aria-label="在 Readmoo 購買人生友誼賽">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '人生友誼賽')" aria-label="在 Pubu 購買人生友誼賽">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&amp;ssId=E-YVypgvbd7WdUbRJTGZM&amp;cPos=1" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '人生友誼賽')" aria-label="在 Kobo 購買人生友誼賽">Kobo</a>
+        </div>
+      </article>
+
       <!-- 📘 《人生複利》次要書卡 -->
       <article class="link-book book-fuli book-secondary" id="book-fuli">
         <div class="book-tag tag-fuli">🏅 最多人解鎖</div>
@@ -1402,7 +1467,7 @@
 
       <!-- ⚡ 《續航》新書上市書卡 -->
       <article class="link-book book-xuhang book-secondary" id="book-xuhang">
-        <div class="book-tag tag-xuhang">✨ 最新上架</div>
+        <div class="book-tag tag-xuhang">🔋 不斷電成長系統</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="assets/book6.jpg" alt="《續航》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
