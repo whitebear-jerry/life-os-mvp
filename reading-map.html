@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>富足人生演算法閱讀地圖｜白熊人生攻略</title>
+  <meta name="description" content="富足人生演算法全十冊閱讀地圖：十本書，十個月，一條路線。從相信開始，走到可以執行的系統，最後回到自己的主場。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <script>
+  /* ============================================================
+     📖 新書上架時，只要改這一個陣列，整頁會自動更新
+     ------------------------------------------------------------
+     步驟（以第 8 冊《明辨》為例）：
+       1. 把該本的 status 從 "coming" 改成 "published"
+       2. 填入 price（原價）、sale（特惠價）、discount（折數文字）
+       3. 填入 links 的 readmoo / pubu / kobo 三個網址
+          ⚠️ Pubu 一律用單品頁 pubu.com.tw/ebook/<id> 並保留 ?apKey=e08e864a73
+             從 Pubu 分享鈕複製到的 ?pubu_urc=xxx 不是書系在用的分潤碼，不要用
+       4. 書封已先放在 assets/book8.jpg，不用再動
+       5. 存檔 → 書脊、卡片、購買按鈕、即將上架標籤全部自動切換
+     ⚠️ 不要在這個陣列以外的地方寫死任何書名、價格或連結
+     ============================================================ */
+  const BOOKS = [
+    { no: 1, code: "fuli", title: "人生複利", sub: "從信念到財富的 45 個覺醒練習",
+      line: "heart", lineLabel: "心法線 ①", words: 52281, minutes: 4,
+      cover: "assets/book1.jpg", status: "published",
+      price: 220, sale: 149, discount: "68折 (省 $71)",
+      links: {
+        readmoo: "https://readmoo.com/book/210446460000101",
+        pubu:    "https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" } },
+
+    { no: 2, code: "game", title: "人生遊戲", sub: "40 堂化逆境為順境的變現攻略",
+      line: "heart", lineLabel: "心法線 ②", words: 63916, minutes: 5,
+      cover: "assets/book2.jpg", status: "published",
+      price: 280, sale: 199, discount: "71折 (省 $81)",
+      links: {
+        readmoo: "https://readmoo.com/book/210455098000101",
+        pubu:    "https://www.pubu.com.tw/ebook/650682?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" } },
+
+    { no: 3, code: "noise", title: "降噪人生", sub: "幫大腦卸載、替心靈把關",
+      line: "system", lineLabel: "系統線 ①", words: 136535, minutes: 11,
+      cover: "assets/book3.jpg", status: "published",
+      price: 360, sale: 269, discount: "75折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210470441000101",
+        pubu:    "https://www.pubu.com.tw/ebook/666582?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" } },
+
+    { no: 4, code: "xinfu", title: "心富", sub: "把心顧好，錢自然長出來的財富實戰手冊",
+      line: "money", lineLabel: "財務線 ①", words: 106510, minutes: 9,
+      cover: "assets/book4.jpg", status: "published",
+      price: 320, sale: 229, discount: "72折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210482574000101",
+        pubu:    "https://www.pubu.com.tw/ebook/675997?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" } },
+
+    { no: 5, code: "jieli", title: "借力", sub: "借趨勢、借工具、借複利，少做多得的不費力人生",
+      line: "system", lineLabel: "系統線 ②", words: 113019, minutes: 9,
+      cover: "assets/book5.jpg", status: "published",
+      price: 320, sale: 249, discount: "78折 (省 $71)",
+      links: {
+        readmoo: "https://readmoo.com/book/210488646000101",
+        pubu:    "https://www.pubu.com.tw/ebook/682111?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" } },
+
+    { no: 6, code: "xuhang", title: "續航", sub: "打造不靠意志力的持續成長系統",
+      line: "system", lineLabel: "系統線 ③", words: 118103, minutes: 10,
+      cover: "assets/book6.jpg", status: "published",
+      price: 350, sale: 259, discount: "74折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210498507000101",
+        pubu:    "https://www.pubu.com.tw/ebook/691655?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/SBhjgFJM6DSrzeDmMqUGYw?sId=ca03978c-6e70-488f-a053-1e83a3d21c6f&ssId=aLHYUHEB-JP3E_fU8HhKW&cPos=1" } },
+
+    { no: 7, code: "youyi", title: "人生友誼賽", sub: "輸了也好玩，把磨難打成一場輕鬆的對打",
+      line: "heart", lineLabel: "心法線 ③", words: 109022, minutes: 9,
+      cover: "assets/book7.jpg", status: "published",
+      price: 320, sale: 249, discount: "78折 (省 $71)",
+      links: {
+        readmoo: "https://readmoo.com/book/210503806000101",
+        pubu:    "https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&ssId=E-YVypgvbd7WdUbRJTGZM&cPos=1" } },
+
+    // ── 以下三本尚未上架：不放價格、不放連結、不寫上架日期 ──
+    { no: 8, code: "mingbian", title: "明辨", sub: "把難題拆開，把假話看穿，把決定做對",
+      line: "judge", lineLabel: "判斷線 ①", words: 156454, minutes: 13,
+      cover: "assets/book8.jpg", status: "coming",
+      price: null, sale: null, discount: null, links: null },
+
+    { no: 9, code: "yuyu", title: "餘裕", sub: "心裡富足，手上有餘——養出面對世界的雙寬裕",
+      line: "money", lineLabel: "財務線 ②", words: 116977, minutes: 10,
+      cover: "assets/book9.jpg", status: "coming",
+      price: null, sale: null, discount: null, links: null },
+
+    { no: 10, code: "zhuchang", title: "人生主場", sub: "奪回注意力與時間，做自己劇本的唯一終審者",
+      line: "home", lineLabel: "收束", words: 200197, minutes: 17,
+      cover: "assets/book10.jpg", status: "coming",
+      price: null, sale: null, discount: null, links: null },
+  ];
+  </script>
+
+  <!-- 📊 Microsoft Clarity 數據分析與熱圖錄影 (含作者本人 noclarity 裝置排除開關) -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* Layout: an antique route map. A bookshelf of ten spines (width = word count) opens the page,
+     then three season columns of three stops each, ending in a full-width "home" band. */
+  :root{
+    --paper:#efe3c8; --paper-2:#e6d6b2; --card:#f5ecd8; --ink:#33271a; --ink-soft:#6a5840;
+    --rule:#c4ab7c; --gilt:#9a6f1f; --shelf:#7a5a34;
+    --l-heart:#9b3d33; --l-system:#2f4a70; --l-money:#94661a; --l-judge:#34675a; --l-home:#57422c;
+    --spine-ink:#f7eedb; --spine-hi:rgba(255,248,230,.22); --spine-lo:rgba(40,25,10,.25);
+    --pick:#b8862b; --shadow:0 1px 0 rgba(60,40,15,.08),0 6px 14px -8px rgba(60,40,15,.35);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+    --paper:#18130d; --paper-2:#211a12; --card:#241d14; --ink:#eee2c7; --ink-soft:#bba98a;
+    --rule:#4d3f2c; --gilt:#d6ae5f; --shelf:#5c4528;
+    --l-heart:#e08a7e; --l-system:#93b2db; --l-money:#dfb459; --l-judge:#86c3ad; --l-home:#cbb28c;
+    --spine-ink:#1a140d; --spine-hi:rgba(255,248,230,.25); --spine-lo:rgba(0,0,0,.3);
+    --pick:#e2b65e; --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 18px -10px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --paper:#18130d; --paper-2:#211a12; --card:#241d14; --ink:#eee2c7; --ink-soft:#bba98a;
+    --rule:#4d3f2c; --gilt:#d6ae5f; --shelf:#5c4528;
+    --l-heart:#e08a7e; --l-system:#93b2db; --l-money:#dfb459; --l-judge:#86c3ad; --l-home:#cbb28c;
+    --spine-ink:#1a140d; --spine-hi:rgba(255,248,230,.25); --spine-lo:rgba(0,0,0,.3);
+    --pick:#e2b65e; --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 18px -10px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
+    background-image:radial-gradient(ellipse at 50% 0%,var(--card) 0%,transparent 60%);margin:0;}
+  .wrap{max-width:1160px;margin:0 auto;padding-inline:20px;padding-block:44px 64px;display:grid;gap:56px}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  .eyebrow{font-size:13px;letter-spacing:.24em;color:var(--gilt);font-weight:700}
+  .eyebrow a{color:inherit;text-decoration:none;transition:opacity .2s ease}
+  .eyebrow a:hover{opacity:0.75;text-decoration:underline}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--pick);outline-offset:3px;border-radius:4px}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;gap:28px}
+  .hero-head{display:grid;gap:12px;max-width:44em}
+  .hero h1{font-size:clamp(34px,6vw,58px);font-weight:900;letter-spacing:.06em}
+  .hero h1 small{display:block;font-size:.42em;font-weight:700;letter-spacing:.32em;color:var(--ink-soft);margin-top:6px}
+  .thesis{font-size:clamp(16px,2.1vw,19px);color:var(--ink);max-width:34em}
+  .shelf-box{display:grid;gap:10px}
+  .shelf{display:flex;align-items:flex-end;gap:3px;height:clamp(128px,18vw,176px);border-bottom:7px solid var(--shelf);padding-inline:2px}
+  .spine{flex:var(--w) 1 0;min-width:0;height:100%;background:var(--c);border-radius:3px 3px 1px 1px;position:relative;
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 0 7px;
+    box-shadow:inset 2px 0 0 var(--spine-hi),inset -2px 0 0 var(--spine-lo);text-decoration:none;color:var(--spine-ink);
+    transition:transform .2s ease, opacity .2s ease, filter .2s ease}
+  .spine::before,.spine::after{content:"";position:absolute;left:12%;right:12%;height:2px;background:var(--spine-hi)}
+  .spine::before{top:6px}.spine::after{bottom:24px}
+  .spine:hover{transform:translateY(-6px)}
+  .spine b{writing-mode:vertical-rl;font-family:var(--f-display);font-weight:700;font-size:clamp(10px,1.45vw,15px);letter-spacing:.12em;white-space:nowrap}
+  .spine i{font-style:normal;font-family:var(--f-num);font-size:clamp(10px,1.2vw,13px);font-weight:600}
+  .shelf-cap{font-size:13px;color:var(--ink-soft)}
+  .facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-soft)}
+  .facts strong{color:var(--ink);font-weight:700}
+
+  /* ---------- line colours ---------- */
+  .l-heart{--c:var(--l-heart)}.l-system{--c:var(--l-system)}.l-money{--c:var(--l-money)}.l-judge{--c:var(--l-judge)}.l-home{--c:var(--l-home)}
+
+  /* ---------- coming soon & published ---------- */
+  .spine.is-coming{filter:grayscale(1);opacity:.45}
+  .stop img.is-coming,.home img.is-coming{filter:grayscale(1);opacity:.45}
+  .badge-coming{font-family:var(--f-body);font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:999px;
+    background:rgba(120,100,80,.12);color:var(--ink-soft);border:1px solid var(--rule);vertical-align:middle;display:inline-block;margin-left:6px}
+
+  /* ---------- price & store buttons ---------- */
+  .price-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin-top:8px;font-size:13px}
+  .price-orig{color:var(--ink-soft);font-size:12px}
+  .price-orig del{text-decoration:line-through;opacity:.85}
+  .price-sale{font-family:var(--f-num);font-size:17px;font-weight:700;color:var(--gilt)}
+  .price-discount{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(184,134,43,.12);color:var(--gilt);border:1px solid rgba(184,134,43,.28)}
+
+  .stop-actions,.home-actions{grid-column:1 / -1;margin-top:10px}
+  .link-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .link-actions a{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;
+    background:var(--c);color:var(--spine-ink);font-size:13px;font-weight:700;text-decoration:none;
+    box-shadow:0 1px 4px rgba(0,0,0,.15);border:1px solid rgba(0,0,0,.08);
+    transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+  .link-actions a:hover{filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.22)}
+  .link-actions a:active{transform:translateY(0)}
+
+  /* ---------- route map ---------- */
+  .map{display:grid;gap:22px}
+  .map-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px 24px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+  .map-head h2{font-size:clamp(22px,3vw,30px);font-weight:900}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .filters span{font-size:13px;color:var(--ink-soft);margin-right:2px}
+  .chip{font:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:999px;
+    padding:4px 12px 4px 10px;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+  .chip::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,var(--ink-soft))}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .seasons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+  .season{display:grid;gap:14px;align-content:start;min-width:0}
+  .season-head{display:grid;gap:2px;padding-bottom:6px}
+  .season-head .eyebrow{font-size:12px}
+  .season-head h3{font-size:22px;font-weight:900}
+  .season-head p{font-size:14px;color:var(--ink-soft)}
+  .stops{list-style:none;margin:0;padding:0;display:grid;gap:18px;position:relative}
+  .stops::before{content:"";position:absolute;left:49px;top:28px;bottom:28px;border-left:2px dashed var(--rule)}
+  .stop{position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;align-items:start;
+    padding:10px;border-radius:8px;transition:opacity .25s ease,background-color .25s ease,box-shadow .25s ease;scroll-margin-block:90px}
+  .stop img{width:78px;aspect-ratio:2/3;object-fit:cover;border-radius:2px;box-shadow:var(--shadow);border:1px solid var(--rule);position:relative;z-index:1;max-width:100%}
+  .stop-body{display:grid;gap:5px;min-width:0}
+  .vol{font-size:12px;color:var(--ink-soft);letter-spacing:.06em}
+  .vol .num{font-size:15px;color:var(--gilt);font-weight:600;margin-right:2px}
+  .stop h4{font-family:var(--f-display);font-size:19px;font-weight:900;margin:0;line-height:1.25}
+  .sub{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+  .you{font-size:14px}
+  .you em{font-style:normal;color:var(--ink-soft);font-size:12px;letter-spacing:.08em;margin-right:4px}
+  .todo{font-size:13.5px;border-left:2px solid var(--c);padding-left:9px;line-height:1.6}
+  .todo em{font-style:normal;font-weight:700;color:var(--c);margin-right:3px}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--ink-soft)}
+  .tag{display:inline-flex;align-items:center;gap:5px;color:var(--c);font-weight:700}
+  .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .stop.is-picked{background:var(--card);box-shadow:0 0 0 2px var(--pick)}
+  .map[data-focus="heart"] .stop:not(.l-heart),
+  .map[data-focus="system"] .stop:not(.l-system),
+  .map[data-focus="money"] .stop:not(.l-money),
+  .map[data-focus="judge"] .stop:not(.l-judge){opacity:.26}
+
+  .home{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px 26px;align-items:start;padding:22px;
+    border:1px solid var(--rule);outline:1px solid var(--rule);outline-offset:4px;border-radius:2px;background:var(--card);scroll-margin-block:90px;
+    transition:opacity .25s ease,box-shadow .25s ease}
+  .map[data-focus]:not([data-focus="all"]) .home{opacity:.26}
+  .home.is-picked{box-shadow:0 0 0 2px var(--pick)}
+  .home img{width:150px;aspect-ratio:2/3;object-fit:cover;box-shadow:var(--shadow);border:1px solid var(--rule);max-width:100%}
+  .home .stop-body{gap:8px}
+  .home h3{font-size:clamp(24px,3vw,30px);font-weight:900}
+  .home .lead{font-size:16px}
+
+  /* ---------- entries ---------- */
+  .entries{display:grid;gap:18px}
+  .entries h2,.why h2{font-size:clamp(22px,3vw,30px);font-weight:900}
+  .entries > p{color:var(--ink-soft);max-width:40em}
+  .entry-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;border-top:1px solid var(--rule)}
+  .entry{font:inherit;color:inherit;text-align:left;background:none;border:0;border-bottom:1px solid var(--rule);padding:12px 4px;
+    display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;cursor:pointer}
+  .entry:hover{background:var(--card)}
+  .entry span{font-size:14.5px}
+  .entry b{font-family:var(--f-display);font-weight:900;font-size:15px;color:var(--c);white-space:nowrap}
+  .entry b::after{content:" →";font-family:var(--f-num)}
+
+  /* ---------- why ---------- */
+  .why{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px;border-top:1px solid var(--rule);padding-top:28px}
+  .why-col{display:grid;gap:14px;align-content:start;min-width:0}
+  .why ul{margin:0;padding-left:1.2em;display:grid;gap:10px}
+  .why li{max-width:36em}
+  .ask{background:var(--card);border:1px solid var(--rule);padding:16px 18px;border-radius:2px;display:grid;gap:8px}
+  .ask ol{margin:0;padding-left:1.3em}
+  footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;border-top:1px solid var(--rule);padding-top:18px;font-size:13px;color:var(--ink-soft)}
+  footer a{color:var(--gilt);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  @media (max-width:940px){
+    .seasons{grid-template-columns:minmax(0,1fr)}
+    .why{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:640px){
+    .wrap{padding-inline:16px;gap:44px}
+    .entry-grid{grid-template-columns:minmax(0,1fr)}
+    .home{grid-template-columns:96px minmax(0,1fr);gap:16px;padding:16px}
+    .home img{width:96px}
+    .stop{grid-template-columns:64px minmax(0,1fr);padding:8px}
+    .stop img{width:64px}
+    .stops::before{left:40px}
+    .shelf{gap:2px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <header class="hero">
+    <div class="hero-head">
+      <p class="eyebrow"><a href="link.html">← 回白熊人生攻略</a> ｜ 全十冊・閱讀地圖</p>
+      <h1>富足人生演算法<small>白熊 著</small></h1>
+      <p class="thesis">十本書，十個月，平均每天十分鐘左右。從相信開始，走到可以執行的系統，最後回到自己的主場。</p>
+    </div>
+    <div class="shelf-box">
+      <nav class="shelf" id="shelf" aria-label="十冊書架，點一本跳到它在地圖上的位置">
+        <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+      </nav>
+      <p class="shelf-cap">書脊的寬度照每本書的字數比例畫；顏色是它所屬的主題線。點書脊可以跳到它在地圖上的位置。</p>
+      <div class="facts">
+        <span><strong class="num">10</strong> 冊</span>
+        <span>約 <strong class="num">117</strong> 萬字</span>
+        <span>約 <strong class="num">49</strong> 小時讀完</span>
+        <span><strong class="num">10</strong> 大生活領域</span>
+        <span><strong class="num">1,078</strong> 個具名工具</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="map" id="map" aria-labelledby="map-title">
+    <div class="map-head">
+      <h2 id="map-title">十個月的路線</h2>
+      <div class="filters" role="group" aria-label="只看一條主題線">
+        <span>只看一條主題線：</span>
+        <button class="chip" type="button" id="f-all" data-f="all" aria-pressed="true">全部</button>
+        <button class="chip l-heart" type="button" id="f-heart" data-f="heart" aria-pressed="false">心法</button>
+        <button class="chip l-system" type="button" id="f-system" data-f="system" aria-pressed="false">系統</button>
+        <button class="chip l-money" type="button" id="f-money" data-f="money" aria-pressed="false">財務</button>
+        <button class="chip l-judge" type="button" id="f-judge" data-f="judge" aria-pressed="false">判斷</button>
+      </div>
+    </div>
+
+    <div class="seasons">
+      <section class="season">
+        <div class="season-head">
+          <p class="eyebrow">第一季・第 1–3 個月</p>
+          <h3>心</h3>
+          <p>先相信，再接受，再清理。</p>
+        </div>
+        <ol class="stops" id="season-1-stops">
+          <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+        </ol>
+      </section>
+
+      <section class="season">
+        <div class="season-head">
+          <p class="eyebrow">第二季・第 4–6 個月</p>
+          <h3>錢與系統</h3>
+          <p>把錢顧好，把事情交給結構。</p>
+        </div>
+        <ol class="stops" id="season-2-stops">
+          <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+        </ol>
+      </section>
+
+      <section class="season">
+        <div class="season-head">
+          <p class="eyebrow">第三季・第 7–9 個月</p>
+          <h3>成熟</h3>
+          <p>對自己寬一點，看事情清楚一點，知道什麼叫夠。</p>
+        </div>
+        <ol class="stops" id="season-3-stops">
+          <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+        </ol>
+      </section>
+    </div>
+
+    <div id="home-container">
+      <!-- 終點第 10 冊由 JavaScript 依 BOOKS 陣列動態產生 -->
+    </div>
+  </section>
+
+  <section class="entries" aria-labelledby="entry-title">
+    <h2 id="entry-title">不想從第 1 冊開始？對號入座</h2>
+    <p>挑最像現在的你那一句，先讀那一本。讀完再回到路線從第 1 冊開始，或接著讀同一條主題線。</p>
+    <div class="entry-grid" id="entry-grid">
+      <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="why-col">
+      <h2>為什麼照這個順序</h2>
+      <ul>
+        <li><strong>冊次就是閱讀順序。</strong>後面的書會回頭引用前面的書，照順序讀，書裡提到的概念你都已經讀過。</li>
+        <li><strong>前四冊各自獨立</strong>，彼此不互相引用，任何一冊都能當入口。</li>
+        <li><strong>三季是一條成長的路</strong>：先相信，再把它變成可以執行的系統，最後學會判斷，也學會知道夠了。</li>
+        <li><strong>《人生主場》放在最後</strong>，它最長，也把前九冊串在一起。</li>
+      </ul>
+    </div>
+    <div class="why-col">
+      <h2>怎麼讀都可以</h2>
+      <p>不用照表操課。一本讀兩個月、跳著讀、停一陣子再回來，都可以。只想讀一個主題，就用地圖上方的主題線，只看那幾冊。</p>
+      <div class="ask">
+        <p><strong>每個月最後一天，問自己三題</strong></p>
+        <ol>
+          <li>這個月做了哪一件事？</li>
+          <li>哪一句話留下來了？</li>
+          <li>下個月想帶著什麼走？</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>富足人生演算法・全十冊｜白熊 著</span>
+    <span><a href="link.html">← 回白熊人生攻略</a></span>
+    <span>閱讀時間以每分鐘約 400 字估算，只是參考。</span>
+  </footer>
+</main>
+
+<script>
+// ----------------------------------------------------
+// 0. UTM 來源擷取與 Clarity 追蹤 (絕不阻擋、絕不報錯)
+// ----------------------------------------------------
+(function () {
+  try {
+    var s = new URLSearchParams(location.search).get('utm_source');
+    if (s) sessionStorage.setItem('lifeos_utm', s);
+  } catch (e) {}
+})();
+
+function trackStoreClick(store, book) {
+  try {
+    if (!window.clarity) return;
+    clarity('event', 'click-' + store + '-' + book);
+    var u = sessionStorage.getItem('lifeos_utm');
+    if (u) clarity('set', 'utm_source', u);
+  } catch (e) {}
+}
+
+// ----------------------------------------------------
+// 1. 各冊專屬導讀文案 (無書名、無價格、無連結，純情境導讀)
+// ----------------------------------------------------
+const EDITORIAL = {
+  1: {
+    you: "想改變，但還沒開始",
+    todo: "用黃金思維圈一路追問「為什麼」，直到出現「因為我值得」（第 2 章）",
+    entry: "想改變，但還沒開始"
+  },
+  2: {
+    you: "覺得自己拿到困難模式的劇本",
+    todo: "用 A4 紙折疊過濾法做一張信念核心表（3.2）",
+    entry: "覺得人生拿到困難模式：家庭變故、財務出事"
+  },
+  3: {
+    you: "腦袋停不下來、過載",
+    todo: "用三層保護圈，把最近常互動的十個人分類（3.1.1）",
+    entry: "失眠、易怒，腦袋像散熱風扇一直轉"
+  },
+  4: {
+    you: "存不下錢，不知道自己的財務在哪",
+    todo: "用試算表做一張個人財務儀表板（2.1.3）",
+    entry: "存不下錢，又怕被「快速翻身」的話術盯上"
+  },
+  5: {
+    you: "很努力，卻沒有前進",
+    todo: "照數位斷食計畫，睡前先放下手機（7.3）",
+    entry: "很努力卻沒前進，看別人沒你拚卻過得好"
+  },
+  6: {
+    you: "年年立志、年年半途而廢",
+    todo: "挑一個習慣，定出迷你、標準、加強三檔（3.2）",
+    entry: "每年一月換一本新筆記本，第三週就停擺"
+  },
+  7: {
+    you: "輸不起、對自己特別嚴",
+    todo: "情緒上來時，用三步排洪法（3.2）",
+    entry: "完美主義，失誤後愣在原地、對自己特別壞"
+  },
+  8: {
+    you: "常被唬住，事後才發現判斷錯了",
+    todo: "下一個決定動手前，寫一則決策日記，連退出條件一起寫（9.5）",
+    entry: "常覺得「怪怪的，但說不出哪裡怪」"
+  },
+  9: {
+    you: "什麼都想要，越塞越滿",
+    todo: "算出自己的夠用線（1.3）",
+    entry: "加法做太多，越塞越滿、越怕失去"
+  },
+  10: {
+    lead: "這一冊把前面九冊串在一起，適合當總複習：把讀過的，全部收回到自己手上。",
+    you: "活在別人的評分裡",
+    todo: "用專屬身分合成公式，寫下自己的主角身分（1.5）",
+    entry: "活在別人的評分裡，被職場消耗"
+  }
+};
+
+// ----------------------------------------------------
+// 2. 動態渲染函式 (所有內容由 BOOKS 陣列驅動)
+// ----------------------------------------------------
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderPriceBlock(b) {
+  if (b.status !== 'published' || !b.price) return '';
+  var html = '<div class="price-row">';
+  if (b.price) html += '<span class="price-orig">原價 <del>NT$' + b.price + '</del></span>';
+  if (b.sale) html += '<span class="price-sale">NT$' + b.sale + '</span>';
+  if (b.discount) html += '<span class="price-discount">' + escapeHtml(b.discount) + '</span>';
+  html += '</div>';
+  return html;
+}
+
+function renderActionsBlock(b) {
+  if (b.status !== 'published' || !b.links) return '';
+  var t = escapeHtml(b.title);
+  var r = escapeHtml(b.links.readmoo || '#');
+  var p = escapeHtml(b.links.pubu || '#');
+  var k = escapeHtml(b.links.kobo || '#');
+  return '<div class="link-actions" aria-label="' + t + '購買連結">' +
+    '<a href="' + r + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'readmoo\', \'' + t + '\')" aria-label="在 Readmoo 購買' + t + '">Readmoo</a>' +
+    '<a href="' + p + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'pubu\', \'' + t + '\')" aria-label="在 Pubu 購買' + t + '">Pubu</a>' +
+    '<a href="' + k + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'kobo\', \'' + t + '\')" aria-label="在 Kobo 購買' + t + '">Kobo</a>' +
+    '</div>';
+}
+
+function renderStopItem(b) {
+  var ed = EDITORIAL[b.no] || {};
+  var isComing = b.status === 'coming';
+  var cls = 'stop l-' + b.line + (isComing ? ' is-coming' : '');
+  var badge = isComing ? ' <span class="badge-coming">即將上架</span>' : '';
+  var coverCls = isComing ? ' class="is-coming"' : '';
+  var actionsHtml = renderActionsBlock(b);
+
+  var html = '<li class="' + cls + '" id="s' + b.no + '">' +
+    '<img src="' + escapeHtml(b.cover) + '" alt="《' + escapeHtml(b.title) + '》封面" width="78" height="117"' + coverCls + '>' +
+    '<div class="stop-body">' +
+    '<p class="vol">第 ' + b.no + ' 冊・第 ' + b.no + ' 個月' + badge + '</p>' +
+    '<h4>' + escapeHtml(b.title) + '</h4>' +
+    '<p class="sub">' + escapeHtml(b.sub) + '</p>' +
+    '<p class="you"><em>這個月的你</em>' + escapeHtml(ed.you || '') + '</p>' +
+    '<p class="todo"><em>先做</em>' + escapeHtml(ed.todo || '') + '</p>' +
+    '<p class="meta"><span class="tag">' + escapeHtml(b.lineLabel) + '</span><span>每天約 ' + b.minutes + ' 分鐘</span></p>' +
+    renderPriceBlock(b) +
+    '</div>';
+  if (actionsHtml) {
+    html += '<div class="stop-actions">' + actionsHtml + '</div>';
+  }
+  html += '</li>';
+  return html;
+}
+
+window.renderReadingMap = function() {
+  // A. 書架
+  var shelf = document.getElementById('shelf');
+  if (shelf) {
+    var shelfHtml = '';
+    BOOKS.forEach(function(b) {
+      var isComing = b.status === 'coming';
+      var w = (b.words / 10000).toFixed(1);
+      var tip = '第 ' + b.no + ' 冊　' + b.title + (isComing ? '（即將上架）' : '') + '・約 ' + w + ' 萬字';
+      var cls = 'spine l-' + b.line + (isComing ? ' is-coming' : '');
+      shelfHtml += '<a class="' + cls + '" style="--w:' + b.words + '" href="#s' + b.no + '" title="' + escapeHtml(tip) + '">' +
+        '<b>' + escapeHtml(b.title) + '</b>' +
+        '<i>' + b.no + '</i>' +
+        '</a>';
+    });
+    shelf.innerHTML = shelfHtml;
+  }
+
+  // B. 前九冊（三季）
+  var s1Stops = document.getElementById('season-1-stops');
+  var s2Stops = document.getElementById('season-2-stops');
+  var s3Stops = document.getElementById('season-3-stops');
+
+  if (s1Stops) {
+    var h1 = '';
+    BOOKS.slice(0, 3).forEach(function(b) { h1 += renderStopItem(b); });
+    s1Stops.innerHTML = h1;
+  }
+  if (s2Stops) {
+    var h2 = '';
+    BOOKS.slice(3, 6).forEach(function(b) { h2 += renderStopItem(b); });
+    s2Stops.innerHTML = h2;
+  }
+  if (s3Stops) {
+    var h3 = '';
+    BOOKS.slice(6, 9).forEach(function(b) { h3 += renderStopItem(b); });
+    s3Stops.innerHTML = h3;
+  }
+
+  // C. 第十冊（終點）
+  var homeContainer = document.getElementById('home-container');
+  if (homeContainer && BOOKS.length >= 10) {
+    var b10 = BOOKS[9];
+    var ed10 = EDITORIAL[10] || {};
+    var isComing10 = b10.status === 'coming';
+    var cls10 = 'home l-' + b10.line + (isComing10 ? ' is-coming' : '');
+    var badge10 = isComing10 ? ' <span class="badge-coming">即將上架</span>' : '';
+    var coverCls10 = isComing10 ? ' class="is-coming"' : '';
+    var actionsHtml10 = renderActionsBlock(b10);
+
+    var homeTitle = (b10.title === '人生主場') ? '回到人生主場' : ('回到' + b10.title);
+
+    var homeHtml = '<article class="' + cls10 + '" id="s10">' +
+      '<img src="' + escapeHtml(b10.cover) + '" alt="《' + escapeHtml(b10.title) + '》封面" width="150" height="225"' + coverCls10 + '>' +
+      '<div class="stop-body">' +
+      '<p class="eyebrow">終點・第 10 個月' + badge10 + '</p>' +
+      '<h3>' + escapeHtml(homeTitle) + '</h3>' +
+      '<p class="sub">第 10 冊　' + escapeHtml(b10.sub) + '</p>' +
+      '<p class="lead">' + escapeHtml(ed10.lead || '') + '</p>' +
+      '<p class="you"><em>這個月的你</em>' + escapeHtml(ed10.you || '') + '</p>' +
+      '<p class="todo"><em>先做</em>' + escapeHtml(ed10.todo || '') + '</p>' +
+      '<p class="meta"><span class="tag">' + escapeHtml(b10.lineLabel) + '</span><span>每天約 ' + b10.minutes + ' 分鐘</span></p>' +
+      renderPriceBlock(b10) +
+      '</div>';
+    if (actionsHtml10) {
+      homeHtml += '<div class="home-actions">' + actionsHtml10 + '</div>';
+    }
+    homeHtml += '</article>';
+    homeContainer.innerHTML = homeHtml;
+  }
+
+  // D. 對號入座
+  var entryGrid = document.getElementById('entry-grid');
+  if (entryGrid) {
+    var ENTRY_ORDER = [1, 4, 2, 5, 3, 6, 7, 8, 9, 10];
+    var entriesHtml = '';
+    ENTRY_ORDER.forEach(function(num) {
+      var b = null;
+      for (var i = 0; i < BOOKS.length; i++) {
+        if (BOOKS[i].no === num) { b = BOOKS[i]; break; }
+      }
+      if (!b) return;
+      var ed = EDITORIAL[num] || {};
+      entriesHtml += '<button class="entry l-' + b.line + '" type="button" data-go="s' + b.no + '">' +
+        '<span>' + escapeHtml(ed.entry || '') + '</span>' +
+        '<b>' + escapeHtml(b.title) + '</b>' +
+        '</button>';
+    });
+    entryGrid.innerHTML = entriesHtml;
+  }
+
+  // E. 綁定點擊事件
+  bindInteractions();
+};
+
+// ----------------------------------------------------
+// 3. 互動邏輯 (過濾主題線、書脊跳轉、對號入座捲動)
+// ----------------------------------------------------
+var interactionsBound = false;
+function bindInteractions() {
+  var map = document.getElementById('map');
+  var chips = [].slice.call(document.querySelectorAll('.chip'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setFocus(f) {
+    if (!map) return;
+    map.setAttribute('data-focus', f);
+    chips.forEach(function(c) {
+      c.setAttribute('aria-pressed', String(c.getAttribute('data-f') === f));
+    });
+  }
+
+  if (!interactionsBound) {
+    chips.forEach(function(c) {
+      c.addEventListener('click', function() {
+        setFocus(c.getAttribute('data-f'));
+      });
+    });
+    interactionsBound = true;
+  }
+
+  function pick(id) {
+    [].forEach.call(document.querySelectorAll('.is-picked'), function(el) {
+      el.classList.remove('is-picked');
+    });
+    var el = document.getElementById(id);
+    if (!el) return;
+    setFocus('all');
+    el.classList.add('is-picked');
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  }
+
+  [].forEach.call(document.querySelectorAll('.entry'), function(b) {
+    b.onclick = function() { pick(b.getAttribute('data-go')); };
+  });
+
+  [].forEach.call(document.querySelectorAll('.spine'), function(a) {
+    a.onclick = function(e) {
+      e.preventDefault();
+      pick(a.getAttribute('href').slice(1));
+    };
+  });
+}
+
+// 頁面載入執行首次渲染
+window.renderReadingMap();
+</script>
+</body>
+</html>
