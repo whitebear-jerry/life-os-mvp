@@ -11,18 +11,18 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(20, 27, 45, 0.75);
-      --card-border: rgba(255, 255, 255, 0.09);
-      --primary: #38bdf8;
-      --primary-glow: rgba(56, 189, 248, 0.25);
-      --purple: #a855f7;
-      --purple-glow: rgba(168, 85, 247, 0.25);
-      --rose: #f43f5e;
-      --gold: #fbbf24;
-      --emerald: #34d399;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg: #f6f0e4;
+      --card-bg: rgba(253, 250, 244, 0.86);
+      --card-border: rgba(140, 115, 80, 0.22);
+      --primary: #406984;
+      --primary-glow: rgba(64, 105, 132, 0.18);
+      --purple: #7a50d8;
+      --purple-glow: rgba(122, 80, 216, 0.16);
+      --rose: #a04f55;
+      --gold: #7f6b00;
+      --emerald: #0a7d57;
+      --text: #443527;
+      --text-muted: #7a6b58;
       --radius: 16px;
     }
 
@@ -35,8 +35,8 @@
     body {
       background-color: var(--bg);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(196, 160, 100, 0.22) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(160, 140, 100, 0.18) 0px, transparent 50%);
       color: var(--text);
       font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
       line-height: 1.6;
@@ -56,9 +56,9 @@
       gap: 6px;
       padding: 6px 14px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #94a3b8;
+      background: #f4ecdc;
+      border: 1px solid rgba(140, 115, 80, 0.28);
+      color: #7a6b58;
       font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
@@ -88,9 +88,9 @@
       gap: 6px;
       padding: 6px 14px;
       border-radius: 999px;
-      background: rgba(168, 85, 247, 0.12);
+      background: rgba(196, 160, 100, 0.22);
       border: 1px solid rgba(168, 85, 247, 0.35);
-      color: #c084fc;
+      color: #7a50d8;
       font-size: 0.85rem;
       font-weight: 600;
       margin-bottom: 12px;
@@ -101,7 +101,7 @@
       font-size: clamp(1.8rem, 4vw, 2.5rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #ffffff 30%, #c084fc 100%);
+      background: linear-gradient(135deg, #443527 30%, #7a50d8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
@@ -143,12 +143,12 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #ffffff;
+      color: #443527;
     }
 
     .question-item {
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(253, 250, 244, 0.9);
+      border: 1px solid rgba(140, 115, 80, 0.18);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 14px;
@@ -170,14 +170,14 @@
     }
 
     .tag-time { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
-    .tag-attention { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .tag-attention { background: rgba(168, 85, 247, 0.15); color: #7a50d8; }
     .tag-emotion { background: rgba(244, 63, 94, 0.15); color: var(--rose); }
     .tag-decision { background: rgba(251, 191, 36, 0.15); color: var(--gold); }
 
     .question-title {
       font-size: 0.95rem;
       font-weight: 600;
-      color: #e2e8f0;
+      color: #443527;
       margin-bottom: 12px;
     }
 
@@ -188,8 +188,8 @@
     }
 
     .rating-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #f4ecdc;
+      border: 1px solid rgba(140, 115, 80, 0.28);
       border-radius: 8px;
       color: var(--text-muted);
       padding: 8px 0;
@@ -201,13 +201,13 @@
     }
 
     .rating-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #ffffff;
+      background: #e9dcc4;
+      color: #443527;
     }
 
     .rating-btn.active {
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-      border-color: #c084fc;
+      border-color: #7a50d8;
       color: #ffffff;
       box-shadow: 0 0 12px var(--purple-glow);
     }
@@ -280,7 +280,7 @@
 
     .progress-bar-bg {
       height: 6px;
-      background: rgba(255, 255, 255, 0.08);
+      background: #f0e7d5;
       border-radius: 999px;
       overflow: hidden;
     }
@@ -311,7 +311,7 @@
       height: 42px;
       border-radius: 50%;
       background: var(--purple);
-      color: #ffffff;
+      color: #443527;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -323,12 +323,12 @@
     .diagnosis-title {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #ffffff;
+      color: #443527;
     }
 
     .diagnosis-desc {
       font-size: 0.88rem;
-      color: #cbd5e1;
+      color: #5c4a36;
       line-height: 1.6;
       margin-bottom: 16px;
     }
@@ -344,7 +344,7 @@
     .rx-title {
       font-size: 0.8rem;
       font-weight: 700;
-      color: #c084fc;
+      color: #7a50d8;
       margin-bottom: 6px;
       display: flex;
       align-items: center;
@@ -355,7 +355,7 @@
       margin: 0;
       padding-left: 18px;
       font-size: 0.8rem;
-      color: #cbd5e1;
+      color: #5c4a36;
       line-height: 1.5;
     }
 
@@ -363,9 +363,31 @@
       margin-bottom: 4px;
     }
 
+
+    .book-rec-more {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) 16px;
+      align-items: center;
+      gap: 6px 10px;
+      padding: 9px 12px;
+      margin: -6px 0 16px;
+      border: 1px dashed rgba(140, 115, 80, 0.45);
+      border-radius: 10px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .rec-more-label {
+      font-size: 0.66rem; font-weight: 800; letter-spacing: .06em;
+      color: #6e5a44; border: 1px solid rgba(140, 115, 80, 0.4);
+      border-radius: 999px; padding: 1px 7px; white-space: nowrap;
+    }
+    .rec-more-name { font-size: 0.84rem; font-weight: 800; color: #443527; }
+    .rec-more-why  { grid-column: 2 / 4; font-size: 0.72rem; color: #6e5a44; line-height: 1.45; }
+    .rec-more-go   { color: #6e5a44; font-weight: 900; }
+
     .book-rec-box {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid rgba(140, 115, 80, 0.22);
       border-radius: 12px;
       padding: 12px 14px;
       display: flex;
@@ -391,13 +413,13 @@
     .book-rec-name {
       font-size: 0.95rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #443527;
       margin-bottom: 2px;
     }
 
     .book-rec-price {
       font-size: 0.76rem;
-      color: #4ef072;
+      color: #0a6b4a;
       font-weight: 700;
       margin-bottom: 3px;
       font-family: monospace;
@@ -469,7 +491,7 @@
               <div class="bear-badge" id="diag-badge-icon">🐻</div>
               <div>
                 <div class="diagnosis-title" id="diag-title">白熊降噪處方</div>
-                <div style="font-size: 0.75rem; color: #c084fc; font-weight: 600;" id="diag-archetype">心理原型：大腦超載的迷霧旅人</div>
+                <div style="font-size: 0.75rem; color: #7a50d8; font-weight: 600;" id="diag-archetype">心理原型：大腦超載的迷霧旅人</div>
               </div>
             </div>
             <p class="diagnosis-desc" id="diag-desc">
@@ -493,6 +515,13 @@
                 <div class="book-rec-reason" id="rec-book-reason">建立專屬心智防火牆，從此不再被瑣事與焦慮綁架。</div>
               </div>
             </div>
+
+            <a href="#" class="book-rec-more" id="rec-more" style="display:none;">
+              <span class="rec-more-label">延伸閱讀</span>
+              <span class="rec-more-name" id="rec-more-name"></span>
+              <span class="rec-more-why" id="rec-more-why"></span>
+              <span class="rec-more-go">➔</span>
+            </a>
 
             <a href="link.html#book-noise" class="cta-btn" id="cta-link">
               <span id="cta-text">直達《降噪人生》解鎖完整指南</span>
@@ -638,7 +667,7 @@
       const barsContainer = document.getElementById("dimension-bars");
       barsContainer.innerHTML = `
         <div>
-          <div class="dim-row"><span>🔍 注意力暫存溢位</span><span style="color: #c084fc;">${dimScores.attention}%</span></div>
+          <div class="dim-row"><span>🔍 注意力暫存溢位</span><span style="color: #7a50d8;">${dimScores.attention}%</span></div>
           <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${dimScores.attention}%; background: #c084fc;"></div></div>
         </div>
         <div>
@@ -674,6 +703,16 @@
       if (maxScore === dimScores.emotion) highestDim = "emotion";
       else if (maxScore === dimScores.decision) highestDim = "decision";
       else if (maxScore === dimScores.time) highestDim = "time";
+
+      // 延伸閱讀列：預設隱藏，只有呼叫 showMore() 的分支才顯示
+      const recMore = document.getElementById("rec-more");
+      recMore.style.display = "none";
+      function showMore(href, name, why) {
+        recMore.href = href;
+        document.getElementById("rec-more-name").innerText = name;
+        document.getElementById("rec-more-why").innerText = why;
+        recMore.style.display = "grid";
+      }
 
       if (totalScore <= 25) {
         // 原型 E：心流自轉的系統架構師 -> 《人生複利》
@@ -720,12 +759,14 @@
           <li>2. <b>切換玩家視角</b>：逆境不是懲罰，而是系統跳出的 BUG 與獲得經驗值的關卡。</li>
           <li>3. <b>心靈 NAS 權限劃分</b>：善良必須有防火牆，把能量吸血鬼設為封鎖 IP。</li>
         `;
-        recBookImg.src = "assets/book2.jpg";
-        recBookName.innerText = "《人生遊戲》";
-        recBookPrice.innerText = "💎 特惠價 NT$199 (71折 · 省 $81)";
-        recBookReason.innerText = "把逆境當 BUG，學會幫人生除錯，砍掉 80% 消耗心神的情緒小劇場。";
-        ctaLink.href = "link.html#book-game";
-        ctaText.innerText = "直達《人生遊戲》解鎖逆境除錯攻略";
+        recBookImg.src = "assets/book7.jpg";
+        recBookName.innerText = "《人生友誼賽》";
+        recBookPrice.innerText = "💎 特惠價 NT$249 (78折 · 省 $71)";
+        recBookReason.innerText = "同樣一場球，有人打得像生死戰，有人打得像友誼賽。把每一球都輸不起的眼鏡換掉，失誤了也還有下一球。";
+        ctaLink.href = "link.html#book-youyi";
+        ctaText.innerText = "直達《人生友誼賽》把生死戰打成輕鬆對打";
+        showMore("link.html#book-game", "《人生遊戲》",
+                 "想更進一步把逆境當 BUG 來除錯，接著讀這本。");
       } else if (highestDim === "decision") {
         // 原型 C：耗竭燃燒的卡頓齒輪 -> 《續航》
         diagBadgeIcon.innerText = "🔋";
