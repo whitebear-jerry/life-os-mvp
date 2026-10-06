@@ -16,8 +16,8 @@
       --card-border: rgba(140, 115, 80, 0.22);
       --primary: #406984;
       --primary-glow: rgba(64, 105, 132, 0.18);
-      --purple: #7a50d8;
-      --purple-glow: rgba(122, 80, 216, 0.16);
+      --purple: #406984;
+      --purple-glow: rgba(64, 105, 132, 0.16);
       --rose: #a04f55;
       --gold: #7f6b00;
       --emerald: #0a7d57;
@@ -91,7 +91,7 @@
       border-radius: 999px;
       background: rgba(196, 160, 100, 0.22);
       border: 1px solid rgba(140, 115, 80, 0.3);
-      color: #7a50d8;
+      color: #406984;
       font-size: 0.85rem;
       font-weight: 600;
       margin-bottom: 12px;
@@ -102,7 +102,7 @@
       font-size: clamp(1.8rem, 4vw, 2.5rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #443527 30%, #7a50d8 100%);
+      background: linear-gradient(135deg, #443527 30%, #406984 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
@@ -170,10 +170,10 @@
       margin-bottom: 6px;
     }
 
-    .tag-time { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
-    .tag-attention { background: rgba(168, 85, 247, 0.15); color: #7a50d8; }
-    .tag-emotion { background: rgba(244, 63, 94, 0.15); color: var(--rose); }
-    .tag-decision { background: rgba(251, 191, 36, 0.15); color: var(--gold); }
+    .tag-time { background: rgba(136, 102, 33, 0.13); color: #886621; }
+    .tag-attention { background: rgba(64, 105, 132, 0.13); color: #406984; }
+    .tag-emotion { background: rgba(172, 83, 70, 0.13); color: #ac5346; }
+    .tag-decision { background: rgba(69, 117, 103, 0.13); color: #457567; }
 
     .question-title {
       font-size: 0.95rem;
@@ -207,8 +207,8 @@
     }
 
     .rating-btn.active {
-      background: linear-gradient(135deg, #7a50d8 0%, #5b34a8 100%);
-      border-color: #7a50d8;
+      background: linear-gradient(135deg, #406984 0%, #2d4c63 100%);
+      border-color: #406984;
       color: #ffffff;
       box-shadow: 0 0 12px var(--purple-glow);
     }
@@ -335,8 +335,8 @@
     }
 
     .rx-box {
-      background: rgba(122, 80, 216, 0.07);
-      border: 1px solid rgba(122, 80, 216, 0.22);
+      background: rgba(64, 105, 132, 0.07);
+      border: 1px solid rgba(64, 105, 132, 0.24);
       border: 1px solid rgba(168, 85, 247, 0.25);
       border-radius: 10px;
       padding: 12px 14px;
@@ -346,7 +346,7 @@
     .rx-title {
       font-size: 0.8rem;
       font-weight: 700;
-      color: #7a50d8;
+      color: #406984;
       margin-bottom: 6px;
       display: flex;
       align-items: center;
@@ -441,7 +441,7 @@
       width: 100%;
       padding: 13px 20px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #7a50d8 0%, #5b34a8 100%);
+      background: linear-gradient(135deg, #406984 0%, #2d4c63 100%);
       color: #ffffff;
       font-size: 0.92rem;
       font-weight: 800;
@@ -493,7 +493,7 @@
               <div class="bear-badge" id="diag-badge-icon">🐻</div>
               <div>
                 <div class="diagnosis-title" id="diag-title">白熊降噪處方</div>
-                <div style="font-size: 0.75rem; color: #7a50d8; font-weight: 600;" id="diag-archetype">心理原型：大腦超載的迷霧旅人</div>
+                <div style="font-size: 0.75rem; color: #406984; font-weight: 600;" id="diag-archetype">心理原型：大腦超載的迷霧旅人</div>
               </div>
             </div>
             <p class="diagnosis-desc" id="diag-desc">
@@ -592,8 +592,8 @@
           datasets: [{
             label: "當前漏水指數",
             data: [0, 0, 0, 0],
-            backgroundColor: "rgba(168, 85, 247, 0.25)",
-            borderColor: "#c084fc",
+            backgroundColor: "rgba(64, 105, 132, 0.2)",
+            borderColor: "#406984",
             pointBackgroundColor: "#38bdf8",
             pointBorderColor: "#fff",
             pointHoverBackgroundColor: "#fff",
@@ -606,10 +606,10 @@
           maintainAspectRatio: false,
           scales: {
             r: {
-              angleLines: { color: "rgba(255, 255, 255, 0.08)" },
-              grid: { color: "rgba(255, 255, 255, 0.08)" },
+              angleLines: { color: "rgba(140, 115, 80, 0.28)" },
+              grid: { color: "rgba(140, 115, 80, 0.22)" },
               pointLabels: {
-                color: "#cbd5e1",
+                color: "#443527",
                 font: { size: 12, family: "Plus Jakarta Sans", weight: "600" }
               },
               ticks: { display: false, min: 0, max: 100 }
@@ -669,7 +669,7 @@
       const barsContainer = document.getElementById("dimension-bars");
       barsContainer.innerHTML = `
         <div>
-          <div class="dim-row"><span>🔍 注意力暫存溢位</span><span style="color: #7a50d8;">${dimScores.attention}%</span></div>
+          <div class="dim-row"><span>🔍 注意力暫存溢位</span><span style="color: #406984;">${dimScores.attention}%</span></div>
           <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${dimScores.attention}%; background: #c084fc;"></div></div>
         </div>
         <div>
