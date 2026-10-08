@@ -138,6 +138,7 @@
   *{box-sizing:border-box}
   body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
     margin:0;position:relative;}
+  html{overflow-x:hidden}   /* -50vw 滿版帶在有捲軸時會多出幾 px，夾掉 */
   .wrap{position:relative;z-index:1}
   /* 頂部承接 link.html 的深墨綠與綠光暈，往下柔和過渡到米色。
      高度綁在 .hero-head 上，文字換行也不會爆出帶外。 */
@@ -166,7 +167,9 @@
 
   /* ---------- hero ---------- */
   .hero{display:grid;gap:28px}
-  .hero-head{display:grid;gap:12px;max-width:44em}
+  /* 不設 max-width：這塊要滿 .wrap 寬才會在視窗正中，
+     頂部深綠帶的 -50vw 滿版才算得準。文字寬度由 .thesis 自己的 max-width 控制。 */
+  .hero-head{display:grid;gap:12px}
   .hero h1{font-size:clamp(34px,6vw,58px);font-weight:900;letter-spacing:.06em}
   .hero h1 small{display:block;font-size:.42em;font-weight:700;letter-spacing:.32em;color:var(--ink-soft);margin-top:6px}
   .thesis{font-size:clamp(16px,2.1vw,19px);color:var(--ink);max-width:34em}
