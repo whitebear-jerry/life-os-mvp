@@ -229,6 +229,31 @@
   .price-sale{font-family:var(--f-num);font-size:17px;font-weight:700;color:var(--gilt)}
   .price-discount{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(184,134,43,.12);color:var(--gilt);border:1px solid rgba(184,134,43,.28)}
 
+  /* 導覽頁的出口：文字路標，刻意不做成按鈕，避免搶走閱讀注意力 */
+  .goto-book{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:13px;font-weight:700;color:var(--c);text-decoration:none;
+    border-bottom:1px solid var(--rule);padding-bottom:1px;
+    transition:border-color .2s ease,opacity .2s ease;
+  }
+  .goto-book:hover{border-bottom-color:var(--c);opacity:.82}
+
+  /* 頁尾總出口：整頁唯一一個按鈕級的導購入口 */
+  .map-outro{
+    margin:44px auto 0;max-width:620px;text-align:center;
+    padding:28px 20px;border:1px dashed var(--rule);border-radius:16px;
+    background:var(--card);
+  }
+  .outro-lead{font-family:var(--f-display);font-size:19px;font-weight:700;margin:0 0 14px}
+  .outro-cta{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:12px 22px;border-radius:10px;min-height:46px;
+    background:var(--gilt);color:#fdfaf4;font-weight:800;font-size:15px;
+    text-decoration:none;box-shadow:0 3px 10px -4px rgba(90,70,40,.45);
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .outro-cta:hover{transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(90,70,40,.5)}
+  .outro-note{margin:12px 0 0;font-size:12.5px;color:var(--ink-soft)}
   .stop-actions,.home-actions{grid-column:1 / -1;margin-top:10px}
   .link-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .link-actions a{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;
@@ -437,6 +462,14 @@
     </div>
   </section>
 
+  <section class="map-outro">
+    <p class="outro-lead">選好從哪一本開始了嗎？</p>
+    <a class="outro-cta" href="link.html" onclick="trackStoreClick('map-goto', '總出口')">
+      到書店頁看全部七本 <span aria-hidden="true">→</span>
+    </a>
+    <p class="outro-note">這頁只負責帶路；價格、試閱與購買都在那裡。</p>
+  </section>
+
   <footer>
     <span>富足人生演算法・全十冊｜白熊 著</span>
     <span><a href="link.html">← 回白熊人生攻略</a></span>
@@ -534,26 +567,20 @@ function escapeHtml(str) {
 }
 
 function renderPriceBlock(b) {
-  if (b.status !== 'published' || !b.price) return '';
-  var html = '<div class="price-row">';
-  if (b.price) html += '<span class="price-orig">原價 <del>NT$' + b.price + '</del></span>';
-  if (b.sale) html += '<span class="price-sale">NT$' + b.sale + '</span>';
-  if (b.discount) html += '<span class="price-discount">' + escapeHtml(b.discount) + '</span>';
-  html += '</div>';
-  return html;
+  // 導覽頁刻意不顯示價格：這頁的工作是「幫你找到現在該讀哪一本」，不是結帳。
+  // 價格與折數在 link.html 的書卡上已有完整一份，重複只會製造噪音。
+  // BOOKS 陣列的 price / sale / discount 保留不刪，要恢復只需改這個函式。
+  return '';
 }
 
 function renderActionsBlock(b) {
-  if (b.status !== 'published' || !b.links) return '';
+  // 不放三顆商店按鈕——那是 link.html 的工作。這裡只留一個安靜的路標，
+  // 讓「讀到這本就是我」的人有出口，而不必回頭自己找。
+  if (b.status !== 'published') return '';
   var t = escapeHtml(b.title);
-  var r = escapeHtml(b.links.readmoo || '#');
-  var p = escapeHtml(b.links.pubu || '#');
-  var k = escapeHtml(b.links.kobo || '#');
-  return '<div class="link-actions" aria-label="' + t + '購買連結">' +
-    '<a href="' + r + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'readmoo\', \'' + t + '\')" aria-label="在 Readmoo 購買' + t + '">Readmoo</a>' +
-    '<a href="' + p + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'pubu\', \'' + t + '\')" aria-label="在 Pubu 購買' + t + '">Pubu</a>' +
-    '<a href="' + k + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'kobo\', \'' + t + '\')" aria-label="在 Kobo 購買' + t + '">Kobo</a>' +
-    '</div>';
+  return '<a class="goto-book" href="link.html#book-' + escapeHtml(b.code) + '"' +
+    ' onclick="trackStoreClick(\'map-goto\', \'' + t + '\')"' +
+    ' aria-label="到書店頁查看《' + t + '》">看《' + t + '》 <span aria-hidden="true">→</span></a>';
 }
 
 function renderStopItem(b) {
