@@ -94,7 +94,7 @@
 
     header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       padding-top: 12px;
     }
 
@@ -152,14 +152,46 @@
       box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 12px 30px -14px rgba(90, 70, 40, 0.32);
     }
 
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
     .card h2 {
       font-family: "Outfit", sans-serif;
       font-size: 1.25rem;
-      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 8px;
       color: #443527;
+      margin: 0;
+    }
+
+    .progress-pill {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7a50d8;
+      background: rgba(122, 80, 216, 0.1);
+      border: 1px solid rgba(122, 80, 216, 0.25);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: #e8dcc4;
+      border-radius: 999px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7a50d8, #a04f55);
+      border-radius: 999px;
+      transition: width 0.3s ease;
     }
 
     .category-group {
@@ -175,7 +207,7 @@
       color: var(--primary);
       margin-bottom: 12px;
       padding-bottom: 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(140, 115, 80, 0.14);
     }
 
     .check-item {
@@ -206,7 +238,7 @@
       width: 20px;
       height: 20px;
       border-radius: 6px;
-      border: 2px solid rgba(255, 255, 255, 0.25);
+      border: 2px solid rgba(140, 115, 80, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -256,48 +288,155 @@
       top: 24px;
     }
 
+    /* 頂部段位儀表 Banner */
     .level-banner {
       background: linear-gradient(135deg, #fdfaf4 0%, #f7f0e2 100%);
       border: 1px solid rgba(122, 80, 216, 0.3);
       border-radius: 14px;
-      padding: 20px;
+      padding: 18px 20px;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .level-label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       margin-bottom: 4px;
     }
 
     .level-title {
       font-family: "Outfit", sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       font-weight: 800;
       color: var(--emerald);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .score-metric {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: #5c4a36;
-      font-weight: 500;
+      font-weight: 600;
     }
 
+    /* 心態緊繃度指針儀表 */
+    .tension-gauge-wrap {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(140, 115, 80, 0.16);
+    }
+
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .gauge-track {
+      position: relative;
+      height: 8px;
+      background: linear-gradient(90deg, #10b981 0%, #fbbf24 35%, #f97316 70%, #ef4444 100%);
+      border-radius: 999px;
+    }
+
+    .gauge-pin {
+      position: absolute;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border: 3px solid #7a50d8;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      transition: left 0.35s ease, border-color 0.3s;
+    }
+
+    /* 三維損耗能量卡片 */
+    .dim-card {
+      background: rgba(253, 250, 244, 0.85);
+      border: 1px solid rgba(140, 115, 80, 0.22);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+
+    .dim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(140, 115, 80, 0.2);
+    }
+
+    .dim-header-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #443527;
+    }
+
+    .dim-header-sub {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #a04f55;
+      background: rgba(160, 79, 85, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .dim-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dim-row-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.76rem;
+      color: #5c4a36;
+      margin-bottom: 3px;
+    }
+
+    .dim-pct {
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .dim-bar-bg {
+      height: 5px;
+      background: #e8dcc4;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .dim-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .bar-cat1 { background: #7a50d8; }
+    .bar-cat2 { background: #a04f55; }
+    .bar-cat3 { background: #406984; }
+
+    /* 診斷卡片主體 */
     .diagnosis-card {
       background: linear-gradient(135deg, #fdfaf4 0%, #f7f0e2 100%);
       border: 1px solid rgba(122, 80, 216, 0.35);
       border-radius: var(--radius);
-      padding: 22px;
-      margin-top: 20px;
+      padding: 20px;
+      margin-top: 16px;
     }
 
     .diagnosis-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .bear-badge {
@@ -320,18 +459,66 @@
       color: #443527;
     }
 
+    .diagnosis-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .archetype-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7a50d8;
+      background: rgba(122, 80, 216, 0.12);
+      border: 1px solid rgba(122, 80, 216, 0.28);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
     .diagnosis-desc {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: #5c4a36;
       line-height: 1.6;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
+
+    /* 防彈箴言金句卡 */
+    .quote-box {
+      position: relative;
+      background: rgba(244, 236, 220, 0.65);
+      border-left: 3px solid #7a50d8;
+      border-radius: 0 8px 8px 0;
+      padding: 8px 12px 8px 22px;
+      margin-bottom: 14px;
+    }
+
+    .quote-mark {
+      position: absolute;
+      top: -2px;
+      left: 6px;
+      font-family: serif;
+      font-size: 1.5rem;
+      color: rgba(122, 80, 216, 0.45);
+      line-height: 1;
+    }
+
+    .quote-text {
+      font-size: 0.82rem;
+      color: #443527;
+      font-style: italic;
+      line-height: 1.45;
+    }
+
+    /* 處方箋區塊 */
     .rx-box {
       background: rgba(122, 80, 216, 0.08);
       border: 1px solid rgba(122, 80, 216, 0.25);
       border-radius: 10px;
       padding: 12px 14px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .rx-title {
@@ -356,15 +543,60 @@
       margin-bottom: 4px;
     }
 
+    /* 一鍵複製處方箋按鈕 */
+    .copy-rx-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: #f4ecdc;
+      border: 1px solid rgba(140, 115, 80, 0.28);
+      color: #5c4a36;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-rx-btn:hover {
+      background: #ece0c8;
+      color: #443527;
+      transform: translateY(-1px);
+    }
+
+    .copy-toast {
+      display: none;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #0a7d57;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .copy-toast.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 推薦書卡與對症章節 */
     .book-rec-box {
-      background: rgba(255, 253, 248, 0.72);
+      background: rgba(255, 253, 248, 0.82);
       border: 1px solid rgba(140, 115, 80, 0.22);
       border-radius: 12px;
       padding: 12px 14px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .book-rec-cover {
@@ -372,8 +604,9 @@
       height: 74px;
       border-radius: 6px;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .book-rec-content {
@@ -392,7 +625,7 @@
       font-size: 0.76rem;
       color: #0a6b4a;
       font-weight: 700;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
       font-family: monospace;
     }
 
@@ -400,8 +633,41 @@
       font-size: 0.78rem;
       color: var(--text-muted);
       line-height: 1.4;
+      margin-bottom: 6px;
     }
 
+    /* 對症解鎖章節 */
+    .book-rec-chapters {
+      padding: 7px 9px;
+      background: rgba(122, 80, 216, 0.06);
+      border: 1px dashed rgba(122, 80, 216, 0.28);
+      border-radius: 8px;
+    }
+
+    .chapters-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #7a50d8;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chapters-list {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+      font-size: 0.73rem;
+      color: #5c4a36;
+      line-height: 1.45;
+    }
+
+    .chapters-list li {
+      margin-bottom: 2px;
+    }
+
+    /* 主按鈕 CTA */
     .cta-btn {
       display: flex;
       align-items: center;
@@ -424,6 +690,87 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 24px rgba(122, 80, 216, 0.5);
     }
+
+    /* 三大電子書城快速通道 */
+    .store-shortcuts-wrap {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(140, 115, 80, 0.16);
+    }
+
+    .store-shortcuts-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .store-shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .store-chip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 4px;
+      border-radius: 6px;
+      background: #f4ecdc;
+      border: 1px solid rgba(140, 115, 80, 0.25);
+      color: #5c4a36;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .store-chip:hover {
+      background: #ece0c8;
+      color: #443527;
+      border-color: rgba(122, 80, 216, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* 延伸搭配讀物推薦 */
+    .rec-more-box {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(253, 250, 244, 0.9);
+      border: 1px dashed rgba(140, 115, 80, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .rec-more-box:hover {
+      background: #f4ecdc;
+      border-color: #7a50d8;
+      transform: translateY(-1px);
+    }
+
+    .rec-more-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #7a50d8;
+    }
+
+    .rec-more-info strong {
+      font-size: 0.82rem;
+      color: #443527;
+      margin-right: 4px;
+    }
+
+    .rec-more-info span {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
   
   </style>
 </head>
@@ -431,26 +778,79 @@
   <div class="container">
     <a href="link.html" class="back-btn">← 返回白熊書房首頁</a>
 
-    <header style="text-align:center; margin: 18px 0 26px;">
+    <header>
       <div class="badge-pill">🏓 心態檢測 × 玻璃心自測</div>
       <h1>你把人生當生死戰，還是友誼賽？</h1>
       <p class="subtitle">同樣一場球，有人打得像生死戰，有人打得像友誼賽。勾選最近一個月真的發生過的情況，10 題算出你的玻璃心指數。</p>
     </header>
 
     <div class="grid-layout">
+      <!-- 左欄：檢測題目清單與即時進度條 -->
       <div class="card">
-        <h2>🏓 心態檢測 10 題</h2>
+        <div class="card-header-flex">
+          <h2>🏓 心態檢測 10 題</h2>
+          <div class="progress-pill" id="progress-pill">進度：0 / 10</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+        </div>
         <div id="checklist"></div>
       </div>
 
+      <!-- 右欄：多維深度轉換漏斗面板 -->
       <div class="sticky-panel">
         <div class="card">
+          <!-- 1. 目前指數與緊繃度指針 -->
           <div class="level-banner">
             <div class="level-label">目前的玻璃心指數</div>
             <div class="level-title" id="level-name">Lv 4: 友誼賽玩家</div>
             <div class="score-metric" id="score-metric">勾選 0 題（0/10）</div>
+
+            <div class="tension-gauge-wrap">
+              <div class="gauge-labels">
+                <span>🟢 鬆弛友誼賽</span>
+                <span>🟡 偶爾上火</span>
+                <span>🟠 全程緊繃</span>
+                <span>🔴 決勝生死戰</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-pin" id="gauge-pin" style="left: 6%;"></div>
+              </div>
+            </div>
           </div>
 
+          <!-- 2. 三維心態漏水維度拆解 -->
+          <div class="dim-card">
+            <div class="dim-header">
+              <span class="dim-header-title">📊 3 大心態能量漏水維度</span>
+              <span class="dim-header-sub" id="dim-max-tag">狀態良好 · 心態鬆弛</span>
+            </div>
+            <div class="dim-rows">
+              <div class="dim-item">
+                <div class="dim-row-label">
+                  <span>🎯 人際防衛（把對手當敵人）</span>
+                  <span id="dim-pct-1" class="dim-pct">0%</span>
+                </div>
+                <div class="dim-bar-bg"><div class="dim-bar-fill bar-cat1" id="dim-bar-1" style="width: 0%;"></div></div>
+              </div>
+              <div class="dim-item">
+                <div class="dim-row-label">
+                  <span>🎾 容錯包袱（每一球輸不起）</span>
+                  <span id="dim-pct-2" class="dim-pct">0%</span>
+                </div>
+                <div class="dim-bar-bg"><div class="dim-bar-fill bar-cat2" id="dim-bar-2" style="width: 0%;"></div></div>
+              </div>
+              <div class="dim-item">
+                <div class="dim-row-label">
+                  <span>💣 地雷阻抗（情緒悶燒未掃）</span>
+                  <span id="dim-pct-3" class="dim-pct">0%</span>
+                </div>
+                <div class="dim-bar-bg"><div class="dim-bar-fill bar-cat3" id="dim-bar-3" style="width: 0%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 白熊深度診斷與處方卡片 -->
           <div class="diagnosis-card" id="diag-card">
             <div class="diagnosis-header">
               <div class="bear-badge" id="diag-icon">🏓</div>
@@ -459,25 +859,75 @@
                 <div class="diagnosis-subtitle" id="diag-sub">心態診斷：輸得起・還有下一球</div>
               </div>
             </div>
-            <p id="diag-desc">你對失誤的容忍度很高，不太會把單一結果放大成對自己的否定。這份從容是稀缺資產——下一步是讓它變成會長大的東西。</p>
 
-            <div class="rx-box">
-              <div class="rx-title" id="rx-title">⚡ 白熊 3 步處方：</div>
-              <ul class="rx-list" id="rx-list"></ul>
+            <!-- 專屬心態原型標籤 -->
+            <div class="archetype-badge" id="diag-archetype">🏷️ 心態原型：【從容觀賽型】</div>
+
+            <p class="diagnosis-desc" id="diag-desc">你對失誤的容忍度很高，不太會把單一結果放大成對自己的否定。這份從容是稀缺資產——下一步是讓它變成會長大的東西。</p>
+
+            <!-- 防彈箴言金句卡 -->
+            <div class="quote-box">
+              <span class="quote-mark">“</span>
+              <p class="quote-text" id="quote-text">同樣一場球，有人打得像生死戰，有人打得像友誼賽。差別不在對手，在你戴哪副眼鏡。</p>
             </div>
 
+            <!-- 白熊處方箋 -->
+            <div class="rx-box">
+              <div class="rx-title" id="rx-title">⚡ 白熊 3 步處方箋：</div>
+              <ul class="rx-list" id="rx-list"></ul>
+              <button type="button" class="copy-rx-btn" id="copy-rx-btn" onclick="copyPrescription()">
+                <span>📋 一鍵複製白熊處方箋</span>
+              </button>
+              <div class="copy-toast" id="copy-toast">✓ 已複製處方箋！可貼至筆記隨身提醒</div>
+            </div>
+
+            <!-- 手術刀式對症書籍推薦卡 -->
             <div class="book-rec-box">
-              <img src="assets/book1.jpg" alt="推薦書封" class="book-rec-cover" id="rec-book-img" />
+              <img src="assets/book7.jpg" alt="推薦書封" class="book-rec-cover" id="rec-book-img" />
               <div class="book-rec-content">
-                <div class="book-rec-name" id="rec-book-name">《人生複利》</div>
-                <div class="book-rec-price" id="rec-book-price">💎 特惠價 NT$149（68折 · 省 $71）</div>
-                <div class="book-rec-reason" id="rec-book-reason">心態已經夠鬆，下一步是把這份從容變成每天進步 1% 的複利。</div>
+                <div class="book-rec-name" id="rec-book-name">《人生友誼賽》</div>
+                <div class="book-rec-price" id="rec-book-price">💎 特惠價 NT$249（78折 · 省 $71）</div>
+                <div class="book-rec-reason" id="rec-book-reason">輸了也好玩，把磨難打成一場輕鬆的對打——8 章 40 節，每章附自檢清單。</div>
+
+                <div class="book-rec-chapters" id="rec-book-chapters">
+                  <div class="chapters-title">🔑 專屬對症章節：</div>
+                  <ul class="chapters-list" id="rec-chapters-list">
+                    <li>• 第 3 章〈容錯率哲學：輸了也很好玩，失誤了拍拍手還有下一球〉</li>
+                    <li>• 第 4 章〈先發球再說：治好「等我準備好」的拖延病〉</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-            <a href="link.html#book-fuli" class="cta-btn" id="cta-link">
-              <span id="cta-text">直達《人生複利》解鎖長期複利攻略</span>
+            <!-- 主購書按鈕 -->
+            <a href="link.html#book-youyi" class="cta-btn" id="cta-link">
+              <span id="cta-text">直達《人生友誼賽》把生死戰打成輕鬆對打</span>
               <span>➔</span>
+            </a>
+
+            <!-- 三大電子書城快速通道 -->
+            <div class="store-shortcuts-wrap" id="store-shortcuts-wrap">
+              <div class="store-shortcuts-label">三大電子書城直接解鎖：</div>
+              <div class="store-shortcuts-grid">
+                <a href="https://readmoo.com/book/210503806000101" target="_blank" rel="noopener" class="store-chip" id="chip-readmoo" onclick="trackStoreClick('readmoo', '友誼賽指數-直接購')">
+                  <span>📖 Readmoo</span>
+                </a>
+                <a href="https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73" target="_blank" rel="noopener" class="store-chip" id="chip-pubu" onclick="trackStoreClick('pubu', '友誼賽指數-直接購')">
+                  <span>📚 Pubu</span>
+                </a>
+                <a href="https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&ssId=E-YVypgvbd7WdUbRJTGZM&cPos=1" target="_blank" rel="noopener" class="store-chip" id="chip-kobo" onclick="trackStoreClick('kobo', '友誼賽指數-直接購')">
+                  <span>📕 Kobo</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- 延伸搭配系統推薦 -->
+            <a href="link.html#book-noise" class="rec-more-box" id="rec-more" style="display: none;">
+              <span class="rec-more-badge">💡 延伸系統搭配</span>
+              <div class="rec-more-info">
+                <strong id="rec-more-name">《降噪人生》</strong>
+                <span id="rec-more-why">心態放鬆後，如何裝上第二大腦清空暫存？接著讀這本 ➔</span>
+              </div>
             </a>
           </div>
         </div>
@@ -492,116 +942,248 @@
 
 <script>
   const ITEMS = [
-  {
-    "id": 1,
-    "cat": "把對手當敵人",
-    "title": "遇到難搞的人，我會在心裡反覆重播對話",
-    "desc": "一句話可以在腦中播十遍，每遍都更刺。"
-  },
-  {
-    "id": 2,
-    "cat": "把對手當敵人",
-    "title": "被插隊、被白目對待，我當下就會上火",
-    "desc": "明知道不值得，但身體比理智快。"
-  },
-  {
-    "id": 3,
-    "cat": "把對手當敵人",
-    "title": "我很在意別人是不是故意針對我",
-    "desc": "花很多力氣推敲對方的動機。"
-  },
-  {
-    "id": 4,
-    "cat": "每一球都輸不起",
-    "title": "一件事沒做好，我會懷疑整個自己",
-    "desc": "單一失誤會擴大成對自我的否定。"
-  },
-  {
-    "id": 5,
-    "cat": "每一球都輸不起",
-    "title": "我常想「等我準備好再開始」，然後一直沒開始",
-    "desc": "準備是假的，怕輸是真的。"
-  },
-  {
-    "id": 6,
-    "cat": "每一球都輸不起",
-    "title": "失誤之後我會卡住，很難進到下一件事",
-    "desc": "一球沒接到，接下來整場都亂。"
-  },
-  {
-    "id": 7,
-    "cat": "每一球都輸不起",
-    "title": "我會為了一個小失誤整晚睡不著",
-    "desc": "白天過去了，腦子沒有。"
-  },
-  {
-    "id": 8,
-    "cat": "情緒地雷沒掃",
-    "title": "我常常是情緒爆了才發現自己在累積",
-    "desc": "沒有中間預警，只有臨界點。"
-  },
-  {
-    "id": 9,
-    "cat": "情緒地雷沒掃",
-    "title": "同一種狀況，我會重複被惹毛很多次",
-    "desc": "同一顆地雷踩了不只一次。"
-  },
-  {
-    "id": 10,
-    "cat": "情緒地雷沒掃",
-    "title": "我很難把鳥事當笑話講給別人聽",
-    "desc": "事情過了，但還是笑不出來。"
-  }
-];
-  const CATS  = ["把對手當敵人", "每一球都輸不起", "情緒地雷沒掃"];
+    {
+      "id": 1,
+      "cat": "把對手當敵人",
+      "catKey": "cat1",
+      "title": "遇到難搞的人，我會在心裡反覆重播對話",
+      "desc": "一句話可以在腦中播十遍，每遍都更刺。"
+    },
+    {
+      "id": 2,
+      "cat": "把對手當敵人",
+      "catKey": "cat1",
+      "title": "被插隊、被白目對待，我當下就會上火",
+      "desc": "明知道不值得，但身體比理智快。"
+    },
+    {
+      "id": 3,
+      "cat": "把對手當敵人",
+      "catKey": "cat1",
+      "title": "我很在意別人是不是故意針對我",
+      "desc": "花很多力氣推敲對方的動機。"
+    },
+    {
+      "id": 4,
+      "cat": "每一球都輸不起",
+      "catKey": "cat2",
+      "title": "一件事沒做好，我會懷疑整個自己",
+      "desc": "單一失誤會擴大成對自我的否定。"
+    },
+    {
+      "id": 5,
+      "cat": "每一球都輸不起",
+      "catKey": "cat2",
+      "title": "我常想「等我準備好再開始」，然後一直沒開始",
+      "desc": "準備是假的，怕輸是真的。"
+    },
+    {
+      "id": 6,
+      "cat": "每一球都輸不起",
+      "catKey": "cat2",
+      "title": "失誤之後我會卡住，很難進到下一件事",
+      "desc": "一球沒接到，接下來整場都亂。"
+    },
+    {
+      "id": 7,
+      "cat": "每一球都輸不起",
+      "catKey": "cat2",
+      "title": "我會為了一個小失誤整晚睡不著",
+      "desc": "白天過去了，腦子沒有。"
+    },
+    {
+      "id": 8,
+      "cat": "情緒地雷沒掃",
+      "catKey": "cat3",
+      "title": "我常常是情緒爆了才發現自己在累積",
+      "desc": "沒有中間預警，只有臨界點。"
+    },
+    {
+      "id": 9,
+      "cat": "情緒地雷沒掃",
+      "catKey": "cat3",
+      "title": "同一種狀況，我會重複被惹毛很多次",
+      "desc": "同一顆地雷踩了不只一次。"
+    },
+    {
+      "id": 10,
+      "cat": "情緒地雷沒掃",
+      "catKey": "cat3",
+      "title": "我很難把鳥事當笑話講給別人聽",
+      "desc": "事情過了，但還是笑不出來。"
+    }
+  ];
+
+  const CATS = ["把對手當敵人", "每一球都輸不起", "情緒地雷沒掃"];
   const checked = new Set();
 
-  // ── 四級診斷：勾越多＝越把人生當生死戰 ──
+  // ── 三大痛點維度與專屬對症章節對應表 ──
+  const CAT_PRESCRIPTIONS = {
+    cat1: {
+      maxTag: "⚠️ 核心耗能：人際防衛（把對手當敵人）",
+      archetype: "🏷️ 心態原型：【假想敵過載型】",
+      quote: "對手只是按照他的腳本演出的 NPC，不是針對你寫的。不要接他的情緒球，球自然出界。",
+      chapters: [
+        "• 第 2 章〈把難搞的人當遊戲 NPC：他有他的劇本，不是針對你〉",
+        "• 第 6 章〈心靈防火牆：善良要有邊界，不讓別人的垃圾倒進系統〉"
+      ]
+    },
+    cat2: {
+      maxTag: "⚠️ 核心耗能：容錯包袱（每一球輸不起）",
+      archetype: "🏷️ 心態原型：【決賽包袱型】",
+      quote: "一球沒接到，拍拍手，還有下一球。怕輸的人永遠等不到準備好的那天。",
+      chapters: [
+        "• 第 3 章〈容錯率哲學：輸了也很好玩，失誤了拍拍手還有下一球〉",
+        "• 第 4 章〈先發球再說：治好「等我準備好」的完美主義拖延〉"
+      ]
+    },
+    cat3: {
+      maxTag: "⚠️ 核心耗能：情緒阻抗（情緒地雷未掃）",
+      archetype: "🏷️ 心態原型：【未爆彈悶燒型】",
+      quote: "同一顆地雷踩兩次是系統 BUG。學會在臨界點之前先把壓力排洪。",
+      chapters: [
+        "• 第 5 章〈情緒排洪三步法：在臨界點引爆前把壓力放掉〉",
+        "• 第 7 章〈把鳥事當喜劇看：幽默是最高級的心態除錯演算法〉"
+      ]
+    }
+  };
+
+  // ── 四級段位診斷階梯 ──
   const TIERS = [
-    { max: 2,  level: "Lv 4: 友誼賽玩家",   icon: "🏓",
+    {
+      max: 2,
+      level: "Lv 4: 友誼賽玩家",
+      icon: "🏓",
       title: "白熊判讀：你已經打得很鬆了",
-      sub:   "心態診斷：輸得起・還有下一球",
-      desc:  "你對失誤的容忍度很高，不太會把單一結果放大成對自己的否定。這份從容是稀缺資產——下一步是讓它變成會長大的東西。",
-      rx: ["把「還有下一球」寫下來，貼在最常焦慮的那個場景旁。",
-           "挑一件已經做得順的事，設計成每天都會發生的最小單元。",
-           "把省下來的情緒力氣，投進一個會複利的習慣。"],
-      book: { img: "assets/book1.jpg", name: "《人生複利》",
-              price: "💎 特惠價 NT$149（68折 · 省 $71）",
-              reason: "心態已經夠鬆，下一步是把這份從容變成每天進步 1% 的複利。",
-              href: "link.html#book-fuli", cta: "直達《人生複利》解鎖長期複利攻略" } },
-    { max: 5,  level: "Lv 3: 偶爾上火的選手", icon: "🔋",
+      sub: "心態診斷：輸得起・還有下一球",
+      archetype: "🏷️ 心態原型：【從容觀戰型】",
+      desc: "你對失誤的容忍度很高，不太會把單一結果放大成對自己的否定。這份從容是稀缺資產——下一步是讓它變成會長大的東西。",
+      quote: "同樣一場球，有人打得像生死戰，有人打得像友誼賽。差別不在對手，在你戴哪副眼鏡。",
+      rx: [
+        "把「還有下一球」寫下來，貼在最常焦慮的那個場景旁。",
+        "挑一件已經做得順的事，設計成每天都會發生的最小單元。",
+        "把省下來的情緒力氣，投進一個會複利的習慣。"
+      ],
+      book: {
+        img: "assets/book1.jpg",
+        name: "《人生複利》",
+        price: "💎 特惠價 NT$149（68折 · 省 $71）",
+        reason: "心態已經夠鬆，下一步是把這份從容變成每天進步 1% 的複利習慣。",
+        chapters: [
+          "• 第 1 章〈讓時間站在你這邊：複利效應的底層邏輯〉",
+          "• 第 3 章〈微習慣堆疊：每天進步 1% 的 37 倍威力〉"
+        ],
+        href: "link.html#book-fuli",
+        cta: "直達《人生複利》解鎖長期複利攻略",
+        stores: {
+          readmoo: "https://readmoo.com/book/210446460000101",
+          pubu: "https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73",
+          kobo: "https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ"
+        }
+      },
+      more: null
+    },
+    {
+      max: 5,
+      level: "Lv 3: 偶爾上火的選手",
+      icon: "🔋",
       title: "白熊判讀：心態還行，續航先垮",
-      sub:   "心態診斷：撐得住・但撐不久",
-      desc:  "你大致還能把事情當球打，真正會垮的不是心態而是續航力。走得遠的人不是靠意志力硬扛，是靠設計系統讓自己不中斷。",
-      rx: ["找出你最常「斷掉」的那個環節，先降級成做得到的版本。",
-           "一個習慣定出迷你、標準、加強三檔，狀態差時用迷你檔。",
-           "把恢復時間排進行事曆，不要等到耗盡才休息。"],
-      book: { img: "assets/book6.jpg", name: "《續航》",
-              price: "💎 特惠價 NT$259（74折 · 省 $91）",
-              reason: "缺的是系統不是意志力：打造不中斷的最小單元與物理防火牆。",
-              href: "link.html#book-xuhang", cta: "直達《續航》解鎖持續自轉系統" } },
-    { max: 8,  level: "Lv 2: 全程緊繃的球員", icon: "🎭",
+      sub: "心態診斷：撐得住・但撐不久",
+      archetype: "🏷️ 心態原型：【容易斷鏈型】",
+      desc: "你大致還能把事情當球打，真正會垮的不是心態而是續航力。走得遠的人不是靠意志力硬扛，是靠設計系統讓自己不中斷。",
+      quote: "走得遠的人不靠意志力燃燒自己，而是靠設計不中斷的自轉系統。",
+      rx: [
+        "找出你最常「斷掉」的那個環節，先降級成做得到的版本。",
+        "一個習慣定出迷你、標準、加強三檔，狀態差時用迷你檔。",
+        "把恢復時間排進行事曆，不要等到耗盡才休息。"
+      ],
+      book: {
+        img: "assets/book6.jpg",
+        name: "《續航》",
+        price: "💎 特惠價 NT$259（74折 · 省 $91）",
+        reason: "缺的是系統不是意志力：打造不中斷的最小單元與物理防火牆。",
+        chapters: [
+          "• 第 2 章〈打造不中斷的最小單元 (MVS)〉",
+          "• 第 4 章〈自動存檔點與防崩潰物理防火牆〉"
+        ],
+        href: "link.html#book-xuhang",
+        cta: "直達《續航》解鎖持續自轉系統",
+        stores: {
+          readmoo: "https://readmoo.com/book/210498507000101",
+          pubu: "https://www.pubu.com.tw/ebook/691655?apKey=e08e864a73",
+          kobo: "https://www.kobo.com/tw/zh/ebook/SBhjgFJM6DSrzeDmMqUGYw?sId=ca03978c-6e70-488f-a053-1e83a3d21c6f&ssId=aLHYUHEB-JP3E_fU8HhKW&cPos=1"
+        }
+      },
+      more: null
+    },
+    {
+      max: 8,
+      level: "Lv 2: 全程緊繃的球員",
+      icon: "🎭",
       title: "白熊判讀：你把太多球當成輸不起",
-      sub:   "心態診斷：每一分都在意・全場無法放鬆",
-      desc:  "問題不在對手有多強，在你戴的那副眼鏡。生死戰裡每一球都輸不起，全程緊繃；友誼賽裡你當然想贏，但失誤了也不慌，因為你知道還有下一球。",
-      rx: ["把難纏的人當成遊戲裡的 NPC：他有他的腳本，不是針對你寫的。",
-           "情緒上來時用三步排洪法，在引爆前先把壓力放掉。",
-           "把「等我準備好」換成「先發球再說」，先讓球過網。"],
-      book: { img: "assets/book7.jpg", name: "《人生友誼賽》",
-              price: "💎 特惠價 NT$249（78折 · 省 $71）",
-              reason: "輸了也好玩，把磨難打成一場輕鬆的對打——8 章 40 節，每章附自檢清單。",
-              href: "link.html#book-youyi", cta: "直達《人生友誼賽》把生死戰打成輕鬆對打" } },
-    { max: 10, level: "Lv 1: 生死戰選手",   icon: "🥊",
+      sub: "心態診斷：每一分都在意・全場無法放鬆",
+      archetype: "🏷️ 心態原型：【決賽包袱型】",
+      desc: "問題不在對手有多強，在你戴的那副眼鏡。生死戰裡每一球都輸不起，全程緊繃；友誼賽裡你當然想贏，但失誤了也不慌，因為你知道還有下一球。",
+      quote: "對手只是按照他的腳本演出的 NPC，不是針對你寫的。不要接他的情緒球，球自然出界。",
+      rx: [
+        "把難纏的人當成遊戲裡的 NPC：他有他的腳本，不是針對你寫的。",
+        "情緒上來時用三步排洪法，在引爆前先把壓力放掉。",
+        "把「等我準備好」換成「先發球再說」，先讓球過網。"
+      ],
+      book: {
+        img: "assets/book7.jpg",
+        name: "《人生友誼賽》",
+        price: "💎 特惠價 NT$249（78折 · 省 $71）",
+        reason: "輸了也好玩，把磨難打成一場輕鬆的對打——8 章 40 節，每章附自檢清單。",
+        chapters: [],
+        href: "link.html#book-youyi",
+        cta: "直達《人生友誼賽》把生死戰打成輕鬆對打",
+        stores: {
+          readmoo: "https://readmoo.com/book/210503806000101",
+          pubu: "https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73",
+          kobo: "https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&ssId=E-YVypgvbd7WdUbRJTGZM&cPos=1"
+        }
+      },
+      more: {
+        name: "《降噪人生》",
+        why: "心態放鬆後，如何幫大腦裝第二大腦清空暫存？接著讀這本 ➔",
+        href: "link.html#book-noise"
+      }
+    },
+    {
+      max: 10,
+      level: "Lv 1: 生死戰選手",
+      icon: "🥊",
       title: "白熊判讀：你不是運氣差，是戴錯眼鏡",
-      sub:   "心態診斷：每一球都是決勝分",
-      desc:  "你把日常的每一件事都當成不能輸的決賽在打。難關不會因此變少，但你的消耗會翻倍。不是要你不在乎，是要你知道哪些球其實輸得起。",
-      rx: ["先承認一件事：今天搞砸的那件事，一週後多半沒人記得。",
-           "挑一個最常引爆你的場景，寫下「如果輸了，最糟會怎樣」。",
-           "把被插隊、被白目當成一齣免費的短劇，先看戲再決定要不要入戲。"],
-      book: { img: "assets/book7.jpg", name: "《人生友誼賽》",
-              price: "💎 特惠價 NT$249（78折 · 省 $71）",
-              reason: "同樣一場球，有人打得像生死戰，有人打得像友誼賽。差別不在對手，在你戴哪副眼鏡。",
-              href: "link.html#book-youyi", cta: "直達《人生友誼賽》把生死戰打成輕鬆對打" } },
+      sub: "心態診斷：每一球都是決勝分",
+      archetype: "🏷️ 心態原型：【假想敵過載型】",
+      desc: "你把日常的每一件事都當成不能輸的決賽在打。難關不會因此變少，但你的消耗會翻倍。不是要你不在乎，是要你知道哪些球其實輸得起。",
+      quote: "一球沒接到，拍拍手，還有下一球。怕輸的人永遠等不到準備好的那天。",
+      rx: [
+        "先承認一件事：今天搞砸的那件事，一週後多半沒人記得。",
+        "挑一個最常引爆你的場景，寫下「如果輸了，最糟會怎樣」。",
+        "把被插隊、被白目當成一齣免費的短劇，先看戲再決定要不要入戲。"
+      ],
+      book: {
+        img: "assets/book7.jpg",
+        name: "《人生友誼賽》",
+        price: "💎 特惠價 NT$249（78折 · 省 $71）",
+        reason: "同樣一場球，有人打得像生死戰，有人打得像友誼賽。差別不在對手，在你戴哪副眼鏡。",
+        chapters: [],
+        href: "link.html#book-youyi",
+        cta: "直達《人生友誼賽》把生死戰打成輕鬆對打",
+        stores: {
+          readmoo: "https://readmoo.com/book/210503806000101",
+          pubu: "https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73",
+          kobo: "https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&ssId=E-YVypgvbd7WdUbRJTGZM&cPos=1"
+        }
+      },
+      more: {
+        name: "《人生遊戲》",
+        why: "想更進一步把逆境當成遊戲 BUG 來除錯？接著讀這本 ➔",
+        href: "link.html#book-game"
+      }
+    }
   ];
 
   function renderChecklist() {
@@ -629,31 +1211,186 @@
 
   function toggleCheck(id) {
     const el = document.getElementById(`item-${id}`);
-    if (checked.has(id)) { checked.delete(id); el.classList.remove("checked"); }
-    else { checked.add(id); el.classList.add("checked"); }
+    if (checked.has(id)) {
+      checked.delete(id);
+      el.classList.remove("checked");
+    } else {
+      checked.add(id);
+      el.classList.add("checked");
+    }
     update();
   }
 
   function update() {
     const n = checked.size;
+
+    // 1. 更新作答進度指示條
+    document.getElementById("progress-pill").innerText = `進度：${n} / 10`;
+    document.getElementById("progress-fill").style.width = `${(n / 10) * 100}%`;
+
+    // 2. 計算三維子得分
+    const cat1Count = ITEMS.filter(i => i.catKey === "cat1" && checked.has(i.id)).length;
+    const cat2Count = ITEMS.filter(i => i.catKey === "cat2" && checked.has(i.id)).length;
+    const cat3Count = ITEMS.filter(i => i.catKey === "cat3" && checked.has(i.id)).length;
+
+    const cat1Pct = Math.round((cat1Count / 3) * 100);
+    const cat2Pct = Math.round((cat2Count / 4) * 100);
+    const cat3Pct = Math.round((cat3Count / 3) * 100);
+
+    document.getElementById("dim-pct-1").innerText = `${cat1Pct}%`;
+    document.getElementById("dim-bar-1").style.width = `${cat1Pct}%`;
+    document.getElementById("dim-pct-2").innerText = `${cat2Pct}%`;
+    document.getElementById("dim-bar-2").style.width = `${cat2Pct}%`;
+    document.getElementById("dim-pct-3").innerText = `${cat3Pct}%`;
+    document.getElementById("dim-bar-3").style.width = `${cat3Pct}%`;
+
+    // 找出最大能量耗損維度
+    let dominantCat = "cat2";
+    if (cat2Pct >= cat1Pct && cat2Pct >= cat3Pct && cat2Count > 0) {
+      dominantCat = "cat2";
+    } else if (cat1Pct >= cat3Pct && cat1Count > 0) {
+      dominantCat = "cat1";
+    } else if (cat3Count > 0) {
+      dominantCat = "cat3";
+    } else {
+      dominantCat = "cat2"; // default
+    }
+
+    const catInfo = CAT_PRESCRIPTIONS[dominantCat];
+    const maxTagEl = document.getElementById("dim-max-tag");
+    if (n === 0) {
+      maxTagEl.innerText = "狀態良好 · 心態鬆弛";
+    } else {
+      maxTagEl.innerText = catInfo.maxTag;
+    }
+
+    // 3. 取得總分段位
     const t = TIERS.find(x => n <= x.max);
+
+    // 緊繃度指針位置 (0 ~ 100%)
+    let pinPct = 6;
+    if (n > 0) {
+      pinPct = Math.min(96, Math.max(8, (n / 10) * 100));
+    }
+    document.getElementById("gauge-pin").style.left = `${pinPct}%`;
+
     document.getElementById("level-name").innerText = t.level;
     document.getElementById("score-metric").innerText = `勾選 ${n} 題（${n}/10）`;
     document.getElementById("diag-icon").innerText = t.icon;
     document.getElementById("diag-title").innerText = t.title;
     document.getElementById("diag-sub").innerText = t.sub;
     document.getElementById("diag-desc").innerText = t.desc;
+
+    // 動態設定原型標籤與金句
+    if (n >= 6) {
+      // 緊繃/生死戰：採用細分痛點原型與對應金句
+      document.getElementById("diag-archetype").innerText = catInfo.archetype;
+      document.getElementById("quote-text").innerText = catInfo.quote;
+    } else {
+      document.getElementById("diag-archetype").innerText = t.archetype;
+      document.getElementById("quote-text").innerText = t.quote;
+    }
+
+    // 白熊處方箋
     document.getElementById("rx-list").innerHTML =
       t.rx.map((s, i) => `<li>${i + 1}. ${s}</li>`).join("");
+
+    // 書籍推薦
     document.getElementById("rec-book-img").src = t.book.img;
     document.getElementById("rec-book-name").innerText = t.book.name;
     document.getElementById("rec-book-price").innerText = t.book.price;
     document.getElementById("rec-book-reason").innerText = t.book.reason;
+
+    // 手術刀式章節列表
+    const chaptersListEl = document.getElementById("rec-chapters-list");
+    let activeChapters = t.book.chapters;
+    if (n >= 6) {
+      // 推薦《人生友誼賽》時，根據最大耗損動態填入章節
+      activeChapters = catInfo.chapters;
+    }
+    chaptersListEl.innerHTML = activeChapters.map(c => `<li>${c}</li>`).join("");
+
+    // 主 CTA 跳轉
     const link = document.getElementById("cta-link");
     link.href = t.book.href;
     document.getElementById("cta-text").innerText = t.book.cta;
     link.setAttribute("onclick",
       `trackStoreClick('tool-rec', '${t.book.name.replace(/[《》]/g, "")}')`);
+
+    // 三大書城快速通道
+    const chipReadmoo = document.getElementById("chip-readmoo");
+    const chipPubu = document.getElementById("chip-pubu");
+    const chipKobo = document.getElementById("chip-kobo");
+    chipReadmoo.href = t.book.stores.readmoo;
+    chipPubu.href = t.book.stores.pubu;
+    chipKobo.href = t.book.stores.kobo;
+    const cleanBookName = t.book.name.replace(/[《》]/g, "");
+    chipReadmoo.setAttribute("onclick", `trackStoreClick('readmoo', '${cleanBookName}-直接購')`);
+    chipPubu.setAttribute("onclick", `trackStoreClick('pubu', '${cleanBookName}-直接購')`);
+    chipKobo.setAttribute("onclick", `trackStoreClick('kobo', '${cleanBookName}-直接購')`);
+
+    // 延伸閱讀卡片
+    const recMore = document.getElementById("rec-more");
+    if (t.more) {
+      recMore.href = t.more.href;
+      document.getElementById("rec-more-name").innerText = t.more.name;
+      document.getElementById("rec-more-why").innerText = t.more.why;
+      recMore.style.display = "flex";
+    } else {
+      recMore.style.display = "none";
+    }
+  }
+
+  // 📋 一鍵複製處方箋機制
+  function copyPrescription() {
+    const level = document.getElementById("level-name").innerText;
+    const archetype = document.getElementById("diag-archetype").innerText;
+    const quote = document.getElementById("quote-text").innerText;
+    const rxItems = Array.from(document.querySelectorAll("#rx-list li")).map(li => li.innerText).join("\n");
+    const bookName = document.getElementById("rec-book-name").innerText;
+    const chapters = Array.from(document.querySelectorAll("#rec-chapters-list li")).map(li => li.innerText).join("\n");
+
+    const content = `【白熊友誼賽指數 · 檢測診斷箋】
+段位：${level}
+${archetype}
+
+💡 白熊箴言：
+「${quote}」
+
+⚡ 白熊 3 步處方箋：
+${rxItems}
+
+📖 推薦解鎖指南：
+${bookName}
+${chapters}
+
+── 白熊富足人生演算法 ──`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(content).then(showToast).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+
+    function fallbackCopy() {
+      const ta = document.createElement("textarea");
+      ta.value = content;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast();
+      } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    function showToast() {
+      const toast = document.getElementById("copy-toast");
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
   }
 
   // 追蹤：失敗也絕不擋住跳轉
@@ -664,7 +1401,10 @@
     } catch (e) {}
   }
 
-  window.addEventListener("DOMContentLoaded", () => { renderChecklist(); update(); });
+  window.addEventListener("DOMContentLoaded", () => {
+    renderChecklist();
+    update();
+  });
 </script>
 </body>
 </html>
