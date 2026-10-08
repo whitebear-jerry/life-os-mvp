@@ -5,7 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>白熊人生攻略｜Life OS</title>
   <meta name="description" content="白熊人生攻略：把人生變成可以升級的作業系統。">
-  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    /* link.html 原本載入 assets/styles.css（15 KB、會阻擋算繪），
+       但比對後發現只依賴下面這四條全域規則，class 與 CSS 變數的交集都是 0。
+       內嵌進來後即可移除外部樣式表。
+       ⚠️ 其他 9 頁仍在用 assets/styles.css，不要刪那個檔。 */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    img { display: block; max-width: 100%; }
+    h1, h2 { margin: 0; }
+  </style>
   <!-- ⚡ 首屏關鍵圖片優先預載 (LCP 加速) -->
   <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1_banner.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/bear-avatar.jpg">
