@@ -19,14 +19,14 @@
        3. 填入 links 的 readmoo / pubu / kobo 三個網址
           ⚠️ Pubu 一律用單品頁 pubu.com.tw/ebook/<id> 並保留 ?apKey=e08e864a73
              從 Pubu 分享鈕複製到的 ?pubu_urc=xxx 不是書系在用的分潤碼，不要用
-       4. 書封已先放在 assets/book8.jpg，不用再動
+       4. 書封已先放在 https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book8.jpg，不用再動
        5. 存檔 → 書脊、卡片、購買按鈕、即將上架標籤全部自動切換
      ⚠️ 不要在這個陣列以外的地方寫死任何書名、價格或連結
      ============================================================ */
   const BOOKS = [
     { no: 1, code: "fuli", title: "人生複利", sub: "從信念到財富的 45 個覺醒練習",
       line: "heart", lineLabel: "心法線 ①", words: 52281, minutes: 4,
-      cover: "assets/book1.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1.jpg", status: "published",
       price: 220, sale: 149, discount: "68折 (省 $71)",
       links: {
         readmoo: "https://readmoo.com/book/210446460000101",
@@ -35,7 +35,7 @@
 
     { no: 2, code: "game", title: "人生遊戲", sub: "40 堂化逆境為順境的變現攻略",
       line: "heart", lineLabel: "心法線 ②", words: 63916, minutes: 5,
-      cover: "assets/book2.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book2.jpg", status: "published",
       price: 280, sale: 199, discount: "71折 (省 $81)",
       links: {
         readmoo: "https://readmoo.com/book/210455098000101",
@@ -44,7 +44,7 @@
 
     { no: 3, code: "noise", title: "降噪人生", sub: "幫大腦卸載、替心靈把關",
       line: "system", lineLabel: "系統線 ①", words: 136535, minutes: 11,
-      cover: "assets/book3.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book3.jpg", status: "published",
       price: 360, sale: 269, discount: "75折 (省 $91)",
       links: {
         readmoo: "https://readmoo.com/book/210470441000101",
@@ -53,7 +53,7 @@
 
     { no: 4, code: "xinfu", title: "心富", sub: "把心顧好，錢自然長出來的財富實戰手冊",
       line: "money", lineLabel: "財務線 ①", words: 106510, minutes: 9,
-      cover: "assets/book4.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book4.jpg", status: "published",
       price: 320, sale: 229, discount: "72折 (省 $91)",
       links: {
         readmoo: "https://readmoo.com/book/210482574000101",
@@ -62,7 +62,7 @@
 
     { no: 5, code: "jieli", title: "借力", sub: "借趨勢、借工具、借複利，少做多得的不費力人生",
       line: "system", lineLabel: "系統線 ②", words: 113019, minutes: 9,
-      cover: "assets/book5.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book5.jpg", status: "published",
       price: 320, sale: 249, discount: "78折 (省 $71)",
       links: {
         readmoo: "https://readmoo.com/book/210488646000101",
@@ -71,7 +71,7 @@
 
     { no: 6, code: "xuhang", title: "續航", sub: "打造不靠意志力的持續成長系統",
       line: "system", lineLabel: "系統線 ③", words: 118103, minutes: 10,
-      cover: "assets/book6.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book6.jpg", status: "published",
       price: 350, sale: 259, discount: "74折 (省 $91)",
       links: {
         readmoo: "https://readmoo.com/book/210498507000101",
@@ -80,7 +80,7 @@
 
     { no: 7, code: "youyi", title: "人生友誼賽", sub: "輸了也好玩，把磨難打成一場輕鬆的對打",
       line: "heart", lineLabel: "心法線 ③", words: 109022, minutes: 9,
-      cover: "assets/book7.jpg", status: "published",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book7.jpg", status: "published",
       price: 320, sale: 249, discount: "78折 (省 $71)",
       links: {
         readmoo: "https://readmoo.com/book/210503806000101",
@@ -90,17 +90,17 @@
     // ── 以下三本尚未上架：不放價格、不放連結、不寫上架日期 ──
     { no: 8, code: "mingbian", title: "明辨", sub: "把難題拆開，把假話看穿，把決定做對",
       line: "judge", lineLabel: "判斷線 ①", words: 156454, minutes: 13,
-      cover: "assets/book8.jpg", status: "coming",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book8.jpg", status: "coming",
       price: null, sale: null, discount: null, links: null },
 
     { no: 9, code: "yuyu", title: "餘裕", sub: "心裡富足，手上有餘——養出面對世界的雙寬裕",
       line: "money", lineLabel: "財務線 ②", words: 116977, minutes: 10,
-      cover: "assets/book9.jpg", status: "coming",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book9.jpg", status: "coming",
       price: null, sale: null, discount: null, links: null },
 
     { no: 10, code: "zhuchang", title: "人生主場", sub: "奪回注意力與時間，做自己劇本的唯一終審者",
       line: "home", lineLabel: "收束", words: 200197, minutes: 17,
-      cover: "assets/book10.jpg", status: "coming",
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book10.jpg", status: "coming",
       price: null, sale: null, discount: null, links: null },
   ];
   </script>
