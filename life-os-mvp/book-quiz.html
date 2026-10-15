@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>讀後小測驗｜白熊人生攻略</title>
+  <meta name="description" content="富足人生演算法讀後小測驗：讀完一本書，用 10 題情境題檢查自己帶走了什麼。每題都附書中出處。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 reading-map.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#8d6524; --ok:#0a7d57; --bad:#a04f55; --c:#886621;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:22px;box-shadow:var(--shadow);display:grid;gap:14px;scroll-margin-block:16px}
+  .card:focus{outline:none}
+  .note{font-size:13px;color:var(--ink-soft)}
+  .progress{height:6px;border-radius:999px;background:var(--paper-2);overflow:hidden}
+  .progress i{display:block;height:100%;background:var(--gilt);transition:width .3s ease}
+  .step{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);letter-spacing:.06em}
+  .tag-multi{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:1px 8px;border-radius:999px;border:1px solid var(--gilt);color:var(--gilt)}
+  .q{font-family:var(--f-display);font-size:clamp(17px,2.4vw,20px);font-weight:700;line-height:1.6}
+  .opts{display:grid;gap:10px}
+  .opt{font:inherit;font-size:15px;line-height:1.55;text-align:left;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:10px;
+    padding:12px 14px;min-height:48px;cursor:pointer;display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;align-items:start;
+    transition:border-color .15s ease,background-color .15s ease,transform .15s ease}
+  .opt .mk{font-family:var(--f-num);font-weight:600;color:var(--ink-soft)}
+  .opt:hover:not(:disabled){border-color:var(--gilt);background:#fffaf0;transform:translateY(-1px)}
+  .opt[aria-pressed="true"]{border-color:var(--gilt);box-shadow:inset 0 0 0 1px var(--gilt)}
+  .opt:disabled{cursor:default}
+  .opt.is-correct{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok);background:#f3f8f2}
+  .opt.is-correct .mk{color:var(--ok)}
+  .opt.is-wrong{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad);background:#fbf2f0}
+  .opt.is-wrong .mk{color:var(--bad)}
+  .opt.is-dim{opacity:.72}   /* 答完後淡化其他選項，但仍要讀得清楚（實測對比約 4.6） */
+  .hint summary{cursor:pointer;font-size:13.5px;color:var(--ink-soft);list-style:none;display:inline-flex;gap:6px;min-height:28px;align-items:center}
+  .hint summary::-webkit-details-marker{display:none}
+  .hint summary::before{content:"💡"}
+  .hint p{margin-top:6px;font-size:14px;color:var(--ink-soft)}
+  .explain{border-top:1px dashed var(--rule);padding-top:12px;display:grid;gap:10px}
+  .verdict{font-family:var(--f-display);font-size:18px;font-weight:900}
+  .verdict.ok{color:var(--ok)}
+  .verdict.bad{color:var(--bad)}
+  .why{font-size:14px;line-height:1.7}
+  .why b{display:block;font-weight:700}
+  .why span{color:var(--ink-soft)}
+  .src{font-size:13px;border-left:2px solid var(--c);padding-left:9px;color:var(--ink)}
+  .src em{font-style:normal;font-weight:700;color:var(--c);margin-right:4px}
+  .nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+  .btn{font:inherit;font-size:15px;font-weight:800;padding:11px 22px;min-height:46px;border-radius:10px;border:0;cursor:pointer;
+    background:var(--gilt);color:#fdfaf4;box-shadow:0 3px 10px -4px rgba(90,70,40,.45)}
+  .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .link{font:inherit;font-size:13.5px;color:var(--ink-soft);background:none;border:0;padding:8px 0;cursor:pointer;text-decoration:underline}
+
+  .score{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .score b{font-family:var(--f-num);font-size:52px;line-height:1;color:var(--gilt);font-weight:600}
+  .score span{font-size:15px;color:var(--ink-soft)}
+  .msg{font-size:15.5px}
+  .review{display:grid;gap:8px}
+  .review h3{font-size:17px;font-weight:900}
+  .review ul{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:14px}
+  .review .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:4px}
+  .next{font-size:14px;background:var(--paper);border:1px dashed var(--rule);border-radius:8px;padding:10px 12px}
+  .goto{font-size:14px;font-weight:700;color:var(--c);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .goto:hover{border-bottom-color:var(--c)}
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .card{padding:18px 16px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+    .opt:hover{transform:none!important}
+  }
+  </style>
+</head>
+
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="reading-map.html">← 閱讀地圖</a> ｜ 讀後小測驗</p>
+
+  <header class="hero">
+    <img id="cover" src="" alt="" width="96" height="144">
+    <div>
+      <h1 id="title">讀後小測驗</h1>
+      <p class="lead" id="lead"></p>
+    </div>
+  </header>
+
+  <section class="card" id="quiz" tabindex="-1" aria-live="polite">
+    <!-- 由 JavaScript 依 QUIZZES 產生 -->
+  </section>
+
+  <footer>
+    <span>題目由 NotebookLM 依全書稿出題；每一題的答案、解析與出處，都回原書逐條查證過。</span>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* ============================================================
+   📖 讀後小測驗：一頁共用，用網址 ?book=<代號> 切換書
+   ------------------------------------------------------------
+   資料由 Google Drive「寫作/組合書籍資料/互動導覽/<書名>-讀後小測驗-已查證.json」產生。
+   新增一本：在 QUIZZES 補一筆同樣格式的資料即可，代號沿用 link.html 的 book-<code>。
+   ⚠️ 不要直接手改題目：先改查證檔，再重新產生這一段。
+   ============================================================ */
+const QUIZZES = {
+ "xinfu": {
+  "key": "xinfu",
+  "no": 4,
+  "title": "心富",
+  "cover": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book4.jpg",
+  "encourage": "沒關係。書裡 1.5 說過：把「我不會」變成「我還沒學會」。先從下面這幾節開始重讀。",
+  "next": "同一條財務線的下一本是《餘裕》（即將上架）。",
+  "sections": {
+   "1.1.2": "情緒擺錘的線頭：用艾里斯的 ABC 理論看穿金錢焦慮的本質",
+   "1.4.2": "情緒粒度的本質：用「情緒上色」為你的大腦標記座標",
+   "1.5.2": "思維模式的本質：德威克的成長心態與班杜拉的自我效能感",
+   "1.5.3": "避戰逃模式的解套：把挫折當成打怪練等的養分",
+   "2.1.1": "儲蓄率：先存再花，顛覆「收入－支出＝儲蓄」的消費本能",
+   "2.1.4": "你在第幾階？——先定位，再決定用哪一招",
+   "2.2.2": "認知頻寬的爭奪戰：用緊急預備金買回你的大腦算力",
+   "2.4": "把存錢交給系統：自動化金流",
+   "2.5.3": "實戰價值評估：保單優化與進口車的總擁有成本（TCO）",
+   "3.1.2": "近視性損失厭惡：為什麼頻繁看盤會讓你賺不到錢？",
+   "3.1.3": "看懂景氣循環，但不靠它決定進出場",
+   "3.5.2": "再平衡的運作機制：如何自動做到「買低賣高」？",
+   "3.5.3": "再平衡的執行規則與財務斷捨離",
+   "4.1.4": "解方與未來：畫出你的「能力圈」，用系統杜絕收割"
+  },
+  "questions": [
+   {
+    "q": "阿國看見自己持有的 ETF 因為國際情勢利空大跌 15%，內心感到極度恐慌，打算立刻按賣出停損。若套用阿爾伯特·艾里斯（Albert Ellis）的「情緒 ABC 理論」，造成阿國產生極度恐慌與衝動賣出行為（C）的真正核心原因是什麼？",
+    "multi": false,
+    "hint": "思考 ABC 理論中，連接「客觀事件」與「情緒結果」中間的那層關鍵大腦過濾網。",
+    "secs": [
+     "1.1.2"
+    ],
+    "options": [
+     {
+      "text": "阿國對大跌事件的解讀與信念（B），例如認為「跌了就代表資產化為烏有、自己是失敗者」。",
+      "ok": true,
+      "why": "書中第 1 章 1.1.2 節指出，決定情緒與行為結果（C）的從來不是外在觸發事件（A），而是中間對事件的想法與信念（B）。"
+     },
+     {
+      "text": "股市大跌 15% 這個客觀發生的外在事實（A）。",
+      "ok": false,
+      "why": "外在事實只是觸發事件（A），若信念不同（如視為打折買進機會），同一個事件不會必然引發恐慌。"
+     },
+     {
+      "text": "大腦皮質區的理性規劃功能運作過度，導致計算太過複雜。",
+      "ok": false,
+      "why": "恐慌時是大腦杏仁核接管並啟動避戰逃模式，關閉了皮質區的理性規劃，而非皮質區運作過度。"
+     },
+     {
+      "text": "券商交易 App 的介面顏色與通知聲音太過刺激。",
+      "ok": false,
+      "why": "軟體通知僅為環境噪聲，真正控制情緒擺錘晃動的是個人內在對風險與虧損的認知信念。"
+     }
+    ]
+   },
+   {
+    "q": "小明每個月領到薪水後，都會先支付房租、卡費、娛樂消費，月底再把剩下的零錢存進銀行，但幾年下來發現幾乎存不到錢。根據書中建議的現金流重組策略，他應該採取哪一種做法來逆轉這個老鼠圈？",
+    "multi": false,
+    "hint": "想想看，要把存錢交給意志力，還是交給設定好順序的系統？",
+    "secs": [
+     "2.1.1",
+     "2.4"
+    ],
+    "options": [
+     {
+      "text": "先存再花：薪水一入帳，就自動轉出至少 25% 到另一個帳戶，剩下的才拿來生活。",
+      "ok": true,
+      "why": "書中 2.1.1 主張先存再花，2.4 把存錢交給自動化金流，不靠意志力。"
+     },
+     {
+      "text": "依靠強大的意志力，在每月底手動轉帳存錢，並記錄每一筆幾十元的咖啡消費細節。",
+      "ok": false,
+      "why": "書中提醒，每天記一杯飲料錢的流水帳既耗費心神又難以持久；存錢要交給系統，不是靠意志力。"
+     },
+     {
+      "text": "立刻申請信貸或開高槓桿投資，企圖用被動收入快速覆蓋每月生活開銷。",
+      "ok": false,
+      "why": "在無本金與緊急預備金的情況下開槓桿，會陷入極大的財務生存威脅與歸零陷阱。"
+     },
+     {
+      "text": "取消所有保險與醫療規劃，將省下的保費全數放在活存備用。",
+      "ok": false,
+      "why": "取消保障等於把自己暴露在意外風險裡；書中 2.5.3 談的是把保單優化，不是全部取消。"
+     }
+    ]
+   },
+   {
+    "q": "小安在開始投資之前，先把六個月的生活費存成緊急預備金，平常不動用。照書中的說法，這筆錢最重要的用途是什麼？",
+    "multi": false,
+    "hint": "想想書中阿明和小安遇到同一場意外，結果為什麼差這麼多。",
+    "secs": [
+     "2.2.2"
+    ],
+    "options": [
+     {
+      "text": "買回大腦的認知頻寬：遇到機車壞掉、突然要補繳房租這類意外，不必慌亂借錢，生活節奏也不會被打亂。",
+      "ok": true,
+      "why": "書中 2.2.2 說，六個月的緊急預備金，本質不是為了賺那點微薄的利息，而是為了買回你的認知頻寬。"
+     },
+     {
+      "text": "放在高利活存賺利息，存得越久利息越多。",
+      "ok": false,
+      "why": "書中特別說明，這筆錢的本質不是為了賺取微薄的利息。"
+     },
+     {
+      "text": "等股市大跌時，全部拿去抄底。",
+      "ok": false,
+      "why": "緊急預備金是防線，不是投資的子彈；把它拿去冒險，意外發生時就沒有底氣了。"
+     },
+     {
+      "text": "當作年底出國旅遊的基金。",
+      "ok": false,
+      "why": "這筆錢是給意外用的，挪去消費，防線就破了。"
+     }
+    ]
+   },
+   {
+    "q": "小華在通訊軟體收到朋友推薦一個宣稱「由 AI 量子團隊操作、保證每月固定給付 3% 利息（年化 36%）、且無風險」的海外投資平台。根據書中的「投資防割自檢檢核表」，小華應該如何評估這個機會？",
+    "multi": false,
+    "hint": "注意防割清單中對「年化報酬率異常高」與「宣稱零風險」的警訊標準。",
+    "secs": [
+     "4.1.4"
+    ],
+    "options": [
+     {
+      "text": "果斷拒絕離場，因為宣稱「保證高回饋且無風險」（如年化 15% 以上）在其底層邏輯上幾乎 100% 是龐氏騙局或詐騙。",
+      "ok": true,
+      "why": "書中 4.1.4 的「投資防割自檢檢核表」寫明：任何宣稱「保證年化 15% 以上且無風險」的標的，底層邏輯是龐氏騙局或詐騙。"
+     },
+     {
+      "text": "拿出 6 個月緊急預備金全數投入，趁平台還沒倒閉前先賺幾個月利息。",
+      "ok": false,
+      "why": "緊急預備金絕對不能拿去冒風險，且明知是龐氏騙局仍博弈屬於賭徒心理，極易本金歸零。"
+     },
+     {
+      "text": "只要平台有提供網路合約與漂亮的獲利截圖，就代表管道合法可信。",
+      "ok": false,
+      "why": "合法監管需看是否有台灣金管會或國際主流金融機構（如 SEC、FCA）的特許執照，而非不明截圖或網頁。"
+     },
+     {
+      "text": "向銀行申請個人信貸來放大槓桿，以實現年化 36% 的利差套利。",
+      "ok": false,
+      "why": "套利的前置條件是確定性高的優質資產與安全邊際，借貸投入詐騙陷阱會直接陷入負債捕獸夾。"
+     }
+    ]
+   },
+   {
+    "q": "小安的投資組合經過一整年的股市大漲後，股票資產的比例從原先設定的 70% 自動漂移到了 82%，而債券比例下降。根據書中第 3 章關於「再平衡」的運作機制與紀律，下列哪些做法是正確的？",
+    "multi": true,
+    "hint": "再平衡的核心目的在於維持風險防線，可以透過賣出調整，也可以透過新資金注入。",
+    "secs": [
+     "3.1.3",
+     "3.5.2",
+     "3.5.3"
+    ],
+    "options": [
+     {
+      "text": "接下來幾個月的扣款，優先全部買進比例偏低的債券，用新資金把比例補回 70:30。",
+      "ok": true,
+      "why": "書中 3.1.3：調整時優先用新資金，而不是賣出。把接下來幾個月的扣款導向落後的那一類，不必賣出任何部位，省下交易成本，也不會中斷複利。"
+     },
+     {
+      "text": "如果偏離大到新資金補不回來，就賣出部分漲多的股票、買進債券，把比例調回原本的設定。",
+      "ok": true,
+      "why": "書中 3.1.3 與 3.5.2：新資金補不回來時，才做一次真正的「賣高買低」；再平衡能排除情緒，自動做到賣出漲多、買入跌深。"
+     },
+     {
+      "text": "把翻倍的股票本金全部抽回放定存，只留獲利在市場裡繼續滾。",
+      "ok": false,
+      "why": "書中 3.5.3 不建議這樣做：翻倍時把本金抽走，等於自己把複利引擎的燃料砍掉一半。"
+     },
+     {
+      "text": "既然股票漲勢強勁，就把股票的目標比例永久調高到 90%，不再調整。",
+      "ok": false,
+      "why": "任由比例漂移，風險就超出你原本設定能承受的痛苦極限，一遇到大回檔就容易恐慌賣出。"
+     }
+    ]
+   },
+   {
+    "q": "小玲加班到深夜被主管責罵，心裡充滿挫折與委屈，打開電商 App 打算刷卡買下平常不需要的高級包包來「犒賞自己」。根據書中第 1 章對情緒性消費的拆解，小玲當下提升「情緒粒度」的具體做法為何？",
+    "multi": false,
+    "hint": "想想心理學家巴瑞特提出的概念，如何給無形的情緒精確標記座標？",
+    "secs": [
+     "1.4.2"
+    ],
+    "options": [
+     {
+      "text": "精確識別並命名當下的情緒（如「提案被拒的挫折感」與「對未來的不確定焦慮」），而不是簡化解讀為模糊的「不爽」。",
+      "ok": true,
+      "why": "書中第 1 章 1.4.2 節指出，提高情緒粒度能精準定位情緒座標，讓理性大腦對症下藥，避免盲目按刷卡按鈕。"
+     },
+     {
+      "text": "立刻嚴厲自責「為什麼我又想亂花錢」，並強迫自己在一秒內恢復平靜。",
+      "ok": false,
+      "why": "自責和硬把情緒壓下去，只會讓壓力更大，想買東西發洩的衝動並不會消失。"
+     },
+     {
+      "text": "將包包改用信用卡分期付款購買，以降低單月的帳面支出感受。",
+      "ok": false,
+      "why": "分期付款只是延後與包裝消費，並未解決用物質填補心靈空虛的無底洞本質。"
+     },
+     {
+      "text": "認定這都是主管與公司環境造成的錯，至社群平台大肆抱怨發洩。",
+      "ok": false,
+      "why": "書中 1.2.2 把抱怨比作「專門跟你收高額複利的高利貸」：越抱怨，越覺得自己是受害者。"
+     }
+    ]
+   },
+   {
+    "q": "一位剛出社會、淨資產不到 31 萬元的上班族，看到網路上很多人分享開副業、借錢買房的故事，也想跟著做。照書中「你在第幾階？」的財富階梯，他現在最該做的是什麼？",
+    "multi": false,
+    "hint": "先看淨資產落在第幾階，再決定用哪一招。",
+    "secs": [
+     "2.1.4"
+    ],
+    "options": [
+     {
+      "text": "提高本業收入，先存好緊急預備金；這一階先不要看盤選股。",
+      "ok": true,
+      "why": "書中 2.1.4 的財富階梯表：第一階（淨資產 31 萬以下）最該做的事是「提高本業收入＋存緊急預備金」，並提醒這一階請不要看盤選股。"
+     },
+     {
+      "text": "借一筆錢創業開副業，用速度換時間。",
+      "ok": false,
+      "why": "第一階的人一場病、一次失業就會出事，先借錢冒險，只會讓防線更薄。"
+     },
+     {
+      "text": "把存款全部拿去買最近最熱門的股票。",
+      "ok": false,
+      "why": "書中明確提醒第一階先不要看盤選股。"
+     },
+     {
+      "text": "先換一台好車，提升形象，方便拓展人脈。",
+      "ok": false,
+      "why": "書中的財富階梯把「消費升級」列為第二階最大的陷阱；還在第一階，更該先把防線建好。"
+     }
+    ]
+   },
+   {
+    "q": "老張考慮買一台進口休旅車來代步，也撐撐面子。他把折舊、牌照燃料稅、保險、保養和停車費都算進去，發現每個月的真實代價約 22,500 元。照書中「總擁有成本（TCO）」的觀念，比較好的決定是什麼？",
+    "multi": false,
+    "hint": "注意 TCO（總擁有成本）不只看購車價格，還包含折舊與維護費用，以及其帶來的機會成本。",
+    "secs": [
+     "2.5.3"
+    ],
+    "options": [
+     {
+      "text": "看清進口車的高折舊與維持費用，改用捷運、計程車、Uber 或週末租車，把每月省下的差額拿去買指數型 ETF。",
+      "ok": true,
+      "why": "書中 2.5.3 算給你看：這台車每月真實代價約 22,500 元；改搭捷運、計程車或 Uber、週末租車，每月約 8,000 元。省下的 14,500 元以 7% 年化計算，10 年後約 250 萬元。"
+     },
+     {
+      "text": "只要車貸月回款金額低於月薪的 50%，就屬於合理的基礎設施投資。",
+      "ok": false,
+      "why": "高折舊的進口車不是會回本的基礎設施；負擔太重，還會擠壓你的儲蓄率。"
+     },
+     {
+      "text": "將購車貸款期限拉長至 8 年，藉此降低表面上的每月付款數字即可。",
+      "ok": false,
+      "why": "拉長年限會增加總利息負擔，並未改變車輛高折舊與維護費用的總擁有成本本質。"
+     },
+     {
+      "text": "改買二手同款進口車，並將緊急預備金全數拿來支付頭期款。",
+      "ok": false,
+      "why": "動用緊急預備金會破壞財務防線，且二手進口車隨之而來的修繕保養 TCO 依然高昂。"
+     }
+    ]
+   },
+   {
+    "q": "當阿強面對複雜的財務試算表或看不懂的總經指標時，腦海裡常冒出「我從小數學就不好，我根本沒有理財天份」的念頭。若阿強要運用卡蘿·德威克（Carol Dweck）的「成長型思維」來重塑金錢私語，下列哪些做法符合書中第 1 章的建議？",
+    "multi": true,
+    "hint": "成長型思維強調能力可透過學習提升，並能將「我不會」轉化為帶有發展性的句式。",
+    "secs": [
+     "1.5.2",
+     "1.5.3"
+    ],
+    "options": [
+     {
+      "text": "在句尾加上關鍵字，將「我不會做這個決策」改寫為「我目前還沒學會這套方法，但我可以去學」。",
+      "ok": true,
+      "why": "書中第 1 章 1.5.2 節指出，加上「還沒學會」能在潛意識中保留時間縱深與進步可能，啟動大腦背景搜尋。"
+     },
+     {
+      "text": "把投資失利或記帳對不起來，當成打怪練等過程中的常態經歷，而不是對自己能力的否定。",
+      "ok": true,
+      "why": "書中 1.5.3 說，在成長型思維的濾鏡下，挫折只是打怪練等過程中的「常態經歷」。"
+     },
+     {
+      "text": "告訴自己「理財是天生的能力，既然我不適合，不如全部聽信明牌操作就好」。",
+      "ok": false,
+      "why": "認為能力天生固定屬於固定型思維與外控型心態，會讓自己喪失主導權並陷入被收割風險。"
+     },
+     {
+      "text": "強迫自己立刻消除所有負面感受，若覺得挫折就嚴厲懲罰自己不許吃飯。",
+      "ok": false,
+      "why": "自我懲罰缺乏「自我悲憫」，只會增加大腦後台的痛苦內耗，無法喚醒自我效能感。"
+     }
+    ]
+   },
+   {
+    "q": "當股市出現劇烈崩盤時，阿明因為害怕帳面虧損擴大，選擇「先停止定期定額扣款，等市場落底穩定了再買」；小安則保持自動扣款系統運作，不隨之亂動。根據書中第 3 章引用的歷史數據與研究，阿明做法的最大隱患是什麼？",
+    "multi": false,
+    "hint": "回想一下摩根資產管理對二十年間「錯過表現最佳交易日」的殘酷統計數據。",
+    "secs": [
+     "3.1.2",
+     "3.1.3"
+    ],
+    "options": [
+     {
+      "text": "離場等落底，很可能剛好錯過表現最好的那幾天，長期報酬會大打折扣。",
+      "ok": true,
+      "why": "書中 3.1.2 引用摩根資產管理的統計：2004 到 2024 年持有美股大盤，完整持有年化 10.60%；只錯過最好的 10 天，年化剩 6.37%，金額少了一半；錯過 30 天，年化只剩 1.53%。"
+     },
+     {
+      "text": "暫停扣款會讓證券戶被銀行強制註銷，產生高額違約金。",
+      "ok": false,
+      "why": "暫停定期定額不會導致帳戶註銷或違約金，其真正的傷害是財務複利與累積低價單位數的機會代價。"
+     },
+     {
+      "text": "定期定額只要遇到大跌就必定會發生本金永久歸零的風險。",
+      "ok": false,
+      "why": "分散追蹤大盤的指數 ETF 代表整體經濟期望值，大跌是打折累積單位數的時機，並非本金歸零。"
+     },
+     {
+      "text": "等待落底再進場能保證買在絕對最低點，只是需要支付較多手續費。",
+      "ok": false,
+      "why": "書中 3.1.3 引用〈連上帝也贏不過定期定額〉：就算用上帝視角每次都買在絕對最低點，40 年週期也只有 30% 的機率贏過每月扣款。"
+     }
+    ]
+   }
+  ]
+ }
+};
+
+(function () {
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function track(name) {
+    try { if (window.clarity) clarity('event', name); } catch (e) {}
+  }
+
+  var key = null;
+  try { key = new URLSearchParams(location.search).get('book'); } catch (e) {}
+  if (!QUIZZES[key]) key = Object.keys(QUIZZES)[0];
+  var Q = QUIZZES[key];
+  var N = Q.questions.length;
+  var MARK = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  document.title = '《' + Q.title + '》讀後小測驗｜白熊人生攻略';
+  document.getElementById('title').textContent = '《' + Q.title + '》讀後小測驗';
+  document.getElementById('lead').textContent = N + ' 題生活情境題，大約 5 分鐘。每題作答後，會告訴你為什麼，以及出自書中哪一節。';
+  var cover = document.getElementById('cover');
+  cover.src = Q.cover;
+  cover.alt = '《' + Q.title + '》封面';
+
+  var card = document.getElementById('quiz');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var st;
+
+  function shuffled(n) {
+    // 正確答案在原始資料裡都排第一個，每次作答都要打亂
+    var a = [];
+    for (var i = 0; i < n; i++) a.push(i);
+    for (var j = n - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var t = a[j]; a[j] = a[k]; a[k] = t;
+    }
+    return a;
+  }
+
+  function reset() {
+    st = { i: -1, sel: [], answered: false, right: [], order: Q.questions.map(function (q) { return shuffled(q.options.length); }) };
+  }
+
+  function secLabel(s) {
+    var t = Q.sections[s];
+    return s + (t ? '〈' + t + '〉' : '');
+  }
+
+  function isRight(q, sel) {
+    var want = [];
+    q.options.forEach(function (o, k) { if (o.ok) want.push(k); });
+    if (want.length !== sel.length) return false;
+    return want.every(function (k) { return sel.indexOf(k) !== -1; });
+  }
+
+  function renderIntro() {
+    return '<p class="note">不是考試。答錯的題目，就是最值得回去重讀的那一節。</p>' +
+      '<div class="nav"><button class="btn" type="button" data-act="start">開始，共 ' + N + ' 題</button></div>';
+  }
+
+  function renderQuestion() {
+    var q = Q.questions[st.i];
+    var order = st.order[st.i];
+    var html = '<div class="progress" role="progressbar" aria-label="作答進度" aria-valuemin="0" aria-valuemax="' + N + '" aria-valuenow="' + st.i + '">' +
+      '<i style="width:' + Math.round(st.i / N * 100) + '%"></i></div>' +
+      '<p class="step"><span>第 ' + (st.i + 1) + ' 題，共 ' + N + ' 題</span>' + (q.multi ? '<span class="tag-multi">複選</span>' : '') + '</p>' +
+      '<p class="q">' + esc(q.q) + '</p><div class="opts">';
+    order.forEach(function (k, pos) {
+      var o = q.options[k];
+      var picked = st.sel.indexOf(k) !== -1;
+      var cls = 'opt';
+      if (st.answered) {
+        if (o.ok) cls += ' is-correct';
+        else if (picked) cls += ' is-wrong';
+        else cls += ' is-dim';
+      }
+      html += '<button class="' + cls + '" type="button" data-k="' + k + '" aria-pressed="' + picked + '"' + (st.answered ? ' disabled' : '') + '>' +
+        '<span class="mk">' + MARK[pos] + '</span><span>' + esc(o.text) + '</span></button>';
+    });
+    html += '</div>';
+
+    if (!st.answered) {
+      if (q.hint) html += '<details class="hint"><summary>需要提示？</summary><p>' + esc(q.hint) + '</p></details>';
+      if (q.multi) {
+        html += '<div class="nav"><span class="note">可以選不只一個，選好再按確認。</span>' +
+          '<button class="btn" type="button" data-act="check"' + (st.sel.length ? '' : ' disabled') + '>確認答案</button></div>';
+      }
+    } else {
+      var ok = st.right[st.i];
+      html += '<div class="explain"><p class="verdict ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '答對了！' : '這題再想想') + '</p>';
+      order.forEach(function (k, pos) {
+        var o = q.options[k];
+        if (!o.ok && st.sel.indexOf(k) === -1) return;
+        var tag = o.ok ? '✓ 正確答案' : '✗ 你選的';
+        html += '<p class="why"><b>' + MARK[pos] + '　' + tag + '</b><span>' + esc(o.why) + '</span></p>';
+      });
+      html += '<p class="src"><em>出處</em>《' + esc(Q.title) + '》' + q.secs.map(function (s) { return esc(secLabel(s)); }).join('、') + '</p></div>' +
+        '<div class="nav"><span></span><button class="btn" type="button" data-act="next">' + (st.i + 1 < N ? '下一題 →' : '看結果') + '</button></div>';
+    }
+    return html;
+  }
+
+  function renderResult() {
+    var score = st.right.filter(Boolean).length;
+    var msg = score >= 9 ? '這本書你讀得很透，裡面的工具已經是你的了。'
+      : score >= 6 ? '大部分都掌握了。下面這幾節回去翻一下，就更完整了。'
+      : (Q.encourage || '沒關係，答錯的地方就是最值得重讀的那幾節，先從下面開始。');
+    var secs = [];
+    Q.questions.forEach(function (q, i) {
+      if (st.right[i]) return;
+      q.secs.forEach(function (s) { if (secs.indexOf(s) === -1) secs.push(s); });
+    });
+    secs.sort(function (a, b) {
+      var x = a.split('.').map(Number), y = b.split('.').map(Number);
+      for (var i = 0; i < Math.max(x.length, y.length); i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); }
+      return 0;
+    });
+    var html = '<div class="progress" aria-hidden="true"><i style="width:100%"></i></div>' +
+      '<p class="score"><b>' + score + '</b><span>／ ' + N + ' 題答對</span></p>' +
+      '<p class="msg">' + esc(msg) + '</p>';
+    if (secs.length) {
+      html += '<div class="review"><h3>回去重讀這幾節</h3><ul>' +
+        secs.map(function (s) { return '<li><span class="sec">' + esc(s) + '</span>' + esc(Q.sections[s] || '') + '</li>'; }).join('') +
+        '</ul></div>';
+    }
+    if (Q.next) html += '<p class="next">' + esc(Q.next) + ' <a class="goto" href="reading-map.html">看閱讀地圖 →</a></p>';
+    html += '<div class="nav"><button class="link" type="button" data-act="restart">再做一次（選項順序會重新打亂）</button></div>';
+    return html;
+  }
+
+  function render() {
+    card.innerHTML = st.i < 0 ? renderIntro() : st.i < N ? renderQuestion() : renderResult();
+  }
+
+  function show() {
+    render();
+    try { card.focus({ preventScroll: true }); } catch (e) { card.focus(); }
+    var r = card.getBoundingClientRect();
+    if (r.top < 0 || r.top > window.innerHeight * 0.55) {
+      card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
+  function settle() {
+    st.answered = true;
+    st.right[st.i] = isRight(Q.questions[st.i], st.sel);
+  }
+
+  card.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('button') : null;
+    if (!t || !card.contains(t) || t.disabled) return;
+    var act = t.getAttribute('data-act');
+    if (t.hasAttribute('data-k')) {
+      var k = Number(t.getAttribute('data-k'));
+      var q = Q.questions[st.i];
+      if (q.multi) {
+        var at = st.sel.indexOf(k);
+        if (at === -1) st.sel.push(k); else st.sel.splice(at, 1);
+        render();
+      } else {
+        st.sel = [k];
+        settle();
+        render();
+      }
+      return;
+    }
+    if (act === 'start' || act === 'restart') {
+      reset();
+      st.i = 0;
+      track('bookquiz-' + key + '-start');
+      show();
+    } else if (act === 'check') {
+      settle();
+      render();
+    } else if (act === 'next') {
+      st.i += 1;
+      st.sel = [];
+      st.answered = false;
+      if (st.i >= N) track('bookquiz-' + key + '-done-' + st.right.filter(Boolean).length);
+      show();
+    }
+  });
+
+  reset();
+  render();
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   - 涵蓋靜態 <img>、JS 後來插入的 <img>、以及 CSS 背景圖
+   - 只在載入失敗時才動作，正常情況完全沒有成本
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    // 腳本載入前就已失敗的圖，補救一次
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+
+  // JS 後來才插進 DOM 的圖（閱讀地圖、工具頁的推薦書封都是這種）
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  // CSS 背景圖沒有 error 事件，改用探測：載不起來就把元素的背景換成本地路徑
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
