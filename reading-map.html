@@ -52,7 +52,7 @@
         kobo:    "https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" } },
 
     { no: 4, code: "xinfu", title: "心富", sub: "把心顧好，錢自然長出來的財富實戰手冊",
-      line: "money", lineLabel: "財務線 ①", words: 106510, minutes: 9,
+      line: "money", lineLabel: "財務線 ①", words: 106510, minutes: 9, quiz: true,
       cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book4.jpg", status: "published",
       price: 320, sale: 229, discount: "72折 (省 $91)",
       links: {
@@ -258,6 +258,8 @@
   .outro-cta:hover{transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(90,70,40,.5)}
   .outro-note{margin:12px 0 0;font-size:12.5px;color:var(--ink-soft)}
   .stop-actions,.home-actions{grid-column:1 / -1;margin-top:10px}
+  /* 有讀後測驗的書會有兩條路標：放得下同一行，手機放不下就換行 */
+  .stop-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
   .link-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .link-actions a{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;
     background:var(--c);color:var(--spine-ink);font-size:13px;font-weight:700;text-decoration:none;
@@ -786,6 +788,16 @@ function renderActionsBlock(b) {
     ' aria-label="到書店頁查看《' + t + '》">看《' + t + '》 <span aria-hidden="true">→</span></a>';
 }
 
+function renderQuizLink(b) {
+  // 讀後小測驗的入口：跟「看《X》」一樣是文字路標，不做成按鈕（§0 第 14 條）。
+  // 只有 BOOKS 標了 quiz: true、且已上架的書才有；測驗頁由 book-quiz.html?book=<code> 切換。
+  if (!b.quiz || b.status !== 'published') return '';
+  var t = escapeHtml(b.title);
+  return '<a class="goto-book" href="book-quiz.html?book=' + escapeHtml(b.code) + '"' +
+    ' onclick="trackStoreClick(\'map-quiz\', \'' + t + '\')"' +
+    ' aria-label="做《' + t + '》讀後小測驗">讀完了？做 10 題小測驗 <span aria-hidden="true">→</span></a>';
+}
+
 function renderHelps(b) {
   // 「這本也幫得上誰」：三類讀者都取自全書稿，括號是書中的章節編號
   var list = HELPS[b.no];
@@ -804,7 +816,7 @@ function renderStopItem(b) {
   var cls = 'stop l-' + b.line + (isComing ? ' is-coming' : '');
   var badge = isComing ? ' <span class="badge-coming">即將上架</span>' : '';
   var coverCls = isComing ? ' class="is-coming"' : '';
-  var actionsHtml = renderActionsBlock(b);
+  var actionsHtml = renderActionsBlock(b) + renderQuizLink(b);
 
   var html = '<li class="' + cls + '" id="s' + b.no + '">' +
     '<img src="' + escapeHtml(b.cover) + '" alt="《' + escapeHtml(b.title) + '》封面" width="78" height="117"' + coverCls + '>' +
