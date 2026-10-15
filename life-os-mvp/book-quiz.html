@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 圖片全走 jsDelivr：先把連線建好，第一張圖省掉 DNS＋TLS 的等待 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <title>讀後小測驗｜白熊人生攻略</title>
   <meta name="description" content="富足人生演算法讀後小測驗：讀完一本書，用 10 題情境題檢查自己帶走了什麼。每題都附書中出處。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -156,7 +158,7 @@ const QUIZZES = {
   "key": "xinfu",
   "no": 4,
   "title": "心富",
-  "cover": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book4.jpg",
+  "cover": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book4.webp",
   "encourage": "沒關係。書裡 1.5 說過：把「我不會」變成「我還沒學會」。先從下面這幾節開始重讀。",
   "next": "同一條財務線的下一本是《餘裕》（即將上架）。",
   "sections": {
@@ -679,7 +681,7 @@ const QUIZZES = {
    - 只在載入失敗時才動作，正常情況完全沒有成本
    ────────────────────────────────────────────────────────────── */
 (function () {
-  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/';
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
   function toLocal(u) {
     if (!u) return null;
     var i = u.indexOf(CDN);
