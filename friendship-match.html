@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 圖片全走 jsDelivr：先把連線建好，第一張圖省掉 DNS＋TLS 的等待 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <title>白熊友誼賽指數｜玻璃心與心態緊繃自測</title>
   <meta name="description" content="你把人生當生死戰，還是友誼賽？10 題測出你的玻璃心指數，看看哪些球你其實輸得起。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -883,7 +885,7 @@
 
             <!-- 手術刀式對症書籍推薦卡 -->
             <div class="book-rec-box">
-              <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book7.jpg" alt="推薦書封" class="book-rec-cover" id="rec-book-img" />
+              <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7.webp" alt="推薦書封" class="book-rec-cover" id="rec-book-img" />
               <div class="book-rec-content">
                 <div class="book-rec-name" id="rec-book-name">《人生友誼賽》</div>
                 <div class="book-rec-price" id="rec-book-price">💎 特惠價 NT$249（78折 · 省 $71）</div>
@@ -1065,7 +1067,7 @@
         "把省下來的情緒力氣，投進一個會複利的習慣。"
       ],
       book: {
-        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1.jpg",
+        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book1.webp",
         name: "《人生複利》",
         price: "💎 特惠價 NT$149（68折 · 省 $71）",
         reason: "心態已經夠鬆，下一步是把這份從容變成每天進步 1% 的複利習慣。",
@@ -1098,7 +1100,7 @@
         "把恢復時間排進行事曆，不要等到耗盡才休息。"
       ],
       book: {
-        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book6.jpg",
+        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book6.webp",
         name: "《續航》",
         price: "💎 特惠價 NT$259（74折 · 省 $91）",
         reason: "缺的是系統不是意志力：打造不中斷的最小單元與物理防火牆。",
@@ -1131,7 +1133,7 @@
         "把「等我準備好」換成「先發球再說」，先讓球過網。"
       ],
       book: {
-        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book7.jpg",
+        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7.webp",
         name: "《人生友誼賽》",
         price: "💎 特惠價 NT$249（78折 · 省 $71）",
         reason: "輸了也好玩，把磨難打成一場輕鬆的對打——8 章 40 節，每章附自檢清單。",
@@ -1165,7 +1167,7 @@
         "把被插隊、被白目當成一齣免費的短劇，先看戲再決定要不要入戲。"
       ],
       book: {
-        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book7.jpg",
+        img: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7.webp",
         name: "《人生友誼賽》",
         price: "💎 特惠價 NT$249（78折 · 省 $71）",
         reason: "同樣一場球，有人打得像生死戰，有人打得像友誼賽。差別不在對手，在你戴哪副眼鏡。",
@@ -1414,7 +1416,7 @@ ${chapters}
    - 只在載入失敗時才動作，正常情況完全沒有成本
    ────────────────────────────────────────────────────────────── */
 (function () {
-  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/';
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
   function toLocal(u) {
     if (!u) return null;
     var i = u.indexOf(CDN);

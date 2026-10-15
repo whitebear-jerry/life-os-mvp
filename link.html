@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 圖片全走 jsDelivr：先把連線建好，第一張圖省掉 DNS＋TLS 的等待 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <title>白熊人生攻略｜Life OS</title>
   <meta name="description" content="白熊人生攻略：把人生變成可以升級的作業系統。">
   <style>
@@ -16,8 +18,8 @@
     h1, h2 { margin: 0; }
   </style>
   <!-- ⚡ 首屏關鍵圖片優先預載 (LCP 加速) -->
-  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1_banner.jpg" fetchpriority="high">
-  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/bear-avatar.jpg">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book1_banner.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/bear-avatar.webp">
   <style>
     :root {
       color-scheme: dark;
@@ -74,7 +76,7 @@
       aspect-ratio: 1;
       border: 2px solid rgba(255, 255, 255, 0.25);
       border-radius: 50%;
-      background: url('https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/bear-avatar.jpg') no-repeat center 20%;
+      background: url('https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/bear-avatar.webp') no-repeat center 20%;
       background-size: 135%;
       image-rendering: pixelated;
       box-shadow: 0 12px 38px rgba(0, 0, 0, 0.48), 0 0 16px rgba(47, 107, 79, 0.4);
@@ -858,7 +860,7 @@
     }
 
     .slide-book1 {
-      background-image: url('https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1_banner.jpg');
+      background-image: url('https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book1_banner.webp');
     }
 
     /* 下方文字區域：深綠色系半透明毛玻璃質感 */
@@ -1184,7 +1186,7 @@
           </div>
           <!-- 幻燈片 #2 ｜ 人生遊戲 -->
           <div class="carousel-slide" aria-label="創作 #2 ｜ 人生遊戲">
-            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book2_banner.jpg"></div>
+            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book2_banner.webp"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-game">創作 #2 ｜ 人生遊戲</span>
               <p class="slide-description">40 堂化逆境為順境的變現攻略，把挫折改寫成可除錯任務。</p>
@@ -1192,7 +1194,7 @@
           </div>
           <!-- 幻燈片 #3 ｜ 降噪人生 -->
           <div class="carousel-slide" aria-label="創作 #3 ｜ 降噪人生">
-            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book3_banner.jpg"></div>
+            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book3_banner.webp"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-noise">創作 #3 ｜ 降噪人生</span>
               <p class="slide-description">從第二大腦到自動打水，幫大腦卸載、替心靈把關。</p>
@@ -1200,7 +1202,7 @@
           </div>
           <!-- 幻燈片 #4 ｜ 心富 -->
           <div class="carousel-slide" aria-label="創作 #4 ｜ 心富">
-            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book4_banner.jpg"></div>
+            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book4_banner.webp"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-xinfu">創作 #4 ｜ 心富</span>
               <p class="slide-description">把心顧好，錢自然長出來的財富實戰手冊</p>
@@ -1208,7 +1210,7 @@
           </div>
           <!-- 幻燈片 #5 ｜ 借力 -->
           <div class="carousel-slide" aria-label="創作 #5 ｜ 借力">
-            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book5_banner.jpg"></div>
+            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book5_banner.webp"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-jieli">創作 #5 ｜ 借力</span>
               <p class="slide-description">借趨勢、借工具、借複利——順流的人，不必比誰更用力。</p>
@@ -1216,7 +1218,7 @@
           </div>
           <!-- 幻燈片 #6 ｜ 續航 -->
           <div class="carousel-slide" aria-label="創作 #6 ｜ 續航">
-            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book6_banner.jpg"></div>
+            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book6_banner.webp"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-xuhang">創作 #6 ｜ 續航</span>
               <p class="slide-description">走得遠的人，不靠意志力燃燒自己，而是靠設計系統。</p>
@@ -1224,7 +1226,7 @@
           </div>
           <!-- 幻燈片 #7 ｜ 人生友誼賽 -->
           <div class="carousel-slide" aria-label="創作 #7 ｜ 人生友誼賽">
-            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book7_banner.jpg"></div>
+            <div class="slide-image-area" data-bg="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7_banner.webp"></div>
             <div class="slide-text-area">
               <span class="slide-badge badge-youyi">創作 #7 ｜ 人生友誼賽</span>
               <p class="slide-description">同樣一場球，有人打得像生死戰，有人打得像友誼賽。</p>
@@ -1303,7 +1305,7 @@
         <div class="book-tag tag-xinfu">🔥 近期最熱</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book4.jpg" alt="《心富》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book4.webp" alt="《心富》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《心富》</h2>
@@ -1337,7 +1339,7 @@
         <div class="book-tag tag-youyi">✨ 最新上架</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book7.jpg" alt="《人生友誼賽》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7.webp" alt="《人生友誼賽》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《人生友誼賽》</h2>
@@ -1370,7 +1372,7 @@
         <div class="book-tag tag-fuli">🏅 最多人解鎖</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1.jpg" alt="《人生複利》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book1.webp" alt="《人生複利》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《人生複利》</h2>
@@ -1404,7 +1406,7 @@
         <div class="book-tag tag-xuhang">🔋 不斷電系統</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book6.jpg" alt="《續航》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book6.webp" alt="《續航》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《續航》</h2>
@@ -1437,7 +1439,7 @@
         <div class="book-tag tag-jieli">🌊 順流借力指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book5.jpg" alt="《借力》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book5.webp" alt="《借力》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《借力》</h2>
@@ -1469,7 +1471,7 @@
         <div class="book-tag tag-noise">🔌 大腦卸載指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book3.jpg" alt="《降噪人生》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book3.webp" alt="《降噪人生》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《降噪人生》</h2>
@@ -1502,7 +1504,7 @@
         <div class="book-tag tag-game">👾 逆境除錯指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book2.jpg" alt="《人生遊戲》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book2.webp" alt="《人生遊戲》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
           </div>
           <div class="book-info">
             <h2>《人生遊戲》</h2>
@@ -1536,7 +1538,7 @@
         <div class="book-tag tag-series">📚 全 7 冊</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper" style="width: 86px; height: auto; background: transparent; border: none; box-shadow: none; overflow: visible; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book_bundle_7books.jpg" alt="人生遊戲攻略全七冊系列" class="book-cover" loading="lazy" decoding="async" width="86" height="65" style="width: 100%; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 3px 10px -4px rgba(90,70,40,0.35);" />
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book_bundle_7books.webp" alt="人生遊戲攻略全七冊系列" class="book-cover" loading="lazy" decoding="async" width="86" height="65" style="width: 100%; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 3px 10px -4px rgba(90,70,40,0.35);" />
           </div>
           <div class="book-info">
             <h2 style="font-size: 1.06rem;">人生遊戲攻略・全系列</h2>
@@ -1611,7 +1613,7 @@
     // 第 1 張的背景寫在 CSS 裡，載入後也補一次 CDN 探測
     (function () {
       var el = document.querySelector('.slide-book1');
-      if (el && window.__cdnBgFallback) window.__cdnBgFallback(el, 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/book1_banner.jpg');
+      if (el && window.__cdnBgFallback) window.__cdnBgFallback(el, 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book1_banner.webp');
     })();
 
     function loadSlideBg(i) {
@@ -1696,7 +1698,10 @@
     carouselSection.addEventListener('mouseleave', startAutoSlide);
 
     // 啟動輪播
-    loadSlideBg(1);   // 第 1 張由 CSS 直接畫，這裡先備好第 2 張
+    // 第 1 張由 CSS 直接畫。第 2 張等整頁載完才預抓，不跟第 1 張橫幅、頭像搶頻寬；
+    // 使用者若在那之前就滑動，showSlide() 會自己載入，不會開天窗。
+    if (document.readyState === 'complete') loadSlideBg(1);
+    else window.addEventListener('load', function () { loadSlideBg(1); }, { once: true });
     startAutoSlide();
   </script>
 
@@ -1707,7 +1712,7 @@
    - 只在載入失敗時才動作，正常情況完全沒有成本
    ────────────────────────────────────────────────────────────── */
 (function () {
-  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@e78e409e3723c4d8c98cd9794215c3c7e922be58/assets/';
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
   function toLocal(u) {
     if (!u) return null;
     var i = u.indexOf(CDN);
