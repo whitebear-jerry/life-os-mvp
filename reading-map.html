@@ -162,7 +162,13 @@
   p{margin:0}
   .eyebrow{font-size:13px;letter-spacing:.24em;color:#ebcb8b;font-weight:700}
   .eyebrow a{color:inherit;text-decoration:none;transition:opacity .2s ease}
+  .eyebrow a{position:relative}
+  .eyebrow a::before{content:'';position:absolute;left:-8px;right:-8px;top:50%;
+    transform:translateY(-50%);height:40px}
   .eyebrow a:hover{opacity:0.75;text-decoration:underline}
+  /* 🔴 .eyebrow 的 #ebcb8b 是給頁首深綠帶用的；第 10 冊卡片是米色底，
+     沿用那個顏色對比只有 1.4。卡片上一律改用 --gilt。 */
+  .home .eyebrow{color:var(--gilt)}
   .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
   a{color:inherit}
   :focus-visible{outline:2px solid var(--pick);outline-offset:3px;border-radius:4px}
@@ -189,6 +195,16 @@
   .shelf-cap{font-size:13px;color:var(--ink-soft)}
   .facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-soft)}
   .facts strong{color:var(--ink);font-weight:700}
+  /* 手機上路線地圖佔掉 4 個多螢幕，對號入座與 12 題自測埋在後面。
+     這裡給一行文字捷徑（§0 第 14 條：路標不是按鈕）。 */
+  .facts-shortcut{margin-top:12px}
+  .facts-shortcut a{position:relative;display:inline-flex;align-items:center;gap:5px;
+    font-size:13.5px;font-weight:700;color:var(--c);text-decoration:none;
+    border-bottom:1px solid var(--rule);padding-bottom:1px;
+    transition:border-color .2s ease,opacity .2s ease}
+  .facts-shortcut a::before{content:'';position:absolute;left:-6px;right:-6px;top:50%;
+    transform:translateY(-50%);height:40px}
+  .facts-shortcut a:hover{border-bottom-color:var(--c);opacity:.82}
 
   /* ---------- line colours ---------- */
   .l-heart{--c:var(--l-heart)}.l-system{--c:var(--l-system)}.l-money{--c:var(--l-money)}.l-judge{--c:var(--l-judge)}.l-home{--c:var(--l-home)}
@@ -242,6 +258,11 @@
     transition:border-color .2s ease,opacity .2s ease;
   }
   .goto-book:hover{border-bottom-color:var(--c);opacity:.82}
+  /* 可點範圍放大到 ~40px：用 ::before 擴大熱區，不動外觀，
+     底線（border-bottom）仍貼著字。 */
+  .goto-book{position:relative}
+  .goto-book::before{content:'';position:absolute;left:-6px;right:-6px;top:50%;
+    transform:translateY(-50%);height:40px}
 
   /* 頁尾總出口：整頁唯一一個按鈕級的導購入口 */
   .map-outro{
@@ -344,7 +365,7 @@
 
   /* ---------- 這本也幫得上誰（地圖上每一冊都能展開） ---------- */
   .helps{margin-top:4px;border-top:1px dashed var(--rule);padding-top:7px}
-  .helps summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--c);list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:28px}
+  .helps summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--c);list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:40px}
   .helps summary::-webkit-details-marker{display:none}
   .helps summary::after{content:"＋";font-weight:700}
   .helps[open] summary::after{content:"－"}
@@ -398,6 +419,10 @@
     .stop{grid-template-columns:64px minmax(0,1fr);padding:8px}
     .stop img{width:64px}
     .stops::before{left:40px}
+    /* 路標原本 grid-column:1/-1，手機上會排到最左、壓在時間軸虛線上。
+       改成對齊右邊的文字欄。 */
+    .stop-actions{grid-column:2}
+    .home-actions{grid-column:2}
     .shelf{gap:2px}
     .quiz-card{padding:18px 16px}
     .quiz-result{grid-template-columns:76px minmax(0,1fr);gap:12px 14px}
@@ -431,6 +456,7 @@
         <span><strong class="num">10</strong> 大生活領域</span>
         <span><strong class="num">1,078</strong> 個具名工具</span>
       </div>
+      <p class="facts-shortcut"><a href="#quiz" onclick="trackStoreClick('quiz-shortcut','頁首捷徑')">不知道從哪本開始？做 12 題小測驗 <span aria-hidden="true">↓</span></a></p>
     </div>
   </header>
 
