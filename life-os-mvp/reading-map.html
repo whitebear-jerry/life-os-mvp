@@ -280,7 +280,10 @@
   }
   .outro-cta:hover{transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(90,70,40,.5)}
   .outro-note{margin:12px 0 0;font-size:12.5px;color:var(--ink-soft)}
-  .stop-actions,.home-actions{grid-column:1 / -1;margin-top:10px}
+  /* 🔴 路標切齊右邊的文字欄，不要改回 grid-column:1/-1。
+     整寬時會從卡片最左開始，跨過時間軸虛線，看起來像不屬於這張卡
+     （白熊 2026-10-16 回報「有點亂」的主因）。 */
+  .stop-actions,.home-actions{grid-column:2;margin-top:10px}
   /* 有讀後測驗的書會有兩條路標：放得下同一行，手機放不下就換行 */
   .stop-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
   .link-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
@@ -419,10 +422,6 @@
     .stop{grid-template-columns:64px minmax(0,1fr);padding:8px}
     .stop img{width:64px}
     .stops::before{left:40px}
-    /* 路標原本 grid-column:1/-1，手機上會排到最左、壓在時間軸虛線上。
-       改成對齊右邊的文字欄。 */
-    .stop-actions{grid-column:2}
-    .home-actions{grid-column:2}
     .shelf{gap:2px}
     .quiz-card{padding:18px 16px}
     .quiz-result{grid-template-columns:76px minmax(0,1fr);gap:12px 14px}
@@ -823,7 +822,7 @@ function renderQuizLink(b) {
   var t = escapeHtml(b.title);
   return '<a class="goto-book" href="book-quiz.html?book=' + escapeHtml(b.code) + '"' +
     ' onclick="trackStoreClick(\'map-quiz\', \'' + t + '\')"' +
-    ' aria-label="做《' + t + '》讀後小測驗">讀完了？做 10 題小測驗 <span aria-hidden="true">→</span></a>';
+    ' aria-label="做《' + t + '》讀後小測驗">讀後小測驗 <span aria-hidden="true">→</span></a>';
 }
 
 function renderHelps(b) {
