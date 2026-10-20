@@ -120,6 +120,66 @@
     *{transition:none!important;scroll-behavior:auto!important}
     .opt:hover{transform:none!important}
   }
+  /* ---- 🗺️ 全書地圖（分支圖＋兩層展開）---- */
+  .review .mm-jump{font:inherit;font-size:14px;text-align:left;color:var(--ink);background:none;border:0;padding:6px 0;min-height:36px;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:4px}
+  .review .mm-jump:hover{text-decoration-color:var(--c)}
+  .bookmap{display:grid;gap:12px}
+  .bookmap[hidden]{display:none}   /* 沒有地圖資料的書要真的隱藏；.bookmap 的 display 會蓋掉瀏覽器預設的 [hidden] */
+  .bookmap-head{display:grid;gap:8px;justify-items:start}
+  .bookmap h2{font-size:clamp(21px,3.6vw,27px);font-weight:900}
+  .mm-toggle{font:inherit;font-size:13.5px;font-weight:700;color:var(--c);background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:7px 14px;min-height:38px;cursor:pointer}
+  .mm-toggle[aria-pressed="true"]{background:var(--c);color:#fdfaf4;border-color:var(--c)}
+  #mm-tree{display:grid;gap:8px}
+  .mm-ch{border:1px solid var(--rule);border-radius:10px;background:var(--card)}
+  .mm-ch>summary{cursor:pointer;list-style:none;padding:12px 14px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;min-height:46px}
+  .mm-ch>summary::-webkit-details-marker,.mm-sec>summary::-webkit-details-marker{display:none}
+  .mm-ch>summary .n{font-family:var(--f-num);font-size:13px;font-weight:600;color:var(--c);white-space:nowrap}
+  .mm-ch>summary .t{font-family:var(--f-display);font-size:16px;font-weight:700;flex:1 1 12em;min-width:0}
+  .mm-ch>summary .cnt{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+  .mm-ch>summary::after{content:"＋";color:var(--ink-soft);margin-left:auto}
+  .mm-ch[open]>summary::after{content:"－"}
+  .mm-secs{padding:0 14px 12px;display:grid;gap:4px}
+  .mm-sec{border-left:2px solid var(--rule);padding-left:10px;border-radius:2px}
+  .mm-sec[open]{border-left-color:var(--c)}
+  .mm-sec>summary{cursor:pointer;list-style:none;font-size:14.5px;line-height:1.5;padding:7px 0;min-height:38px;display:flex;gap:8px;align-items:baseline}
+  .mm-sec>summary .sec{font-family:var(--f-num);font-weight:600;color:var(--c);white-space:nowrap}
+  .mm-pts{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:7px;font-size:14px;line-height:1.6}
+  .mm-pts li{padding-left:14px;position:relative}
+  .mm-pts li::before{content:"";position:absolute;left:2px;top:.68em;width:5px;height:5px;border-radius:50%;background:var(--rule)}
+  .mm-pts li.tool::before{background:var(--c)}
+  .tool-chip{display:inline-block;font-size:11px;font-weight:700;color:var(--c);border:1px solid var(--c);border-radius:999px;padding:0 6px;margin-left:4px;vertical-align:1px}
+  .only-tools .mm-pts li:not(.tool),.only-tools details[data-tools="0"]{display:none}
+  .mm-branch{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px 14px;align-items:center;padding:6px 0}
+  .mm-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .mm-lines path{fill:none;stroke:var(--c);stroke-opacity:.55;stroke-width:2;stroke-linecap:round}
+  .mm-col{display:grid;gap:10px;position:relative;z-index:1}
+  .mm-hub{position:relative;z-index:1;display:grid;justify-items:center;gap:2px;text-align:center;background:var(--c);color:#fdfaf4;border-radius:14px;padding:12px 10px;min-width:64px}
+  .mm-hub b{font-family:var(--f-display);font-size:22px;font-weight:900;letter-spacing:.04em}
+  .mm-hub b.long{font-size:16px;letter-spacing:0;writing-mode:vertical-rl;line-height:1.15}
+  .mm-hub span{font-size:11px;line-height:1.45;opacity:.92}
+  .mm-node{font:inherit;display:grid;gap:1px;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--rule);border-radius:10px;padding:8px 10px;min-height:44px;cursor:pointer;transition:border-color .15s ease,transform .15s ease}
+  .mm-col.left .mm-node{text-align:right;justify-items:end}
+  .mm-node:hover,.mm-node:focus-visible{border-color:var(--c);transform:translateY(-1px)}
+  .mm-node .k{font-family:var(--f-num);font-size:12px;font-weight:600;color:var(--c)}
+  .mm-node .s{font-family:var(--f-display);font-size:15px;font-weight:700;line-height:1.35}
+  .mm-node .m{font-size:11.5px;line-height:1.4;color:var(--ink-soft);white-space:nowrap}
+  .mm-node .m.t{color:var(--c);font-weight:700}
+  .mm-hint{margin-top:-2px}
+  @keyframes mmFlash{from{background:rgba(136,102,33,.16)}to{background:transparent}}
+  .mm-flash{animation:mmFlash 1.6s ease}
+  @media (max-width:420px){
+    .mm-branch{gap:8px 10px}
+    .mm-hub{min-width:64px;padding:10px 8px}
+    .mm-hub b{font-size:19px}
+    .mm-hub b.long{font-size:15px}
+    .mm-node{padding:7px 8px}
+    .mm-node .s{font-size:14px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .mm-node{transition:none}
+    .mm-node:hover{transform:none}
+    .mm-flash{animation:none}
+  }
   </style>
 </head>
 
@@ -137,6 +197,18 @@
 
   <section class="card" id="quiz" tabindex="-1" aria-live="polite">
     <!-- 由 JavaScript 依 QUIZZES 產生 -->
+  </section>
+
+  <!-- 🗺️ 全書地圖：沒有地圖資料的書，JS 會讓它維持 hidden -->
+  <section class="bookmap" id="bookmap" aria-labelledby="bookmap-title" hidden>
+    <div class="bookmap-head">
+      <h2 id="bookmap-title">全書地圖</h2>
+      <p class="note" id="mm-note"></p>
+      <button class="mm-toggle" id="mm-tools" type="button" aria-pressed="false">只看工具</button>
+    </div>
+    <div class="mm-branch" id="mm-branch"></div>
+    <p class="note mm-hint">點任一個分支，下方會展開那一段的各節與重點。</p>
+    <div id="mm-tree"></div>
   </section>
 
   <footer>
@@ -2517,6 +2589,7 @@ const QUIZZES = {
   try { key = new URLSearchParams(location.search).get('book'); } catch (e) {}
   if (!QUIZZES[key]) key = Object.keys(QUIZZES)[0];
   var Q = QUIZZES[key];
+  window.__QUIZKEY = key;          // 全書地圖沿用同一個代號，不要各自解析一次網址
   var N = Q.questions.length;
   var MARK = ['A', 'B', 'C', 'D', 'E', 'F'];
 
@@ -2625,8 +2698,14 @@ const QUIZZES = {
       '<p class="msg">' + esc(msg) + '</p>';
     if (secs.length) {
       html += '<div class="review"><h3>回去重讀這幾節</h3><ul>' +
-        secs.map(function (s) { return '<li><span class="sec">' + esc(s) + '</span>' + esc(Q.sections[s] || '') + '</li>'; }).join('') +
-        '</ul></div>';
+        secs.map(function (s) {
+          var t = esc(Q.sections[s] || '');
+          // 有全書地圖的書才做成按鈕，點下去會打開下面地圖的那一段
+          return window.__HASMAP
+            ? '<li><button class="mm-jump" type="button" data-sec="' + esc(s) + '"><span class="sec">' + esc(s) + '</span><span>' + t + '</span></button></li>'
+            : '<li><span class="sec">' + esc(s) + '</span>' + t + '</li>';
+        }).join('') +
+        '</ul>' + (window.__HASMAP ? '<p class="note">點節名，下方的全書地圖會直接打開那一段。</p>' : '') + '</div>';
     }
     if (Q.next) html += '<p class="next">' + esc(Q.next) + ' <a class="goto" href="reading-map.html">看閱讀地圖 →</a></p>';
     html += '<div class="nav"><button class="link" type="button" data-act="restart">再做一次（選項順序會重新打亂）</button></div>';
@@ -2688,6 +2767,5976 @@ const QUIZZES = {
 
   reset();
   render();
+})();
+</script>
+
+<script>
+/* ============================================================
+   🗺️ 全書地圖：中央分支圖＋兩層展開（章／節 → 重點）
+   ------------------------------------------------------------
+   資料由「寫作/組合書籍資料/互動導覽/工具/產生全書地圖資料.py」
+   讀「<書名>-全書地圖-已查證.json」產生。
+   ⚠️ 不要直接手改 BOOKMAPS：先改查證檔，再重新產生這一段。
+   ⚠️ 還沒查證完的書不要硬塞資料，整個區塊會自己維持隱藏。
+   ============================================================ */
+const BOOKMAPS = {
+ "fuli": {
+  "title": "人生複利",
+  "chapters": [
+   {
+    "no": 1,
+    "label": "第 1–5 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "1",
+      "title": "人生複利的奧秘",
+      "sub": "相信，就能重掌人生主導權",
+      "label": "第 1 章",
+      "points": [
+       {
+        "t": "人生畫布與超級搜尋引擎：先想後有、確定信念",
+        "tool": false
+       },
+       {
+        "t": "宇宙訂單：純淨念頭、精準調度資源",
+        "tool": false
+       },
+       {
+        "t": "正念管理：大腦程式除錯、旁觀者視角",
+        "tool": false
+       },
+       {
+        "t": "轉念智慧：停止七傷拳、聚焦微小好處",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2",
+      "title": "黃金思維圈的運用",
+      "sub": "找回支撐你的核心力量",
+      "label": "第 2 章",
+      "points": [
+       {
+        "t": "與內心深度對話：層層剝開追問 Why",
+        "tool": false
+       },
+       {
+        "t": "生命的終極定義：我值得、活著就是奇蹟",
+        "tool": false
+       },
+       {
+        "t": "信念的磁鐵效應：轉換核心為豐盛與感恩",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3",
+      "title": "專注力",
+      "sub": "打破焦慮迴圈的隱形超能力",
+      "label": "第 3 章",
+      "points": [
+       {
+        "t": "關掉雜訊：斷絕比較與社群干擾",
+        "tool": false
+       },
+       {
+        "t": "順利法則：預演順利畫面、開啟外掛模式",
+        "tool": false
+       },
+       {
+        "t": "正向循環：善用留白時間、產生複利效應",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4",
+      "title": "微習慣，大改變",
+      "sub": "建立你的「自動導航系統」",
+      "label": "第 4 章",
+      "points": [
+       {
+        "t": "奪回控制權：下達明確最高指令",
+        "tool": false
+       },
+       {
+        "t": "意志力電池：微習慣低耗能模式",
+        "tool": false
+       },
+       {
+        "t": "善用科技槓桿：App追蹤與視覺化回饋",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5",
+      "title": "重塑人生的高維度投資",
+      "sub": "從睡眠、財富到靈魂的修復術",
+      "label": "第 5 章",
+      "points": [
+       {
+        "t": "睡眠經濟學：逆向鬧鐘、黃金7-9小時",
+        "tool": false
+       },
+       {
+        "t": "腦內度假：15分鐘心靈SOP與冥想",
+        "tool": true
+       },
+       {
+        "t": "財務自由實踐：儲蓄、ETF配置與配息再投入",
+        "tool": false
+       },
+       {
+        "t": "能量同心圓：劃分關係圈、專注內觀體驗",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "label": "第 6–10 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "6",
+      "title": "心流的魔力",
+      "sub": "從「微習慣」到「大師級」的進階之路",
+      "label": "第 6 章",
+      "points": [
+       {
+        "t": "心流體驗：技能與挑戰匹配、超越一萬小時",
+        "tool": false
+       },
+       {
+        "t": "微習慣探測：最小開關培養熱情與神經叢",
+        "tool": false
+       },
+       {
+        "t": "科技賦能：紀錄微小勝利與身份認同",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7",
+      "title": "意識回歸",
+      "sub": "停止內耗，拿回人生的遙控器",
+      "label": "第 7 章",
+      "points": [
+       {
+        "t": "關閉內心小劇場：停止向外猜測、意識在身",
+        "tool": false
+       },
+       {
+        "t": "劃清控制邊界：向內搜尋與改變自己",
+        "tool": false
+       },
+       {
+        "t": "打破慣性與轉化挫折：反著想、感謝準貴人",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8",
+      "title": "夢想的階梯",
+      "sub": "別把人生最好的時光，留給退休後",
+      "label": "第 8 章",
+      "points": [
+       {
+        "t": "拒絕差不多：跨越拐點、開啟自動練功",
+        "tool": false
+       },
+       {
+        "t": "夢想專案管理：心智圖結合時間軸與回推法",
+        "tool": false
+       },
+       {
+        "t": "系統重灌：面對逃避的問題與影子",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "9",
+      "title": "深度工作力",
+      "sub": "在這個分心的世界，成為不可替代的稀缺資產",
+      "label": "第 9 章",
+      "points": [
+       {
+        "t": "鑑識淺薄行為：打破多巴胺負循環",
+        "tool": false
+       },
+       {
+        "t": "外包專注力：番茄鐘計時與生理調頻",
+        "tool": false
+       },
+       {
+        "t": "行動確認鍵：啟動選擇性注意（RAS）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "10",
+      "title": "斷捨離的藝術",
+      "sub": "釋放記憶體，重啟你的人生系統",
+      "label": "第 10 章",
+      "points": [
+       {
+        "t": "內在淨化：電視框架法抽離情緒雜訊",
+        "tool": false
+       },
+       {
+        "t": "居家能量場：空間經濟學與重視活人感情",
+        "tool": false
+       },
+       {
+        "t": "財務斷捨離：開源節流、區分資產與負債",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "label": "第 11–15 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "11",
+      "title": "心智升級",
+      "sub": "與其問神，不如成為自己的「人生顧問」",
+      "label": "第 11 章",
+      "points": [
+       {
+        "t": "允許當機與微習慣保護：別跟自己過不去",
+        "tool": false
+       },
+       {
+        "t": "提問的藝術：心智圖自我對話探尋邊界",
+        "tool": false
+       },
+       {
+        "t": "邏輯辯證實戰：黃金圈追問釐清真實需求",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "12",
+      "title": "快樂的底層邏輯",
+      "sub": "感恩，是最高級的能量防護罩",
+      "label": "第 12 章",
+      "points": [
+       {
+        "t": "快樂能量學：高頻同心共振、慢品生活",
+        "tool": false
+       },
+       {
+        "t": "感恩機制：破解「我應得」心理病毒",
+        "tool": false
+       },
+       {
+        "t": "移除五大內耗殺手：自責、匱乏、比較、貪婪、盲目",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "13",
+      "title": "邏輯思考訓練",
+      "sub": "安裝你的「人生防毒軟體」",
+      "label": "第 13 章",
+      "points": [
+       {
+        "t": "識破表象：利益反推與鴨子划水策略",
+        "tool": false
+       },
+       {
+        "t": "ABC邏輯框架：改變B（反應）以改變C（結果）",
+        "tool": false
+       },
+       {
+        "t": "動態修煉：通勤禪（對不起/謝謝你）與掃除修煉",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "14",
+      "title": "閱讀與寫作",
+      "sub": "打造「知識複利」的自我成長系統",
+      "label": "第 14 章",
+      "points": [
+       {
+        "t": "閱讀：承認無知、下載系統更新檔",
+        "tool": false
+       },
+       {
+        "t": "寫作：每日寫2頁重組邏輯、打造被動收入資產",
+        "tool": false
+       },
+       {
+        "t": "知識複利：剔除、導入、執行的代謝迴圈",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "15",
+      "title": "金錢的智慧",
+      "sub": "是你在用錢，還是錢在玩你？",
+      "label": "第 15 章",
+      "points": [
+       {
+        "t": "意志力經濟學：花小錢保護意志力與情緒",
+        "tool": false
+       },
+       {
+        "t": "友誼防火牆：絕不借錢、採捐贈心態",
+        "tool": false
+       },
+       {
+        "t": "投資修羅場：避免頻繁交易、長期持有與以息養股",
+        "tool": false
+       },
+       {
+        "t": "避開貪念：識別高年報酬率的詐騙陷阱",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "label": "第 16–20 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "16",
+      "title": "情緒界線的建立",
+      "sub": "停止當濫好人，別讓別人的猴子跳到你背上",
+      "label": "第 16 章",
+      "points": [
+       {
+        "t": "助人陷阱：個人功課個人擔、傾聽不越界",
+        "tool": false
+       },
+       {
+        "t": "界線雷區：金錢界線與家庭界線（拒絕軟土深掘）",
+        "tool": false
+       },
+       {
+        "t": "實戰技術：衝突暫停鍵與溫和堅定的界線聲明",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "17",
+      "title": "識人的藝術",
+      "sub": "遠離「有毒關係」，把能量留給值得的人",
+      "label": "第 17 章",
+      "points": [
+       {
+        "t": "拒絕熱臉貼冷屁股：辨識情感與利益的對等性",
+        "tool": false
+       },
+       {
+        "t": "防禦能量吸血鬼：遠離酸民與賣慘控制狂",
+        "tool": false
+       },
+       {
+        "t": "能量分配法則：人際同心圓與斷開圈外連結",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "18",
+      "title": "破除迷信",
+      "sub": "與其求神問卜，不如讓自己成為最強的風水",
+      "label": "第 18 章",
+      "points": [
+       {
+        "t": "貪念悖論：看穿風水外求與恐懼行銷",
+        "tool": false
+       },
+       {
+        "t": "能量場真相：人體風水勝過死物囤積",
+        "tool": false
+       },
+       {
+        "t": "終極投資：修煉健康與心靈複利",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "19",
+      "title": "原生家庭不是宿命",
+      "sub": "用內在富足，改寫你的人生劇本",
+      "label": "第 19 章",
+      "points": [
+       {
+        "t": "愛的心理資本：超越起跑點與資源詛咒",
+        "tool": false
+       },
+       {
+        "t": "生命回溯：感謝生命奇蹟、主動給予",
+        "tool": false
+       },
+       {
+        "t": "實戰修煉：赤子之心與重新定義失敗",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "20",
+      "title": "自信的力量",
+      "sub": "拆除內心的「未爆彈」，重啟自我價值",
+      "label": "第 20 章",
+      "points": [
+       {
+        "t": "解構心理鏈條：拆除愛面子背後的自卑未爆彈",
+        "tool": false
+       },
+       {
+        "t": "核心替換手術：肯定、認同、成長與冥想搬石",
+        "tool": false
+       },
+       {
+        "t": "逆境煉金術：將未知轉為已知清單、堅持至冰點突破",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "label": "第 21–25 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "21",
+      "title": "順勢而為的智慧",
+      "sub": "學會說「順一個」，開啟人生的流暢模式",
+      "label": "第 21 章",
+      "points": [
+       {
+        "t": "通關密語「順一個」：即時中斷焦慮、預演順利",
+        "tool": false
+       },
+       {
+        "t": "富人思維：付費解決小事、投資基礎設施",
+        "tool": false
+       },
+       {
+        "t": "長期視角：避雷針過濾與望遠鏡初衷",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "22",
+      "title": "富人思維的決策術",
+      "sub": "小事付費，大事堅持",
+      "label": "第 22 章",
+      "points": [
+       {
+        "t": "五大過濾器：自信、投資自己、省時、深度工作、健康",
+        "tool": false
+       },
+       {
+        "t": "計程車悖論：花錢解決小事、避免人情與隱形成本",
+        "tool": false
+       },
+       {
+        "t": "槓桿運用：降低情緒成本、善用科技工具",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "23",
+      "title": "轉念的智慧",
+      "sub": "你是情緒的主人，不是受害者",
+      "label": "第 23 章",
+      "points": [
+       {
+        "t": "抽離現實：宇宙視角與將批評轉為銼刀",
+        "tool": false
+       },
+       {
+        "t": "吸引力法則：磁鐵理論與睡前潛意識彩排",
+        "tool": false
+       },
+       {
+        "t": "念頭管理：情緒止損與轉向「怎麼辦」",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "24",
+      "title": "內心的安定",
+      "sub": "平靜，才是最強大的力量",
+      "label": "第 24 章",
+      "points": [
+       {
+        "t": "內斂之道：擁有不顯擺、無視挑釁",
+        "tool": false
+       },
+       {
+        "t": "意識覺醒：擺脫外在評價枷鎖、調節自律神經",
+        "tool": false
+       },
+       {
+        "t": "安定的實踐：切割工作與生活時間、投資睡眠",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "25",
+      "title": "輕鬆的藝術",
+      "sub": "學會「像水一樣」，把人生走順",
+      "label": "第 25 章",
+      "points": [
+       {
+        "t": "與時間和解：積累內在資產、無欲無求的底氣",
+        "tool": false
+       },
+       {
+        "t": "人際潤滑劑：避免撕破臉的成本、幽默轉念",
+        "tool": false
+       },
+       {
+        "t": "終極託付：向上提交無解問題、像水一樣流過",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "label": "第 26–30 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "26",
+      "title": "人生如戲，全靠演技",
+      "sub": "但千萬別「入戲太深」",
+      "label": "第 26 章",
+      "points": [
+       {
+        "t": "卸妝智慧：切換角色、不把對立與情緒帶回家",
+        "tool": false
+       },
+       {
+        "t": "拒絕爛劇本：識別賣慘控制狂、不當救世主",
+        "tool": false
+       },
+       {
+        "t": "糾紛免疫：堅守三不原則與使用暫停鍵",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "27",
+      "title": "協調的藝術",
+      "sub": "讓世界為你開路的高級社交術",
+      "label": "第 27 章",
+      "points": [
+       {
+        "t": "溝通黃金比例：80%肯定（糖）+ 20%修正（藥）",
+        "tool": false
+       },
+       {
+        "t": "精準槓桿（3K）：關鍵人、關鍵事、關鍵物",
+        "tool": false
+       },
+       {
+        "t": "內在修養：以終為始、讓功讓利、謀定後動",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "28",
+      "title": "見縫插針",
+      "sub": "時間不是「擠」出來的，是「撿」回來的",
+      "label": "第 28 章",
+      "points": [
+       {
+        "t": "碎片煉金術：主動填補隙縫時間、善用手機工具",
+        "tool": false
+       },
+       {
+        "t": "職場路徑學：任務批量處理與移動路徑優化",
+        "tool": false
+       },
+       {
+        "t": "機會管理：社交插間奏與閒錢定額投資",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "29",
+      "title": "擺脫得失心",
+      "sub": "別讓「輸贏」的執念，透支了你的生命",
+      "label": "第 29 章",
+      "points": [
+       {
+        "t": "情緒期貨交易：警惕極端情緒折返跑與神經透支",
+        "tool": false
+       },
+       {
+        "t": "平常心修煉：視人生為體驗而非考卷、全力以赴",
+        "tool": false
+       },
+       {
+        "t": "懸崖勒馬智慧：承認錯誤、止損與PDCA系統化",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "30",
+      "title": "珍惜值得的人事物",
+      "sub": "把有限的時間，浪費在美好的事物上",
+      "label": "第 30 章",
+      "points": [
+       {
+        "t": "價值辨識學：區分知己/夥伴與心流/助人事業",
+        "tool": false
+       },
+       {
+        "t": "體驗煉金術：專注陪伴（關閉手機）與多樣化感知",
+        "tool": false
+       },
+       {
+        "t": "四維評估法：模擬、諮詢、紀錄、情報與感恩擴大",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "label": "第 31–35 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "31",
+      "title": "妄想與心想事成",
+      "sub": "為什麼你總是「想」出倒楣事？",
+      "label": "第 31 章",
+      "points": [
+       {
+        "t": "兩極信念：區分恐懼妄想與正向心想事成",
+        "tool": false
+       },
+       {
+        "t": "意識轉化技術：DVD播放器隱喻（具象/喊卡/加框/刪除）",
+        "tool": false
+       },
+       {
+        "t": "重建安全感：盤點實體資產與理性控管風險",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "32",
+      "title": "快樂的本質",
+      "sub": "不是狂喜，而是「歲月靜好」的生存安全感",
+      "label": "第 32 章",
+      "points": [
+       {
+        "t": "生存辯證：快樂建立在生存安全感之上",
+        "tool": false
+       },
+       {
+        "t": "內在堡壘崩塌：體悟生存威脅對安詳的破壞",
+        "tool": false
+       },
+       {
+        "t": "療癒五步驟：清創、重啟、留白、升級、回歸",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "33",
+      "title": "順遂的練習",
+      "sub": "選擇你的「平行宇宙」，開啟人生外掛模式",
+      "label": "第 33 章",
+      "points": [
+       {
+        "t": "大腦預先渲染：口訣「順一個」與封印「不可能」",
+        "tool": false
+       },
+       {
+        "t": "切斷負面迴圈：強行喊卡與選擇平行宇宙軌道",
+        "tool": false
+       },
+       {
+        "t": "順遂實踐：不接負面禮物、彈性規劃與花錢消除摩擦",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "34",
+      "title": "大膽想像",
+      "sub": "你的大腦，是世界上最強的印鈔機",
+      "label": "第 34 章",
+      "points": [
+       {
+        "t": "語言排毒：用「可能」替換「不可能」、具象化藍圖",
+        "tool": false
+       },
+       {
+        "t": "商業沙盤：腦內推演自動運轉系統與生態圈整合",
+        "tool": false
+       },
+       {
+        "t": "生活發明家：解決生活摩擦力即是商機",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "35",
+      "title": "沈穩的性格",
+      "sub": "不是沒脾氣，而是懂得切換「大腦駕駛模式」",
+      "label": "第 35 章",
+      "points": [
+       {
+        "t": "切換大腦模式：關閉系統一直覺、喚醒系統二理智",
+        "tool": false
+       },
+       {
+        "t": "情緒冰鎮：文字紀錄冷卻、直覺/情緒/理智三系合一",
+        "tool": false
+       },
+       {
+        "t": "外部防禦：屏蔽爛泥雜音與識破偽善操控",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "label": "第 36–40 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "36",
+      "title": "關注重點，忽略小事",
+      "sub": "把人生變成一張「極簡主義」的清單",
+      "label": "第 36 章",
+      "points": [
+       {
+        "t": "核心聚焦：鎖定四大支柱（家人/工作/經濟/健康）",
+        "tool": false
+       },
+       {
+        "t": "擺脫忙碌幻象：克服時空錯置焦慮、單工模式留白",
+        "tool": false
+       },
+       {
+        "t": "極簡主義：移開他人眼光、享受簡單快樂",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "37",
+      "title": "自己是最好的貴人",
+      "sub": "別等了，沒有救世主，只有覺醒的你自己",
+      "label": "第 37 章",
+      "points": [
+       {
+        "t": "貴人物理學：種草吸引貴人、啟動內在覺醒",
+        "tool": false
+       },
+       {
+        "t": "實踐策略：小規模試錯（MVP）與在商言商驗證",
+        "tool": false
+       },
+       {
+        "t": "孤獨哲學：自我鼓勵與成為自己最後的靠山",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "38",
+      "title": "戰勝負面情緒",
+      "sub": "別練「七傷拳」，情緒垃圾要定期倒",
+      "label": "第 38 章",
+      "points": [
+       {
+        "t": "惡念物理代價：七傷拳傷己、避免鬥雞心態耗損福報",
+        "tool": false
+       },
+       {
+        "t": "情緒清理技術：手機筆記四維紀錄法（時間/事件/情緒/對策）",
+        "tool": false
+       },
+       {
+        "t": "穩健處世：比氣長不比氣盛、溫和堅定",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "39",
+      "title": "等待的智慧",
+      "sub": "別急著揭開鍋蓋，讓時間為你「發酵」",
+      "label": "第 39 章",
+      "points": [
+       {
+        "t": "放下的藝術：問題暫時擱置發酵、不強求改變他人",
+        "tool": false
+       },
+       {
+        "t": "專注力定向：聚焦成長區而非匱乏區、向上託付",
+        "tool": false
+       },
+       {
+        "t": "系統化執行：系統一自動駕駛積累與系統二動態反思",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "40",
+      "title": "寬鬆思維",
+      "sub": "富人思維的終極奧義：讓人生變「寬」",
+      "label": "第 40 章",
+      "points": [
+       {
+        "t": "釋放大腦記憶體：擺脫匱乏感、關注資產長期價值",
+        "tool": false
+       },
+       {
+        "t": "時間資產化：單工專注當下、創造時間寬裕感",
+        "tool": false
+       },
+       {
+        "t": "聚焦過濾：將雜訊丟入忽略清單、讓心寬廣",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 9,
+    "label": "第 41–45 章",
+    "title": "",
+    "sections": [
+     {
+      "sec": "41",
+      "title": "反向清單",
+      "sub": "列出「不要做的事」，強制釋放你的大腦記憶體",
+      "label": "第 41 章",
+      "points": [
+       {
+        "t": "大腦運作機制：關閉未完成指令的背景無限迴圈",
+        "tool": false
+       },
+       {
+        "t": "內控機制：下達強制結束（Force Quit）的「不做清單」",
+        "tool": true
+       },
+       {
+        "t": "雙軌清單策略：To-do與Not-to-do並行、減法全速前進",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "42",
+      "title": "幸福之道",
+      "sub": "簡單，是靈魂的最終歸宿",
+      "label": "第 42 章",
+      "points": [
+       {
+        "t": "單純智慧：選擇性單純與降噪、安住於平靜",
+        "tool": false
+       },
+       {
+        "t": "感恩力量：看見隱形支持系統、防範貪念病毒",
+        "tool": false
+       },
+       {
+        "t": "慢品生活：品嚐當下、修剪自責與比較雜枝",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "43",
+      "title": "戰勝恐懼",
+      "sub": "「認真你就輸了」，別給宇宙下負面訂單",
+      "label": "第 43 章",
+      "points": [
+       {
+        "t": "恐懼物理學：不對恐懼想像認真、規律作息應對",
+        "tool": false
+       },
+       {
+        "t": "無懼策略：逆向重設神經迴路、喊停與向上託付",
+        "tool": false
+       },
+       {
+        "t": "災後重建工程：掏空、睡眠修復、劃定界線與留白",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "44",
+      "title": "順勢而為，活在當下",
+      "sub": "更新你的「人生座右銘」",
+      "label": "第 44 章",
+      "points": [
+       {
+        "t": "找回主導權：給大腦留白、一次只做一件事",
+        "tool": false
+       },
+       {
+        "t": "階段性智慧：更新座右銘為「順勢而為，事事如意」",
+        "tool": false
+       },
+       {
+        "t": "不勉強哲學：順應生理心理潮汐、累了就休好時就衝",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "45",
+      "title": "無的境界",
+      "sub": "清空大腦快取，人生不過是一場體驗",
+      "label": "第 45 章",
+      "points": [
+       {
+        "t": "無的七維度：水過無痕、順流而不勉強",
+        "tool": false
+       },
+       {
+        "t": "記憶體清理：格式化過往快取、接受生命補考機制",
+        "tool": false
+       },
+       {
+        "t": "時間真相：瀟灑活在當下、無所執著即擁有一切",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "game": {
+  "title": "人生遊戲",
+  "chapters": [
+   {
+    "no": 1,
+    "label": "第一部",
+    "title": "底層重塑",
+    "sub": "大腦作業系統的除錯與升級",
+    "sections": [
+     {
+      "sec": "1",
+      "title": "大腦除錯工程",
+      "label": "第 1 章",
+      "points": [
+       {
+        "t": "識別思維BUG：切斷匱乏供電，專注可能",
+        "tool": false
+       },
+       {
+        "t": "建立心靈避難所：觀看不介入、能量球練習",
+        "tool": false
+       },
+       {
+        "t": "潛意識改寫：替換劇本、錄製α波催眠音檔",
+        "tool": false
+       },
+       {
+        "t": "核心邏輯：意識創造實相，威力之點在當下",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2",
+      "title": "情緒煉金術",
+      "label": "第 2 章",
+      "points": [
+       {
+        "t": "停止內心小劇場：斬斷妄想，執行暫停鍵練習",
+        "tool": false
+       },
+       {
+        "t": "與情緒對話：擬人化處理，「歡迎」與「請說」",
+        "tool": false
+       },
+       {
+        "t": "油門與煞車理論：先放開煞車（安撫恐懼）",
+        "tool": false
+       },
+       {
+        "t": "空的智慧：斷捨離與留白，擺脫報復性填補",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3",
+      "title": "潛意識對話藝術",
+      "label": "第 3 章",
+      "points": [
+       {
+        "t": "內在換臉術：改寫批評聲音為崇拜者的鼓勵",
+        "tool": false
+       },
+       {
+        "t": "信念核心表：A4紙折疊過濾法，每日朗讀",
+        "tool": false
+       },
+       {
+        "t": "聽覺植入：錄製專屬阿爾法波腳本，睡前播放",
+        "tool": true
+       },
+       {
+        "t": "心理排毒期：堅持21天，搭配四句箴言清理",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4",
+      "title": "神奇之道與信念創造",
+      "label": "第 4 章",
+      "points": [
+       {
+        "t": "實相底層邏輯：外在是內在投射，信念帶有電磁實相",
+        "tool": false
+       },
+       {
+        "t": "神奇之道：放下「如何做」(How)，專注「是什麼」(What)",
+        "tool": false
+       },
+       {
+        "t": "威力之點在當下：時間是同時性的，當下即可改寫過去",
+        "tool": false
+       },
+       {
+        "t": "自然催眠術：專注新信念與影像想像",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5",
+      "title": "人際關係與情緒界線",
+      "label": "第 5 章",
+      "points": [
+       {
+        "t": "識別情緒勒索(FOG)：恐懼、義務、罪惡感",
+        "tool": false
+       },
+       {
+        "t": "防禦三步法：停、看、應",
+        "tool": false
+       },
+       {
+        "t": "夏威夷療法：百分之百責任，默念四句箴言清理",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "label": "第二部",
+    "title": "認知突圍",
+    "sub": "心理博弈與人性防禦",
+    "sections": [
+     {
+      "sec": "6",
+      "title": "能量守恆定律",
+      "label": "第 6 章",
+      "points": [
+       {
+        "t": "攝影機思維：區分「事實」與「詮釋」，中斷推論階梯",
+        "tool": false
+       },
+       {
+        "t": "直球對決：從「猜測」轉為「核實」(Ask, Don't Guess)",
+        "tool": false
+       },
+       {
+        "t": "封堵能量破口：遠離八卦與無聊，將精力投資自己",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7",
+      "title": "看穿情緒勒索迷霧",
+      "label": "第 7 章",
+      "points": [
+       {
+        "t": "勒索者四種形態：施暴者、自虐者、悲情者、欲擒故縱者",
+        "tool": false
+       },
+       {
+        "t": "破解爛好人症候群：劃定界線，拒絕無底線妥協",
+        "tool": false
+       },
+       {
+        "t": "SOS反勒索策略：停下來、冷靜觀察、擬定策略",
+        "tool": false
+       },
+       {
+        "t": "退回包裹儀式：將罪惡感歸還勒索者",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8",
+      "title": "職場防禦術與交易思維",
+      "label": "第 8 章",
+      "points": [
+       {
+        "t": "被動式溝通陷阱：戒掉無條件服從，拒絕當工具人",
+        "tool": false
+       },
+       {
+        "t": "切換商人模式：執行「有條件的溝通」(Conditional Communication)",
+        "tool": false
+       },
+       {
+        "t": "非防禦性回應：使用太極話術中斷攻擊，守住自己",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "9",
+      "title": "暗黑心理防禦術",
+      "label": "第 9 章",
+      "points": [
+       {
+        "t": "信任假象：破除巴南效應與月暈效應",
+        "tool": false
+       },
+       {
+        "t": "催眠式引導：破解YES套路與雙重束縛",
+        "tool": false
+       },
+       {
+        "t": "行為陷阱：警惕登門檻效應與沈沒成本謬誤（設定停損點）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "10",
+      "title": "生態系重塑",
+      "label": "第 10 章",
+      "points": [
+       {
+        "t": "環境過濾：停損諂媚者、言行不實者、能量吸血鬼",
+        "tool": false
+       },
+       {
+        "t": "人生8種益友：支持型（支柱/同好/開心果）、成長型（推手/導師/開路者）、合作型（夥伴/中介）",
+        "tool": false
+       },
+       {
+        "t": "進化階段：從「依賴」跨越「獨立」走向「互賴」",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "label": "第三部",
+    "title": "習慣養成",
+    "sub": "讓進步自動導航的系統",
+    "sections": [
+     {
+      "sec": "11",
+      "title": "複利的奇蹟",
+      "label": "第 11 章",
+      "points": [
+       {
+        "t": "複利數學：每日進步1%的威力，忍受483天拐點前成本線",
+        "tool": false
+       },
+       {
+        "t": "烏龜哲學：跨越失望之谷，進入心流，注重長期累積",
+        "tool": false
+       },
+       {
+        "t": "全方位複利：知識、健康與財富自動化系統",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "12",
+      "title": "身分認同的轉變",
+      "label": "第 12 章",
+      "points": [
+       {
+        "t": "改變三層次：結果、過程、身分認同（核心）",
+        "tool": false
+       },
+       {
+        "t": "投票機制：小贏(Small Wins)累積身分選票",
+        "tool": false
+       },
+       {
+        "t": "重寫內在腳本：利用驕傲感與肯定句升級設定檔",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "13",
+      "title": "原子習慣實戰",
+      "label": "第 13 章",
+      "points": [
+       {
+        "t": "四步迴路：提示（執行意向）、渴望（誘惑綑綁）、回應（微小習慣／兩分鐘法則）、獎賞（立即滿足）",
+        "tool": false
+       },
+       {
+        "t": "習慣堆疊：做完舊習慣後執行新習慣",
+        "tool": false
+       },
+       {
+        "t": "驅動系統：習慣追蹤（不斷鏈）與Notion數位第二大腦",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "14",
+      "title": "專一力原則",
+      "label": "第 14 章",
+      "points": [
+       {
+        "t": "破解多工迷思：一次只做一件事，要事第一",
+        "tool": false
+       },
+       {
+        "t": "進入心流：刻意練習打造自動化反應，清空大腦RAM",
+        "tool": false
+       },
+       {
+        "t": "實戰防禦：拒絕干擾，學習螞蟻哲學專注當下",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "15",
+      "title": "打造第二大腦",
+      "label": "第 15 章",
+      "points": [
+       {
+        "t": "外包記憶：大腦是CPU不是硬碟，騰出認知頻寬",
+        "tool": false
+       },
+       {
+        "t": "構建個人知識庫(PKM)：儲存、標籤、分類，結合行事曆",
+        "tool": false
+       },
+       {
+        "t": "系統化優化：建立SOP流程，釋放創造力",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "label": "第四部",
+    "title": "金錢遊戲",
+    "sub": "從賭徒心態到獲利優先",
+    "sections": [
+     {
+      "sec": "16",
+      "title": "看清金錢真面目",
+      "label": "第 16 章",
+      "points": [
+       {
+        "t": "金錢物理學：流動產生價值（100枚銀幣寓言）",
+        "tool": false
+       },
+       {
+        "t": "獲利優先：破解帕金森定律，新公式「收入 - 獲利 = 支出」",
+        "tool": true
+       },
+       {
+        "t": "花錢藝術：計算生命時薪，用金錢買回時間；遠離負期望值投機",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "17",
+      "title": "投資不是博弈",
+      "label": "第 17 章",
+      "points": [
+       {
+        "t": "零和陷阱：看清倖存者偏差，遠離當沖期貨（負和遊戲），選擇正和遊戲",
+        "tool": false
+       },
+       {
+        "t": "投資護城河：景氣燈號調節，阿甘長期持有",
+        "tool": false
+       },
+       {
+        "t": "風控鐵律：預備6個月緊急預備金，堅持閒錢投資",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "18",
+      "title": "五個帳戶管理法",
+      "label": "第 18 章",
+      "points": [
+       {
+        "t": "小盤子理論與無誘因帳戶：實體隔離，人為製造匱乏",
+        "tool": false
+       },
+       {
+        "t": "五大帳戶：收入、獲利、老闆薪資(生活費)、稅款、營業費用",
+        "tool": false
+       },
+       {
+        "t": "運作節奏：10/25法則分配，債務雪球還款，季度分紅獎勵",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "19",
+      "title": "花錢的藝術",
+      "label": "第 19 章",
+      "points": [
+       {
+        "t": "破除守財奴心態：帶著喜悅花錢，讓能量流動",
+        "tool": false
+       },
+       {
+        "t": "高CP值消費：投資提升幸福感小物，使用P/R/U法則過濾",
+        "tool": false
+       },
+       {
+        "t": "終極購買：外包瑣事買時間，投資大腦與學習",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "20",
+      "title": "擺脫債務雪球",
+      "label": "第 20 章",
+      "points": [
+       {
+        "t": "止血行動：全面凍結新債，P/R/U刪減法降固定支出",
+        "tool": false
+       },
+       {
+        "t": "債務雪球法：從金額最小的開始還，建立小贏成就感",
+        "tool": false
+       },
+       {
+        "t": "99/1還債法則：99%加速還債，1%用於戰略性慶祝",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "label": "第五部",
+    "title": "投資實戰",
+    "sub": "阿甘投資法與資產配置",
+    "sections": [
+     {
+      "sec": "21",
+      "title": "致富劇本（悲劇版）",
+      "label": "第 21 章",
+      "points": [
+       {
+        "t": "羨慕的代價：比較心態誘發貪念，墜入龐氏騙局",
+        "tool": false
+       },
+       {
+        "t": "賭徒的代價：高槓桿當沖與期貨博弈導致資產歸零",
+        "tool": false
+       },
+       {
+        "t": "認清商業模式：做賣鏟子的人，回歸腳踏實地基本面",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "22",
+      "title": "致富劇本（喜劇版）",
+      "label": "第 22 章",
+      "points": [
+       {
+        "t": "儲蓄起手式：1/4強制儲蓄，備妥6個月預備金",
+        "tool": false
+       },
+       {
+        "t": "勝利方程式：阿甘法買大盤ETF，景氣燈號調節加碼速度",
+        "tool": false
+       },
+       {
+        "t": "資產配置：股80/債15/現金5，運用短債/投等債，一年再平衡",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "23",
+      "title": "阿甘投資法",
+      "label": "第 23 章",
+      "points": [
+       {
+        "t": "核心理念：不看盤、不選股、只買不賣，做快樂傻瓜",
+        "tool": false
+       },
+       {
+        "t": "投資標的：標普500 (S&P 500)、VT、0050等大盤指數ETF",
+        "tool": false
+       },
+       {
+        "t": "滾雪球物理學：長期持有，享受時間與複利紅利",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "24",
+      "title": "景氣燈號投資術",
+      "label": "第 24 章",
+      "points": [
+       {
+        "t": "台股淺碟特性：衛星部位（2成以內）進行買進節奏調節",
+        "tool": false
+       },
+       {
+        "t": "藍燈與紅燈口訣：藍燈/黃藍燈加速買；紅燈/黃紅燈放慢買（不賣出）",
+        "tool": false
+       },
+       {
+        "t": "資金控管 SOP：藍燈把衛星子彈分 10 份進場；紅燈把加碼分 3 段收回，不賣持股",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "25",
+      "title": "借貸套利的藝術",
+      "label": "第 25 章",
+      "points": [
+       {
+        "t": "套利本質：利用房貸、信貸或質押之低利資金獲取長期利差",
+        "tool": false
+       },
+       {
+        "t": "股票質押鐵律：維持率控在500%（100萬股票只借20萬）",
+        "tool": false
+       },
+       {
+        "t": "風控核心「14期法則」：預留14個月本利和於專戶，防範斷糧",
+        "tool": false
+       },
+       {
+        "t": "退場條件：利差縮小至1%內或續約利率大升時果斷清償歸零",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "label": "第六部",
+    "title": "價值護城河",
+    "sub": "精準成長與不可替代性",
+    "sections": [
+     {
+      "sec": "26",
+      "title": "天賦與優勢識別",
+      "label": "第 26 章",
+      "points": [
+       {
+        "t": "逆向思維：停止補短板（維持及格），專注擴長板",
+        "tool": false
+       },
+       {
+        "t": "不公平優勢：技能樹堆疊（主幹專業+多項輔助技能）產生稀缺性",
+        "tool": false
+       },
+       {
+        "t": "創造價值的終極公式：熱情、天賦、市場需求三者的交集",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "27",
+      "title": "高維度學習法",
+      "label": "第 27 章",
+      "points": [
+       {
+        "t": "模仿藝術：先求有再求好，從做中學與站在巨人肩膀",
+        "tool": false
+       },
+       {
+        "t": "知識內化：停頓反思，建構第二大腦整理碎片資訊",
+        "tool": false
+       },
+       {
+        "t": "費曼技巧：教給12歲孩子聽，填補缺口並簡化類比，轉化為產品",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "28",
+      "title": "反脆弱的職涯規劃",
+      "label": "第 28 章",
+      "points": [
+       {
+        "t": "告別單一支柱：單一薪水是巨大風險，需取回人生主動權",
+        "tool": false
+       },
+       {
+        "t": "斜槓雙軌策略：主業供養副業，利用下班低成本試錯",
+        "tool": false
+       },
+       {
+        "t": "變現模式與系統：內容變現、電商、技能服務，邁向多重收入",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "29",
+      "title": "解決問題的底層邏輯",
+      "label": "第 29 章",
+      "points": [
+       {
+        "t": "第一性原理：追問「為什麼」，剝洋蔥找出核心目的（如人生體驗）",
+        "tool": false
+       },
+       {
+        "t": "系統化建模：紙筆建模法，蒐集素材重新排列組合",
+        "tool": false
+       },
+       {
+        "t": "繞道與放鬆：不硬碰硬，交給潛意識背景執行獲取頓悟",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "30",
+      "title": "個人品牌的建立",
+      "label": "第 30 章",
+      "points": [
+       {
+        "t": "從消費者變生產者：記錄成長過程，將經歷轉化為數位資產",
+        "tool": false
+       },
+       {
+        "t": "創辦人故事：展現脆弱與起步艱辛（三個麵包時刻），贏得信任",
+        "tool": false
+       },
+       {
+        "t": "利他即利己：無償分享價值，啟動磁鐵效應與互惠原則",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "label": "第七部",
+    "title": "表達與影響力",
+    "sub": "說故事的藝術",
+    "sections": [
+     {
+      "sec": "31",
+      "title": "故事的連結力量",
+      "label": "第 31 章",
+      "points": [
+       {
+        "t": "大腦語言：故事能繞過邏輯防禦，啟動鏡像神經元",
+        "tool": false
+       },
+       {
+        "t": "史代拉結構：常態 ➔ 爆發 ➔ 新常態",
+        "tool": false
+       },
+       {
+        "t": "戰略故事模型：展現創辦人啟蒙時刻與使命昇華",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "32",
+      "title": "精彩故事四大環節",
+      "label": "第 32 章",
+      "points": [
+       {
+        "t": "史代拉骨架：鋪陳常態、製造爆發張力、傳遞新常態價值",
+        "tool": false
+       },
+       {
+        "t": "四大必備血肉：鮮明角色、真實情感、特定時刻、具體細節",
+        "tool": false
+       },
+       {
+        "t": "實戰應用：藉由失敗與重生引發強烈共鳴",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "33",
+      "title": "創辦人與英雄旅程",
+      "label": "第 33 章",
+      "points": [
+       {
+        "t": "創辦人故事價值：展示傷疤與脆弱，建立深層信任",
+        "tool": false
+       },
+       {
+        "t": "英雄旅程三要素：斷腿時刻(傷口)、米蘭頓悟(轉折)、南極願景(召喚)",
+        "tool": false
+       },
+       {
+        "t": "應用場景：用故事與願景篩選並吸引頂尖人才",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "34",
+      "title": "顧客價值的訴說",
+      "label": "第 34 章",
+      "points": [
+       {
+        "t": "哥白尼式翻轉：以顧客為中心，解決其深夜的恐懼與痛點",
+        "tool": false
+       },
+       {
+        "t": "價值故事架構：產品是顧客痛點的情感解藥（如「鑽石恆久遠」）",
+        "tool": false
+       },
+       {
+        "t": "販賣更好的自己：提供情緒價值，幫助顧客完成身分認同轉變",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "35",
+      "title": "寫作與輸出的力量",
+      "label": "第 35 章",
+      "points": [
+       {
+        "t": "寫作本質：將混亂具象化為秩序，進行大腦除錯",
+        "tool": false
+       },
+       {
+        "t": "數位資產積累：透過持續輸出產生長尾效應與睡後影響力",
+        "tool": false
+       },
+       {
+        "t": "卡片盒筆記：利用微習慣寫卡片，聚沙成塔高產輸出",
+        "tool": false
+       },
+       {
+        "t": "利他循環：以富足心態分享智慧，建立人際複利",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "label": "第八部",
+    "title": "終極心法",
+    "sub": "順流而行與人生解脫",
+    "sections": [
+     {
+      "sec": "36",
+      "title": "活在當下的力量",
+      "label": "第 36 章",
+      "points": [
+       {
+        "t": "識別小我的詭計：腦中喋喋不休的聲音不是你，觀察它的覺知才是",
+        "tool": false
+       },
+       {
+        "t": "今日艙格：切斷過去與未來，採用最壞情況分析法",
+        "tool": false
+       },
+       {
+        "t": "進入心流與臣服：實踐「單工」，停止抗拒，與當下合作",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "37",
+      "title": "人生體驗遊戲論",
+      "label": "第 37 章",
+      "points": [
+       {
+        "t": "玩家視角：將他人視為NPC，不入戲過深",
+        "tool": false
+       },
+       {
+        "t": "遊戲攻略：將挫折當經驗包(XP)，執行主動遺忘過濾記憶",
+        "tool": false
+       },
+       {
+        "t": "地球度假村：抱持度假心態，將酸甜苦辣皆視為頂級體驗",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "38",
+      "title": "烏龜的慢活哲學",
+      "label": "第 38 章",
+      "points": [
+       {
+        "t": "德川家康的忍耐：拒絕急躁歸零，建立防禦系統",
+        "tool": false
+       },
+       {
+        "t": "垃圾時間煉金術：利用碎片時間累積微習慣",
+        "tool": false
+       },
+       {
+        "t": "複利與483天：忍受黑暗紮根期，等待指數級爆發",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "39",
+      "title": "成為自己的主人",
+      "label": "第 39 章",
+      "points": [
+       {
+        "t": "奪回主導權：在刺激與回應間選擇態度，剪斷操縱線",
+        "tool": false
+       },
+       {
+        "t": "內在護城河：減少物質慾望（斷捨離），建立「心即理」過濾機制",
+        "tool": false
+       },
+       {
+        "t": "創造實相：抱持富足心態，透過給予自我實現預言",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "40",
+      "title": "總結",
+      "sub": "化逆境為順境",
+      "label": "第 40 章",
+      "points": [
+       {
+        "t": "心靈終極除錯：轉念默念「都好都好」，接受命運之愛",
+        "tool": false
+       },
+       {
+        "t": "順境實踐：像毛竹般紮根，建立習慣與財富永動機",
+        "tool": false
+       },
+       {
+        "t": "終局思維：抱持莊子逍遙遊的度假哲學，自在體驗遊戲",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "noise": {
+  "title": "降噪人生",
+  "chapters": [
+   {
+    "no": 1,
+    "label": "第一部",
+    "title": "心靈基石",
+    "sub": "向內深掘的覺察與重塑",
+    "sections": [
+     {
+      "sec": "1.1",
+      "title": "你的內在金字塔",
+      "sub": "像釀酒般層層堆疊，建構穩固的心理地基",
+      "points": [
+       {
+        "t": "心靈為元核心（驅動心智、情緒與身體）",
+        "tool": false
+       },
+       {
+        "t": "維度一：安全感（生存、歸屬、心流）",
+        "tool": false
+       },
+       {
+        "t": "維度二：平靜心（臣服、落葉觀想、認知解離）",
+        "tool": false
+       },
+       {
+        "t": "維度三：無意識（NLP重塑、微習慣、安全庇護所、夢境）",
+        "tool": false
+       },
+       {
+        "t": "終極密碼：良善初心與給予者優勢",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.2",
+      "title": "找出心中的絆腳石",
+      "sub": "和自己聊聊天，放下過去的包袱",
+      "points": [
+       {
+        "t": "未安撫的內在孩童與軀體標記",
+        "tool": false
+       },
+       {
+        "t": "多層迷走神經與神經肌肉固鎖",
+        "tool": false
+       },
+       {
+        "t": "內在對話術（IFS內在家族系統、置換成功畫面）",
+        "tool": false
+       },
+       {
+        "t": "四階段紀錄法（破除偏見、薩提爾冰山理論）",
+        "tool": false
+       },
+       {
+        "t": "雙軌維護（PDCA雙迴路學習、自我即脈絡）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.3",
+      "title": "每天三分鐘的心靈充電",
+      "sub": "用「復盤」而非「自責」，為自己補滿血",
+      "points": [
+       {
+        "t": "感恩法則（克服損失規避，重新編碼大腦RAS）",
+        "tool": false
+       },
+       {
+        "t": "擺脫匱乏框架（專注97%豐盛，拒絕3%損失）",
+        "tool": false
+       },
+       {
+        "t": "自我喝采（微小成就慶祝儀式、多巴胺迴路）",
+        "tool": false
+       },
+       {
+        "t": "資源鏈結（第二大腦建構感恩資料庫）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.4",
+      "title": "打造大腦的避風港",
+      "sub": "超簡單的靜心與自我催眠術",
+      "points": [
+       {
+        "t": "靈魂戰車（騎士、白馬、黑馬博弈）",
+        "tool": false
+       },
+       {
+        "t": "進入恬靜空間冥想SOP（MBSR身體掃描、深呼吸）",
+        "tool": true
+       },
+       {
+        "t": "心靈NAS權限管理與發光保護膜",
+        "tool": false
+       },
+       {
+        "t": "微型充電與Pinterest願景板錨定",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.5",
+      "title": "做自己最鐵的靠山",
+      "sub": "擁抱那個不完美的你",
+      "points": [
+       {
+        "t": "停止怪罪與極端負責（斯多葛控制二分法）",
+        "tool": false
+       },
+       {
+        "t": "內在氣候學（榮格陰影整合與自我慈悲）",
+        "tool": false
+       },
+       {
+        "t": "建立內在好聲音（覆寫批判代碼的五大金句）",
+        "tool": false
+       },
+       {
+        "t": "放下比較心（打破條件式自尊與社會比較）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "label": "第二部",
+    "title": "轉念與覺醒",
+    "sub": "奪回情緒與思維的主導權",
+    "sections": [
+     {
+      "sec": "2.1",
+      "title": "撕下「受害者」標籤",
+      "sub": "把人生的方向盤搶回來！",
+      "points": [
+       {
+        "t": "看穿戲劇三角與怪罪的短期安慰劑效應",
+        "tool": false
+       },
+       {
+        "t": "覺察「被傷害」幻象與食蟲草次級獲益",
+        "tool": false
+       },
+       {
+        "t": "轉換為創造者（極端當責、修煉回應能力）",
+        "tool": false
+       },
+       {
+        "t": "切斷共依存與能量吸血鬼斷捨離",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.2",
+      "title": "幫大腦裝上防護罩",
+      "sub": "如何過濾酸言酸語與負能量？",
+      "points": [
+       {
+        "t": "關起內心大門（破除鏡中自我，設定NAS權限分級）",
+        "tool": false
+       },
+       {
+        "t": "訓練心靈門衛（認知重新評估、DPI深層過濾）",
+        "tool": false
+       },
+       {
+        "t": "心靈掃毒（CBT思考挑戰技術、修剪突觸）",
+        "tool": false
+       },
+       {
+        "t": "防範情緒勒索（識別FOG迷霧、邊界切割）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.3",
+      "title": "情緒就像西北雨",
+      "sub": "學會「抽離」，讓壞心情自然放晴",
+      "points": [
+       {
+        "t": "天空與天氣譬喻（正念認知解離、90秒法則）",
+        "tool": false
+       },
+       {
+        "t": "抽離情緒泥沼（注意力部署與真不在意）",
+        "tool": false
+       },
+       {
+        "t": "動畫影格情緒抽換法（慢動作、定位關鍵影格、抽出靜觀）",
+        "tool": false
+       },
+       {
+        "t": "認知同理與換位思考（化整為一）",
+        "tool": false
+       },
+       {
+        "t": "昇華為純粹的觀察者：拿著「觀光簽證」遊歷人間",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.4",
+      "title": "戴上別人的眼鏡",
+      "sub": "一秒化解僵局的換位思考術",
+      "points": [
+       {
+        "t": "戒除好為人師（素樸實在論、開車相對論）",
+        "tool": false
+       },
+       {
+        "t": "折凳效應（切換情境框架與神經耦合）",
+        "tool": false
+       },
+       {
+        "t": "區分同理與同情（看清大象與習得性無助）",
+        "tool": false
+       },
+       {
+        "t": "視角翻轉（肯定式探詢、做大餅的雙贏賽局）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.5",
+      "title": "宇宙是台超大許願機",
+      "sub": "心念的力量比你想的還強大",
+      "points": [
+       {
+        "t": "收音機理論（意識調頻與大腦RAS系統）",
+        "tool": false
+       },
+       {
+        "t": "內在小宇宙與磁鐵效應（正向擴展與建構）",
+        "tool": false
+       },
+       {
+        "t": "薛丁格量子盲盒（心智演練與自我實現預言）",
+        "tool": false
+       },
+       {
+        "t": "阻絕反安慰劑效應（事前驗屍與深層信任）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "label": "第三部",
+    "title": "人際與界線",
+    "sub": "高情商的關係斷捨離",
+    "sections": [
+     {
+      "sec": "3.1",
+      "title": "畫出你的舒適圈",
+      "sub": "守護自己、家人與好友的心靈界線",
+      "points": [
+       {
+        "t": "人際關係三層圈與鄧巴數篩選機制",
+        "tool": false
+       },
+       {
+        "t": "辨識能量吸血鬼（隱性自戀狂、病態特權感）",
+        "tool": false
+       },
+       {
+        "t": "實踐阿德勒課題分離（卸除拯救者情結）",
+        "tool": false
+       },
+       {
+        "t": "優雅拒絕（損失評估法、社會情緒選擇理論）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.2",
+      "title": "職場與生活防身術",
+      "sub": "啟動「吸血鬼雷達」，看穿早期的紅色警戒",
+      "points": [
+       {
+        "t": "升級防毒軟體（看穿糖衣測試與邊界試探）",
+        "tool": false
+       },
+       {
+        "t": "職場情勒防禦（識別角色模糊、兩步協議）",
+        "tool": false
+       },
+       {
+        "t": "拒當情緒垃圾桶（卡普曼三角、灰石法）",
+        "tool": false
+       },
+       {
+        "t": "斷捨離三大策略（認知升維、戰略性撤退、心理區隔）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.3",
+      "title": "放下「我想改變你」的執念",
+      "sub": "管好自己，就是最大的善良",
+      "points": [
+       {
+        "t": "戒除控制錯覺（萬能遙控器與自我分化）",
+        "tool": false
+       },
+       {
+        "t": "允許別人跌倒（尊重自然後果、關閉讀心術）",
+        "tool": false
+       },
+       {
+        "t": "用生命影響生命（打造數位花園、社會學習理論）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.4",
+      "title": "別讓八卦毀了你的一天",
+      "sub": "戒除腦補小劇場，啟動「關係權重」過濾器",
+      "points": [
+       {
+        "t": "遠離道人是非（GIGO垃圾進垃圾出、促發效應）",
+        "tool": false
+       },
+       {
+        "t": "關係權重過濾器（高權重核對 vs 低權重冷漠）",
+        "tool": false
+       },
+       {
+        "t": "對事不對人（打破推論階梯、極端當責歸責）",
+        "tool": false
+       },
+       {
+        "t": "設立情緒止損點（認知外化、看懂但不說破）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.5",
+      "title": "打造你的神隊友聯盟",
+      "sub": "1+1>2 的高階資源撮合術",
+      "points": [
+       {
+        "t": "同頻相吸與天賦疊加（跨領域組合技）",
+        "tool": false
+       },
+       {
+        "t": "建立個人CRM專長資料庫（弱連結優勢、標籤化）",
+        "tool": false
+       },
+       {
+        "t": "超級整合者（非零和賽局、資源撮合）",
+        "tool": false
+       },
+       {
+        "t": "敏捷作戰小組（黃金圈願景、天才圈分工）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "label": "第四部",
+    "title": "能量與修復",
+    "sub": "身心靈的保養與擴容",
+    "sections": [
+     {
+      "sec": "4.1",
+      "title": "抓出漏水的破洞",
+      "sub": "勇敢斷捨離「消耗你」的人事物",
+      "points": [
+       {
+        "t": "能量審計與心靈檢核表（自我耗損、容納之窗）",
+        "tool": true
+       },
+       {
+        "t": "剪斷無形能量索（創傷羈絆與拔管修復）",
+        "tool": false
+       },
+       {
+        "t": "物質與環境斷捨離（消除視覺噪音、恢復性環境）",
+        "tool": false
+       },
+       {
+        "t": "能量防護罩三大策略（超越法、物理遠離、絕對封鎖線）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.2",
+      "title": "關掉動態牆上的比較心",
+      "sub": "滑手機不焦慮，找回純粹的快樂",
+      "points": [
+       {
+        "t": "區分進取心與比較心（享樂踏步機、條件式自尊）",
+        "tool": false
+       },
+       {
+        "t": "破解世俗焦慮（身分焦慮、破除零和偏誤）",
+        "tool": false
+       },
+       {
+        "t": "拉回內在專注（正念覺察、自我慈悲）",
+        "tool": false
+       },
+       {
+        "t": "安住專屬時區（拒絕社會時鐘、手機桌布視覺化）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.3",
+      "title": "廢物模式啟動！真正有效的大腦重新開機與睡眠保養",
+      "points": [
+       {
+        "t": "區分被動耍廢與主動休息（DMN預設模式網絡）",
+        "tool": false
+       },
+       {
+        "t": "物理與心智切換（大腦發散模式、眼部休息法）",
+        "tool": false
+       },
+       {
+        "t": "接地氣療癒鏈結（自然敬畏感、寵物與心流）",
+        "tool": false
+       },
+       {
+        "t": "睡眠極致投資（類淋巴系統洗車、一小時現賺三千公式）",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.4",
+      "title": "減法生活學",
+      "sub": "擊退決策疲勞，奪回人生的絕對掌控感",
+      "points": [
+       {
+        "t": "選擇的弔詭與決策疲勞（兩張床底層邏輯）",
+        "tool": false
+       },
+       {
+        "t": "破除沉沒成本（機會成本、承諾斷捨離）",
+        "tool": false
+       },
+       {
+        "t": "尋找金髮女孩動態平衡與掃除禪",
+        "tool": false
+       },
+       {
+        "t": "記憶卡容量定律（倒空心靈、初心、掃地僧修練）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.5",
+      "title": "聽聽身體怎麼說",
+      "sub": "從飲食與輕斷食開啟的身心對話",
+      "points": [
+       {
+        "t": "喚醒直覺黑馬（重啟內感受與第二大腦腸神經系統）",
+        "tool": false
+       },
+       {
+        "t": "168輕斷食（細胞自噬、破除情緒性進食與大腦編劇家）",
+        "tool": false
+       },
+       {
+        "t": "科學化身心修復（熱量紀錄、Apple Fitness、AI與專業教練）",
+        "tool": false
+       },
+       {
+        "t": "彈性自律飲食（80/20正念飲食、破解去他的效應）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "label": "第五部",
+    "title": "數位大腦",
+    "sub": "打造系統化的知識與行動管理",
+    "sections": [
+     {
+      "sec": "5.1",
+      "title": "幫大腦買個外接硬碟",
+      "sub": "Notion 與數位筆記的懶人包",
+      "points": [
+       {
+        "t": "卸載記憶體（蔡加尼克效應、建構Notion第二大腦）",
+        "tool": false
+       },
+       {
+        "t": "專案管理三層矩陣（專案 Project ➔ 任務 Task ➔ 行動 Action）",
+        "tool": false
+       },
+       {
+        "t": "經驗模組化（個人SOP、知識複利資料庫、上帝視角）",
+        "tool": true
+       },
+       {
+        "t": "零碎時間變現（微生產力、水力發電系統）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.2",
+      "title": "把零碎時間變黃金",
+      "sub": "見縫插針的超微小行動術",
+      "points": [
+       {
+        "t": "破除沒時間錯覺（破解帕金森定律、巨石拆解法）",
+        "tool": false
+       },
+       {
+        "t": "等待時間雙重價值提練（情境標籤批次處理）",
+        "tool": false
+       },
+       {
+        "t": "知識複利與多元思維模型（1%複利效應、技能堆疊）",
+        "tool": false
+       },
+       {
+        "t": "微小勝利飛輪效應（多巴胺獎勵、進步原理）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.3",
+      "title": "夢想太大怎麼辦？把大目標切成好入口的「小蛋糕」",
+      "points": [
+       {
+        "t": "終結分析癱瘓（認知負荷理論、目標切割法）",
+        "tool": false
+       },
+       {
+        "t": "建立三層管理矩陣與尋找資源綜效槓桿",
+        "tool": false
+       },
+       {
+        "t": "「進五步、退三步」全景邏輯推演（事前驗屍）",
+        "tool": false
+       },
+       {
+        "t": "跨時空自我協作網（過去、現在、未來自我聯合）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.4",
+      "title": "打造個人的知識金庫",
+      "sub": "讓收藏不只是囤積，產生跨界複利",
+      "points": [
+       {
+        "t": "破解收集者謬誤（知識咀嚼三步驟、費曼技巧）",
+        "tool": true
+       },
+       {
+        "t": "建立標籤化資料庫（賦予元數據、數據驅動決策）",
+        "tool": false
+       },
+       {
+        "t": "跨領域交集與聯集（打造不可替代組合技）",
+        "tool": false
+       },
+       {
+        "t": "知識輸出與變現（教學相長、非對稱回報）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.5",
+      "title": "拯救金魚腦",
+      "sub": "用「番茄鐘」與「單工模式」奪回專注力",
+      "points": [
+       {
+        "t": "專注力保衛戰（安撫內心多巴胺猴子、一念深入單工模式）",
+        "tool": false
+       },
+       {
+        "t": "拒絕多工損耗（脈絡切換成本、注意力殘留）",
+        "tool": false
+       },
+       {
+        "t": "番茄鐘存股式訓練（25分鐘無擾結界、認知卸載）",
+        "tool": false
+       },
+       {
+        "t": "精神時光屋（心流時間扭曲、寧靜磁場）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "label": "第六部",
+    "title": "財富與豐盛",
+    "sub": "物質與精神的雙贏地圖",
+    "sections": [
+     {
+      "sec": "6.1",
+      "title": "錢錢沒有不見",
+      "sub": "破解匱乏魔咒，讓錢成為創造價值的交通工具",
+      "points": [
+       {
+        "t": "破除匱乏迷思（跳脫機會成本陷阱，金錢為交通工具）",
+        "tool": false
+       },
+       {
+        "t": "價值與價格比例（自身時薪換算法、比較利益外包）",
+        "tool": false
+       },
+       {
+        "t": "建構金錢地圖（先支付給自己、4%法則計算FIRE數字）",
+        "tool": false
+       },
+       {
+        "t": "借錢賺錢還錢（算清利差與退場點、遠離負和賭博）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.2",
+      "title": "存錢不是為了受苦",
+      "sub": "搞懂「儲蓄率」，買回你的人生選擇權",
+      "points": [
+       {
+        "t": "金錢臨界知識（進度條效應、淨資產追蹤）",
+        "tool": false
+       },
+       {
+        "t": "逆向提撥（破解帕金森定律、銅級薪水鐵級生活、自動扣款）",
+        "tool": false
+       },
+       {
+        "t": "景氣循環資金停泊：逆週期投資、安全停泊與危機入市；藍燈買進的核心大盤 ETF 不因漲了就賣",
+        "tool": false
+       },
+       {
+        "t": "金錢用三次（總體擁有成本、二手變現循環經濟）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.3",
+      "title": "讓錢幫你工作",
+      "sub": "打造專屬的「自動打水系統」",
+      "points": [
+       {
+        "t": "告別提桶人生（外匯、ETF、房產、以息養股四大模組）",
+        "tool": false
+       },
+       {
+        "t": "存股與ETF番茄鐘法則（拒絕惡性分散、定期定額扣款）",
+        "tool": false
+       },
+       {
+        "t": "資產配置圓餅圖（10/90核心與衛星策略、槓鈴戰術）",
+        "tool": false
+       },
+       {
+        "t": "投資終極護城河（企業主思維、進五步退三步投資沙盤）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.4",
+      "title": "能花錢解決的都是小事",
+      "sub": "建立「買時間」的富人思維",
+      "points": [
+       {
+        "t": "自身時薪換算法與時間套利實踐",
+        "tool": false
+       },
+       {
+        "t": "花錢買經驗（跨越學習曲線、破除資訊不對稱）",
+        "tool": false
+       },
+       {
+        "t": "打造無摩擦能量屋（智力、睡眠、體驗紅利）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.5",
+      "title": "你值得擁有這一切",
+      "sub": "清理金錢創傷，重塑強大的「配得感」",
+      "points": [
+       {
+        "t": "解開童年金錢腳本（治癒內在小孩、打破習得性無助）",
+        "tool": true
+       },
+       {
+        "t": "建立深深的相信（破除認知失調、導正金錢能量觀）",
+        "tool": false
+       },
+       {
+        "t": "跟未來的自己借東風（RAS視覺化願景板、未來插曲思考）",
+        "tool": false
+       },
+       {
+        "t": "內在小宇宙（創傷後成長、內控軌跡造物主）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "label": "第七部",
+    "title": "行動邏輯",
+    "sub": "在不確定性中穩健前行",
+    "sections": [
+     {
+      "sec": "7.1",
+      "title": "先想好最壞的打算",
+      "sub": "用「沙盤推演」消除對未知的恐懼",
+      "points": [
+       {
+        "t": "破除戰鬥或逃跑機制（恐懼設定 Fear-Setting）",
+        "tool": false
+       },
+       {
+        "t": "實戰沙盤推演（認知卸載、Excel與Notion虛擬試錯）",
+        "tool": false
+       },
+       {
+        "t": "直面最壞狀況（斯多葛預期厄運、劃定破產風險底線）",
+        "tool": false
+       },
+       {
+        "t": "退三步防禦系統（無損退路、絕對底線、歷史經驗）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.2",
+      "title": "「進五步，退三步」法則",
+      "sub": "打造攻守兼備的完美決策系統",
+      "points": [
+       {
+        "t": "心靈邏輯思考系統（快思慢想、5W1H全景掃描）",
+        "tool": false
+       },
+       {
+        "t": "進五步攻擊佈局（資源、效益、步驟、時程、成功視覺化）",
+        "tool": true
+       },
+       {
+        "t": "退三步防禦底線（安全退路、保命底線、歷史借鏡）",
+        "tool": false
+       },
+       {
+        "t": "攻守兼備動態平衡（反脆弱性、心流狀態）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.3",
+      "title": "寫下你的願望清單",
+      "sub": "讓潛意識為你啟動「自動導航」",
+      "points": [
+       {
+        "t": "量子力學觀測者效應（先相信後看見、自證預言）",
+        "tool": false
+       },
+       {
+        "t": "視覺化願景板（Pinterest與Notion連動、促發效應）",
+        "tool": false
+       },
+       {
+        "t": "子彈行動筆記（設定執行意向、下一步行動、降低啟動摩擦力）",
+        "tool": false
+       },
+       {
+        "t": "潛意識自動導航（未來自我連續性）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.4",
+      "title": "跌倒了就抓一把沙",
+      "sub": "培養「反脆弱」體質，把危機變轉機",
+      "points": [
+       {
+        "t": "破除避免損失迷思（打破玻璃心、進化反脆弱體質）",
+        "tool": false
+       },
+       {
+        "t": "跌倒時的躺平檢討法（戰略性暫停、拒絕反芻思考）",
+        "tool": false
+       },
+       {
+        "t": "實戰反脆弱（MVP最小可行性試錯、控制二分法）",
+        "tool": false
+       },
+       {
+        "t": "擁抱無常與變化（生物圈二號應力木、成長型思維）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.5",
+      "title": "每天進步 1% 的奇蹟",
+      "sub": "用「小習慣」打造驅動夢想的水力發電廠",
+      "points": [
+       {
+        "t": "挑戰最小阻力（騙過杏仁核、基底核自動化神經叢）",
+        "tool": false
+       },
+       {
+        "t": "臨界知識複利效應（15分鐘單向累積、技能疊加乘法）",
+        "tool": false
+       },
+       {
+        "t": "水力發電廠模型（Notion系統＋小習慣水流、多巴胺勾選）",
+        "tool": false
+       },
+       {
+        "t": "飛輪效應與跨界解鎖（百萬字寫作引發的連鎖反應）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "label": "第八部",
+    "title": "躍遷與實現",
+    "sub": "活出知行合一的遊樂人生",
+    "sections": [
+     {
+      "sec": "8.1",
+      "title": "召喚你的內在團隊",
+      "sub": "協調「雙馬戰車」，體驗身心靈的極致暢流",
+      "points": [
+       {
+        "t": "四大天賦與雙馬戰車（主人心靈、騎士心智、白馬情緒、黑馬直覺）",
+        "tool": false
+       },
+       {
+        "t": "不帶批判的傾聽（正念覺察、信任軀體標記）",
+        "tool": false
+       },
+       {
+        "t": "培育戰隊三大修練（冥想鍛造韁繩、催眠寫入程式、極致睡眠投資）",
+        "tool": false
+       },
+       {
+        "t": "身心靈三位一體（具身認知、絕對領域心流）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.2",
+      "title": "把生活變成闖關遊戲",
+      "sub": "在挑戰與技能的動態平衡中，享受無盡的「心流」",
+      "points": [
+       {
+        "t": "現實世界RPG遊戲化（EXP回饋、Boss挑戰、良性壓力雨衣）",
+        "tool": false
+       },
+       {
+        "t": "心流動態雙升（挑戰與技能平衡、辦公室魔法師自動化）",
+        "tool": false
+       },
+       {
+        "t": "夢幻模擬戰讀檔哲學（人生存檔點、失敗為客觀回饋）",
+        "tool": false
+       },
+       {
+        "t": "衝刺與放空獎勵循環（DMN發呆修復、喚醒童真）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.3",
+      "title": "不務正業也沒關係",
+      "sub": "用「斜槓思維」打造無可取代的個人必殺技",
+      "points": [
+       {
+        "t": "Minecraft技能合成台（立體乘法護城河、前25%疊加）",
+        "tool": false
+       },
+       {
+        "t": "知識交集與聯集（提取第一性原理底層邏輯、不可替代組合技）",
+        "tool": false
+       },
+       {
+        "t": "打破標籤效應（主線任務引發的無限技能樹）",
+        "tool": false
+       },
+       {
+        "t": "內在麥塊世界（素材收集、工具製作、零邊際成本數位槓桿）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.4",
+      "title": "夢想不用很偉大",
+      "sub": "用「未來日記」與顯化法則，打造人生遊樂場",
+      "points": [
+       {
+        "t": "觀測者效應：先相信，後看見的顯化法則",
+        "tool": false
+       },
+       {
+        "t": "跨越時空的協作：組建「三代同堂」內在戰隊，用未來日記向未來借一陣東風",
+        "tool": false
+       },
+       {
+        "t": "念頭的鍊金術：打破金錢迷思，心靈與物質的等價轉換",
+        "tool": false
+       },
+       {
+        "t": "人生遊樂場：啟動「總觀效應」，帶著玩耍的心體驗無常",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.5",
+      "title": "人生就是來玩的",
+      "sub": "抱持「宇宙觀光客」的心態，享受地球之旅",
+      "points": [
+       {
+        "t": "轉換「宇宙觀光客」視角：人生是一場渡假與體驗之旅",
+        "tool": false
+       },
+       {
+        "t": "喚醒「童趣熱情」：用初學者之心品味日常",
+        "tool": false
+       },
+       {
+        "t": "放下比較的濾鏡：切換第一人稱視角，專注自己的時光",
+        "tool": false
+       },
+       {
+        "t": "悠閒慢步的灑脫：化身「見證者」，笑迎宇宙觀光客的優雅畢業典禮",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "xinfu": {
+  "title": "心富",
+  "chapters": [
+   {
+    "no": 1,
+    "title": "心財同源：富足從內在開始",
+    "sections": [
+     {
+      "sec": "1.1",
+      "title": "內在為本，外在為果",
+      "points": [
+       {
+        "t": "鏡像帳戶：心靈與財務共用能量流動",
+        "tool": false
+       },
+       {
+        "t": "情緒擺錘與 ABC 理論：信念(B)決定情緒結果(C)",
+        "tool": false
+       },
+       {
+        "t": "控制源選擇：從外控型走向內控型主導",
+        "tool": false
+       },
+       {
+        "t": "自我實現預言：用豐盛藍圖塑造現實",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.2",
+      "title": "心靈的資產負債表：盤點你的正負能量",
+      "points": [
+       {
+        "t": "能量審計：擴展與建構理論",
+        "tool": false
+       },
+       {
+        "t": "抱怨的高昂隱形成本與高利貸效益",
+        "tool": false
+       },
+       {
+        "t": "採取寬鬆視角：從匱乏切換至富足",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.3",
+      "title": "先儲蓄，才能儲能：心靈活水 ＞ 財務自由",
+      "points": [
+       {
+        "t": "心靈水庫蓄水與心流充能機制",
+        "tool": false
+       },
+       {
+        "t": "順序鐵則：心靈活水 ＞ 財務自由",
+        "tool": false
+       },
+       {
+        "t": "認知飛輪與習慣迴圈（提示-慣性-獎酬）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.4",
+      "title": "覺察情緒：別讓情緒亂花錢",
+      "points": [
+       {
+        "t": "情緒性消費：用物質填補心靈空虛",
+        "tool": false
+       },
+       {
+        "t": "提升情緒粒度與「情緒上色」技巧",
+        "tool": false
+       },
+       {
+        "t": "渾水沉澱：去中心化與非反應性",
+        "tool": false
+       },
+       {
+        "t": "防禦情緒性消費 5 步驟自檢表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "1.5",
+      "title": "成長型思維：把「我不會」變「我還沒學會」",
+      "points": [
+       {
+        "t": "固定型 vs 成長型思維（德威克）",
+        "tool": false
+       },
+       {
+        "t": "自我效能感與自我私語改寫：「我還沒學會」",
+        "tool": false
+       },
+       {
+        "t": "把挫折當成 JRPG 打怪練等的養分",
+        "tool": false
+       },
+       {
+        "t": "成長型思維金錢自檢清單",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "title": "看懂你的數字：財務儀表板",
+    "sections": [
+     {
+      "sec": "2.1",
+      "title": "打造你的財務儀表板",
+      "points": [
+       {
+        "t": "先存再花公式：收入 - 儲蓄 = 支出",
+        "tool": true
+       },
+       {
+        "t": "4% 法則與財務自由數字計算",
+        "tool": false
+       },
+       {
+        "t": "Google Sheets 個人資產負債表實作",
+        "tool": false
+       },
+       {
+        "t": "財富階梯定位（一至六階與台灣座標）",
+        "tool": false
+       },
+       {
+        "t": "分清淨資產與可投資資產（扣除自住房）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.2",
+      "title": "先存再花的現金流結構",
+      "points": [
+       {
+        "t": "逆轉老鼠圈的「玄武攻略」",
+        "tool": false
+       },
+       {
+        "t": "6個月緊急預備金：買回大腦認知頻寬",
+        "tool": false
+       },
+       {
+        "t": "逃離享樂跑步機：轉向高體驗與基礎設施消費",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.3",
+      "title": "先搞懂你是哪種投資人",
+      "points": [
+       {
+        "t": "大腦雙系統拉扯：系統一 vs 系統二",
+        "tool": false
+       },
+       {
+        "t": "損失厭惡與量化「睡眠安全邊界」",
+        "tool": false
+       },
+       {
+        "t": "分批佈局紀律與投資人格自檢表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "2.4",
+      "title": "把存錢交給系統：自動化金流",
+      "points": [
+       {
+        "t": "克服有限理性：意志力靠不住",
+        "tool": false
+       },
+       {
+        "t": "行為設計：降低存錢阻力，拉高花錢摩擦力",
+        "tool": false
+       },
+       {
+        "t": "自動化金流設定步驟與時間複利效果",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "2.5",
+      "title": "每月財務健檢：從記帳到對帳的 SOP",
+      "points": [
+       {
+        "t": "建立閉環反饋循環（月度對帳代替流水帳）",
+        "tool": false
+       },
+       {
+        "t": "《清單革命》防呆清單應用",
+        "tool": true
+       },
+       {
+        "t": "大額價值評估：保單優化與汽車總擁有成本(TCO)",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "title": "讓錢自己長大：資產配置與槓桿",
+    "sections": [
+     {
+      "sec": "3.1",
+      "title": "定期定額與資產配置",
+      "points": [
+       {
+        "t": "被動指數 ETF 與大數法則微笑曲線",
+        "tool": false
+       },
+       {
+        "t": "近視性損失厭惡：少看盤、盯單位數",
+        "tool": false
+       },
+       {
+        "t": "科斯托蘭尼雞蛋與擇時代價（離場代價實測）",
+        "tool": false
+       },
+       {
+        "t": "定期定額與一次投入/逢低加碼數據解析",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.2",
+      "title": "總經佈局與資產配置",
+      "points": [
+       {
+        "t": "達利歐債務週期與短天期公債防禦",
+        "tool": false
+       },
+       {
+        "t": "有效市場假說(EMH)：拒絕追逐落後新聞",
+        "tool": false
+       },
+       {
+        "t": "美元微笑曲線避險與全球股票配置",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.3",
+      "title": "房產五倍槓桿",
+      "points": [
+       {
+        "t": "兩成頭期款撬動資產的算力與雙向風險",
+        "tool": false
+       },
+       {
+        "t": "三道安全邊際（現金流、壓測、估值）",
+        "tool": false
+       },
+       {
+        "t": "理財型房貸活用與買房 SOP 自檢清單",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "3.4",
+      "title": "時間複利：越早開始差越多",
+      "points": [
+       {
+        "t": "72 法則與 7 年財富翻倍循環",
+        "tool": false
+       },
+       {
+        "t": "臨界質量與複利拐點：熬過成本線以下",
+        "tool": false
+       },
+       {
+        "t": "提早覺醒與長期持有的複利爆發力",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.5",
+      "title": "再平衡：定期把資產調回正軌",
+      "points": [
+       {
+        "t": "現代投資組合理論(MPT)與過度自信偏誤",
+        "tool": false
+       },
+       {
+        "t": "再平衡機制：自動買低賣高",
+        "tool": false
+       },
+       {
+        "t": "執行規則（時間法/幅度法）與每年再平衡實測",
+        "tool": false
+       },
+       {
+        "t": "提領期防線：現金緩衝區（2-3年生活費）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "title": "投資心法：戰勝人性與陷阱",
+    "sections": [
+     {
+      "sec": "4.1",
+      "title": "避開讓你歸零的陷阱",
+      "points": [
+       {
+        "t": "急於求成與 FOMO 錯失恐懼",
+        "tool": false
+       },
+       {
+        "t": "博傻理論與零和/負和賽局（當沖摩擦成本精算）",
+        "tool": false
+       },
+       {
+        "t": "龐氏騙局資金池崩解模型",
+        "tool": false
+       },
+       {
+        "t": "巴菲特能力圈理論與投資防割自檢表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.2",
+      "title": "馴服你的「直覺大象」",
+      "points": [
+       {
+        "t": "演化戰逃本能 vs 現代金融逆向邏輯",
+        "tool": false
+       },
+       {
+        "t": "處置效應（急賣贏家、死抱輸家）與限制性信念",
+        "tool": false
+       },
+       {
+        "t": "用規則代替情緒（核心部位靠比例再平衡）",
+        "tool": false
+       },
+       {
+        "t": "空椅療法、潛意識編程與情緒防禦檢核表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.3",
+      "title": "投資鈍感力：耐心與紀律",
+      "points": [
+       {
+        "t": "控制幻覺與噪聲過載",
+        "tool": false
+       },
+       {
+        "t": "隨機漫步假說與嘉信理財二十年擇時實驗",
+        "tool": false
+       },
+       {
+        "t": "富達股災停扣實測：停扣是銷毀財富",
+        "tool": false
+       },
+       {
+        "t": "鱷魚潛伏精神與漏米停損哲學",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.4",
+      "title": "系統一 vs 系統二：別用直覺做決定",
+      "points": [
+       {
+        "t": "節能天性與杏仁核生理劫持",
+        "tool": false
+       },
+       {
+        "t": "快思慢想雙系統運作衝突",
+        "tool": false
+       },
+       {
+        "t": "暴跌時直覺割肉 vs 理性定期定額加碼對比",
+        "tool": false
+       },
+       {
+        "t": "知識內化與雙系統整合指引",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.5",
+      "title": "沉沒成本與損失厭惡",
+      "points": [
+       {
+        "t": "展望理論（卡尼曼與特沃斯基）：人對損失特別敏感",
+        "tool": false
+       },
+       {
+        "t": "沉沒成本謬誤與凹單攤平代價精算",
+        "tool": false
+       },
+       {
+        "t": "買米漏米哲學與零基思考法（Zero-Based Thinking）",
+        "tool": false
+       },
+       {
+        "t": "損失防禦與零基思考檢核表",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "title": "生活財商：把錢花在刀口上",
+    "sections": [
+     {
+      "sec": "5.1",
+      "title": "花錢買時間與體驗",
+      "points": [
+       {
+        "t": "匱乏心態與「時間飢荒」惡性循環",
+        "tool": false
+       },
+       {
+        "t": "時間富足與峰終定律（Peak-End Rule）",
+        "tool": false
+       },
+       {
+        "t": "真實時薪折算與時間機會成本精算",
+        "tool": false
+       },
+       {
+        "t": "數位工具套利與體驗消費自檢表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.2",
+      "title": "把錢花在「耐久好貨」上",
+      "points": [
+       {
+        "t": "標價偏誤、時間貼現與「窮人稅」靴子理論",
+        "tool": false
+       },
+       {
+        "t": "總擁有成本 (TCO) 公式與平價 vs 高階筆電精算",
+        "tool": true
+       },
+       {
+        "t": "高頻接觸點投資（床墊/人體工學椅）與動手維護槓桿",
+        "tool": false
+       },
+       {
+        "t": "耐久好貨評估檢核表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.3",
+      "title": "大額決策的 SOP 與清單",
+      "points": [
+       {
+        "t": "高壓情境下的認知負荷過載",
+        "tool": false
+       },
+       {
+        "t": "工作記憶外包與《清單革命》",
+        "tool": true
+       },
+       {
+        "t": "中古車清單檢查時薪回報與買房四部曲 SOP",
+        "tool": true
+       },
+       {
+        "t": "防禦型危機處理 SOP（如車禍處置）",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.4",
+      "title": "金錢的人際界線",
+      "points": [
+       {
+        "t": "衝突迴避本能與「當好人」陷阱",
+        "tool": false
+       },
+       {
+        "t": "賽局以牙還牙策略（Tit-for-Tat）與阿德勒課題分離",
+        "tool": false
+       },
+       {
+        "t": "義氣借貸的真實總代價精算",
+        "tool": false
+       },
+       {
+        "t": "理性拒絕腳本、人際斷捨離與防禦 SOP",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.5",
+      "title": "基礎設施投資：把錢花在會回本的地方",
+      "points": [
+       {
+        "t": "消費錯覺與免費陷阱",
+        "tool": false
+       },
+       {
+        "t": "人力資本理論與延伸心智理論（外接大腦）",
+        "tool": false
+       },
+       {
+        "t": "自我投資高 ROI 精算（AI 語言學習軟體）",
+        "tool": false
+       },
+       {
+        "t": "打造數位/身體/知識複利基礎設施",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "title": "開源思維：從消費者變成生產者",
+    "sections": [
+     {
+      "sec": "6.1",
+      "title": "消費者 vs 生產者：站到賺錢的那一邊",
+      "points": [
+       {
+        "t": "後半場分水嶺（需具備時間、閒錢、專業）",
+        "tool": false
+       },
+       {
+        "t": "注意力經濟的多巴胺陷阱",
+        "tool": false
+       },
+       {
+        "t": "生產者思維：用資金與系統賺取時間利差",
+        "tool": false
+       },
+       {
+        "t": "比較優勢法則與下班 2 小時 3 年財務對比",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.2",
+      "title": "找出你的剛需產品",
+      "points": [
+       {
+        "t": "工作任務理論(JTBD)：雇用產品解決痛點",
+        "tool": false
+       },
+       {
+        "t": "打破蓋牌效應：扮演信賴媒合者",
+        "tool": false
+       },
+       {
+        "t": "最低可行性產品(MVP)與輕資產預售精算",
+        "tool": false
+       },
+       {
+        "t": "剛需產品自檢表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.3",
+      "title": "知識變現：把腦袋裡的東西賣出去",
+      "points": [
+       {
+        "t": "零邊際成本：數位產品的無限複製槓桿",
+        "tool": false
+       },
+       {
+        "t": "實體商品 vs 數位模板利潤率精算",
+        "tool": false
+       },
+       {
+        "t": "比爾蓋茲的橋樑：用服務建立連結與收益",
+        "tool": false
+       },
+       {
+        "t": "知識變現數位產品設計檢核表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.4",
+      "title": "最小成本驗證點子：先賣再做的實戰課",
+      "points": [
+       {
+        "t": "克服「一鳴驚人」ALL IN 迷思",
+        "tool": false
+       },
+       {
+        "t": "精實創業「建構-衡量-學習」反饋循環",
+        "tool": false
+       },
+       {
+        "t": "中年破產大叔的餅乾 MVP 實戰案例",
+        "tool": false
+       },
+       {
+        "t": "「先賣再做」無庫存預售精算與自檢清單",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.5",
+      "title": "把興趣變現的第一桶金：從「我是誰」出發的發家術",
+      "points": [
+       {
+        "t": "效果邏輯(Effectuation)：「我是誰、我懂什麼、我認識誰」",
+        "tool": false
+       },
+       {
+        "t": "第一桶金靠存，存錢買回時間與頻寬",
+        "tool": false
+       },
+       {
+        "t": "技能疊加：主幹技能 + 分枝技能的組合式創新",
+        "tool": false
+       },
+       {
+        "t": "因果創業 vs 效果變現 3 年財務對比與自檢清單",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "title": "打造賺錢系統：副業、自動化與數位資產",
+    "sections": [
+     {
+      "sec": "7.1",
+      "title": "副業是你的第二支柱：對抗單一收入風險的個人組合拳",
+      "points": [
+       {
+        "t": "單一工資的集中度風險與現代投資組合理論",
+        "tool": false
+       },
+       {
+        "t": "提煉下班後的垃圾時間投資自己",
+        "tool": false
+       },
+       {
+        "t": "副業安全線（6個月預備金 + 淨利過生活費）",
+        "tool": false
+       },
+       {
+        "t": "衝動全職 vs 守安全線退職財務壓測與檢核表",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "7.2",
+      "title": "把收入變成會自己跑的系統：從人肉作坊到自動化生產線",
+      "points": [
+       {
+        "t": "金流、發信與發票自動化迴圈",
+        "tool": false
+       },
+       {
+        "t": "亞當·斯密分工理論與外包委託",
+        "tool": false
+       },
+       {
+        "t": "純手動 vs 自動化/外包利潤與規模化精算",
+        "tool": false
+       },
+       {
+        "t": "被動收入真相：先主動鋪水管，後被動收成",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.3",
+      "title": "數位資產與長尾：讓三年前的努力今天還在賺",
+      "points": [
+       {
+        "t": "用數位刻刀紀錄 SOP 與解決方案",
+        "tool": true
+       },
+       {
+        "t": "長尾效應：無限貨架上的常青數位商品",
+        "tool": false
+       },
+       {
+        "t": "長尾被動收入滾雪球精算模型",
+        "tool": false
+       },
+       {
+        "t": "以時間換取空間，跨越臨界點",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.4",
+      "title": "技能疊加：不被 AI 取代的多維解法",
+      "points": [
+       {
+        "t": "克服被 AI 取代的恐懼",
+        "tool": false
+       },
+       {
+        "t": "史考特·亞當斯「技能疊加」：交叉三個前 20% 技能",
+        "tool": false
+       },
+       {
+        "t": "機械工程師疊加英文與程式的轉型案例",
+        "tool": false
+       },
+       {
+        "t": "單一極致 vs 多維疊加稀缺度(0.8%)概率精算",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.5",
+      "title": "多元收入流：別把雞蛋放同籃的全局套利術",
+      "points": [
+       {
+        "t": "套利定價理論(APT)與資產長短分流",
+        "tool": false
+       },
+       {
+        "t": "跨界槓桿鏈：理財型房貸 + 股票質借（借錢投資實質解析）",
+        "tool": false
+       },
+       {
+        "t": "房貸增貸轉存股與質借利差精算及 4 條安全紅線",
+        "tool": false
+       },
+       {
+        "t": "理解升降息對股債的影響，但不擇時，照比例再平衡",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "title": "終局：財務自由的終點是體驗",
+    "sections": [
+     {
+      "sec": "8.1",
+      "title": "格局與相對優勢",
+      "points": [
+       {
+        "t": "總覽全局的藍圖規劃",
+        "tool": false
+       },
+       {
+        "t": "出身低與失敗者的比較優勢（失敗成本低、面子免疫）",
+        "tool": false
+       },
+       {
+        "t": "「高築牆、廣積糧、緩稱王」玄武攻略法",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.2",
+      "title": "言語與關係的修養：莫傷害",
+      "points": [
+       {
+        "t": "言語七傷拳與非暴力溝通",
+        "tool": false
+       },
+       {
+        "t": "北冥神功吸取批評養分",
+        "tool": false
+       },
+       {
+        "t": "大禹治水疏導情緒與心智防毒指令（莫傷害、忘了吧）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.3",
+      "title": "體驗至上：財務自由不是終點",
+      "points": [
+       {
+        "t": "「Memento Mori」記住終將一死（終局思維）",
+        "tool": false
+       },
+       {
+        "t": "金錢為體驗服務：回到生活純粹的快樂",
+        "tool": false
+       },
+       {
+        "t": "知足與止損：會賺錢不等於守得住（李佛摩與古普塔的教訓）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.4",
+      "title": "取之、用之、還之：利他循環的生命流動",
+      "points": [
+       {
+        "t": "正和賽局與互惠利他理論",
+        "tool": false
+       },
+       {
+        "t": "搭建服務橋樑與知識教育傳播",
+        "tool": false
+       },
+       {
+        "t": "將人生經歷轉化為靈魂養分",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.5",
+      "title": "回到初心：像孩子一樣重新出發的終極遊戲",
+      "points": [
+       {
+        "t": "自我決定論與內在動機的解放",
+        "tool": false
+       },
+       {
+        "t": "在「人生 ON LINE」遊戲中帶著赤子之心探索",
+        "tool": false
+       },
+       {
+        "t": "將無常視為常態，擁抱終極自由",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "jieli": {
+  "title": "借力",
+  "chapters": [
+   {
+    "no": 1,
+    "label": "第 1 章",
+    "title": "認清趨勢",
+    "sub": "順勢而為的起點",
+    "sections": [
+     {
+      "sec": "1.1",
+      "title": "什麼是順勢",
+      "sub": "站上浪潮，不用力也被推著跑",
+      "points": [
+       {
+        "t": "借外部系統龐大動能",
+        "tool": false
+       },
+       {
+        "t": "避免逆流硬撐與精神內耗",
+        "tool": false
+       },
+       {
+        "t": "培養認知點與清空大腦頻寬",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.2",
+      "title": "知己知彼",
+      "sub": "先看清自己的位置與實力，再選趨勢",
+      "points": [
+       {
+        "t": "盤點生存基礎設施（主動收入/常識/避難所）",
+        "tool": false
+       },
+       {
+        "t": "佔領適合個人性格的戰略制高點",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.3",
+      "title": "表象趨勢的陷阱",
+      "sub": "別把時間與金錢押錯方向",
+      "points": [
+       {
+        "t": "看清錯失恐懼(FOMO)與攀比黑洞",
+        "tool": false
+       },
+       {
+        "t": "落實「四分之一儲蓄法」",
+        "tool": false
+       },
+       {
+        "t": "沉澱慾望並進行簡單被動配置",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.4",
+      "title": "培養知識點",
+      "sub": "唯有學足，才不徒勞無功",
+      "points": [
+       {
+        "t": "高溫鍛造高精度認知資料庫",
+        "tool": false
+       },
+       {
+        "t": "保持空杯心態與化知識為行動",
+        "tool": false
+       },
+       {
+        "t": "記憶外包給「第二大腦」",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.5",
+      "title": "風口與時機",
+      "sub": "準備好了，站上風口豬也會飛",
+      "points": [
+       {
+        "t": "內部認知蓄能與外部週期共振",
+        "tool": false
+       },
+       {
+        "t": "排除旁人眼光與猶豫不決",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "label": "第 2 章",
+    "title": "消除精神內耗",
+    "sub": "奪回決策力",
+    "sections": [
+     {
+      "sec": "2.1",
+      "title": "內耗的真相",
+      "sub": "猶豫不決如何讓你錯失良機",
+      "points": [
+       {
+        "t": "關閉心智背景處理器的未完成分頁",
+        "tool": false
+       },
+       {
+        "t": "用行動終結猶豫與惰性逃避",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.2",
+      "title": "過濾潛在念頭",
+      "sub": "別為負面想法找證據",
+      "points": [
+       {
+        "t": "停止偏執偵探式的負面猜測",
+        "tool": false
+       },
+       {
+        "t": "心智除錯：問「是真的嗎？」尋找客觀事實",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.3",
+      "title": "遠離慾望與攀比",
+      "sub": "看穿這是一種反向趨勢",
+      "points": [
+       {
+        "t": "看穿攀比為反向勢能（享樂跑步機）",
+        "tool": false
+       },
+       {
+        "t": "建立內在錨定，塑造磁性心智",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.4",
+      "title": "逆向思維",
+      "sub": "多問「如何失敗」再反著做",
+      "points": [
+       {
+        "t": "設定「反目標」與列出失敗地雷清單",
+        "tool": true
+       },
+       {
+        "t": "反著做以低心智包袱趨吉避凶",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.5",
+      "title": "臣服與不排斥",
+      "sub": "像洋流隨起伏前進，把挫折化為養份",
+      "points": [
+       {
+        "t": "接受現實並進行降檔適應",
+        "tool": false
+       },
+       {
+        "t": "拒絕有毒積極性，補充心靈泉水",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "label": "第 3 章",
+    "title": "複利的力量",
+    "sub": "持續累積不中斷",
+    "sections": [
+     {
+      "sec": "3.1",
+      "title": "複利曲線",
+      "sub": "前期緩慢、突破向上的累積之道",
+      "points": [
+       {
+        "t": "突破非線性增長的前期緩慢",
+        "tool": false
+       },
+       {
+        "t": "利用彈性習慣避免意志力耗盡與中斷",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.2",
+      "title": "守住複利",
+      "sub": "適度獎勵自己，降低意志力消耗、避免情緒中斷",
+      "points": [
+       {
+        "t": "放棄苦行僧式極端節儉",
+        "tool": false
+       },
+       {
+        "t": "設定「小確幸獎勵」與情緒保險",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.3",
+      "title": "從儲蓄到投資",
+      "sub": "像種子生根發芽，耐心與紀律",
+      "points": [
+       {
+        "t": "抵抗通膨蠶食，將資金轉為生產性種子",
+        "tool": false
+       },
+       {
+        "t": "持有一站式指數大盤與股債平衡",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.4",
+      "title": "指數 ETF 與股債平衡",
+      "sub": "長期持有、免於盯盤焦慮",
+      "points": [
+       {
+        "t": "摒棄盯盤焦慮與預測市場",
+        "tool": false
+       },
+       {
+        "t": "指數提供成長，債券提供防禦與心理邊際",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.5",
+      "title": "每年再平衡",
+      "sub": "用最低操作守住資產目標",
+      "points": [
+       {
+        "t": "系統化「最低操作」與多幣種布局（台/美/日）",
+        "tool": false
+       },
+       {
+        "t": "每年年初再平衡一次：把偏離的股債與貨幣比例拉回設定軌道",
+        "tool": false
+       },
+       {
+        "t": "退休遵守 4% 提取法則",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "label": "第 4 章",
+    "title": "防禦力",
+    "sub": "擺脫匱乏、建立安全邊際",
+    "sections": [
+     {
+      "sec": "4.1",
+      "title": "匱乏心態的代價",
+      "sub": "羨慕如何讓你輕信錯誤資訊",
+      "points": [
+       {
+        "t": "覺察羨慕焦慮，轉化為豐盛心態",
+        "tool": false
+       },
+       {
+        "t": "專注自身成長，擺脫高昂時間機會成本",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.2",
+      "title": "看穿龐氏與詐騙",
+      "sub": "用正確知識當最穩的防禦",
+      "points": [
+       {
+        "t": "識破詐騙的「老鼠藥」包裝：99% 真實細節裹著 1% 毒藥",
+        "tool": false
+       },
+       {
+        "t": "打造「認知濾網」，投資自我知識點",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.3",
+      "title": "安全邊際",
+      "sub": "儲蓄、緊急金與保險給的選擇自由",
+      "points": [
+       {
+        "t": "踏實烏龜哲學：高築牆、積蓄糧",
+        "tool": false
+       },
+       {
+        "t": "配置 6-12 個月緊急預備金與保險",
+        "tool": false
+       },
+       {
+        "t": "買回面臨意外時的「選擇自由」",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.4",
+      "title": "打破被動收入迷思",
+      "sub": "先主動灌溉，才有被動收成",
+      "points": [
+       {
+        "t": "拒絕逃避努力的「空手套白狼」",
+        "tool": false
+       },
+       {
+        "t": "先主動灌溉（提升本業/技能），後被動收成",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.5",
+      "title": "守住內在領域與人際界線",
+      "sub": "他人無責任對你負責，確立界線不被操控",
+      "points": [
+       {
+        "t": "確立「他人無責任對我負責」底線",
+        "tool": false
+       },
+       {
+        "t": "不與豬打架，遠離螃蟹效應",
+        "tool": false
+       },
+       {
+        "t": "省下無效社交的時間與精力稅",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "label": "第 5 章",
+    "title": "借科技之勢",
+    "sub": "AI 與第二大腦",
+    "sections": [
+     {
+      "sec": "5.1",
+      "title": "擁抱 AI",
+      "sub": "補知識點、整理重點、事半功倍",
+      "points": [
+       {
+        "t": "大腦為決策司令部而非儲存庫",
+        "tool": false
+       },
+       {
+        "t": "AI 擔任第一層過濾網與概念翻譯官",
+        "tool": false
+       },
+       {
+        "t": "高 CP 值付費：用金錢買回無價時間",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.2",
+      "title": "ChatGPT 口語教練",
+      "sub": "模擬對話訓練、Notion 記錄反覆精修",
+      "points": [
+       {
+        "t": "零社交成本、無評判壓力的實戰沙盒",
+        "tool": false
+       },
+       {
+        "t": "配合 Notion 語料庫進行反覆精修",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.3",
+      "title": "第二大腦",
+      "sub": "把記憶外包給 Notion 與雲端，大腦只管思考",
+      "points": [
+       {
+        "t": "記憶外包給 Notion 與雲端",
+        "tool": false
+       },
+       {
+        "t": "建立四大模組：收件匣/時間軸/財務儀表板/防禦庫",
+        "tool": false
+       },
+       {
+        "t": "擺脫記憶過載，大腦專注於運算決策",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.4",
+      "title": "投資好工具與系統化",
+      "sub": "別吝嗇花錢買時間（iPad／外送等）",
+      "points": [
+       {
+        "t": "擺脫守財奴思維，用可再生金錢換不可再生時間",
+        "tool": false
+       },
+       {
+        "t": "升級硬體設備與生活外包（叫車/外送）",
+        "tool": false
+       },
+       {
+        "t": "財務自動扣款齒輪化運作",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.5",
+      "title": "上帝視角佈局",
+      "sub": "用時間軸與全局思維拆解人生短中長期目標",
+      "points": [
+       {
+        "t": "破除隧道視野，進行「以終為始」反向設計",
+        "tool": false
+       },
+       {
+        "t": "跨時空協作：過去累積、現在執行、未來享受",
+        "tool": false
+       },
+       {
+        "t": "拆解願景至每日微小零件並定期複盤",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "label": "第 6 章",
+    "title": "精力管理",
+    "sub": "把能量留給對的事",
+    "sections": [
+     {
+      "sec": "6.1",
+      "title": "恢復堡壘",
+      "sub": "打造專屬休息空間（床/光線/椅子/門）",
+      "points": [
+       {
+        "t": "將居住空間視為底層生命基礎設施",
+        "tool": false
+       },
+       {
+        "t": "打造四基石：好床與遮光/整潔書桌/靠椅/可關上的門",
+        "tool": false
+       },
+       {
+        "t": "降低意志力摩擦成本，提升決策帶寬",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.2",
+      "title": "睡眠的超能力",
+      "sub": "記憶整理與情緒穩定的關鍵",
+      "points": [
+       {
+        "t": "拒絕高利貸般的「睡眠負債」",
+        "tool": false
+       },
+       {
+        "t": "睡眠為夜間資料整理中心與免費潛意識顧問",
+        "tool": false
+       },
+       {
+        "t": "搭配股債平衡被動理財以釋放盯盤焦慮",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.3",
+      "title": "斷捨離",
+      "sub": "清理物品、數位干擾與消耗精力的人際",
+      "points": [
+       {
+        "t": "清理物品（5S技巧與感謝告別）",
+        "tool": false
+       },
+       {
+        "t": "數位斷捨離（關閉非必要通知/專注模式）",
+        "tool": false
+       },
+       {
+        "t": "人際斷捨離（遠離能量吸血鬼）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.4",
+      "title": "精力 CP 值",
+      "sub": "把能量投在長期價值與豐盛體驗、拒絕無效社交",
+      "points": [
+       {
+        "t": "資源煉金術：金錢→效率→時間→生命體驗",
+        "tool": false
+       },
+       {
+        "t": "拒絕無效社交，支付家庭「便利性溢價」",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.5",
+      "title": "小習慣與彈性習慣",
+      "sub": "把大目標鑲嵌進日常、保持彈性",
+      "points": [
+       {
+        "t": "拆解大任務至無痛門檻（不對抗人性）",
+        "tool": false
+       },
+       {
+        "t": "建立彈性三階矩陣（迷你/標準/挑戰）消除中斷",
+        "tool": false
+       },
+       {
+        "t": "保護連續性，維持複利雪球滾動",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "label": "第 7 章",
+    "title": "安住當下",
+    "sub": "正念與心智重塑",
+    "sections": [
+     {
+      "sec": "7.1",
+      "title": "活在當下",
+      "sub": "放下懊悔與焦慮，用五感體驗現在",
+      "points": [
+       {
+        "t": "擺脫過去懊悔與未來焦慮的雙重撕扯",
+        "tool": false
+       },
+       {
+        "t": "當下是唯一能發揮影響力的維度",
+        "tool": false
+       },
+       {
+        "t": "實踐「五感錨定練習」與建立平靜泡泡",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.2",
+      "title": "正念觀照",
+      "sub": "不評斷、不涉入，讓情緒成為成長動力",
+      "points": [
+       {
+        "t": "不評斷、不涉入的旁觀者態度",
+        "tool": false
+       },
+       {
+        "t": "在刺激與反應間拉開 30 秒認知頻寬空檔",
+        "tool": false
+       },
+       {
+        "t": "劃清人際界線，執行財務「24小時情緒冷卻期」",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.3",
+      "title": "放空與發呆的藝術",
+      "sub": "讓大腦休息、激發靈感",
+      "points": [
+       {
+        "t": "停止數位噪音輸入，擺脫決策疲勞",
+        "tool": false
+       },
+       {
+        "t": "啟動預設模式網路（DMN）自動整理記憶與激發靈感",
+        "tool": false
+       },
+       {
+        "t": "執行每日數位斷食與 10 分鐘發呆練習",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.4",
+      "title": "接受不確定與感恩",
+      "sub": "放鬆執著、尋求支持、珍惜擁有",
+      "points": [
+       {
+        "t": "接納隨機性與機率思維，放棄百分百掌控執念",
+        "tool": false
+       },
+       {
+        "t": "用感恩重塑豐富心智，劃分可控/不可控清單",
+        "tool": true
+       },
+       {
+        "t": "精簡保險與防禦配置，不為極端風險過度支付",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.5",
+      "title": "無我與冥想",
+      "sub": "放空思緒、連結能量，減輕現實的痛苦",
+      "points": [
+       {
+        "t": "放下「自我執著」（Ego），切斷失敗與自我價值的綁架",
+        "tool": false
+       },
+       {
+        "t": "宇宙視角：將自己定位為冷靜的資產託管人",
+        "tool": false
+       },
+       {
+        "t": "實踐「裝滿煩憂的籃子」冥想與無我催眠",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "label": "第 8 章",
+    "title": "順勢人生的終局",
+    "sub": "肯定自我與終身學習",
+    "sections": [
+     {
+      "sec": "8.1",
+      "title": "停止自我否定",
+      "sub": "相信自己獨特的靈魂與創造力",
+      "points": [
+       {
+        "t": "停止「撕毀作業簿」式的頻繁重來",
+        "tool": false
+       },
+       {
+        "t": "給自己補充泉水，像品茶般包容優缺點",
+        "tool": false
+       },
+       {
+        "t": "相信「所有的結果都是好的結果」，釋放靈魂創造力",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.2",
+      "title": "人生遊戲化",
+      "sub": "把挑戰當沉浸式遊戲，享受升級過關",
+      "points": [
+       {
+        "t": "擺脫受害者情結，將現實解構為沉浸式沙盒遊戲",
+        "tool": false
+       },
+       {
+        "t": "清楚角色定位：自己是主角，他人是 NPC",
+        "tool": false
+       },
+       {
+        "t": "收集素材「餘料建造」，享受關卡升級與通關獎勵",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.3",
+      "title": "終身學習",
+      "sub": "跨領域、提早累積，用認知升級換自由",
+      "points": [
+       {
+        "t": "跳出舒適圈溫水煮青蛙，啟動知識的原子彈複利",
+        "tool": false
+       },
+       {
+        "t": "鍛造精準認知濾網（如看足100間房/讀200本書）",
+        "tool": false
+       },
+       {
+        "t": "跨領域融合，運用資源轉換正向螺旋換取自由",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.4",
+      "title": "經驗傳承",
+      "sub": "把碎片記憶與經驗數位化、像導師般傳承",
+      "points": [
+       {
+        "t": "捕捉碎片記憶，將隱性經驗結構化與數位化",
+        "tool": false
+       },
+       {
+        "t": "建立個人智識庫（SOP/避坑指南），降低重複學習成本",
+        "tool": true
+       },
+       {
+        "t": "像導師般分享，借助 AI 實現知識永續經營與變現",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.5",
+      "title": "順勢而活",
+      "sub": "把握當下、隨勢而行的從容人生",
+      "points": [
+       {
+        "t": "腳踏車變速哲學：上坡省力慢行、下坡順勢滑行",
+        "tool": false
+       },
+       {
+        "t": "以終點反推起點，安住當下的平靜泡泡",
+        "tool": false
+       },
+       {
+        "t": "把手上的長槳放下，將一切交付給水流與時間",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "xuhang": {
+  "title": "續航",
+  "chapters": [
+   {
+    "no": 1,
+    "label": "第 1 章",
+    "title": "系統思維",
+    "sub": "把成長變成會自轉的機器",
+    "sections": [
+     {
+      "sec": "1.1",
+      "title": "為什麼努力卻原地踏步",
+      "sub": "缺的是「系統」不是意志力",
+      "points": [
+       {
+        "t": "核心問題：缺系統而非意志力，意志力是有限生理資源",
+        "tool": false
+       },
+       {
+        "t": "大腦定位：延伸心智理論，大腦是 CPU（思考）而非硬碟（記憶）",
+        "tool": false
+       },
+       {
+        "t": "摩擦成本：人腦強記與無系統導致精神內耗與財務損失",
+        "tool": false
+       },
+       {
+        "t": "解方：即時收集、極微啟動、定期維護",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.2",
+      "title": "雙螺旋系統",
+      "sub": "能力變現 × 自動化，互相往上拉",
+      "points": [
+       {
+        "t": "飛輪效應：變現（向外拓展）與自動化（向內省力）互相拉升",
+        "tool": false
+       },
+       {
+        "t": "落地策略：核心技能診斷、AI 需求處理器、技能再投資",
+        "tool": false
+       },
+       {
+        "t": "效益：降低 95% 摩擦成本，提升真實時薪",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.3",
+      "title": "複利引擎",
+      "sub": "系統讓你「不中斷」地累積",
+      "points": [
+       {
+        "t": "動能維持：免除手動重啟的高昂代價，保持連續性",
+        "tool": false
+       },
+       {
+        "t": "防中斷網：篩選複利雪道、設定最小可執行單元 (MVS)",
+        "tool": false
+       },
+       {
+        "t": "環境與連線：零阻力環境、微時段、不中斷連線看板",
+        "tool": false
+       },
+       {
+        "t": "復原機制：3-2-1 快速復原法（3 分鐘降級啟動、2 個降級方案、1 個心態重置）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.4",
+      "title": "不缺心態",
+      "sub": "成長系統的底層安全感",
+      "points": [
+       {
+        "t": "匱乏陷阱：匱乏感引發焦慮、短視決策與「窮忙稅」",
+        "tool": false
+       },
+       {
+        "t": "實體基石：6 個月生存預備金 (MLC)、安心防禦帳戶",
+        "tool": false
+       },
+       {
+        "t": "心智防衛：注意力斷捨離、睡前三件好事、心態重置對話",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "1.5",
+      "title": "系統健康自檢",
+      "sub": "進五步、退三步、問題圈",
+      "points": [
+       {
+        "t": "對抗熵增：系統無人維護必趨混亂，需定期稽核",
+        "tool": false
+       },
+       {
+        "t": "進五步（正向）：效益、資源、步驟、時程、成功畫面",
+        "tool": true
+       },
+       {
+        "t": "退三步（反向）：不成功評估、阻礙預案、歷史案例",
+        "tool": false
+       },
+       {
+        "t": "問題圈：逆向追問卡關點與 AI 優化",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "label": "第 2 章",
+    "title": "心智設定",
+    "sub": "成長系統的作業系統",
+    "sections": [
+     {
+      "sec": "2.1",
+      "title": "內在的小聲音",
+      "sub": "先關掉扯後腿的雜訊",
+      "points": [
+       {
+        "t": "認知負荷：內在雜訊佔用工作記憶體，引發內耗",
+        "tool": false
+       },
+       {
+        "t": "三步清理：覺察貼標籤、換句話說（對話模板）、心靈防禦泡泡",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.2",
+      "title": "鈍感力",
+      "sub": "像吃熱地瓜不能急，給系統時間發酵",
+      "points": [
+       {
+        "t": "失望之谷：大腦的直線期望跑在實際成長前面，撐過這段落差",
+        "tool": false
+       },
+       {
+        "t": "鈍感習慣：行動與結果分離、容許糟糕第一版草稿、心情緩衝抽屜",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.3",
+      "title": "正念與觀察",
+      "sub": "讓情緒成為燃料而非煞車",
+      "points": [
+       {
+        "t": "情緒轉化：情緒是警報而非煞車，解除蔡加尼克效應的心理緊繃",
+        "tool": false
+       },
+       {
+        "t": "操作方法：一分鐘深呼吸、第三人稱貼標籤、情緒定向引導至 MVS",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.4",
+      "title": "痛苦即鍛鍊",
+      "sub": "把挫折存進「經驗值」",
+      "points": [
+       {
+        "t": "反脆弱：利用挫折進化，避免重複踩坑",
+        "tool": false
+       },
+       {
+        "t": "心智 SL 大法：結構化失敗存檔（Save）、回放與讀取防呆（Load）、能量寶盒",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "2.5",
+      "title": "慢慢變強",
+      "sub": "長期主義的心理地基",
+      "points": [
+       {
+        "t": "避免自我損耗：防止意志力電池乾涸，拒絕極限衝刺後中斷",
+        "tool": false
+       },
+       {
+        "t": "三項技術：設定保底下限、保留 20% 緩衝餘裕 (Slack)、關注行進軌跡",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "label": "第 3 章",
+    "title": "習慣系統",
+    "sub": "讓對的行動自動發生",
+    "sections": [
+     {
+      "sec": "3.1",
+      "title": "小習慣",
+      "sub": "「做一點點就好」騙過大腦",
+      "points": [
+       {
+        "t": "福格行為模型：極大幅降低門檻 (Ability)，避開杏仁核警報",
+        "tool": false
+       },
+       {
+        "t": "設計指南：定義不可失敗最低門檻、錨點連結法綁定、絕對不中斷",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.2",
+      "title": "彈性檔位",
+      "sub": "忙起來也不會斷的習慣設計",
+      "points": [
+       {
+        "t": "打破全或無完美主義：防止剛性折損與躺平",
+        "tool": false
+       },
+       {
+        "t": "三檔規格：迷你檔 (Mini <3分)、標準檔 (Medium 20-30分)、加強檔 (Mega 60-90分)",
+        "tool": false
+       },
+       {
+        "t": "動態調度：依大腦頻寬（綠/黃/橘/紅燈）切換，搭配留白緩衝日",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.3",
+      "title": "SL 大法",
+      "sub": "人生的存檔與讀取，反覆優化",
+      "points": [
+       {
+        "t": "消除重啟代價：降低中斷後重新對焦的心神成本",
+        "tool": false
+       },
+       {
+        "t": "存讀檔機制：ABC 存檔法（進度、下一步微指令、脈絡路徑）、無腦讀取",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "3.4",
+      "title": "獎勵計畫",
+      "sub": "降低意志力消耗、避免中斷",
+      "points": [
+       {
+        "t": "多巴胺動力：告別毒性補償，建立健康回饋",
+        "tool": false
+       },
+       {
+        "t": "獎勵設計：微小回饋清單、鎖定「睡眠存款」為終極獎勵、多巴胺獎勵基金",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "3.5",
+      "title": "生命能量價值",
+      "sub": "用時薪決定什麼該做、什麼該外包",
+      "points": [
+       {
+        "t": "頻寬守護：別為了省小錢，耗掉最寶貴的意志力與注意力",
+        "tool": false
+       },
+       {
+        "t": "三原則：建立摩擦力預警、善用軟體/外包工具買回專注、時間存入複利帳戶",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "label": "第 4 章",
+    "title": "第二大腦",
+    "sub": "把記憶外包，大腦只管思考",
+    "sections": [
+     {
+      "sec": "4.1",
+      "title": "第二大腦總論",
+      "sub": "大腦是 CPU 不是硬碟",
+      "points": [
+       {
+        "t": "認知卸載：大腦是 CPU 不是硬碟，記憶外包釋放頻寬",
+        "tool": false
+       },
+       {
+        "t": "靈感流轉四階段：極速捕捉 (Inbox) ➔ 結構沉澱 (PARA) ➔ 快速檢索 ➔ 輕鬆產出",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.2",
+      "title": "說明書無紙化系統",
+      "sub": "流程寫一次、永久複用",
+      "points": [
+       {
+        "t": "居家維護數位化：消除尋找紙本的摩擦與焦慮",
+        "tool": false
+       },
+       {
+        "t": "落地步驟：建立 Notion 設備資料庫、黃金五分鐘建檔、自動週期提醒",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.3",
+      "title": "專案三層架構",
+      "sub": "專案→任務→行動的追蹤",
+      "points": [
+       {
+        "t": "CODE與PARA落地：將抽象願景翻譯為具體物理動作",
+        "tool": false
+       },
+       {
+        "t": "三層結構：01_專案（目標）➔ 02_任務（里程碑）➔ 03_行動（VOC公式微指令）",
+        "tool": true
+       },
+       {
+        "t": "執行介面：今日看板、時間阻斷 (Time Blocking)",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.4",
+      "title": "閱讀筆記與好主意發現系統",
+      "points": [
+       {
+        "t": "知識燃料管線：將被動輸入轉化為高價值輸出",
+        "tool": false
+       },
+       {
+        "t": "實踐工具：四欄對話筆記、靈感 SL 循環（Setup ➔ Live ➔ Optimize）、主題地圖與歷史浮現",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "4.5",
+      "title": "財務儀表板",
+      "sub": "把錢的狀況變成看得見的數字",
+      "points": [
+       {
+        "t": "消除金錢焦慮：視覺化與自動同步資產",
+        "tool": false
+       },
+       {
+        "t": "Google 試算表架構：明細底冊、GOOGLEFINANCE 自動拉取市價/匯率、控制面板（安全指標）",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "label": "第 5 章",
+    "title": "借 AI 之勢",
+    "sub": "雙螺旋的加速器",
+    "sections": [
+     {
+      "sec": "5.1",
+      "title": "把 AI 接進系統",
+      "sub": "讓它替你處理輸入",
+      "points": [
+       {
+        "t": "降低認知負荷：讓 AI 代勞過濾、摘要與翻譯",
+        "tool": false
+       },
+       {
+        "t": "極簡整合：入口極簡化、提問白話化、產出沉澱至第二大腦",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.2",
+      "title": "口語陪練場",
+      "sub": "把 AI 當你的練習對手",
+      "points": [
+       {
+        "t": "無壓力練習：ChatGPT 語音對話提供零心理負擔環境",
+        "tool": false
+       },
+       {
+        "t": "暗時間活用：執行意圖 (If-Then) 綁定家事/通勤時間，低成本累積語感",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.3",
+      "title": "寫作系統",
+      "sub": "用 Notion 把想法變資產",
+      "points": [
+       {
+        "t": "CODE 知識轉化：將碎片記憶化為長尾數位資產",
+        "tool": false
+       },
+       {
+        "t": "Notion 三層寫作基地：靈感收集池 ➔ 創作小看板 ➔ 數位果實牆",
+        "tool": false
+       },
+       {
+        "t": "產出槓桿：1對3多管道轉化、10比1整合方法論",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.4",
+      "title": "手機捷徑與語音輸入",
+      "sub": "把摩擦降到最低",
+      "points": [
+       {
+        "t": "極致降低摩擦力：符合福格模型，簡化多步驟為一鍵觸發",
+        "tool": true
+       },
+       {
+        "t": "實踐：側邊按鍵一鍵語音紀錄、網頁一鍵 AI 摘要、背景自動歸檔",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "5.5",
+      "title": "廣度 × 深度學習",
+      "sub": "跨領域的科技槓桿",
+      "points": [
+       {
+        "t": "知識漏斗模型：AI 廣度初探 ➔ 線上課程建構骨架 ➔ 專著實踐深度專精",
+        "tool": false
+       },
+       {
+        "t": "天賦生態圈：結合個人特長進行跨領域整合",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "label": "第 6 章",
+    "title": "資源管理",
+    "sub": "時間與財務的系統",
+    "sections": [
+     {
+      "sec": "6.1",
+      "title": "時間只進不退",
+      "sub": "把時間當最稀缺資產管理",
+      "points": [
+       {
+        "t": "時間絕對稀缺性：不可再生資本，需嚴格防禦注意力",
+        "tool": false
+       },
+       {
+        "t": "帕金森定律應對：計算生命能量時薪、剛性時間箱 (Time-boxing)、AI/工具外包",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.2",
+      "title": "花錢的勇氣",
+      "sub": "用生命能量價值決定怎麼花",
+      "points": [
+       {
+        "t": "破解匱乏心態：金錢是生命能量的代幣，用於買回時間與體驗",
+        "tool": false
+       },
+       {
+        "t": "價值交換評估：計算隱性時間稅、評估心流紅利、平攤長期設備/課程成本",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.3",
+      "title": "輕鬆投資系統",
+      "sub": "股債 ETF 平衡、不盯盤",
+      "points": [
+       {
+        "t": "背景默默運作：現代投資組合理論 (MPT)，降低波動與不盯盤",
+        "tool": false
+       },
+       {
+        "t": "自動化配置：發薪日自動分流、股債 ETF 定期定額、每年一次再平衡",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.4",
+      "title": "資源管理與風險控管",
+      "sub": "緊急預備金與安全邊際",
+      "points": [
+       {
+        "t": "安全氣墊（塔雷伯冗餘觀念）：抵禦黑天鵝，維護心智平靜",
+        "tool": false
+       },
+       {
+        "t": "雙重防線：6 個月生存預備金 (MLC 獨立活存)、純保障型保險轉移極端風險",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "6.5",
+      "title": "被動收入",
+      "sub": "系統自轉後才長出來的果實",
+      "points": [
+       {
+        "t": "飛輪效應：前期主動灌溉，後期延後收成的果實",
+        "tool": false
+       },
+       {
+        "t": "三階段：主動灌溉累積本金 ➔ 自動分流注入資產 ➔ 飛輪自轉覆蓋生存成本",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "label": "第 7 章",
+    "title": "人生防禦",
+    "sub": "人際、情緒、精力的系統",
+    "sections": [
+     {
+      "sec": "7.1",
+      "title": "人際斷捨離",
+      "sub": "遠離低能量者、確立界線",
+      "points": [
+       {
+        "t": "精力防漏：避免單向掠奪的低能量者耗盡心智頻寬",
+        "tool": false
+       },
+       {
+        "t": "劃定心理界線：釐清責任歸屬，建構三層防護網（靜音隔離、話術拒絕、果斷遠離）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.2",
+      "title": "物理與數位斷捨離",
+      "sub": "清掉消耗精力的雜訊",
+      "points": [
+       {
+        "t": "消除視覺雜訊：依據 Kaplan 注意力恢復理論，減少定向注意力消耗",
+        "tool": false
+       },
+       {
+        "t": "減法行動：實體桌面極簡（外部倉庫思維）、數位主動屏蔽通知、檔案單一水源",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.3",
+      "title": "恢復堡壘",
+      "sub": "休息與睡眠的超能力空間",
+      "points": [
+       {
+        "t": "超補償理論：休息是認知超補償與深度修復",
+        "tool": false
+       },
+       {
+        "t": "堡壘配置：實體/數位/心智/生理降溫程序",
+        "tool": false
+       },
+       {
+        "t": "日常修復：30+5 微休息、15分鐘任務換檔間隙、20分鐘精準午睡",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.4",
+      "title": "情緒管理",
+      "sub": "用日記與溝通轉化困境",
+      "points": [
+       {
+        "t": "情緒標籤理論：命名情緒能冷卻杏仁核",
+        "tool": false
+       },
+       {
+        "t": "轉化機制：日記排毒（傾倒、拆解事實/想像、辨識需求）、三步理性溝通",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "7.5",
+      "title": "精力配電盤",
+      "sub": "把電量配給高價值任務",
+      "points": [
+       {
+        "t": "精力 CP 值：生命三大資源（時間、金錢、精力）的優化配置",
+        "tool": false
+       },
+       {
+        "t": "原則：生命時薪評估外包、高效工具毫不猶豫、省下精力存入體驗存檔點",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "label": "第 8 章",
+    "title": "持續之道",
+    "sub": "讓系統長期自轉",
+    "sections": [
+     {
+      "sec": "8.1",
+      "title": "心流與存檔點",
+      "sub": "在投入中累積、在節點保存",
+      "points": [
+       {
+        "t": "解決注意力殘留：遊戲 SL 大法應用於日常工作",
+        "tool": false
+       },
+       {
+        "t": "五分鐘存檔 SOP：思路暫存 (Save)、鎖定微行動（下一動）、無痛載入 (Load)",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.2",
+      "title": "發呆放空與跳脫框架",
+      "sub": "虛擬西瓜卡的多元思維",
+      "points": [
+       {
+        "t": "大腦整理模式：切換「聚光燈」至「燈籠」模式，讓海馬迴背景運算",
+        "tool": false
+       },
+       {
+        "t": "解題步驟：物理斷電離場、三個重構問句直探本質、虛擬西瓜卡思維（功能導向）",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.3",
+      "title": "精簡生活與韜光養晦",
+      "sub": "避免系統過度複雜",
+      "points": [
+       {
+        "t": "克服選擇的弔詭：降低系統維護成本與選擇疲勞",
+        "tool": false
+       },
+       {
+        "t": "實踐：硬體減法、訂閱排毒、社交靜音、韜光養晦（不急於展示未成熟成果）",
+        "tool": false
+       }
+      ]
+     },
+     {
+      "sec": "8.4",
+      "title": "終身學習與經驗傳承",
+      "sub": "把成長數位化、像導師般傳承",
+      "points": [
+       {
+        "t": "刻意練習與校準：建構數位分身，將軌跡資產化",
+        "tool": false
+       },
+       {
+        "t": "傳承架構：4F 經驗紀錄（事實、感受、分析、應用）、三分鐘講給外行聽、打磨 SOP",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.5",
+      "title": "慢慢變強的從容",
+      "sub": "讓持續成長成為一種生活方式",
+      "points": [
+       {
+        "t": "告別速成焦慮：建立生活餘裕 (Margin) 作為安全氣囊",
+        "tool": false
+       },
+       {
+        "t": "從容鐵律：目標極簡降階、行程主動留白 20%、生活習慣綁定、指數化複利累積",
+        "tool": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "youyi": {
+  "title": "人生友誼賽",
+  "chapters": [
+   {
+    "no": 1,
+    "label": "第 1 章",
+    "title": "視角的魔法",
+    "sub": "把世界的濾鏡換成快樂",
+    "sections": [
+     {
+      "sec": "1.1",
+      "title": "同一棟破房子，悲觀看是廢墟、快樂看是寶藏",
+      "points": [
+       {
+        "t": "破房子與古董公寓：切換寶藏濾鏡，在不完美中發現美好",
+        "tool": false
+       },
+       {
+        "t": "小動作：替家裡最看不順眼的角落取個好玩的名字，配一段荒謬背景故事",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "1.2",
+      "title": "好奇心練習",
+      "sub": "每天寫一件有趣小事，慢慢換掉負面濾鏡",
+      "points": [
+       {
+        "t": "好奇心練習：用「外星人觀察」筆記克服大腦負面偏誤",
+        "tool": false
+       },
+       {
+        "t": "小動作：手機筆記建「#野生地球觀察」標籤，通勤時寫一則 50 字幽默觀察",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "1.3",
+      "title": "內在的快樂才是本體，外在只是工具",
+      "points": [
+       {
+        "t": "本體與工具：內在平靜是本體，外在物質與科技皆為輔助",
+        "tool": false
+       },
+       {
+        "t": "小動作：把最常讓你焦慮的工具或物品停用 24 小時，只用紙筆記下今晚的想法",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "1.4",
+      "title": "啟發你的人都不是一帆風順，只是用快樂的眼睛看挑戰",
+      "points": [
+       {
+        "t": "快樂眼看挑戰：學大師的「臣服與不排斥」，把磨難折射成智慧",
+        "tool": false
+       },
+       {
+        "t": "小動作：在最大難關前寫上「太好了，我人生的電影編劇在這裡為我安排了一個精彩的難關」，再寫兩個出人意料的應對",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "1.5",
+      "title": "快樂與責任的平衡",
+      "sub": "別讓喜歡的事主導生活",
+      "points": [
+       {
+        "t": "快樂與責任平衡：設定「娛樂沙盒」，別讓逃避性多巴胺主導生活",
+        "tool": false
+       },
+       {
+        "t": "小動作：行事曆排一段「30 分鐘娛樂沙盒」，時間到就關掉，把玩心帶進下一件事",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 2,
+    "label": "第 2 章",
+    "title": "人生如戲",
+    "sub": "用看戲的心情面對鳥事",
+    "sections": [
+     {
+      "sec": "2.1",
+      "title": "乒乓球友誼賽",
+      "sub": "當友誼賽不是生死戰，失誤了也不慌",
+      "points": [
+       {
+        "t": "乒乓球友誼賽：卸除戰或逃反應，將衝突當作柔和推擋的來球",
+        "tool": false
+       },
+       {
+        "t": "小動作：收到想立刻反駁的訊息，延遲 3 分鐘，只用事實與解決方案回覆",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "2.2",
+      "title": "插隊就看戲、詐騙就對戲",
+      "sub": "讓對方自己尷尬收場",
+      "points": [
+       {
+        "t": "看戲與對戲：把插隊與詐騙當免費即興劇，讓對方尷尬收場",
+        "tool": false
+       },
+       {
+        "t": "小動作：遇到插隊或詐騙電話，心裡說「好戲開演了」，記下最滑稽的細節",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "2.3",
+      "title": "日落會落下",
+      "sub": "把難過的事當一場即將謝幕的短劇",
+      "points": [
+       {
+        "t": "日落會落下：運用「心靈謝幕法」，將悲傷視覺化為下檔短劇",
+        "tool": false
+       },
+       {
+        "t": "小動作：把今天最難過的一句話寫在廢紙上，說「這場戲演完了」，揉掉丟進垃圾桶",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "2.4",
+      "title": "敏捷反應力",
+      "sub": "把悲傷快速轉成平靜的內在功夫",
+      "points": [
+       {
+        "t": "敏捷反應力：畫定「悲傷沙盒」邊界，快速暖重啟回到平靜",
+        "tool": false
+       },
+       {
+        "t": "小動作：計畫被打亂時默唸「結束崩潰程序，啟動暖重啟」，寫下一個事實與一個最小解法",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "2.5",
+      "title": "戲如人生",
+      "sub": "抽離一點，就看見樂趣",
+      "points": [
+       {
+        "t": "導演抽離視角：拉遠鏡頭看荒謬喜劇，進行高效認知套利",
+        "tool": false
+       },
+       {
+        "t": "小動作：睡前像導演覆盤，對鏡子自嘲今天最狼狽的一幕，明天換個好笑劇本",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 3,
+    "label": "第 3 章",
+    "title": "內在的小聲音",
+    "sub": "把扯後腿的雜音變成加油聲",
+    "sections": [
+     {
+      "sec": "3.1",
+      "title": "漏氣的輪胎",
+      "sub": "別讓負面語言像針，悄悄漏光你的精力",
+      "points": [
+       {
+        "t": "漏氣的輪胎：替換負面口頭禪，止住能量慢性流失",
+        "tool": false
+       },
+       {
+        "t": "小動作：便利貼寫下三個負面口頭禪和它們的「補胎替代詞」，貼在螢幕下緣",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "3.2",
+      "title": "大禹治水",
+      "sub": "疏通內心管道，將情緒轉化為正向的流水",
+      "points": [
+       {
+        "t": "大禹治水：不壓抑不放任，透過運動與書寫疏導情緒洪流",
+        "tool": false
+       },
+       {
+        "t": "小動作：無名火上來時先做「三步排洪法」：吸氣四秒、吐氣八秒、去散步或倒杯水",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "3.3",
+      "title": "起床第一句話",
+      "sub": "用一個簡單的開關，設定你一整天的好天氣",
+      "points": [
+       {
+        "t": "起床第一句話：醒來對自己說「今天是美好的一天」，重塑 RAS 開機腳本",
+        "tool": false
+       },
+       {
+        "t": "小動作：床頭貼「今天是美好的一天」，明早腳落地前說出來並微笑三秒",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "3.4",
+      "title": "正面重解讀",
+      "sub": "分手是提早練習分離，每一場謝幕都是成長的彩排",
+      "points": [
+       {
+        "t": "正面重解讀：將失去與分手詮釋為「提早練習分離」與及時止損",
+        "tool": false
+       },
+       {
+        "t": "小動作：做「重解讀練習」：列出這次失去帶來的三個好處或成長養分",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "3.5",
+      "title": "掃雷行動",
+      "sub": "在情緒地雷引爆前，主動進行心靈的排雷演練",
+      "points": [
+       {
+        "t": "心靈掃雷行動：定期進行文字寫作排雷，避免隱性情緒地雷爆發",
+        "tool": false
+       },
+       {
+        "t": "小動作：建一頁「今日掃雷」，用四個問題拆解今天最卡卡的一件事",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 4,
+    "label": "第 4 章",
+    "title": "內心堡壘的城主",
+    "sub": "當自己人際的門衛",
+    "sections": [
+     {
+      "sec": "4.1",
+      "title": "內心堡壘與護城河",
+      "sub": "在喧囂的外界中，為自己築起安全的屏障",
+      "points": [
+       {
+        "t": "護城河與堡壘：築起防禦屏障，拉起吊橋過濾外界負能量垃圾",
+        "tool": false
+       },
+       {
+        "t": "小動作：畫一張「城堡與護城河」，遇到負能量就默唸「吊橋拉起，垃圾留在河對岸」",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.2",
+      "title": "難纏的人都是 NPC",
+      "sub": "用好奇心代替憤怒，把刁難當成解任務",
+      "points": [
+       {
+        "t": "難纏的人都是 NPC：抱持玩家好奇心，觀察預設機制來解任務通關",
+        "tool": false
+       },
+       {
+        "t": "小動作：替最頭痛的人建一份「NPC 檔案」：預設對話框與弱點機制",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.3",
+      "title": "把責任還給對方",
+      "sub": "雷同事的爛攤子，不該成為你超載的背包",
+      "points": [
+       {
+        "t": "把責任還給對方：拒絕替雷同事扛背包，釐清邊界止住內耗",
+        "tool": false
+       },
+       {
+        "t": "小動作：練習說一次「責任歸還金句」，說完就回頭專注自己的事",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.4",
+      "title": "溫和而堅定的界線",
+      "sub": "優雅地說不，適度收取手續費也是一種人情",
+      "points": [
+       {
+        "t": "溫和堅定的界線：優雅說不，代購與服務適度談錢/手續費以維護關係",
+        "tool": false
+       },
+       {
+        "t": "小動作：回覆為難的人情請求時用「界線三部曲」：肯定需求、說明限制、有條件的幫忙",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "4.5",
+      "title": "遠離有毒關係",
+      "sub": "人際關係的斷捨離，把有限的能量留給對的人",
+      "points": [
+       {
+        "t": "人際關係斷捨離：遠離情緒吸血鬼，把能量留給能滋養你的人",
+        "tool": false
+       },
+       {
+        "t": "小動作：找出前三名情緒吸血鬼，把他們的通知設為靜音",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 5,
+    "label": "第 5 章",
+    "title": "減法的快樂",
+    "sub": "東西越少，心越寬",
+    "sections": [
+     {
+      "sec": "5.1",
+      "title": "購物多巴胺的真相",
+      "sub": "雙頻路由器與閒置閱讀架的懊悔",
+      "points": [
+       {
+        "t": "識破購物多巴胺：算清閒置物品的「真實機會成本」，不為期待買單",
+        "tool": false
+       },
+       {
+        "t": "小動作：購物車全部移到追蹤清單，設「十四天後冷卻檢視」提醒",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.2",
+      "title": "延遲滿足",
+      "sub": "物質做減法、精神做加法",
+      "points": [
+       {
+        "t": "延遲滿足：物質做減法、精神做加法，將預算轉為知識與能力資產",
+        "tool": false
+       },
+       {
+        "t": "小動作：3C 只是電池老化就先換電池保養，省下的預算買一本想讀的書",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.3",
+      "title": "物理空間斷捨離",
+      "sub": "清掉閒置，找回呼吸感",
+      "points": [
+       {
+        "t": "物理空間斷捨離：清理閒置雜物，關閉大腦背景程式以找回呼吸感",
+        "tool": false
+       },
+       {
+        "t": "小動作：計時三分鐘，收掉桌上三天沒用的雜物，留出一半留白",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.4",
+      "title": "剛剛好的鈍感",
+      "sub": "敏感度調到需要才出現",
+      "points": [
+       {
+        "t": "剛剛好的鈍感：主動調低敏感度旋鈕，把人際互動當 RPG 背景音效",
+        "tool": false
+       },
+       {
+        "t": "小動作：遇到冷淡訊息或無表情的臉，默唸「這只是 RPG 遊戲裡的背景 NPC 與音效」，回到手上的事",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "5.5",
+      "title": "真正的擁有來自使用",
+      "sub": "從內在找滿足",
+      "points": [
+       {
+        "t": "真正的擁有來自使用：擺脫完美時機執念，在日常磨損中獲得滿足",
+        "tool": false
+       },
+       {
+        "t": "小動作：拿出一件捨不得用的好東西，今天就打開、點燃或穿上它",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 6,
+    "label": "第 6 章",
+    "title": "慢慢來才是人生",
+    "sub": "細火慢燉的行動哲學",
+    "sections": [
+     {
+      "sec": "6.1",
+      "title": "細火慢燉",
+      "sub": "重要抉擇別急，給思緒發酵的時間",
+      "points": [
+       {
+        "t": "決策發酵法：重要抉擇別急著秒回，給思緒 24 小時細火慢燉",
+        "tool": false
+       },
+       {
+        "t": "小動作：面對重大決定先回「我需要一天的時間評估」，給思緒 24 小時發酵",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.2",
+      "title": "創作如烹飪",
+      "sub": "靈感來自日常積累與觀察",
+      "points": [
+       {
+        "t": "創作如烹飪：平時往「靈感冰箱」存新鮮食材，寫作才不枯竭",
+        "tool": false
+       },
+       {
+        "t": "小動作：下班路上不滑手機，找一件有趣小事記進「靈感冰箱」",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.3",
+      "title": "萬事起頭難，但只要起頭",
+      "sub": "踏出第一步，方向才會來",
+      "points": [
+       {
+        "t": "破除完美主義：踩進迷霧踏出不完美的第一步，方向是走出來的",
+        "tool": false
+       },
+       {
+        "t": "小動作：用最簡陋的工具做出拖很久的專案第一版草稿，給一位好朋友看",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.4",
+      "title": "空想的代價",
+      "sub": "20年前看好0050卻只想不做，眼睜睜看它漲五倍",
+      "points": [
+       {
+        "t": "拒繳空想稅：別試圖預測市場，用「自動定期定額」擊敗空想大腦",
+        "tool": false
+       },
+       {
+        "t": "小動作：不預測大盤，設定每月可負擔金額的大盤 ETF 定期定額自動扣款",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "6.5",
+      "title": "錨釘點",
+      "sub": "待辦變成看得見的清單，每完成一件說「太棒了」",
+      "points": [
+       {
+        "t": "實體錨釘點：待辦寫成看得見的便利貼，劃掉紅叉並慶祝「太棒了」",
+        "tool": false
+       },
+       {
+        "t": "小動作：把最不想面對、但最重要的一件事寫在便利貼，完成時劃紅叉說「太棒了！」",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 7,
+    "label": "第 7 章",
+    "title": "出走與獨處",
+    "sub": "在未知與安靜裡長出力量",
+    "sections": [
+     {
+      "sec": "7.1",
+      "title": "無計畫的奇幻旅程",
+      "points": [
+       {
+        "t": "無計畫旅程：收起戰術板，在沒有預設的行程中體驗專注與驚喜",
+        "tool": false
+       },
+       {
+        "t": "小動作：下班換一條沒走過的路，關掉導航，單純用眼睛觀察",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "7.2",
+      "title": "臨機應變的鍛鍊",
+      "points": [
+       {
+        "t": "臨機應變：關閉腦中自我審判視角，用手頭僅有的資源即興回擊",
+        "tool": false
+       },
+       {
+        "t": "小動作：計畫被打亂時告訴自己「這是一場好玩的友誼賽」，用最幽默平靜的方式回擊",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "7.3",
+      "title": "獨處的超能力",
+      "points": [
+       {
+        "t": "獨處超能力：把安靜當作中場休息，練習不安扣回內在港灣",
+        "tool": false
+       },
+       {
+        "t": "小動作：睡前關掉所有燈光與螢幕，在黑暗安靜中做 10 次緩慢深呼吸",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "7.4",
+      "title": "善用人生的工具",
+      "sub": "身體、心智、心靈",
+      "points": [
+       {
+        "t": "具身認知與裝備：平衡保養身體、心智與心靈，順著結構不硬幹",
+        "tool": false
+       },
+       {
+        "t": "小動作：大腦卡卡時設 10 分鐘鬧鐘：站起來深呼吸、伸展、喝一杯溫水",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "7.5",
+      "title": "科技當輕盈助手",
+      "points": [
+       {
+        "t": "科技輕量助手：配置無縫支付與 AI 工具，接走瑣碎工作以留出情緒頻寬",
+        "tool": false
+       },
+       {
+        "t": "小動作：社群群組通知全設靜音，關掉新聞與購物推播",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "no": 8,
+    "label": "第 8 章",
+    "title": "成為自己最好的朋友",
+    "sub": "靜下來，善待自己",
+    "sections": [
+     {
+      "sec": "8.1",
+      "title": "用愛看自己",
+      "points": [
+       {
+        "t": "用愛看自己：換掉嚴厲審判官，像對待摯友般無條件關注自己",
+        "tool": false
+       },
+       {
+        "t": "小動作：刷牙時看著鏡子對自己說「謝謝你，今天你也非常努力了」",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.2",
+      "title": "欣賞不完美",
+      "points": [
+       {
+        "t": "欣賞不完美（金繕哲學）：擺脫社會時鐘，大方展現瑕疵與獨特金線",
+        "tool": false
+       },
+       {
+        "t": "小動作：花 3 分鐘退追蹤讓你比較焦慮的帳號",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.3",
+      "title": "為自己而活",
+      "points": [
+       {
+        "t": "為自己而活：保留一塊「靈魂的自轉領地」，允許那一格不被要求表現",
+        "tool": false
+       },
+       {
+        "t": "小動作：行事曆預定一段「自我維護時段」，像重要會議一樣嚴格執行",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.4",
+      "title": "心安的底氣",
+      "points": [
+       {
+        "t": "心安的底氣：準備 6 個月預備金與不盯盤 ETF，買下拒絕與選擇的權利",
+        "tool": false
+       },
+       {
+        "t": "小動作：開一個「自由底氣基金」子帳戶，發薪隔天自動轉入薪水的 25%",
+        "tool": true
+       }
+      ]
+     },
+     {
+      "sec": "8.5",
+      "title": "慢慢來，優雅地活",
+      "points": [
+       {
+        "t": "慢慢來優雅活：不被想追回時間的補償機制推著跑，一次只做好一件事，踩出自己的步伐",
+        "tool": false
+       },
+       {
+        "t": "小動作：吃下一餐時手機放遠，前三口放下餐具、閉眼咀嚼 20 次",
+        "tool": true
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+};
+
+(function () {
+  var sec = document.getElementById('bookmap');
+  var key = window.__QUIZKEY;
+  if (!sec || !key || !BOOKMAPS[key]) return;        // 這本書還沒有地圖：維持 hidden
+  var M = BOOKMAPS[key];
+  window.__HASMAP = true;                            // 測驗結果的「回去重讀」才會做成按鈕
+  sec.hidden = false;
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.getElementById('mm-tree'), br = document.getElementById('mm-branch'), tg = document.getElementById('mm-tools');
+  function esc(x) { return String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function cnt(c) { var p = 0, t = 0; c.sections.forEach(function (x) { p += x.points.length; x.points.forEach(function (q) { if (q.tool) t++; }); }); return [p, t]; }
+  function lab(c) { return c.label || ('第 ' + c.no + ' 章'); }
+  function secId(s) { return 'mm-s-' + String(s).replace(/\./g, '-'); }
+
+  function node(c) {
+    var n = cnt(c);
+    return '<button class="mm-node" type="button" data-ch="' + c.no + '" aria-label="' + esc(lab(c) + ' ' + c.title) + '">' +
+      '<span class="k">' + esc(lab(c)) + '</span>' + (c.title ? '<span class="s">' + esc(c.title.split('：')[0]) + '</span>' : '') +
+      '<span class="m">' + n[0] + ' 個重點</span>' + (n[1] ? '<span class="m t">工具 ' + n[1] + '</span>' : '') + '</button>';
+  }
+
+  // 分支線用 SVG 現畫：節點高度會隨字數變，寫死座標一定會歪
+  function drawLines() {
+    var svg = br.querySelector('.mm-lines'), hub = br.querySelector('.mm-hub');
+    if (!svg || !hub) return;
+    var B = br.getBoundingClientRect(), H = hub.getBoundingClientRect(), d = '';
+    [].forEach.call(br.querySelectorAll('.mm-node'), function (n) {
+      var r = n.getBoundingClientRect(), left = n.parentNode.classList.contains('left');
+      var x1 = (left ? H.left : H.right) - B.left, y1 = H.top + H.height / 2 - B.top;
+      var x2 = (left ? r.right : r.left) - B.left, y2 = r.top + r.height / 2 - B.top, mx = (x1 + x2) / 2;
+      d += 'M' + x1 + ',' + y1 + ' C' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2 + ' ';
+    });
+    svg.innerHTML = '<path d="' + d + '"/>';
+  }
+
+  var P = 0, T = 0, S = 0;
+  M.chapters.forEach(function (c) { var n = cnt(c); P += n[0]; T += n[1]; S += c.sections.length; });
+  // 七本書的層級不一樣：有的分部、有的分組（每組 5 章）、有的直接是章
+  var unit = M.chapters[0].label && M.chapters[0].label.indexOf('部') !== -1 ? '部' : (M.chapters[0].title ? '章' : '組');
+  var sunit = M.chapters[0].sections[0].label && M.chapters[0].sections[0].label.indexOf('章') !== -1 ? '章' : '節';
+  var unitTxt = unit === '組' ? M.chapters.length + ' 組（每組 5 章）' : M.chapters.length + ' ' + unit;
+
+  document.getElementById('bookmap-title').textContent = '《' + M.title + '》全書地圖';
+  document.getElementById('mm-note').textContent = unitTxt + '、' + S + ' ' + sunit + '、' + P + ' 個重點，全部對照過原書。標「工具」的 ' + T + ' 個，是可以直接拿來用的自檢表、清單、步驟或練習。';
+  tg.textContent = '只看工具（' + T + '）';
+
+  var half = Math.ceil(M.chapters.length / 2);
+  br.innerHTML = '<svg class="mm-lines" aria-hidden="true"></svg>' +
+    '<div class="mm-col left">' + M.chapters.slice(0, half).map(node).join('') + '</div>' +
+    '<div class="mm-hub"><b' + (M.title.length > 2 ? ' class="long"' : '') + '>' + esc(M.title) + '</b><span>' + M.chapters.length + ' ' + unit + '<br>' + P + ' 個重點</span></div>' +
+    '<div class="mm-col right">' + M.chapters.slice(half).map(node).join('') + '</div>';
+
+  var html = '';
+  M.chapters.forEach(function (c) {
+    var n = cnt(c);
+    html += '<details class="mm-ch" id="mm-ch-' + c.no + '" data-tools="' + n[1] + '"><summary>' +
+      '<span class="n">' + esc(lab(c)) + '</span><span class="t">' + esc(c.title || '') + '</span>' +
+      '<span class="cnt">' + c.sections.length + ' ' + sunit + '・' + n[0] + ' 個重點</span></summary><div class="mm-secs">';
+    c.sections.forEach(function (x) {
+      var t = 0; x.points.forEach(function (p) { if (p.tool) t++; });
+      html += '<details class="mm-sec" id="' + secId(x.sec) + '" data-tools="' + t + '"><summary>' +
+        '<span class="sec">' + esc(x.label || x.sec) + '</span><span>' + esc(x.title) + '</span></summary><ul class="mm-pts">';
+      x.points.forEach(function (p) {
+        html += '<li' + (p.tool ? ' class="tool"' : '') + '>' + esc(p.t) + (p.tool ? ' <span class="tool-chip">工具</span>' : '') + '</li>';
+      });
+      html += '</ul></details>';
+    });
+    html += '</div></details>';
+  });
+  root.innerHTML = html;
+  drawLines();
+
+  function flash(el) { el.classList.remove('mm-flash'); void el.offsetWidth; el.classList.add('mm-flash'); }
+  function toolsOff() { if (tg.getAttribute('aria-pressed') === 'true') tg.click(); }
+
+  // 測驗結果給的節號可能比地圖細（例如 1.2.2），找不到就往上退一層
+  function openSection(s) {
+    var k = String(s), el = null;
+    while (k && !(el = document.getElementById(secId(k)))) k = k.indexOf('.') === -1 ? '' : k.replace(/\.[^.]*$/, '');
+    if (!el) return;
+    toolsOff(); el.closest('.mm-ch').open = true; el.open = true;
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); flash(el);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('.mm-jump') : null;
+    if (b) openSection(b.getAttribute('data-sec'));
+  });
+
+  br.addEventListener('click', function (e) {
+    var n = e.target.closest && e.target.closest('.mm-node');
+    if (!n) return;
+    var ch = document.getElementById('mm-ch-' + n.getAttribute('data-ch'));
+    toolsOff(); ch.open = true;
+    ch.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); flash(ch);
+  });
+
+  tg.addEventListener('click', function () {
+    var on = tg.getAttribute('aria-pressed') !== 'true';
+    tg.setAttribute('aria-pressed', String(on)); root.classList.toggle('only-tools', on);
+    [].forEach.call(root.querySelectorAll('details'), function (d) { d.open = on ? d.getAttribute('data-tools') !== '0' : false; });
+  });
+
+  // 字型載完、容器寬度一變，分支線都要重畫
+  if (window.ResizeObserver) new ResizeObserver(drawLines).observe(br); else window.addEventListener('resize', drawLines);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawLines);
 })();
 </script>
 
