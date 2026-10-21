@@ -842,11 +842,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      cursor: grab;
-    }
-
-    .carousel-slide:active {
-      cursor: grabbing;
+      cursor: pointer;   /* 點一下換下一張。原本是 grab，但滑鼠其實拖不動，抓手是假提示 */
     }
 
     /* 頂部圖片區域：完美 16:9 比例，100% 原圖無遮擋，無暗色漸層 */
@@ -946,19 +942,29 @@
       z-index: 10;
     }
 
+    /* 🔴 圓點畫在米色文字區上，不要改回白色：白點在 #fdfaf4 上對比只有 1.0，等於看不見
+       （深綠底時代留下來的）。未選中墨色 .55＝對比 3.1；選中書系金＝5.0，形狀也拉長 */
     .carousel-dot {
+      position: relative;
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.32);
+      background: rgba(68, 53, 39, 0.55);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* 點只有 6px，滑鼠很難點中：用透明外框把可點範圍放大到約 24px 高，外觀不變 */
+    .carousel-dot::before {
+      content: '';
+      position: absolute;
+      inset: -9px -3px;
     }
 
     .carousel-dot.active {
       width: 16px;
       border-radius: 3px;
-      background: #ffffff;
+      background: #8d6524;
     }
 
     /* 🛠️ 白熊工具箱 */
@@ -1175,7 +1181,7 @@
     <!-- 📚 書籍故事動態橫幅 Carousel (雙區塊垂直堆疊版面設計) -->
     <section class="link-carousel" aria-label="創作理念輪播">
       <div class="carousel-track-wrapper">
-        <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-track" id="carouselTrack" title="點一下換下一張">
           <!-- 幻燈片 #1 ｜ 人生複利 -->
           <div class="carousel-slide" aria-label="創作 #1 ｜ 人生複利">
             <div class="slide-image-area slide-book1"></div>
@@ -1609,6 +1615,8 @@
     const dots = document.querySelectorAll('.carousel-dot');
     let currentSlide = 0;
     let slideTimer = null;
+    let hovering = false;     // 滑鼠停在輪播上：維持暫停，移開才繼續
+    let justSwiped = false;   // 手指剛滑過：不要再被當成「點一下」多跳一張
 
     // 只載入指定那張的底圖，載過就不再處理
     const slideEls = document.querySelectorAll('.carousel-slide');
@@ -1658,12 +1666,23 @@
       if (slideTimer) clearInterval(slideTimer);
     }
 
+    function resumeIfAway() {
+      if (!hovering) startAutoSlide();
+    }
+
     // 點擊 Dots 切換
     dots.forEach((dot, index) => {
       dot.addEventListener('click', () => {
         showSlide(index);
-        startAutoSlide();
+        resumeIfAway();   // 原本這裡直接重啟輪播，滑鼠還停在上面就被切走
       });
+    });
+
+    // 滑鼠點一下（手機輕點）橫幅 → 下一張
+    track.addEventListener('click', () => {
+      if (justSwiped) { justSwiped = false; return; }
+      showSlide((currentSlide + 1) % dots.length);
+      resumeIfAway();
     });
 
     // 觸控滑動支援 (Swipe)
@@ -1673,6 +1692,7 @@
     track.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX;
       isSwiping = true;
+      justSwiped = false;
       stopAutoSlide();
     });
 
@@ -1686,6 +1706,7 @@
           showSlide((currentSlide + 1) % dots.length);
         }
         isSwiping = false;
+        justSwiped = true;
       }
     });
 
@@ -1696,8 +1717,8 @@
 
     // 滑鼠懸停暫停輪播
     const carouselSection = document.querySelector('.link-carousel');
-    carouselSection.addEventListener('mouseenter', stopAutoSlide);
-    carouselSection.addEventListener('mouseleave', startAutoSlide);
+    carouselSection.addEventListener('mouseenter', () => { hovering = true; stopAutoSlide(); });
+    carouselSection.addEventListener('mouseleave', () => { hovering = false; startAutoSlide(); });
 
     // 啟動輪播
     // 第 1 張由 CSS 直接畫。第 2 張等整頁載完才預抓，不跟第 1 張橫幅、頭像搶頻寬；
