@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《人生遊戲》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《人生遊戲》讀者專屬：40 支原理動畫，一章一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 book-quiz.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#8d6524; --c:#a04f55;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:6px}
+
+  /* 先放縮圖，點了才載入播放器：40 支一起載入會拖慢整頁 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#2b231b}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(68,53,39,.88);display:grid;place-items:center;transition:background-color .15s ease}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdfaf4;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:#8d6524}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  .try{font-size:14px;border-left:2px solid var(--gilt);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--gilt)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book2.webp" alt="《人生遊戲》封面" width="96" height="144">
+    <div>
+      <h1>《人生遊戲》讀者專屬影片</h1>
+      <p class="lead">一章一支，共 40 支動畫，每支約一分鐘。書裡教你怎麼做，影片講為什麼有效：每支用一個研究或一道算式，說明書中工具背後的原理。讀到哪一章，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《人生遊戲》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="40 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive「動畫影片編輯/Book02_人生遊戲/讀者專屬頁/產生讀者專屬頁.py」產生，不要手改 */
+const VIDEOS = [{"n": "01", "id": "Z6DvpREHt_w", "dur": "1:13", "topic": "感恩盤點如何改變注意力", "part": "第一部：底層重塑——大腦作業系統的除錯與升級", "chapter": "第 1 章 大腦除錯工程", "ch": [["1.1", "識別思維 BUG：切斷「匱乏」的供電"]], "try": "盤點擁有 → 拆三階段 → 退回避難所", "tryRef": "第 1 章 1.1"}, {"n": "02", "id": "42K0WDRZKYo", "dur": "1:07", "topic": "替情緒命名，警報就降下來", "part": "第一部：底層重塑——大腦作業系統的除錯與升級", "chapter": "第 2 章 情緒煉金術", "ch": [["2.2", "與情緒對話的技術：歡迎與請說"]], "try": "按暫停鍵 → 歡迎與請說 → 謝謝提醒", "tryRef": "第 2 章 2.2"}, {"n": "03", "id": "zVMfzZYlbZQ", "dur": "1:10", "topic": "自我疼惜讓人更願意再試", "part": "第一部：底層重塑——大腦作業系統的除錯與升級", "chapter": "第 3 章 潛意識對話藝術", "ch": [["3.1", "破解內在的「負面催眠」：替換劇本技術"]], "try": "內在換臉 → A4 紙篩選 → 錄音睡前聽", "tryRef": "第 3 章 3.1"}, {"n": "04", "id": "7QVFdB2j8Y4", "dur": "1:08", "topic": "醞釀效應：暫時放下反而想得出來", "part": "第一部：底層重塑——大腦作業系統的除錯與升級", "chapter": "第 4 章 神奇之道與信念創造", "ch": [["4.2", "神奇之道：從「理性用力」轉向「自然順流」"]], "try": "設定目的地 → 放下怎麼做 → 每天想像", "tryRef": "第 4 章 4.2"}, {"n": "05", "id": "sJU5yZE3t3A", "dur": "1:05", "topic": "發洩為什麼讓怒氣變大", "part": "第一部：底層重塑——大腦作業系統的除錯與升級", "chapter": "第 5 章 人際關係與情緒界線", "ch": [["5.2", "防禦實戰：停、看、應的三步心法"]], "try": "停 → 看 → 應", "tryRef": "第 5 章 5.2"}, {"n": "06", "id": "pFwVQNMzv44", "dur": "1:06", "topic": "聚光燈效應：別人沒那麼在注意你", "part": "第二部：認知突圍——心理博弈與人性防禦", "chapter": "第 6 章 能量守恆定律", "ch": [["6.2", "直球對決：從「猜測」到「核實」"]], "try": "攝影機檢查 → 直球核實 → 遠離八卦", "tryRef": "第 6 章 6.2"}, {"n": "07", "id": "RLt0ADpu1YY", "dur": "1:09", "topic": "間歇增強：不定時的獎勵最難放下", "part": "第二部：認知突圍——心理博弈與人性防禦", "chapter": "第 7 章 看穿情緒勒索迷霧", "ch": [["7.3", "反勒索實戰：SOS 策略"]], "try": "Stop 停 → Observe 看 → Strategize 應", "tryRef": "第 7 章 7.3"}, {"n": "08", "id": "wfCe1NV9Ii0", "dur": "1:08", "topic": "稀缺效應：越容易得到越不被珍惜", "part": "第二部：認知突圍——心理博弈與人性防禦", "chapter": "第 8 章 職場防禦術與交易思維", "ch": [["8.2", "轉守為攻：切換「商人思維」"]], "try": "盤點籌碼 → 提出報價 → 設立條件", "tryRef": "第 8 章 8.2"}, {"n": "09", "id": "Y6DW1lbH5EA", "dur": "1:01", "topic": "登門檻效應：先答應小事的人", "part": "第二部：認知突圍——心理博弈與人性防禦", "chapter": "第 9 章 暗黑心理防禦術", "ch": [["9.3", "行為陷阱：一致性與沈沒成本"]], "try": "看穿鋪墊 → 第一時間說不 → 允許改變主意", "tryRef": "第 9 章 9.3"}, {"n": "10", "id": "zNdp4rEWl2Y", "dur": "1:06", "topic": "快樂會在人際網絡中傳染", "part": "第二部：認知突圍——心理博弈與人性防禦", "chapter": "第 10 章 生態系重塑", "ch": [["10.2", "打造高維度戰隊：人生必備的 8 種益友"]], "try": "支持型後盾 → 成長型推力 → 合作型助力", "tryRef": "第 10 章 10.2"}, {"n": "11", "id": "h4Y4BUI9kEg", "dur": "1:05", "topic": "複利曲線為什麼先平後陡", "part": "第三部：習慣養成——讓進步自動導航的系統", "chapter": "第 11 章 複利的奇蹟", "ch": [["11.3", "全方位的複利人生：知識、健康與財富"]], "try": "找到心流 → 變成小習慣 → 打造永動機", "tryRef": "第 11 章 11.3"}, {"n": "12", "id": "4nggSEF8A5s", "dur": "1:10", "topic": "習慣要重複多久才會自動", "part": "第三部：習慣養成——讓進步自動導航的系統", "chapter": "第 12 章 身分認同的轉變", "ch": [["12.2", "投票機制：每一天都在為「你想成為的人」投票"]], "try": "決定身分 → 用小贏投票 → 改寫設定檔", "tryRef": "第 12 章 12.2"}, {"n": "13", "id": "V9P8usDG3FA", "dur": "1:07", "topic": "執行意圖：寫下「如果…就…」", "part": "第三部：習慣養成——讓進步自動導航的系統", "chapter": "第 13 章 原子習慣實戰", "ch": [["13.2", "降低門檻與獎賞機制：從「好難」到「上癮」"]], "try": "兩分鐘法則 → 習慣堆疊 → 不要斷鏈", "tryRef": "第 13 章 13.2"}, {"n": "14", "id": "iHizL0XmHVk", "dur": "1:05", "topic": "注意力殘留：切換的代價", "part": "第三部：習慣養成——讓進步自動導航的系統", "chapter": "第 14 章 專一力原則", "ch": [["14.1", "拆解大腦運作：為什麼多工是效率殺手？"]], "try": "一次一件事 → 外包待辦 → 刻意練習", "tryRef": "第 14 章 14.1"}, {"n": "15", "id": "rFwYmCVW-YA", "dur": "1:04", "topic": "寫下計畫，大腦就能放手", "part": "第三部：習慣養成——讓進步自動導航的系統", "chapter": "第 15 章 打造第二大腦", "ch": [["15.2", "構建個人知識庫 (PKM)：從收藏到應用"]], "try": "儲存 → 標籤分類 → 排進行事曆", "tryRef": "第 15 章 15.2"}, {"n": "16", "id": "s-zGunTiHLI", "dur": "1:06", "topic": "明天存更多：先承諾未來的錢", "part": "第四部：金錢遊戲——從賭徒心態到獲利優先", "chapter": "第 16 章 看清金錢真面目", "ch": [["16.2", "財務公式大革命：獲利優先 (Profit First)"]], "try": "先轉走獲利 → 算出時薪 → 外包瑣事", "tryRef": "第 16 章 16.2"}, {"n": "17", "id": "fdnWWnm8vJA", "dur": "1:01", "topic": "當沖研究：投機為什麼是負和遊戲", "part": "第四部：金錢遊戲——從賭徒心態到獲利優先", "chapter": "第 17 章 投資不是博弈", "ch": [["17.2", "投資者的護城河：週期、配置與耐心"]], "try": "緊急預備金 → 閒錢投資 → 不賠本金", "tryRef": "第 17 章 17.2"}, {"n": "18", "id": "7NhAVen6CEU", "dur": "1:09", "topic": "分帳與提醒讓人多存錢", "part": "第四部：金錢遊戲——從賭徒心態到獲利優先", "chapter": "第 18 章 五個帳戶管理法", "ch": [["18.3", "運作節奏與優化：10/25 法則與債務雪球"]], "try": "無誘因帳戶 → 10/25 節奏 → 季度分紅", "tryRef": "第 18 章 18.3"}, {"n": "19", "id": "vAciorhDDU0", "dur": "1:12", "topic": "花錢買時間，換回快樂", "part": "第四部：金錢遊戲——從賭徒心態到獲利優先", "chapter": "第 19 章 花錢的藝術", "ch": [["19.2", "高 CP 值消費學：工具與體驗"]], "try": "P 有益 → R 取代 → U 不必要", "tryRef": "第 19 章 19.2"}, {"n": "20", "id": "IluRtYAa6eg", "dur": "1:06", "topic": "小勝利：清掉幾筆比還多少更重要", "part": "第四部：金錢遊戲——從賭徒心態到獲利優先", "chapter": "第 20 章 擺脫債務雪球", "ch": [["20.2", "債務雪球法：利用「小贏」堆疊自信"]], "try": "由小到大排 → 集中火力 → 滾雪球", "tryRef": "第 20 章 20.2"}, {"n": "21", "id": "JpotR8wE_YQ", "dur": "1:11", "topic": "鄰居變有錢，為什麼讓人破產", "part": "第五部：投資實戰——阿甘投資法與資產配置", "chapter": "第 21 章 致富劇本（悲劇版）", "ch": [["21.3", "認清局勢：賣鏟子的人與淘金客"]], "try": "誠實面對 → 看商業模式 → 回歸基本面", "tryRef": "第 21 章 21.3"}, {"n": "22", "id": "38UH-iYJJsw", "dur": "1:05", "topic": "儲蓄率決定財務自由要幾年", "part": "第五部：投資實戰——阿甘投資法與資產配置", "chapter": "第 22 章 致富劇本（喜劇版）", "ch": [["22.1", "枯燥的起手式：儲蓄與護城河"]], "try": "1/4 強制儲蓄 → 預備金 → 買大盤不梭哈", "tryRef": "第 22 章 22.1"}, {"n": "23", "id": "06frt4W1ejo", "dur": "1:05", "topic": "主動基金為什麼多數輸給指數", "part": "第五部：投資實戰——阿甘投資法與資產配置", "chapter": "第 23 章 阿甘投資法", "ch": [["23.2", "讓世界一流企業家為你打工"]], "try": "買下整個市場 → 定期定額 → 長期持有", "tryRef": "第 23 章 23.2"}, {"n": "24", "id": "-UYN8r_waFM", "dur": "1:12", "topic": "定期定額：平均成本低於平均價格", "part": "第五部：投資實戰——阿甘投資法與資產配置", "chapter": "第 24 章 景氣燈號投資術", "ch": [["24.3", "資金控管 SOP：微笑曲線佈局法"]], "try": "每月看燈號 → 藍燈加速買 → 紅燈放慢買", "tryRef": "第 24 章 24.3"}, {"n": "25", "id": "CqmyfxUoONA", "dur": "1:05", "topic": "借多少，決定你能承受多大的跌幅", "part": "第五部：投資實戰——阿甘投資法與資產配置", "chapter": "第 25 章 借貸套利的藝術", "ch": [["25.3", "風控核心：獨創「14 期法則」"]], "try": "只借 2 成 → 預留 14 期 → 利差消失就撤", "tryRef": "第 25 章 25.3"}, {"n": "26", "id": "s9bwO-i-Grc", "dur": "1:12", "topic": "比較利益：不必樣樣最強", "part": "第六部：價值護城河——精準成長與不可替代性", "chapter": "第 26 章 天賦與優勢識別", "ch": [["26.2", "打造不公平優勢：跨領域技能的乘法效應"]], "try": "主幹 80 分 → 疊加副項 → 找到交集", "tryRef": "第 26 章 26.2"}, {"n": "27", "id": "bZGiY8r3Ypc", "dur": "1:07", "topic": "提取練習：講出來比再讀一遍有效", "part": "第六部：價值護城河——精準成長與不可替代性", "chapter": "第 27 章 高維度學習法", "ch": [["27.3", "輸出的奧義：費曼技巧與以教代學"]], "try": "教給孩子 → 填補缺口 → 簡化類比", "tryRef": "第 27 章 27.3"}, {"n": "28", "id": "TkXokkWk2oA", "dur": "1:10", "topic": "保留正職，創業撐得比較久", "part": "第六部：價值護城河——精準成長與不可替代性", "chapter": "第 28 章 反脆弱的職涯規劃", "ch": [["28.2", "斜槓複業的啟動模型：主業供養副業"]], "try": "寫作出版 → 網拍電商 → 技能服務", "tryRef": "第 28 章 28.2"}, {"n": "29", "id": "ToWyZVZdNtM", "dur": "1:15", "topic": "功能固著：被東西原本的用途綁住", "part": "第六部：價值護城河——精準成長與不可替代性", "chapter": "第 29 章 解決問題的底層邏輯", "ch": [["29.2", "系統化建模：無中生有的創造術"]], "try": "寫下目標 → 蒐集素材 → 拼裝系統", "tryRef": "第 29 章 29.2"}, {"n": "30", "id": "KFCwcFA2PMA", "dur": "1:09", "topic": "互惠原則：先給出去", "part": "第六部：價值護城河——精準成長與不可替代性", "chapter": "第 30 章 個人品牌的建立", "ch": [["30.3", "利他即利己：陶朱公的「散財聚人」法則"]], "try": "數位刻刀 → 三個麵包時刻 → 散發價值", "tryRef": "第 30 章 30.3"}, {"n": "31", "id": "2g2MId3wwfI", "dur": "1:06", "topic": "故事為什麼比清單好記", "part": "第七部：表達與影響力——說故事的藝術", "chapter": "第 31 章 故事的連結力量", "ch": [["31.2", "史代拉敘事結構：荷馬史詩的公式"]], "try": "常態 → 爆發 → 新常態", "tryRef": "第 31 章 31.2"}, {"n": "32", "id": "NvDXjnnW4rY", "dur": "1:08", "topic": "一個具體的人，比一堆數字動人", "part": "第七部：表達與影響力——說故事的藝術", "chapter": "第 32 章 精彩故事四大環節", "ch": [["32.2", "四大必備環節：圖窮匕見的「致命細節」"]], "try": "鮮明角色 → 真實情感 → 時刻與細節", "tryRef": "第 32 章 32.2"}, {"n": "33", "id": "QtAqkocXwgk", "dur": "1:08", "topic": "出醜效應：有能力的人出點糗", "part": "第七部：表達與影響力——說故事的藝術", "chapter": "第 33 章 創辦人與英雄旅程", "ch": [["33.3", "應用場景：沙克爾頓的徵人廣告"]], "try": "受傷時刻 → 米蘭頓悟 → 你的南極", "tryRef": "第 33 章 33.3"}, {"n": "34", "id": "jID3DHv-7xg", "dur": "1:11", "topic": "價格與描述，改變實際的體驗", "part": "第七部：表達與影響力——說故事的藝術", "chapter": "第 34 章 顧客價值的訴說", "ch": [["34.2", "價值故事的架構：戴比爾斯的煉金術"]], "try": "常態：痛點 → 爆發：解藥 → 新常態：願景", "tryRef": "第 34 章 34.2"}, {"n": "35", "id": "lHCcNiNvY9Y", "dur": "1:12", "topic": "表達性書寫：把經驗寫下來", "part": "第七部：表達與影響力——說故事的藝術", "chapter": "第 35 章 寫作與輸出的力量", "ch": [["35.3", "實戰心法：盧曼的「卡片盒筆記」"]], "try": "寫原子 → 每天一段 → 公開分享", "tryRef": "第 35 章 35.3"}, {"n": "36", "id": "GWog3Iiuv0k", "dur": "1:10", "topic": "走神讓人不快樂", "part": "第八部：終極心法——順流而行與人生解脫", "chapter": "第 36 章 活在當下的力量", "ch": [["36.2", "斬斷焦慮的實戰技術：奧理略的氣密艙"]], "try": "今日艙格 → 最壞情況分析 → 去洗缽", "tryRef": "第 36 章 36.2"}, {"n": "37", "id": "dsqZ4jvsWoM", "dur": "1:02", "topic": "第三人稱自我對話", "part": "第八部：終極心法——順流而行與人生解脫", "chapter": "第 37 章 人生體驗遊戲論", "ch": [["37.3", "終極心法：蘇東坡的「地球豪華度假村」"]], "try": "叫自己名字 → 玩家旁白 → 換成經驗值", "tryRef": "第 37 章 37.3"}, {"n": "38", "id": "Gre8z6CHIXk", "dur": "1:11", "topic": "複利的成長集中在最後", "part": "第八部：終極心法——順流而行與人生解脫", "chapter": "第 38 章 烏龜的慢活哲學", "ch": [["38.2", "垃圾時間的煉金術：富蘭克林的「零碎時間」"]], "try": "厚殼防禦 → 垃圾時間 → 長期契約", "tryRef": "第 38 章 38.2"}, {"n": "39", "id": "0x0rns7VQTI", "dur": "1:16", "topic": "掌控感：能自己選擇的人", "part": "第八部：終極心法——順流而行與人生解脫", "chapter": "第 39 章 成為自己的主人", "ch": [["39.3", "內在的護城河：王陽明的「心即理」"]], "try": "剪斷操縱線 → 需要得更少 → 心靈護城河", "tryRef": "第 39 章 39.3"}, {"n": "40", "id": "LCFe31bagSw", "dur": "1:13", "topic": "適度的逆境讓人長出韌性", "part": "第八部：終極心法——順流而行與人生解脫", "chapter": "第 40 章 總結：化逆境為順境", "ch": [["40.2", "順境的實踐路徑：毛竹的紮根寓言"]], "try": "每天紮根 → 持續買進 → 被動收入", "tryRef": "第 40 章 40.2"}];
+const PLAYLIST = "PLAVAZy59bCZ0";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0]; }
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 40 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 章">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li>' + esc(v.chapter) + '</li>' + v.ch.map(function (c) {
+          return '<li><span class="sec">' + esc(c[0]) + '</span>' + esc(c[1]) + '</li>';
+        }).join('') + '</ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 第 ' + Number(v.n) + ' 章：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      /* 預覽版：影片還沒上傳，直接播 Drive 裡的成品 */
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'game-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   （與其他頁同一份；這頁只有書封走 jsDelivr）
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
