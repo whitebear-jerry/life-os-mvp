@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 圖片全走 jsDelivr：先把連線建好，第一張圖省掉 DNS＋TLS 的等待 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <title>富足人生演算法閱讀地圖｜白熊人生攻略</title>
+  <meta name="description" content="富足人生演算法全十冊閱讀地圖：十本書，十個月，一條路線。從相信開始，走到可以執行的系統，最後回到自己的主場。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <script>
+  /* ============================================================
+     📖 新書上架時，只要改這一個陣列，整頁會自動更新
+     ------------------------------------------------------------
+     步驟（以第 8 冊《明辨》為例）：
+       1. 把該本的 status 從 "coming" 改成 "published"
+       2. 填入 price（原價）、sale（特惠價）、discount（折數文字）
+       3. 填入 links 的 readmoo / pubu / kobo 三個網址
+          ⚠️ Pubu 一律用單品頁 pubu.com.tw/ebook/<id> 並保留 ?apKey=e08e864a73
+             從 Pubu 分享鈕複製到的 ?pubu_urc=xxx 不是書系在用的分潤碼，不要用
+       4. 書封已先放在 https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book8.webp，不用再動
+       5. 存檔 → 書脊、卡片、購買按鈕、即將上架標籤全部自動切換
+     ⚠️ 不要在這個陣列以外的地方寫死任何書名、價格或連結
+     ============================================================ */
+  const BOOKS = [
+    { no: 1, code: "fuli", title: "人生複利", sub: "從信念到財富的 45 個覺醒練習",
+      line: "heart", lineLabel: "心法線 ①", words: 52281, minutes: 4, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book1.webp", status: "published",
+      price: 220, sale: 149, discount: "68折 (省 $71)",
+      links: {
+        readmoo: "https://readmoo.com/book/210446460000101",
+        pubu:    "https://www.pubu.com.tw/ebook/643779?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/zr02B055vje-OamrBbYsaQ" } },
+
+    { no: 2, code: "game", title: "人生遊戲", sub: "40 堂化逆境為順境的變現攻略",
+      line: "heart", lineLabel: "心法線 ②", words: 63916, minutes: 5, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book2.webp", status: "published",
+      price: 280, sale: 199, discount: "71折 (省 $81)",
+      links: {
+        readmoo: "https://readmoo.com/book/210455098000101",
+        pubu:    "https://www.pubu.com.tw/ebook/650682?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/g3fkwAGv-DOr_2jE-tMLgQ" } },
+
+    { no: 3, code: "noise", title: "降噪人生", sub: "幫大腦卸載、替心靈把關",
+      line: "system", lineLabel: "系統線 ①", words: 136535, minutes: 11, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book3.webp", status: "published",
+      price: 360, sale: 269, discount: "75折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210470441000101",
+        pubu:    "https://www.pubu.com.tw/ebook/666582?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/8rzXBUr3hzeTH3UYWK9v6Q" } },
+
+    { no: 4, code: "xinfu", title: "心富", sub: "把心顧好，錢自然長出來的財富實戰手冊",
+      line: "money", lineLabel: "財務線 ①", words: 106510, minutes: 9, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book4.webp", status: "published",
+      price: 320, sale: 229, discount: "72折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210482574000101",
+        pubu:    "https://www.pubu.com.tw/ebook/675997?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/-Na3Y8DD2zy-xPHDzwCZVQ?sId=3cf75d47-f15d-4ca6-ac73-dfec204f958c&ssId=aGe5XPTBGG39RAeuY-atp&cPos=1" } },
+
+    { no: 5, code: "jieli", title: "借力", sub: "借趨勢、借工具、借複利，少做多得的不費力人生",
+      line: "system", lineLabel: "系統線 ②", words: 113019, minutes: 9, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book5.webp", status: "published",
+      price: 320, sale: 249, discount: "78折 (省 $71)",
+      links: {
+        readmoo: "https://readmoo.com/book/210488646000101",
+        pubu:    "https://www.pubu.com.tw/ebook/682111?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/_r0FtsD5EDumGg1y9-Ya2w" } },
+
+    { no: 6, code: "xuhang", title: "續航", sub: "打造不靠意志力的持續成長系統",
+      line: "system", lineLabel: "系統線 ③", words: 118103, minutes: 10, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book6.webp", status: "published",
+      price: 350, sale: 259, discount: "74折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210498507000101",
+        pubu:    "https://www.pubu.com.tw/ebook/691655?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/SBhjgFJM6DSrzeDmMqUGYw?sId=ca03978c-6e70-488f-a053-1e83a3d21c6f&ssId=aLHYUHEB-JP3E_fU8HhKW&cPos=1" } },
+
+    { no: 7, code: "youyi", title: "人生友誼賽", sub: "輸了也好玩，把磨難打成一場輕鬆的對打",
+      line: "heart", lineLabel: "心法線 ③", words: 109022, minutes: 9, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7.webp", status: "published",
+      price: 320, sale: 249, discount: "78折 (省 $71)",
+      links: {
+        readmoo: "https://readmoo.com/book/210503806000101",
+        pubu:    "https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&ssId=E-YVypgvbd7WdUbRJTGZM&cPos=1" } },
+
+    // ── 以下三本尚未上架：不放價格、不放連結、不寫上架日期 ──
+    { no: 8, code: "mingbian", title: "明辨", sub: "把難題拆開，把假話看穿，把決定做對",
+      line: "judge", lineLabel: "判斷線 ①", words: 156454, minutes: 13,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book8.webp", status: "coming",
+      price: null, sale: null, discount: null, links: null },
+
+    { no: 9, code: "yuyu", title: "餘裕", sub: "心裡富足，手上有餘——養出面對世界的雙寬裕",
+      line: "money", lineLabel: "財務線 ②", words: 116977, minutes: 10,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book9.webp", status: "coming",
+      price: null, sale: null, discount: null, links: null },
+
+    { no: 10, code: "zhuchang", title: "人生主場", sub: "奪回注意力與時間，做自己劇本的唯一終審者",
+      line: "home", lineLabel: "收束", words: 200197, minutes: 17,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book10.webp", status: "coming",
+      price: null, sale: null, discount: null, links: null },
+  ];
+  </script>
+
+  <!-- 📊 Microsoft Clarity 數據分析與熱圖錄影 (含作者本人 noclarity 裝置排除開關) -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* Layout: an antique route map. A bookshelf of ten spines (width = word count) opens the page,
+     then three season columns of three stops each, ending in a full-width "home" band. */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#8d6524; --shelf:#8a6a44;
+    --l-heart:#ac5346; --l-system:#4a6b96; --l-money:#886621; --l-judge:#457567; --l-home:#6b5742;
+    --spine-ink:#fdfaf4; --spine-hi:rgba(255,252,246,.26); --spine-lo:rgba(60,42,20,.18);
+    --pick:#8d6524; --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
+    margin:0;position:relative;}
+  html{overflow-x:hidden}   /* -50vw 滿版帶在有捲軸時會多出幾 px，夾掉 */
+  .wrap{position:relative;z-index:1}
+  /* 頂部承接 link.html 的深墨綠與綠光暈，往下柔和過渡到米色。
+     高度綁在 .hero-head 上，文字換行也不會爆出帶外。 */
+  .hero-head{position:relative;isolation:isolate;padding-block:8px 34px}
+  .hero-head::before{
+    content:"";position:absolute;z-index:-1;
+    top:-44px;bottom:-24px;left:50%;right:50%;
+    margin-left:-50vw;margin-right:-50vw;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(47,107,79,.38), rgba(0,0,0,0) 420px),
+      linear-gradient(180deg,#0c1511 0%,#16211b 38%,#3f5042 66%,#93a08a 84%,var(--paper) 100%);
+  }
+  /* 銜接帶內的文字（深底上）改用淺色 */
+  .hero-head h1{color:#f7f7f0}
+  .hero-head h1 small{color:rgba(247,247,240,.72)}
+  .hero-head .thesis{color:rgba(247,247,240,.82)}
+  .wrap{max-width:1160px;margin:0 auto;padding-inline:20px;padding-block:44px 64px;display:grid;gap:56px}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  .eyebrow{font-size:13px;letter-spacing:.24em;color:#ebcb8b;font-weight:700}
+  .eyebrow a{color:inherit;text-decoration:none;transition:opacity .2s ease}
+  .eyebrow a{position:relative}
+  .eyebrow a::before{content:'';position:absolute;left:-8px;right:-8px;top:50%;
+    transform:translateY(-50%);height:40px}
+  .eyebrow a:hover{opacity:0.75;text-decoration:underline}
+  /* 🔴 .eyebrow 的 #ebcb8b 是給頁首深綠帶用的；第 10 冊卡片是米色底，
+     沿用那個顏色對比只有 1.4。卡片上一律改用 --gilt。 */
+  .home .eyebrow{color:var(--gilt)}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--pick);outline-offset:3px;border-radius:4px}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;gap:28px}
+  /* 不設 max-width：這塊要滿 .wrap 寬才會在視窗正中，
+     頂部深綠帶的 -50vw 滿版才算得準。文字寬度由 .thesis 自己的 max-width 控制。 */
+  .hero-head{display:grid;gap:12px}
+  .hero h1{font-size:clamp(34px,6vw,58px);font-weight:900;letter-spacing:.06em}
+  .hero h1 small{display:block;font-size:.42em;font-weight:700;letter-spacing:.32em;color:var(--ink-soft);margin-top:6px}
+  .thesis{font-size:clamp(16px,2.1vw,19px);color:var(--ink);max-width:34em}
+  .shelf-box{display:grid;gap:10px}
+  .shelf{display:flex;align-items:flex-end;gap:3px;height:clamp(128px,18vw,176px);border-bottom:7px solid var(--shelf);padding-inline:2px}
+  .spine{flex:var(--w) 1 0;min-width:0;height:100%;background:var(--c);border-radius:3px 3px 1px 1px;position:relative;
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 0 7px;
+    box-shadow:inset 2px 0 0 var(--spine-hi),inset -2px 0 0 var(--spine-lo);text-decoration:none;color:var(--spine-ink);
+    transition:transform .2s ease, opacity .2s ease, filter .2s ease}
+  .spine::before,.spine::after{content:"";position:absolute;left:12%;right:12%;height:2px;background:var(--spine-hi)}
+  .spine::before{top:6px}.spine::after{bottom:24px}
+  .spine:hover{transform:translateY(-6px)}
+  .spine b{writing-mode:vertical-rl;font-family:var(--f-display);font-weight:700;font-size:clamp(10px,1.45vw,15px);letter-spacing:.12em;white-space:nowrap}
+  .spine i{font-style:normal;font-family:var(--f-num);font-size:clamp(10px,1.2vw,13px);font-weight:600}
+  .shelf-cap{font-size:13px;color:var(--ink-soft)}
+  .facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-soft)}
+  .facts strong{color:var(--ink);font-weight:700}
+  /* 手機上路線地圖佔掉 4 個多螢幕，對號入座與 12 題自測埋在後面。
+     這裡給一行文字捷徑（§0 第 14 條：路標不是按鈕）。 */
+  .facts-shortcut{margin-top:12px}
+  .facts-shortcut a{position:relative;display:inline-flex;align-items:center;gap:5px;
+    font-size:13.5px;font-weight:700;color:var(--c);text-decoration:none;
+    border-bottom:1px solid var(--rule);padding-bottom:1px;
+    transition:border-color .2s ease,opacity .2s ease}
+  .facts-shortcut a::before{content:'';position:absolute;left:-6px;right:-6px;top:50%;
+    transform:translateY(-50%);height:40px}
+  .facts-shortcut a:hover{border-bottom-color:var(--c);opacity:.82}
+
+  /* ---------- line colours ---------- */
+  .l-heart{--c:var(--l-heart)}.l-system{--c:var(--l-system)}.l-money{--c:var(--l-money)}.l-judge{--c:var(--l-judge)}.l-home{--c:var(--l-home)}
+
+  /* ---------- coming soon & published ---------- */
+  /* 未上架 ＝ 書架上預留的位置，不是壞掉的圖。
+     書脊改成虛線空框（底色透出來），書名用該主題線色；
+     封面保留原本的牛皮紙暖色，只降存在感並加虛線外框。 */
+  .spine.is-coming{
+    background:transparent;
+    color:var(--c);
+    box-shadow:none;
+    border:1.5px dashed var(--c);                                  /* 後備 */
+    border-color:color-mix(in srgb, var(--c) 50%, transparent);
+    opacity:1;
+  }
+  .spine.is-coming::before,.spine.is-coming::after{display:none}
+  .spine.is-coming:hover{transform:translateY(-4px)}
+  .spine.is-coming i{opacity:.65}
+
+  .stop img.is-coming,.home img.is-coming{
+    filter:none;
+    opacity:.72;
+    border:1.5px dashed var(--c);                                  /* 後備 */
+    border-color:color-mix(in srgb, var(--c) 45%, transparent);
+    border-radius:4px;
+    background:var(--card);
+  }
+  /* 整張卡片也改虛線，呼應「還沒成形」 */
+  /* 卡片也用虛線呼應「還沒成形」，但要細、要淡，不能搶過已上架的書 */
+  .stop.is-coming,.home.is-coming{
+    border:1px dashed var(--rule);                                 /* 後備 */
+    border-color:color-mix(in srgb, var(--c) 30%, transparent);
+    background:rgba(255,252,246,.45);
+  }
+  .badge-coming{font-family:var(--f-body);font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:999px;
+    background:rgba(120,100,80,.12);color:var(--ink-soft);border:1px solid var(--rule);vertical-align:middle;display:inline-block;margin-left:6px}
+
+  /* ---------- price & store buttons ---------- */
+  .price-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin-top:8px;font-size:13px}
+  .price-orig{color:var(--ink-soft);font-size:12px}
+  .price-orig del{text-decoration:line-through;opacity:.85}
+  .price-sale{font-family:var(--f-num);font-size:17px;font-weight:700;color:var(--gilt)}
+  .price-discount{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(184,134,43,.12);color:var(--gilt);border:1px solid rgba(184,134,43,.28)}
+
+  /* 導覽頁的出口：文字路標，刻意不做成按鈕，避免搶走閱讀注意力 */
+  .goto-book{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:13px;font-weight:700;color:var(--c);text-decoration:none;
+    border-bottom:1px solid var(--rule);padding-bottom:1px;
+    transition:border-color .2s ease,opacity .2s ease;
+  }
+  .goto-book:hover{border-bottom-color:var(--c);opacity:.82}
+  /* 可點範圍放大到 ~40px：用 ::before 擴大熱區，不動外觀，
+     底線（border-bottom）仍貼著字。 */
+  .goto-book{position:relative}
+  .goto-book::before{content:'';position:absolute;left:-6px;right:-6px;top:50%;
+    transform:translateY(-50%);height:40px}
+
+  /* 頁尾總出口：整頁唯一一個按鈕級的導購入口 */
+  .map-outro{
+    margin:44px auto 0;max-width:620px;text-align:center;
+    padding:28px 20px;border:1px dashed var(--rule);border-radius:16px;
+    background:var(--card);
+  }
+  .outro-lead{font-family:var(--f-display);font-size:19px;font-weight:700;margin:0 0 14px}
+  .outro-cta{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:12px 22px;border-radius:10px;min-height:46px;
+    background:var(--gilt);color:#fdfaf4;font-weight:800;font-size:15px;
+    text-decoration:none;box-shadow:0 3px 10px -4px rgba(90,70,40,.45);
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .outro-cta:hover{transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(90,70,40,.5)}
+  .outro-note{margin:12px 0 0;font-size:12.5px;color:var(--ink-soft)}
+  /* 🔴 路標切齊右邊的文字欄，不要改回 grid-column:1/-1。
+     整寬時會從卡片最左開始，跨過時間軸虛線，看起來像不屬於這張卡
+     （白熊 2026-10-16 回報「有點亂」的主因）。 */
+  .stop-actions,.home-actions{grid-column:2;margin-top:10px}
+  /* 有讀後測驗的書會有兩條路標：放得下同一行，手機放不下就換行 */
+  .stop-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+  .link-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .link-actions a{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;
+    background:var(--c);color:var(--spine-ink);font-size:13px;font-weight:700;text-decoration:none;
+    box-shadow:0 1px 4px rgba(0,0,0,.15);border:1px solid rgba(0,0,0,.08);
+    transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+  .link-actions a:hover{filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.22)}
+  .link-actions a:active{transform:translateY(0)}
+
+  /* ---------- route map ---------- */
+  .map{display:grid;gap:22px}
+  .map-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px 24px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+  .map-head h2{font-size:clamp(22px,3vw,30px);font-weight:900}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .filters span{font-size:13px;color:var(--ink-soft);margin-right:2px}
+  .chip{font:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:999px;
+    padding:4px 12px 4px 10px;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+  .chip::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,var(--ink-soft))}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .seasons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+  .season{display:grid;gap:14px;align-content:start;min-width:0}
+  .season-head{display:grid;gap:2px;padding-bottom:6px}
+  .season-head .eyebrow{font-size:12px}
+  .season-head h3{font-size:22px;font-weight:900}
+  .season-head p{font-size:14px;color:var(--ink-soft)}
+  .stops{list-style:none;margin:0;padding:0;display:grid;gap:18px;position:relative}
+  .stops::before{content:"";position:absolute;left:49px;top:28px;bottom:28px;border-left:2px dashed var(--rule)}
+  .stop{position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;align-items:start;
+    padding:10px;border-radius:8px;transition:opacity .25s ease,background-color .25s ease,box-shadow .25s ease;scroll-margin-block:90px}
+  .stop img{width:78px;aspect-ratio:2/3;object-fit:cover;border-radius:2px;box-shadow:var(--shadow);border:1px solid var(--rule);position:relative;z-index:1;max-width:100%}
+  .stop-body{display:grid;gap:5px;min-width:0}
+  .vol{font-size:12px;color:var(--ink-soft);letter-spacing:.06em}
+  .vol .num{font-size:15px;color:var(--gilt);font-weight:600;margin-right:2px}
+  .stop h4{font-family:var(--f-display);font-size:19px;font-weight:900;margin:0;line-height:1.25}
+  .sub{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+  .you{font-size:14px}
+  .you em{font-style:normal;color:var(--ink-soft);font-size:12px;letter-spacing:.08em;margin-right:4px}
+  .todo{font-size:13.5px;border-left:2px solid var(--c);padding-left:9px;line-height:1.6}
+  .todo em{font-style:normal;font-weight:700;color:var(--c);margin-right:3px}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--ink-soft)}
+  .tag{display:inline-flex;align-items:center;gap:5px;color:var(--c);font-weight:700}
+  .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .stop.is-picked{background:var(--card);box-shadow:0 0 0 2px var(--pick)}
+  .map[data-focus="heart"] .stop:not(.l-heart),
+  .map[data-focus="system"] .stop:not(.l-system),
+  .map[data-focus="money"] .stop:not(.l-money),
+  .map[data-focus="judge"] .stop:not(.l-judge){opacity:.26}
+
+  .home{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px 26px;align-items:start;padding:22px;
+    border:1px solid var(--rule);outline:1px solid var(--rule);outline-offset:4px;border-radius:2px;background:var(--card);scroll-margin-block:90px;
+    transition:opacity .25s ease,box-shadow .25s ease}
+  .map[data-focus]:not([data-focus="all"]) .home{opacity:.26}
+  .home.is-picked{box-shadow:0 0 0 2px var(--pick)}
+  .home img{width:150px;aspect-ratio:2/3;object-fit:cover;box-shadow:var(--shadow);border:1px solid var(--rule);max-width:100%}
+  .home .stop-body{gap:8px}
+  .home h3{font-size:clamp(24px,3vw,30px);font-weight:900}
+  .home .lead{font-size:16px}
+
+  /* ---------- entries ---------- */
+  .entries{display:grid;gap:18px}
+  .entries h2,.why h2{font-size:clamp(22px,3vw,30px);font-weight:900}
+  .entries > p{color:var(--ink-soft);max-width:40em}
+  .entry-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;border-top:1px solid var(--rule)}
+  .entry{font:inherit;color:inherit;text-align:left;background:none;border:0;border-bottom:1px solid var(--rule);padding:12px 4px;
+    display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;cursor:pointer}
+  .entry:hover{background:var(--card)}
+  .entry span{font-size:14.5px}
+  .entry b{font-family:var(--f-display);font-weight:900;font-size:15px;color:var(--c);white-space:nowrap}
+  .entry b::after{content:" →";font-family:var(--f-num)}
+
+  /* ---------- why ---------- */
+  .why{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px;border-top:1px solid var(--rule);padding-top:28px}
+  .why-col{display:grid;gap:14px;align-content:start;min-width:0}
+  .why ul{margin:0;padding-left:1.2em;display:grid;gap:10px}
+  .why li{max-width:36em}
+  .ask{background:var(--card);border:1px solid var(--rule);padding:16px 18px;border-radius:2px;display:grid;gap:8px}
+  .ask ol{margin:0;padding-left:1.3em}
+  footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;border-top:1px solid var(--rule);padding-top:18px;font-size:13px;color:var(--ink-soft)}
+  footer a{color:var(--gilt);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* ---------- 這本也幫得上誰（地圖上每一冊都能展開） ---------- */
+  .helps{margin-top:4px;border-top:1px dashed var(--rule);padding-top:7px}
+  .helps summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--c);list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:40px}
+  .helps summary::-webkit-details-marker{display:none}
+  .helps summary::after{content:"＋";font-weight:700}
+  .helps[open] summary::after{content:"－"}
+  .helps ul{list-style:none;margin:6px 0 2px;padding:0;display:grid;gap:9px}
+  .helps li{display:grid;gap:1px;font-size:13.5px;line-height:1.55}
+  .helps li b{font-weight:700}
+  .helps li span{font-size:12.5px;color:var(--ink-soft)}
+  /* 滑過時微微浮起，像從地圖上拿起一本書 */
+  .stop,.home{transition:opacity .25s ease,background-color .25s ease,box-shadow .25s ease,transform .25s ease}
+  .stop:not(.is-picked):hover{background:var(--card);box-shadow:var(--shadow);transform:perspective(900px) rotateX(2deg) translateY(-3px)}
+  .home:not(.is-picked):hover{transform:perspective(1200px) rotateX(1.5deg) translateY(-3px)}
+
+  /* ---------- 12 題自測 ---------- */
+  .quiz{display:grid;gap:16px}
+  .quiz h2{font-size:clamp(22px,3vw,30px);font-weight:900}
+  .quiz > p{color:var(--ink-soft);max-width:40em}
+  .quiz-card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:22px;box-shadow:var(--shadow);display:grid;gap:14px;max-width:760px;scroll-margin-block:90px}
+  .quiz-card:focus{outline:none}
+  .quiz-note{font-size:13px;color:var(--ink-soft)}
+  .quiz-progress{height:6px;border-radius:999px;background:var(--paper-2);overflow:hidden}
+  .quiz-progress i{display:block;height:100%;background:var(--gilt);transition:width .3s ease}
+  .quiz-step{font-size:12.5px;color:var(--ink-soft);letter-spacing:.06em}
+  .quiz-q{font-family:var(--f-display);font-size:clamp(18px,2.4vw,21px);font-weight:700;line-height:1.5}
+  .quiz-opts{display:grid;gap:10px}
+  .quiz-opt{font:inherit;font-size:15px;line-height:1.5;text-align:left;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:10px;
+    padding:12px 14px;min-height:48px;cursor:pointer;transition:border-color .15s ease,background-color .15s ease,transform .15s ease}
+  .quiz-opt:hover{border-color:var(--gilt);background:#fffaf0;transform:translateY(-1px)}
+  .quiz-opt[aria-pressed="true"]{border-color:var(--gilt);box-shadow:inset 0 0 0 1px var(--gilt)}
+  .quiz-nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+  .quiz-btn{font:inherit;font-size:15px;font-weight:800;padding:11px 22px;min-height:46px;border-radius:10px;border:0;cursor:pointer;
+    background:var(--gilt);color:#fdfaf4;box-shadow:0 3px 10px -4px rgba(90,70,40,.45)}
+  .quiz-link{font:inherit;font-size:13.5px;color:var(--ink-soft);background:none;border:0;padding:8px 0;cursor:pointer;text-decoration:underline}
+  .quiz-result{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px 22px;align-items:start}
+  .quiz-result img{width:110px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px;max-width:100%}
+  .quiz-result h3{font-size:clamp(21px,3vw,27px);font-weight:900}
+  .quiz-result img.is-coming{opacity:.72;border:1.5px dashed var(--rule);border-color:color-mix(in srgb, var(--c) 45%, transparent);background:var(--card)}
+  .quiz-alt{font-size:13.5px;background:var(--paper);border:1px dashed var(--rule);border-radius:8px;padding:10px 12px;line-height:1.65}
+  .quiz-go{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:4px}
+  .quiz-go .quiz-link{color:var(--c);font-weight:700;text-decoration:none;border-bottom:1px solid var(--rule);padding:0 0 1px}
+  .quiz-second{font-size:13px;color:var(--ink-soft)}
+
+  @media (max-width:940px){
+    .seasons{grid-template-columns:minmax(0,1fr)}
+    .why{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:640px){
+    .wrap{padding-inline:16px;gap:44px}
+    .entry-grid{grid-template-columns:minmax(0,1fr)}
+    .home{grid-template-columns:96px minmax(0,1fr);gap:16px;padding:16px}
+    .home img{width:96px}
+    .stop{grid-template-columns:64px minmax(0,1fr);padding:8px}
+    .stop img{width:64px}
+    .stops::before{left:40px}
+    .shelf{gap:2px}
+    .quiz-card{padding:18px 16px}
+    .quiz-result{grid-template-columns:76px minmax(0,1fr);gap:12px 14px}
+    .quiz-result img{width:76px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+    .stop:hover,.home:hover,.quiz-opt:hover{transform:none!important}
+  }
+  </style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <header class="hero">
+    <div class="hero-head">
+      <p class="eyebrow"><a href="link.html">← 回白熊人生攻略</a> ｜ 全十冊・閱讀地圖</p>
+      <h1>富足人生演算法<small>白熊 著</small></h1>
+      <p class="thesis">十本書，十個月，平均每天十分鐘左右。從相信開始，走到可以執行的系統，最後回到自己的主場。</p>
+    </div>
+    <div class="shelf-box">
+      <nav class="shelf" id="shelf" aria-label="十冊書架，點一本跳到它在地圖上的位置">
+        <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+      </nav>
+      <p class="shelf-cap">書脊的寬度照每本書的字數比例畫；顏色是它所屬的主題線。點書脊可以跳到它在地圖上的位置。</p>
+      <div class="facts">
+        <span><strong class="num">10</strong> 冊</span>
+        <span>約 <strong class="num">117</strong> 萬字</span>
+        <span>約 <strong class="num">49</strong> 小時讀完</span>
+        <span><strong class="num">10</strong> 大生活領域</span>
+        <span><strong class="num">1,078</strong> 個具名工具</span>
+      </div>
+      <p class="facts-shortcut"><a href="#quiz" onclick="trackStoreClick('quiz-shortcut','頁首捷徑')">不知道從哪本開始？做 12 題小測驗 <span aria-hidden="true">↓</span></a></p>
+    </div>
+  </header>
+
+  <section class="map" id="map" aria-labelledby="map-title">
+    <div class="map-head">
+      <h2 id="map-title">十個月的路線</h2>
+      <div class="filters" role="group" aria-label="只看一條主題線">
+        <span>只看一條主題線：</span>
+        <button class="chip" type="button" id="f-all" data-f="all" aria-pressed="true">全部</button>
+        <button class="chip l-heart" type="button" id="f-heart" data-f="heart" aria-pressed="false">心法</button>
+        <button class="chip l-system" type="button" id="f-system" data-f="system" aria-pressed="false">系統</button>
+        <button class="chip l-money" type="button" id="f-money" data-f="money" aria-pressed="false">財務</button>
+        <button class="chip l-judge" type="button" id="f-judge" data-f="judge" aria-pressed="false">判斷</button>
+      </div>
+    </div>
+
+    <div class="seasons">
+      <section class="season">
+        <div class="season-head">
+          <p class="eyebrow">第一季・第 1–3 個月</p>
+          <h3>心</h3>
+          <p>先相信，再接受，再清理。</p>
+        </div>
+        <ol class="stops" id="season-1-stops">
+          <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+        </ol>
+      </section>
+
+      <section class="season">
+        <div class="season-head">
+          <p class="eyebrow">第二季・第 4–6 個月</p>
+          <h3>錢與系統</h3>
+          <p>把錢顧好，把事情交給結構。</p>
+        </div>
+        <ol class="stops" id="season-2-stops">
+          <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+        </ol>
+      </section>
+
+      <section class="season">
+        <div class="season-head">
+          <p class="eyebrow">第三季・第 7–9 個月</p>
+          <h3>成熟</h3>
+          <p>對自己寬一點，看事情清楚一點，知道什麼叫夠。</p>
+        </div>
+        <ol class="stops" id="season-3-stops">
+          <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+        </ol>
+      </section>
+    </div>
+
+    <div id="home-container">
+      <!-- 終點第 10 冊由 JavaScript 依 BOOKS 陣列動態產生 -->
+    </div>
+  </section>
+
+  <section class="entries" aria-labelledby="entry-title">
+    <h2 id="entry-title">不想從第 1 冊開始？對號入座</h2>
+    <p>挑最像現在的你那一句，先讀那一本。讀完再回到路線從第 1 冊開始，或接著讀同一條主題線。</p>
+    <div class="entry-grid" id="entry-grid">
+      <!-- 由 JavaScript 依 BOOKS 陣列動態產生 -->
+    </div>
+  </section>
+
+  <section class="quiz" id="quiz" aria-labelledby="quiz-title">
+    <h2 id="quiz-title">還是拿不定主意？做 12 題小測驗</h2>
+    <p>每題選最像你現在的那一個，大約兩分鐘。做完會告訴你先讀哪一本、先做哪一件事。</p>
+    <div class="quiz-card" id="quiz-card" tabindex="-1" aria-live="polite">
+      <!-- 由 JavaScript 依 QUIZ 陣列動態產生 -->
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="why-col">
+      <h2>為什麼照這個順序</h2>
+      <ul>
+        <li><strong>冊次就是閱讀順序。</strong>後面的書會回頭引用前面的書，照順序讀，書裡提到的概念你都已經讀過。</li>
+        <li><strong>前四冊各自獨立</strong>，彼此不互相引用，任何一冊都能當入口。</li>
+        <li><strong>三季是一條成長的路</strong>：先相信，再把它變成可以執行的系統，最後學會判斷，也學會知道夠了。</li>
+        <li><strong>《人生主場》放在最後</strong>，它最長，也把前九冊串在一起。</li>
+      </ul>
+    </div>
+    <div class="why-col">
+      <h2>怎麼讀都可以</h2>
+      <p>不用照表操課。一本讀兩個月、跳著讀、停一陣子再回來，都可以。只想讀一個主題，就用地圖上方的主題線，只看那幾冊。</p>
+      <div class="ask">
+        <p><strong>每個月最後一天，問自己三題</strong></p>
+        <ol>
+          <li>這個月做了哪一件事？</li>
+          <li>哪一句話留下來了？</li>
+          <li>下個月想帶著什麼走？</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="map-outro">
+    <p class="outro-lead">選好從哪一本開始了嗎？</p>
+    <a class="outro-cta" href="link.html" onclick="trackStoreClick('map-goto', '總出口')">
+      到書店頁看全部七本 <span aria-hidden="true">→</span>
+    </a>
+    <p class="outro-note">這頁只負責帶路；價格、試閱與購買都在那裡。</p>
+  </section>
+
+  <!-- 頁尾不再放「回白熊人生攻略」：正上方的總出口已經是同一個去處，
+       頁首 .eyebrow 也有一個。三個連結指同一頁是噪音。 -->
+  <footer>
+    <span>富足人生演算法・全十冊｜白熊 著</span>
+    <span>閱讀時間以每分鐘約 400 字估算，只是參考。</span>
+  </footer>
+</main>
+
+<script>
+// ----------------------------------------------------
+// 0. UTM 來源擷取與 Clarity 追蹤 (絕不阻擋、絕不報錯)
+// ----------------------------------------------------
+(function () {
+  try {
+    var s = new URLSearchParams(location.search).get('utm_source');
+    if (s) sessionStorage.setItem('lifeos_utm', s);
+  } catch (e) {}
+})();
+
+function trackStoreClick(store, book) {
+  try {
+    if (!window.clarity) return;
+    clarity('event', 'click-' + store + '-' + book);
+    var u = sessionStorage.getItem('lifeos_utm');
+    if (u) clarity('set', 'utm_source', u);
+  } catch (e) {}
+}
+
+// ----------------------------------------------------
+// 1. 各冊專屬導讀文案 (無書名、無價格、無連結，純情境導讀)
+// ----------------------------------------------------
+const EDITORIAL = {
+  1: {
+    you: "想改變，但還沒開始",
+    todo: "用黃金思維圈一路追問「為什麼」，直到出現「因為我值得」（第 2 章）",
+    entry: "想改變，但還沒開始"
+  },
+  2: {
+    you: "覺得自己拿到困難模式的劇本",
+    todo: "用 A4 紙折疊過濾法做一張信念核心表（3.2）",
+    entry: "覺得人生拿到困難模式：家庭變故、財務出事"
+  },
+  3: {
+    you: "腦袋停不下來、過載",
+    todo: "用三層保護圈，把最近常互動的十個人分類（3.1.1）",
+    entry: "失眠、易怒，腦袋像散熱風扇一直轉"
+  },
+  4: {
+    you: "存不下錢，不知道自己的財務在哪",
+    todo: "用試算表做一張個人財務儀表板（2.1.3）",
+    entry: "存不下錢，又怕被「快速翻身」的話術盯上"
+  },
+  5: {
+    you: "很努力，卻沒有前進",
+    todo: "照數位斷食計畫，睡前先放下手機（7.3）",
+    entry: "很努力卻沒前進，看別人沒你拚卻過得好"
+  },
+  6: {
+    you: "年年立志、年年半途而廢",
+    todo: "挑一個習慣，定出迷你、標準、加強三檔（3.2）",
+    entry: "每年一月換一本新筆記本，第三週就停擺"
+  },
+  7: {
+    you: "輸不起、對自己特別嚴",
+    todo: "情緒上來時，用三步排洪法（3.2）",
+    entry: "完美主義，失誤後愣在原地、對自己特別壞"
+  },
+  8: {
+    you: "常被唬住，事後才發現判斷錯了",
+    todo: "下一個決定動手前，寫一則決策日記，連退出條件一起寫（9.5）",
+    entry: "常覺得「怪怪的，但說不出哪裡怪」"
+  },
+  9: {
+    you: "什麼都想要，越塞越滿",
+    todo: "算出自己的夠用線（1.3）",
+    entry: "加法做太多，越塞越滿、越怕失去"
+  },
+  10: {
+    lead: "這一冊把前面九冊串在一起，適合當總複習：把讀過的，全部收回到自己手上。",
+    you: "活在別人的評分裡",
+    todo: "用專屬身分合成公式，寫下自己的主角身分（1.5）",
+    entry: "活在別人的評分裡，被職場消耗"
+  }
+};
+
+// ----------------------------------------------------
+// 1b. 這本也幫得上誰 ＋ 12 題自測（2026-10-15）
+//     由 Google Drive「寫作/組合書籍資料/互動導覽/」的兩個查證檔產生：
+//     讀者x書-已查證.json、自測問卷-已查證.json
+//     章節編號與標題都逐條對過全書稿；要改內容，先改那兩個檔，再重新產生這一段
+// ----------------------------------------------------
+const HELPS = {
+  1: [
+    { pain: "每年立志養成新習慣，總是撐不久", sec: "4.2", act: "小習慣：設一個小到不做都覺得可惜的動作，例如先換好運動服" },
+    { pain: "習慣當好人、不敢拒絕，能量被耗光", sec: "16.3", act: "暫停鍵：快失控時先說「我現在情緒有點激動，無法客觀溝通」，離開現場冷靜" },
+    { pain: "待辦永遠列不完，腦袋超載", sec: "41.3", act: "在待辦清單旁邊，加一張「不做清單」" },
+  ],
+  2: [
+    { pain: "別人一個眼神、一句話，就忍不住往壞處想", sec: "6.1", act: "攝影機思維：問自己「如果是監視器畫面，它拍到了什麼？」" },
+    { pain: "在職場有求必應，變成工具人", sec: "8.2", act: "有條件的溝通：答應之前，先說出你需要的交換條件" },
+    { pain: "錢都放在同一個帳戶，不知不覺就花光", sec: "18.1", act: "無誘因帳戶：另開一個不辦提款卡的帳戶，專門存本金" },
+  ],
+  3: [
+    { pain: "很容易被酸言酸語影響，情緒被牽著走", sec: "2.2", act: "心靈門衛：替自己訂好放行條件和黑名單" },
+    { pain: "總想改掉伴侶或家人的缺點，越說越吵", sec: "3.3", act: "課題分離：把別人的考卷還給他" },
+    { pain: "邊工作邊回訊息，專注力被切得碎碎的", sec: "5.5", act: "單工模式：設 25 分鐘計時，一次只做一件事" },
+  ],
+  4: [
+    { pain: "壓力一大就靠買東西發洩", sec: "1.4", act: "情緒上色：想買的衝動上來時，先替當下的感受標一個顏色" },
+    { pain: "收入穩定，卻總是月光", sec: "2.4", act: "薪水入帳後，自動轉出一筆存起來，不靠意志力" },
+    { pain: "看別人賺錢就心急，容易被高報酬話術吸引", sec: "4.1", act: "投資防割自檢檢核表：投入任何一筆錢之前，逐項核對" },
+  ],
+  5: [
+    { pain: "遇到選擇就猶豫不決，腦袋一直空轉", sec: "2.1", act: "寫下正在糾結的三件事，各訂一個最簡單的下一步" },
+    { pain: "投資時天天盯盤，跟著漲跌心慌", sec: "3.4", act: "關掉即時報價，一年只挑固定一天做資產健檢" },
+    { pain: "雜事塞滿腦袋，沒空間好好想", sec: "5.3", act: "在手機主畫面放一個一鍵記事的「收件匣」" },
+  ],
+  6: [
+    { pain: "目標訂得太硬，一忙就整個放棄", sec: "3.2", act: "替習慣設一個「迷你檔」，忙的時候只做最低門檻" },
+    { pain: "目標太大，不知道從哪裡下手", sec: "4.3", act: "用「動詞＋客體＋限制條件」把大專案拆成小動作" },
+    { pain: "常被打斷，回來要重新暖機好久", sec: "8.1", act: "五分鐘存檔：暫停前寫下目前的思路和下一步" },
+  ],
+  7: [
+    { pain: "遇到衝突不是爆發，就是悶著冷戰", sec: "3.2", act: "三步排洪法：吸氣四秒、吐氣八秒，等河道通了再處理" },
+    { pain: "不會拒絕，常被人情綁架", sec: "4.4", act: "界線三部曲：肯定對方的需求、說明自己的限制、提供有條件的幫忙" },
+    { pain: "待辦塞滿腦袋，越焦慮越拖", sec: "6.5", act: "把最重要的一件事寫在便利貼，完成時說一聲「太棒了」" },
+  ],
+  8: [
+    { pain: "每天都在救火，重要的事一直往後拖", sec: "2.5", act: "時間圍欄：在行事曆上先圈出一段時間，留給重要但不緊急的事" },
+    { pain: "掛念的事太多，做決定時卡住", sec: "5.4", act: "花五分鐘做一次大腦傾倒，把掛念的事全寫下來" },
+    { pain: "為控制不了的事焦慮", sec: "11.4", act: "把煩惱分進三欄：可控、可影響、不可控" },
+  ],
+  9: [
+    { pain: "收入穩定，還是一直為錢不安", sec: "1.3", act: "算出每個月維持基本生活需要多少錢，畫出夠用線" },
+    { pain: "一滑社群就覺得自己落後", sec: "2.2", act: "讓你焦慮的帳號，先靜音或取消追蹤" },
+    { pain: "行程塞滿，一有意外就崩潰", sec: "7.3", act: "在明天的行事曆上，排一段什麼都不做的「系統緩衝」" },
+  ],
+  10: [
+    { pain: "老是被別人的急事牽著走", sec: "3.1", act: "主線篩選三問卡：有突發請求時，先問三題再決定" },
+    { pain: "總想等到萬事俱備才開始", sec: "2.5", act: "三分鐘微型點火動作：允許粗糙，先動三分鐘" },
+    { pain: "太在意別人的眼光，常常自我懷疑", sec: "8.4", act: "心靈最高法院：把別人的指控逐條審，該改的改，其餘駁回" },
+  ],
+};
+
+const QUIZ = [
+  { q: "面對一直想嘗試的新計畫、新習慣，你現在比較像哪一種？", opts: [
+    ["想了很久，一直還沒開始", [1]],
+    ["每次都興致勃勃，但到第三週就停擺", [6]],
+    ["一定要等條件都準備好，才敢開始", [10]],
+    ["覺得自己拿到困難模式，怎麼努力都沒用", [2]],
+  ] },
+  { q: "忙完一天躺在床上，你最常有的感覺是？", opts: [
+    ["腦袋停不下來，睡不著又容易煩躁", [3]],
+    ["明明忙了一整天，卻覺得沒什麼進展", [5, 6]],
+    ["一整天都在幫別人救火，待辦永遠做不完", [1, 8]],
+    ["忍不住一直滑社群，越看越覺得自己落後", [9]],
+  ] },
+  { q: "在職場或生活的人際關係裡，你最容易卡在哪裡？", opts: [
+    ["明明不想做，卻不敢開口拒絕", [1, 7]],
+    ["很在意別人怎麼看我、怎麼給我打分數", [10]],
+    ["很容易被酸言酸語影響，也常想改掉家人的缺點", [3]],
+    ["一直被別人的急事打斷，自己的事都往後排", [8]],
+  ] },
+  { q: "說到錢，你現在最大的不安是？", opts: [
+    ["存不下錢，又怕被「快速翻身」的話術盯上", [4]],
+    ["壓力一大就想買東西，月底錢就不見了", [2, 4]],
+    ["東西越買越多、越塞越滿，反而越怕失去", [9]],
+    ["一直盯著投資的漲跌，心情跟著上上下下", [5]],
+  ] },
+  { q: "遇到重大決定，或沒把握的新任務，你通常會？", opts: [
+    ["一定要把所有狀況想清楚、準備到完美才敢動", [10]],
+    ["覺得哪裡怪怪的，但說不出哪裡怪，就一直卡著", [8]],
+    ["一直被別人的急事打亂，根本沒空好好想", [8]],
+    ["怕失敗、怕被笑，所以一拖再拖", [2, 7]],
+  ] },
+  { q: "培養新習慣時，你最常卡在哪裡？", opts: [
+    ["一開始很有熱情，熱情一過就放掉了", [6]],
+    ["只要一天沒做到，就覺得前功盡棄，乾脆放棄", [6, 7]],
+    ["存錢、運動都靠意志力硬撐，沒想過可以交給系統", [4, 6]],
+    ["看起來每天很忙，做的多半是不重要的雜事", [5, 8]],
+  ] },
+  { q: "和家人、伴侶或同事相處時，最讓你累的是？", opts: [
+    ["習慣配合別人，自己的時間總是被拿走", [7]],
+    ["一直背著別人的期待，活得很重", [10]],
+    ["很容易吸收別人的負面情緒，回家還在想", [3]],
+    ["身邊有些人很消耗你，卻不知道怎麼保護自己", [3]],
+  ] },
+  { q: "對於自己的錢、時間和生活空間，你最想改善的是？", opts: [
+    ["沒有存錢的防線，又容易跟風投資", [4]],
+    ["行程排太滿、東西買太多，生活沒有一點空隙", [9]],
+    ["不清楚自己到底有多少錢、錢都流去哪裡", [4]],
+    ["生活沒有任何緩衝，一點意外就會被打亂", [9]],
+  ] },
+  { q: "遇到失誤、批評，或事情不如預期時，你的第一個反應是？", opts: [
+    ["對自己特別嚴，一直怪自己", [7]],
+    ["覺得自己命不好，拿到的就是困難模式", [2]],
+    ["拿別人的尺來量自己，覺得自己永遠不夠好", [10]],
+    ["被外面的聲音干擾，腦袋亂成一團", [3]],
+  ] },
+  { q: "說到休息和精力，你現在比較像？", opts: [
+    ["一整天下來，腦袋像開了太多分頁", [5]],
+    ["總是等到累垮了，才被迫休息", [10]],
+    ["靠滑手機、看短影音放鬆，結果越休息越累", [5]],
+    ["行程永遠塞太滿，一點彈性都沒有", [9]],
+  ] },
+  { q: "想擺脫現在的停滯時，你最真實的卡關感是？", opts: [
+    ["想法很多，卻說不清楚自己「為了什麼」而做", [1]],
+    ["遇到挫折，就覺得是環境或運氣不好", [2]],
+    ["每次都把目標訂太高，做不到就放棄", [6]],
+    ["總覺得錢和成就還不夠，一直追著別人的標準跑", [9]],
+  ] },
+  { q: "回頭看現在的生活，你最想解決的是？", opts: [
+    ["重大決定總是猶豫，看不清盲點，也不敢先訂好停損", [8]],
+    ["一直配合別人的規則和評價，失去自己的主導權", [10]],
+    ["對未來的錢很不安，從來沒好好盤點過", [4]],
+    ["長期壓抑，一出錯就陷入自責", [7]],
+  ] },
+];
+
+// 即將上架的三冊：結果頁另外推薦一本已上架、可以先讀的書
+const QUIZ_COMPANION = {
+  8: { no: 2, why: "《人生遊戲》6.1 的攝影機思維，教你先分清楚「拍到的事實」和「自己的詮釋」，正好是判斷的第一步。" },
+  9: { no: 4, why: "它是同一條財務線的第一本：先把錢顧好，再學什麼叫夠了。" },
+  10: { no: 1, why: "《人生主場》把前九冊串在一起，適合當總複習。從第 1 冊讀起，讀到它的時候最有感。" },
+};
+
+// ----------------------------------------------------
+// 2. 動態渲染函式 (所有內容由 BOOKS 陣列驅動)
+// ----------------------------------------------------
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderPriceBlock(b) {
+  // 導覽頁刻意不顯示價格：這頁的工作是「幫你找到現在該讀哪一本」，不是結帳。
+  // 價格與折數在 link.html 的書卡上已有完整一份，重複只會製造噪音。
+  // BOOKS 陣列的 price / sale / discount 保留不刪，要恢復只需改這個函式。
+  return '';
+}
+
+function renderActionsBlock(b) {
+  // 不放三顆商店按鈕——那是 link.html 的工作。這裡只留一個安靜的路標，
+  // 讓「讀到這本就是我」的人有出口，而不必回頭自己找。
+  if (b.status !== 'published') return '';
+  var t = escapeHtml(b.title);
+  return '<a class="goto-book" href="link.html#book-' + escapeHtml(b.code) + '"' +
+    ' onclick="trackStoreClick(\'map-goto\', \'' + t + '\')"' +
+    ' aria-label="到書店頁查看《' + t + '》">看《' + t + '》 <span aria-hidden="true">→</span></a>';
+}
+
+function renderQuizLink(b) {
+  // 讀後小測驗的入口：跟「看《X》」一樣是文字路標，不做成按鈕（§0 第 14 條）。
+  // 只有 BOOKS 標了 quiz: true、且已上架的書才有；測驗頁由 book-quiz.html?book=<code> 切換。
+  if (!b.quiz || b.status !== 'published') return '';
+  var t = escapeHtml(b.title);
+  return '<a class="goto-book" href="book-quiz.html?book=' + escapeHtml(b.code) + '"' +
+    ' onclick="trackStoreClick(\'map-quiz\', \'' + t + '\')"' +
+    ' aria-label="做《' + t + '》讀後小測驗">讀後小測驗 <span aria-hidden="true">→</span></a>';
+}
+
+function renderHelps(b) {
+  // 「這本也幫得上誰」：三類讀者都取自全書稿，括號是書中的章節編號
+  var list = HELPS[b.no];
+  if (!list || !list.length) return '';
+  var items = '';
+  list.forEach(function(h) {
+    items += '<li><b>' + escapeHtml(h.pain) + '</b>' +
+      '<span>' + escapeHtml(h.act) + '（' + escapeHtml(h.sec) + '）</span></li>';
+  });
+  return '<details class="helps"><summary>這本也幫得上誰</summary><ul>' + items + '</ul></details>';
+}
+
+function renderStopItem(b) {
+  var ed = EDITORIAL[b.no] || {};
+  var isComing = b.status === 'coming';
+  var cls = 'stop l-' + b.line + (isComing ? ' is-coming' : '');
+  var badge = isComing ? ' <span class="badge-coming">即將上架</span>' : '';
+  var coverCls = isComing ? ' class="is-coming"' : '';
+  var actionsHtml = renderActionsBlock(b) + renderQuizLink(b);
+
+  var html = '<li class="' + cls + '" id="s' + b.no + '">' +
+    '<img src="' + escapeHtml(b.cover) + '" alt="《' + escapeHtml(b.title) + '》封面" loading="lazy" decoding="async" width="78" height="117"' + coverCls + '>' +
+    '<div class="stop-body">' +
+    '<p class="vol">第 ' + b.no + ' 冊・第 ' + b.no + ' 個月' + badge + '</p>' +
+    '<h4>' + escapeHtml(b.title) + '</h4>' +
+    '<p class="sub">' + escapeHtml(b.sub) + '</p>' +
+    '<p class="you"><em>這個月的你</em>' + escapeHtml(ed.you || '') + '</p>' +
+    '<p class="todo"><em>先做</em>' + escapeHtml(ed.todo || '') + '</p>' +
+    '<p class="meta"><span class="tag">' + escapeHtml(b.lineLabel) + '</span><span>每天約 ' + b.minutes + ' 分鐘</span></p>' +
+    renderPriceBlock(b) +
+    renderHelps(b) +
+    '</div>';
+  if (actionsHtml) {
+    html += '<div class="stop-actions">' + actionsHtml + '</div>';
+  }
+  html += '</li>';
+  return html;
+}
+
+window.renderReadingMap = function() {
+  // A. 書架
+  var shelf = document.getElementById('shelf');
+  if (shelf) {
+    var shelfHtml = '';
+    BOOKS.forEach(function(b) {
+      var isComing = b.status === 'coming';
+      var w = (b.words / 10000).toFixed(1);
+      var tip = '第 ' + b.no + ' 冊　' + b.title + (isComing ? '（即將上架）' : '') + '・約 ' + w + ' 萬字';
+      var cls = 'spine l-' + b.line + (isComing ? ' is-coming' : '');
+      shelfHtml += '<a class="' + cls + '" style="--w:' + b.words + '" href="#s' + b.no + '" title="' + escapeHtml(tip) + '">' +
+        '<b>' + escapeHtml(b.title) + '</b>' +
+        '<i>' + b.no + '</i>' +
+        '</a>';
+    });
+    shelf.innerHTML = shelfHtml;
+  }
+
+  // B. 前九冊（三季）
+  var s1Stops = document.getElementById('season-1-stops');
+  var s2Stops = document.getElementById('season-2-stops');
+  var s3Stops = document.getElementById('season-3-stops');
+
+  if (s1Stops) {
+    var h1 = '';
+    BOOKS.slice(0, 3).forEach(function(b) { h1 += renderStopItem(b); });
+    s1Stops.innerHTML = h1;
+  }
+  if (s2Stops) {
+    var h2 = '';
+    BOOKS.slice(3, 6).forEach(function(b) { h2 += renderStopItem(b); });
+    s2Stops.innerHTML = h2;
+  }
+  if (s3Stops) {
+    var h3 = '';
+    BOOKS.slice(6, 9).forEach(function(b) { h3 += renderStopItem(b); });
+    s3Stops.innerHTML = h3;
+  }
+
+  // C. 第十冊（終點）
+  var homeContainer = document.getElementById('home-container');
+  if (homeContainer && BOOKS.length >= 10) {
+    var b10 = BOOKS[9];
+    var ed10 = EDITORIAL[10] || {};
+    var isComing10 = b10.status === 'coming';
+    var cls10 = 'home l-' + b10.line + (isComing10 ? ' is-coming' : '');
+    var badge10 = isComing10 ? ' <span class="badge-coming">即將上架</span>' : '';
+    var coverCls10 = isComing10 ? ' class="is-coming"' : '';
+    var actionsHtml10 = renderActionsBlock(b10);
+
+    var homeTitle = (b10.title === '人生主場') ? '回到人生主場' : ('回到' + b10.title);
+
+    var homeHtml = '<article class="' + cls10 + '" id="s10">' +
+      '<img src="' + escapeHtml(b10.cover) + '" alt="《' + escapeHtml(b10.title) + '》封面" loading="lazy" decoding="async" width="150" height="225"' + coverCls10 + '>' +
+      '<div class="stop-body">' +
+      '<p class="eyebrow">終點・第 10 個月' + badge10 + '</p>' +
+      '<h3>' + escapeHtml(homeTitle) + '</h3>' +
+      '<p class="sub">第 10 冊　' + escapeHtml(b10.sub) + '</p>' +
+      '<p class="lead">' + escapeHtml(ed10.lead || '') + '</p>' +
+      '<p class="you"><em>這個月的你</em>' + escapeHtml(ed10.you || '') + '</p>' +
+      '<p class="todo"><em>先做</em>' + escapeHtml(ed10.todo || '') + '</p>' +
+      '<p class="meta"><span class="tag">' + escapeHtml(b10.lineLabel) + '</span><span>每天約 ' + b10.minutes + ' 分鐘</span></p>' +
+      renderPriceBlock(b10) +
+      renderHelps(b10) +
+      '</div>';
+    if (actionsHtml10) {
+      homeHtml += '<div class="home-actions">' + actionsHtml10 + '</div>';
+    }
+    homeHtml += '</article>';
+    homeContainer.innerHTML = homeHtml;
+  }
+
+  // D. 對號入座
+  var entryGrid = document.getElementById('entry-grid');
+  if (entryGrid) {
+    var ENTRY_ORDER = [1, 4, 2, 5, 3, 6, 7, 8, 9, 10];
+    var entriesHtml = '';
+    ENTRY_ORDER.forEach(function(num) {
+      var b = null;
+      for (var i = 0; i < BOOKS.length; i++) {
+        if (BOOKS[i].no === num) { b = BOOKS[i]; break; }
+      }
+      if (!b) return;
+      var ed = EDITORIAL[num] || {};
+      entriesHtml += '<button class="entry l-' + b.line + '" type="button" data-go="s' + b.no + '">' +
+        '<span>' + escapeHtml(ed.entry || '') + '</span>' +
+        '<b>' + escapeHtml(b.title) + '</b>' +
+        '</button>';
+    });
+    entryGrid.innerHTML = entriesHtml;
+  }
+
+  // E. 綁定點擊事件
+  bindInteractions();
+};
+
+// ----------------------------------------------------
+// 3. 互動邏輯 (過濾主題線、書脊跳轉、對號入座捲動)
+// ----------------------------------------------------
+var interactionsBound = false;
+function bindInteractions() {
+  var map = document.getElementById('map');
+  var chips = [].slice.call(document.querySelectorAll('.chip'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setFocus(f) {
+    if (!map) return;
+    map.setAttribute('data-focus', f);
+    chips.forEach(function(c) {
+      c.setAttribute('aria-pressed', String(c.getAttribute('data-f') === f));
+    });
+  }
+
+  if (!interactionsBound) {
+    chips.forEach(function(c) {
+      c.addEventListener('click', function() {
+        setFocus(c.getAttribute('data-f'));
+      });
+    });
+    interactionsBound = true;
+  }
+
+  function pick(id) {
+    [].forEach.call(document.querySelectorAll('.is-picked'), function(el) {
+      el.classList.remove('is-picked');
+    });
+    var el = document.getElementById(id);
+    if (!el) return;
+    setFocus('all');
+    el.classList.add('is-picked');
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  }
+  window.__pickStop = pick;   // 自測結果的「在路線上看這本」也用同一個動作
+
+  [].forEach.call(document.querySelectorAll('.entry'), function(b) {
+    b.onclick = function() { pick(b.getAttribute('data-go')); };
+  });
+
+  [].forEach.call(document.querySelectorAll('.spine'), function(a) {
+    a.onclick = function(e) {
+      e.preventDefault();
+      pick(a.getAttribute('href').slice(1));
+    };
+  });
+}
+
+// ----------------------------------------------------
+// 4. 12 題自測：一次一題；每個選項替對應的書加 1 分，
+//    最高分就是結果，同分時選冊次較小的那本
+// ----------------------------------------------------
+var quizState = { i: -1, ans: [] };
+
+function quizTrack(name) {
+  try { if (window.clarity) clarity('event', name); } catch (e) {}
+}
+
+function findBook(no) {
+  for (var i = 0; i < BOOKS.length; i++) {
+    if (BOOKS[i].no === no) return BOOKS[i];
+  }
+  return null;
+}
+
+function nextInLine(b) {
+  for (var i = 0; i < BOOKS.length; i++) {
+    if (BOOKS[i].line === b.line && BOOKS[i].no > b.no) return BOOKS[i];
+  }
+  return null;
+}
+
+function quizRank() {
+  var score = {};
+  BOOKS.forEach(function(b) { score[b.no] = 0; });
+  quizState.ans.forEach(function(oi, qi) {
+    if (oi === undefined || oi === null) return;
+    QUIZ[qi].opts[oi][1].forEach(function(n) { score[n] = (score[n] || 0) + 1; });
+  });
+  return BOOKS.map(function(b) { return { b: b, s: score[b.no] }; })
+    .sort(function(x, y) { return (y.s - x.s) || (x.b.no - y.b.no); });
+}
+
+function quizGotoLink(b) {
+  // 和地圖上的路標一樣：一行文字，不做成按鈕
+  var t = escapeHtml(b.title);
+  return '<a class="goto-book" href="link.html#book-' + escapeHtml(b.code) + '"' +
+    ' onclick="trackStoreClick(\'quiz-goto\', \'' + t + '\')"' +
+    ' aria-label="到書店頁查看《' + t + '》">看《' + t + '》 <span aria-hidden="true">→</span></a>';
+}
+
+function renderQuizResult() {
+  var rank = quizRank();
+  var b = rank[0].b;
+  var ed = EDITORIAL[b.no] || {};
+  var isComing = b.status === 'coming';
+  var nxt = nextInLine(b);
+  var html = '<div class="quiz-result l-' + b.line + '">' +
+    '<img src="' + escapeHtml(b.cover) + '" alt="《' + escapeHtml(b.title) + '》封面" loading="lazy" decoding="async" width="110" height="165"' + (isComing ? ' class="is-coming"' : '') + '>' +
+    '<div class="stop-body">' +
+    '<p class="vol">建議你先讀・第 ' + b.no + ' 冊' + (isComing ? ' <span class="badge-coming">即將上架</span>' : '') + '</p>' +
+    '<h3>《' + escapeHtml(b.title) + '》</h3>' +
+    '<p class="sub">' + escapeHtml(b.sub) + '</p>' +
+    '<p class="you"><em>你現在</em>' + escapeHtml(ed.entry || ed.you || '') + '</p>' +
+    '<p class="todo"><em>先做</em>' + escapeHtml(ed.todo || '') + '</p>' +
+    '<p class="meta"><span class="tag">' + escapeHtml(b.lineLabel) + '</span>' +
+      (nxt ? '<span>同一條線的下一本：《' + escapeHtml(nxt.title) + '》</span>' : '') + '</p>';
+  var shop = isComing ? null : b;
+  if (isComing && QUIZ_COMPANION[b.no]) {
+    var c = QUIZ_COMPANION[b.no];
+    var cb = findBook(c.no);
+    if (cb) {
+      html += '<p class="quiz-alt">《' + escapeHtml(b.title) + '》即將上架。現在可以先讀已上架的《' +
+        escapeHtml(cb.title) + '》：' + escapeHtml(c.why) + '</p>';
+      if (cb.status === 'published') shop = cb;
+    }
+  }
+  html += renderHelps(b);
+  html += '<div class="quiz-go"><button class="quiz-link" type="button" data-go="s' + b.no + '">在路線上看這本 ↑</button>' +
+    (shop ? quizGotoLink(shop) : '') + '</div>';
+  html += '</div></div>';
+  if (rank[1].s > 0) {
+    var s2 = rank[1].b;
+    html += '<p class="quiz-second">分數第二高的是第 ' + s2.no + ' 冊《' + escapeHtml(s2.title) + '》' +
+      (s2.status === 'coming' ? '（即將上架）' : '') + '，可以排在下一本。</p>';
+  }
+  html += '<p class="quiz-note">這不是心理測驗或診斷，只是幫你挑一本先讀的書。</p>' +
+    '<div class="quiz-nav"><button class="quiz-link" type="button" data-q="restart">重新測一次</button></div>';
+  return html;
+}
+
+function renderQuiz() {
+  var card = document.getElementById('quiz-card');
+  if (!card) return;
+  var i = quizState.i;
+  var html = '';
+  if (i < 0) {
+    html = '<p class="quiz-note">這不是心理測驗或診斷，只是幫你挑一本先讀的書。</p>' +
+      '<div class="quiz-nav"><button class="quiz-btn" type="button" data-q="start">開始，共 ' + QUIZ.length + ' 題</button></div>';
+  } else if (i < QUIZ.length) {
+    var q = QUIZ[i];
+    html = '<div class="quiz-progress" role="progressbar" aria-label="作答進度" aria-valuemin="0" aria-valuemax="' + QUIZ.length + '" aria-valuenow="' + i + '">' +
+      '<i style="width:' + Math.round(i / QUIZ.length * 100) + '%"></i></div>' +
+      '<p class="quiz-step">第 ' + (i + 1) + ' 題，共 ' + QUIZ.length + ' 題</p>' +
+      '<p class="quiz-q">' + escapeHtml(q.q) + '</p>' +
+      '<div class="quiz-opts">';
+    q.opts.forEach(function(o, oi) {
+      html += '<button class="quiz-opt" type="button" data-opt="' + oi + '" aria-pressed="' + (quizState.ans[i] === oi) + '">' +
+        escapeHtml(o[0]) + '</button>';
+    });
+    html += '</div>';
+    if (i > 0) html += '<div class="quiz-nav"><button class="quiz-link" type="button" data-q="back">← 上一題</button></div>';
+  } else {
+    html = renderQuizResult();
+  }
+  card.innerHTML = html;
+}
+
+function bindQuiz() {
+  var card = document.getElementById('quiz-card');
+  if (!card || card.getAttribute('data-bound')) return;
+  card.setAttribute('data-bound', '1');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function show() {
+    renderQuiz();
+    try { card.focus({ preventScroll: true }); } catch (e) { card.focus(); }
+    // 手機上換題後，題目若跑出畫面就捲回來
+    var r = card.getBoundingClientRect();
+    if (r.top < 0 || r.top > window.innerHeight * 0.6) {
+      card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
+  card.addEventListener('click', function(e) {
+    var t = e.target && e.target.closest ? e.target.closest('button') : null;
+    if (!t || !card.contains(t)) return;
+    if (t.hasAttribute('data-opt')) {
+      quizState.ans[quizState.i] = Number(t.getAttribute('data-opt'));
+      quizState.i += 1;
+      if (quizState.i >= QUIZ.length) quizTrack('quiz-result-' + quizRank()[0].b.no);
+      show();
+      return;
+    }
+    var act = t.getAttribute('data-q');
+    if (act === 'start' || act === 'restart') {
+      quizState = { i: 0, ans: [] };
+      quizTrack('quiz-start');
+      show();
+    } else if (act === 'back' && quizState.i > 0) {
+      quizState.i -= 1;
+      show();
+    } else if (t.hasAttribute('data-go') && window.__pickStop) {
+      window.__pickStop(t.getAttribute('data-go'));
+    }
+  });
+}
+
+// 頁面載入執行首次渲染
+window.renderReadingMap();
+renderQuiz();
+bindQuiz();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   - 涵蓋靜態 <img>、JS 後來插入的 <img>、以及 CSS 背景圖
+   - 只在載入失敗時才動作，正常情況完全沒有成本
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    // 腳本載入前就已失敗的圖，補救一次
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+
+  // JS 後來才插進 DOM 的圖（閱讀地圖、工具頁的推薦書封都是這種）
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  // CSS 背景圖沒有 error 事件，改用探測：載不起來就把元素的背景換成本地路徑
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
