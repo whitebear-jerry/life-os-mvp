@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《心富》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《心富》讀者專屬：40 支原理動畫，一節一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 book-quiz.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#8d6524; --c:#946026;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em;word-break:keep-all}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:6px}
+
+  /* 先放縮圖，點了才載入播放器：40 支一起載入會拖慢整頁 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#2b231b}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(68,53,39,.88);display:grid;place-items:center;transition:background-color .15s ease}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdfaf4;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:#8d6524}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  .try{font-size:14px;border-left:2px solid var(--gilt);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--gilt)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book4.webp" alt="《心富》封面" width="96" height="144">
+    <div>
+      <h1>《心富》讀者專屬影片</h1>
+      <p class="lead">一節一支，共 40 支動畫，每支約一分鐘。書裡教你怎麼做，影片講為什麼有效：每支用一個研究，說明書中工具背後的原理。讀到哪一節，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《心富》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="40 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive「動畫影片編輯/Book04_心富/讀者專屬頁/產生讀者專屬頁.py」產生，不要手改 */
+const VIDEOS = [{"n": "01", "id": "6XNJOD1zLDo", "dur": "1:04", "topic": "相信操之在我的人，存得比較多", "sec": "1.1 內在為本，外在為果", "part": "第 1 章　心財同源：富足從內在開始", "chapter": "1.1 內在為本，外在為果", "ch": [["1.1.4", "自我實現預言：在財務廢墟中重造帝國的實戰心法"]], "try": "停止抱怨 → 寫下來 → 做一件", "tryRef": "1.1.4"}, {"n": "02", "id": "_huEwwKQBpk", "dur": "1:07", "topic": "負面情緒會讓視野變窄", "sec": "1.2 心靈的資產負債表", "part": "第 1 章　心財同源：富足從內在開始", "chapter": "1.2 心靈的資產負債表：盤點你的正負能量", "ch": [["1.2.2", "抱怨的隱形成本：專門跟你收高額複利的高利貸"]], "try": "停一下 → 吞回去 → 換焦點", "tryRef": "1.2.2"}, {"n": "03", "id": "dGAmVZ2fDto", "dur": "1:06", "topic": "一天的行為，三到四成是習慣", "sec": "1.3 先儲蓄，才能儲能", "part": "第 1 章　心財同源：富足從內在開始", "chapter": "1.3 先儲蓄，才能儲能：心靈活水 ＞ 財務自由", "ch": [["1.3.3", "認知飛輪的啟動：用小習慣繞過大象的阻力"]], "try": "提示 → 行為 → 獎酬", "tryRef": "1.3.3"}, {"n": "04", "id": "3g6UwaI06yw", "dur": "1:14", "topic": "難過的時候，出價會變高", "sec": "1.4 覺察情緒：別讓情緒亂花錢", "part": "第 1 章　心財同源：富足從內在開始", "chapter": "1.4 覺察情緒：別讓情緒亂花錢", "ch": [["1.4.4", "防禦情緒性消費的自檢清單"]], "try": "情緒上色 → 冷靜期 → 能量赤字", "tryRef": "1.4.4"}, {"n": "05", "id": "eztvkZtSMCY", "dur": "1:08", "topic": "人從失敗學到的，比成功少", "sec": "1.5 成長型思維", "part": "第 1 章　心財同源：富足從內在開始", "chapter": "1.5 成長型思維：把「我不會」變「我還沒學會」", "ch": [["1.5.4", "成長型思維金錢自檢清單"]], "try": "改寫私語 → 經驗值化 → 自我充能", "tryRef": "1.5.4"}, {"n": "06", "id": "gw4f_fOh1x4", "dur": "1:02", "topic": "鴕鳥效應：越跌越不敢看帳戶", "sec": "2.1 打造你的財務儀表板", "part": "第 2 章　看懂你的數字：財務儀表板", "chapter": "2.1 打造你的財務儀表板", "ch": [["2.1.3", "試算表實作：用 Google Sheets 寫下你的「個人資產負債表」"]], "try": "預備金 → 儲蓄率 → 達成率", "tryRef": "2.1.3"}, {"n": "07", "id": "7NadCuX1ngg", "dur": "1:09", "topic": "中了大獎，快樂也會回到原點", "sec": "2.2 先存再花的現金流結構", "part": "第 2 章　看懂你的數字：財務儀表板", "chapter": "2.2 先存再花的現金流結構", "ch": [["2.2.3", "享樂跑步機的陷阱：轉向寬鬆視角的高體驗消費"]], "try": "先存 → 再花 → 花在刀口", "tryRef": "2.2.3"}, {"n": "08", "id": "PoZSrUxvBVA", "dur": "1:09", "topic": "恐懼會讓你更不敢冒險", "sec": "2.3 先搞懂你是哪種投資人", "part": "第 2 章　看懂你的數字：財務儀表板", "chapter": "2.3 先搞懂你是哪種投資人", "ch": [["2.3.2", "損失厭惡的痛楚：量化你「睡得著」的睡眠安全邊界"]], "try": "問自己 → 算部位 → 其餘放穩", "tryRef": "2.3.2"}, {"n": "09", "id": "S0Fhujj0b8c", "dur": "1:08", "topic": "把錢鎖起來，反而存更多", "sec": "2.4 把存錢交給系統", "part": "第 2 章　看懂你的數字：財務儀表板", "chapter": "2.4 把存錢交給系統：自動化金流", "ch": [["2.4.2", "行為設計的妙用：降低存錢阻力，拉高花錢摩擦力"]], "try": "存錢零阻力 → 分開銀行 → 拉高阻力", "tryRef": "2.4.2"}, {"n": "10", "id": "rJIpXAFbrXo", "dur": "1:06", "topic": "追蹤進度，比較容易達標", "sec": "2.5 每月財務健檢", "part": "第 2 章　看懂你的數字：財務儀表板", "chapter": "2.5 每月財務健檢：從記帳到對帳的 SOP", "ch": [["2.5.2", "清單革命的落地：用防呆清單堵住財務巨洞"]], "try": "更新 → 算儲蓄率 → 看進度", "tryRef": "2.5.2"}, {"n": "11", "id": "DemBnKNc6ms", "dur": "1:16", "topic": "看得越頻繁，越不敢投入", "sec": "3.1 定期定額與資產配置", "part": "第 3 章　讓錢自己長大：資產配置與槓桿", "chapter": "3.1 定期定額與資產配置", "ch": [["3.1.2", "近視性損失厭惡：為什麼頻繁看盤會讓你賺不到錢？"]], "try": "少看盤 → 盯單位數 → 下跌時轉念", "tryRef": "3.1.2"}, {"n": "12", "id": "HbZGpeupo40", "dur": "1:04", "topic": "新聞一出，價格幾秒就反應", "sec": "3.2 總經佈局與資產配置", "part": "第 3 章　讓錢自己長大：資產配置與槓桿", "chapter": "3.2 總經佈局與資產配置", "ch": [["3.2.2", "有效市場假說：為什麼追逐落後新聞是致命的？"]], "try": "關推播 → 看數據 → 做配置", "tryRef": "3.2.2"}, {"n": "13", "id": "yMT9yh98-xw", "dur": "1:05", "topic": "買房的人常高估房價漲幅", "sec": "3.3 房產五倍槓桿", "part": "第 3 章　讓錢自己長大：資產配置與槓桿", "chapter": "3.3 房產五倍槓桿", "ch": [["3.3.2", "安全邊際的防線：如何在五倍槓桿中鎖死風險？"]], "try": "現金緩衝 → 壓力測試 → 估值保守", "tryRef": "3.3.2"}, {"n": "14", "id": "OKEFyvcQ3qg", "dur": "1:11", "topic": "大腦把複利想成直線", "sec": "3.4 時間複利", "part": "第 3 章　讓錢自己長大：資產配置與槓桿", "chapter": "3.4 時間複利：越早開始差越多", "ch": [["3.4.1", "72 法則與 7 年循環：破解財富翻倍的數學密碼"]], "try": "72 法則 → 早一點 → 抱得住", "tryRef": "3.4.1"}, {"n": "15", "id": "7Q-gd9ze_eU", "dur": "1:09", "topic": "多數人覺得自己比一般人厲害", "sec": "3.5 再平衡", "part": "第 3 章　讓錢自己長大：資產配置與槓桿", "chapter": "3.5 再平衡：定期把資產調回正軌", "ch": [["3.5.3", "再平衡的執行規則與財務斷捨離"]], "try": "時間法 → 偏離法 → 記住目的", "tryRef": "3.5.3"}, {"n": "16", "id": "m1hOd_oNoKU", "dur": "1:07", "topic": "像彩券的股票，整體報酬更差", "sec": "4.1 避開讓你歸零的陷阱", "part": "第 4 章　投資心法：戰勝人性與陷阱", "chapter": "4.1 避開讓你歸零的陷阱", "ch": [["4.1.4", "解方與未來：畫出你的「能力圈」，用系統杜絕收割"]], "try": "說得清楚 → 合乎常理 → 用閒錢", "tryRef": "4.1.4"}, {"n": "17", "id": "oDWo8P7ckWg", "dur": "1:12", "topic": "賺的急著賣，賠的抱著不放", "sec": "4.2 馴服你的直覺大象", "part": "第 4 章　投資心法：戰勝人性與陷阱", "chapter": "4.2 馴服你的「直覺大象」", "ch": [["4.2.3", "影響：真正的問題不是賣早了，而是「誰在決定」"]], "try": "交給比例 → 漲多跌深 → 核心部位", "tryRef": "4.2.3"}, {"n": "18", "id": "W2DxGhzQJYM", "dur": "1:06", "topic": "進出越多，實拿越少", "sec": "4.3 投資鈍感力", "part": "第 4 章　投資心法：戰勝人性與陷阱", "chapter": "4.3 投資鈍感力：耐心與紀律", "ch": [["4.3.4", "解方與未來：鈍感持有與漏米停損哲學"]], "try": "扣款照常 → 移出首頁 → 靠系統", "tryRef": "4.3.4"}, {"n": "19", "id": "b1n8k3NXg6c", "dur": "1:08", "topic": "球拍和球：直覺很快，也很常錯", "sec": "4.4 系統一 vs 系統二", "part": "第 4 章　投資心法：戰勝人性與陷阱", "chapter": "4.4 系統一 vs 系統二：別用直覺做決定", "ch": [["4.4.4", "解方與未來：與潛意識溝通，建立雙系統的防毒軟體"]], "try": "不用手機 → 寫下來 → 等一天", "tryRef": "4.4.4"}, {"n": "20", "id": "caG2PiBY6p8", "dur": "1:13", "topic": "自己選錯的，反而越投越多", "sec": "4.5 沉沒成本與損失厭惡", "part": "第 4 章　投資心法：戰勝人性與陷阱", "chapter": "4.5 沉沒成本與損失厭惡", "ch": [["4.5.4", "解方與未來：買米漏米哲學與零基思考法"]], "try": "掃掉漏米 → 零基思考 → 鎖住額度", "tryRef": "4.5.4"}, {"n": "21", "id": "30NFBmQXfPg", "dur": "1:07", "topic": "峰終定律：記憶只留高峰和結尾", "sec": "5.1 花錢買時間與體驗", "part": "第 5 章　生活財商：把錢花在刀口上", "chapter": "5.1 花錢買時間與體驗", "ch": [["5.1.4", "解方與未來：時間套利與體驗配置設計"]], "try": "高峰 → 終點 → 買時間", "tryRef": "5.1.4"}, {"n": "22", "id": "RYtc94YWy8A", "dur": "1:06", "topic": "只看標價，長期反而花更多", "sec": "5.2 把錢花在耐久好貨上", "part": "第 5 章　生活財商：把錢花在刀口上", "chapter": "5.2 把錢花在「耐久好貨」上", "ch": [["5.2.4", "解方與未來：高頻接觸點投資與自己動手的槓桿"]], "try": "高頻接觸 → 算到每天 → 自己動手", "tryRef": "5.2.4"}, {"n": "23", "id": "-3hT3T1qC60", "dur": "1:08", "topic": "一張清單，讓手術更安全", "sec": "5.3 大額決策的 SOP 與清單", "part": "第 5 章　生活財商：把錢花在刀口上", "chapter": "5.3 大額決策的 SOP 與清單", "ch": [["5.3.4", "解方與未來：建構防禦型的危機處理 SOP"]], "try": "書面報價 → 三方比價 → 分期付款", "tryRef": "5.3.4"}, {"n": "24", "id": "MhHZ8BddALU", "dur": "1:11", "topic": "以牙還牙：先友善，也會說不", "sec": "5.4 金錢的人際界線", "part": "第 5 章　生活財商：把錢花在刀口上", "chapter": "5.4 金錢的人際界線", "ch": [["5.4.4", "解方與未來：拒絕腳本與人際斷捨離"]], "try": "系統當盾牌 → 第二次 → 贈予底線", "tryRef": "5.4.4"}, {"n": "25", "id": "4YphrlAPRKM", "dur": "1:03", "topic": "好工具讓時間變少、品質變好", "sec": "5.5 基礎設施投資", "part": "第 5 章　生活財商：把錢花在刀口上", "chapter": "5.5 基礎設施投資：把錢花在會回本的地方", "ch": [["5.5.4", "解方與未來：打造你的自我增值金流螺旋"]], "try": "數位工具 → 身體硬體 → 知識疫苗", "tryRef": "5.5.4"}, {"n": "26", "id": "GhYruXIMDyc", "dur": "1:05", "topic": "學習曲線：做得越多，越快越省", "sec": "6.1 消費者 vs 生產者", "part": "第 6 章　開源思維：從消費者變成生產者", "chapter": "6.1 消費者 vs 生產者：站到賺錢的那一邊", "ch": [["6.1.3", "打怪練等：跨越複利拐點的成本思維與未來"]], "try": "轉成產出 → 投資武器 → 耐心", "tryRef": "6.1.3"}, {"n": "27", "id": "iJ2HJjlYwtw", "dur": "1:04", "topic": "創作者看自己的點子總是高估", "sec": "6.2 找出你的剛需產品", "part": "第 6 章　開源思維：從消費者變成生產者", "chapter": "6.2 找出你的剛需產品", "ch": [["6.2.3", "小步快跑：用低成本驗證你的剛需點子"]], "try": "做基礎版 → 先預售 → 快速轉身", "tryRef": "6.2.3"}, {"n": "28", "id": "TjZkvJympIo", "dur": "1:03", "topic": "好作品來自大量產出", "sec": "6.3 知識變現", "part": "第 6 章　開源思維：從消費者變成生產者", "chapter": "6.3 知識變現：把腦袋裡的東西賣出去", "ch": [["6.3.3", "跨越拐點：小習慣累積你的數位資產"]], "try": "每天一點 → 限時完成 → 先預售", "tryRef": "6.3.3"}, {"n": "29", "id": "poWZN5CcztM", "dur": "1:08", "topic": "像科學家一樣驗證點子", "sec": "6.4 最小成本驗證點子", "part": "第 6 章　開源思維：從消費者變成生產者", "chapter": "6.4 最小成本驗證點子：先賣再做的實戰課", "ch": [["6.4.4", "解方與未來：在 JRPG 遊戲中迭代"]], "try": "控制成本 → 設及格線 → 快速轉向", "tryRef": "6.4.4"}, {"n": "30", "id": "tT58wLBHEqQ", "dur": "1:13", "topic": "老手創業家從手上的資源出發", "sec": "6.5 把興趣變現的第一桶金", "part": "第 6 章　開源思維：從消費者變成生產者", "chapter": "6.5 把興趣變現的第一桶金：從「我是誰」出發的發家術", "ch": [["6.5.1", "起因與本質：效果邏輯與「我是誰」的資源盤點"]], "try": "盤點 → 賠得起 → 順序", "tryRef": "6.5.1"}, {"n": "31", "id": "lJtB1BtNYmc", "dur": "1:02", "topic": "被資遣之後，收入多年回不來", "sec": "7.1 副業是你的第二支柱", "part": "第 7 章　打造賺錢系統：副業、自動化與數位資產", "chapter": "7.1 副業是你的第二支柱：對抗單一收入風險的個人組合拳", "ch": [["7.1.3", "解方與未來：守住副業安全線，進退自如"]], "try": "預備金 → 利潤過線 → 本業當金主", "tryRef": "7.1.3"}, {"n": "32", "id": "YWJeezbNgjs", "dur": "1:05", "topic": "別針工廠：分工放大產能", "sec": "7.2 把收入變成會自己跑的系統", "part": "第 7 章　打造賺錢系統：副業、自動化與數位資產", "chapter": "7.2 把收入變成會自己跑的系統：從人肉作坊到自動化生產線", "ch": [["7.2.2", "分工與外包：從「校長兼鐘聲」到系統設計師"]], "try": "拆工作 → 寫 SOP → 外包", "tryRef": "7.2.2"}, {"n": "33", "id": "typA0GGm9Ug", "dur": "1:08", "topic": "長尾：一直在架上，就一直被找到", "sec": "7.3 數位資產與長尾", "part": "第 7 章　打造賺錢系統：副業、自動化與數位資產", "chapter": "7.3 數位資產與長尾：讓三年前的努力今天還在賺", "ch": [["7.3.3", "時間與空間的交換：打造常青的被動水管"]], "try": "經驗倉庫 → 上架一件 → 常青題材", "tryRef": "7.3.3"}, {"n": "34", "id": "V2YulgiTfXM", "dur": "1:05", "topic": "數學加社交，成長最快的工作", "sec": "7.4 技能疊加", "part": "第 7 章　打造賺錢系統：副業、自動化與數位資產", "chapter": "7.4 技能疊加：不被 AI 取代的多維解法", "ch": [["7.4.3", "解方與未來：在 JRPG 遊戲中升級你的技能樹"]], "try": "主幹 → 分枝 → 小習慣", "tryRef": "7.4.3"}, {"n": "35", "id": "fTLPZ-I8EzM", "dur": "1:03", "topic": "不同步的收入，加起來更穩", "sec": "7.5 多元收入流", "part": "第 7 章　打造賺錢系統：副業、自動化與數位資產", "chapter": "7.5 多元收入流：別把雞蛋放同籃的全局套利術", "ch": [["7.5.3", "解方與未來：讓總經週期為你工作，而不是讓你為它盯盤"]], "try": "多條收入 → 訂比例 → 只做兩件", "tryRef": "7.5.3"}, {"n": "36", "id": "tuzWqYUMW-8", "dur": "1:02", "topic": "弱者換一種打法，勝率大增", "sec": "8.1 格局與相對優勢", "part": "第 8 章　終局：財務自由的終點是體驗", "chapter": "8.1 格局與相對優勢", "ch": [["8.1.2", "比氣長：專注自己的財務演算法"]], "try": "高築牆 → 廣積糧 → 緩稱王", "tryRef": "8.1.2"}, {"n": "37", "id": "bRaRJoBsUcw", "dur": "1:02", "topic": "主動要批評的主管，評價更高", "sec": "8.2 言語與關係的修養", "part": "第 8 章　終局：財務自由的終點是體驗", "chapter": "8.2 言語與關係的修養：莫傷害", "ch": [["8.2.2", "北冥神功與大禹治水：批評與情緒的防禦"]], "try": "當成除錯 → 過濾毒素 → 大禹治水", "tryRef": "8.2.2"}, {"n": "38", "id": "JkXYJoL1xww", "dur": "1:01", "topic": "買經驗比買東西更快樂", "sec": "8.3 體驗至上", "part": "第 8 章　終局：財務自由的終點是體驗", "chapter": "8.3 體驗至上：財務自由不是終點", "ch": [["8.3.3", "知道何時該停：會賺錢，不等於守得住"]], "try": "終局練習 → 轉成體驗 → 知道何時停", "tryRef": "8.3.3"}, {"n": "39", "id": "KNQ5kg8qHNE", "dur": "1:12", "topic": "錢花在別人身上，比較快樂", "sec": "8.4 取之、用之、還之", "part": "第 8 章　終局：財務自由的終點是體驗", "chapter": "8.4 取之、用之、還之：利他循環的生命流動", "ch": [["8.4.2", "解方與未來：搭建你的服務橋樑"]], "try": "先顧好自己 → 教，不只給 → 讓它流動", "tryRef": "8.4.2"}, {"n": "40", "id": "cKexaLQTogo", "dur": "1:14", "topic": "為了獎賞才做，興趣就淡了", "sec": "8.5 回到初心", "part": "第 8 章　終局：財務自由的終點是體驗", "chapter": "8.5 回到初心：像孩子一樣重新出發的終極遊戲", "ch": [["8.5.2", "解方與未來：在「人生 ON LINE」中通關"]], "try": "好玩的成分 → 純粹時間 → 重新開局", "tryRef": "8.5.2"}];
+const PLAYLIST = "PLQqn9kxwVMkc";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0]; }
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 40 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 支">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li>' + esc(v.chapter) + '</li>' + v.ch.map(function (c) {
+          return '<li><span class="sec">' + esc(c[0]) + '</span>' + esc(c[1]) + '</li>';
+        }).join('') + '</ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 ' + esc(v.sec) + '：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      /* 預覽版：影片還沒上傳，直接播 Drive 裡的成品 */
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'xinfu-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   （與其他頁同一份；這頁只有書封走 jsDelivr）
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
