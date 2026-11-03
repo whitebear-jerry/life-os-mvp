@@ -89,11 +89,16 @@
         pubu:    "https://www.pubu.com.tw/ebook/698996?apKey=e08e864a73",
         kobo:    "https://www.kobo.com/tw/zh/ebook/asnAGxl-nTWNwOWVOxO30w?sId=882fac14-15dd-415c-a729-893ef083918d&ssId=E-YVypgvbd7WdUbRJTGZM&cPos=1" } },
 
-    // ── 以下三本尚未上架：不放價格、不放連結、不寫上架日期 ──
     { no: 8, code: "mingbian", title: "明辨", sub: "把難題拆開，把假話看穿，把決定做對",
-      line: "judge", lineLabel: "判斷線 ①", words: 156454, minutes: 13,
-      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book8.webp", status: "coming",
-      price: null, sale: null, discount: null, links: null },
+      line: "judge", lineLabel: "判斷線 ①", words: 156454, minutes: 13, quiz: true,
+      cover: "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book8.webp", status: "published",
+      price: 390, sale: 299, discount: "77折 (省 $91)",
+      links: {
+        readmoo: "https://readmoo.com/book/210510318000101",
+        pubu:    "https://www.pubu.com.tw/ebook/706027?apKey=e08e864a73",
+        kobo:    "https://www.kobo.com/tw/zh/ebook/BXq4v8w-qzmB3kmH_KVHwA?sId=8279bf42-8d3d-45b9-87e1-548dbae7f90f&ssId=hg4dlbrf47Cfsj6VCzbgz&cPos=3" } },
+
+    // ── 以下兩本尚未上架：不放價格、不放連結、不寫上架日期 ──
 
     { no: 9, code: "yuyu", title: "餘裕", sub: "心裡富足，手上有餘——養出面對世界的雙寬裕",
       line: "money", lineLabel: "財務線 ②", words: 116977, minutes: 10,
@@ -555,7 +560,7 @@
   <section class="map-outro">
     <p class="outro-lead">選好從哪一本開始了嗎？</p>
     <a class="outro-cta" href="link.html" onclick="trackStoreClick('map-goto', '總出口')">
-      到書店頁看全部七本 <span aria-hidden="true">→</span>
+      到書店頁看全部<span id="outro-count">八</span>本 <span aria-hidden="true">→</span>
     </a>
     <p class="outro-note">這頁只負責帶路；價格、試閱與購買都在那裡。</p>
   </section>
@@ -934,6 +939,14 @@ window.renderReadingMap = function() {
     }
     homeHtml += '</article>';
     homeContainer.innerHTML = homeHtml;
+  }
+
+  // 頁尾總出口的本數照 BOOKS 算，不要寫死（2026-11《明辨》上架時發現這裡寫死「七本」）
+  var outroCount = document.getElementById('outro-count');
+  if (outroCount) {
+    var nPub = BOOKS.filter(function (b) { return b.status === 'published'; }).length;
+    var ZH = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+    if (ZH[nPub]) outroCount.textContent = ZH[nPub];
   }
 
   // D. 對號入座

@@ -266,6 +266,16 @@
       box-shadow: 0 6px 16px rgba(122,80,216, 0.4);
     }
 
+    /* 《明辨》梅紫 #9c4682：卡片底 5.58、按鈕白字 5.81、徽章淡底 4.72（2026-11-03） */
+    .book-mingbian .link-actions a {
+      background: #9c4682;
+      box-shadow: 0 2px 6px rgba(156,70,130, 0.25);
+    }
+
+    .book-mingbian .link-actions a:hover {
+      box-shadow: 0 6px 16px rgba(156,70,130, 0.4);
+    }
+
     .book-series .link-actions a:hover {
       box-shadow: 0 6px 16px rgba(37,120,111, 0.4);
     }
@@ -422,7 +432,6 @@
     .link-book.book-youyi {
       border: 1px solid rgba(140, 115, 80, 0.2);
       border-left: 4px solid #7a50d8;
-      animation: accentPulse 3.2s infinite ease-in-out;
       background: #fdfaf4 !important;
     }
 
@@ -430,6 +439,20 @@
       border-color: rgba(122,80,216, 0.35);
       border-left-color: #7a50d8;
       box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(122,80,216, 0.4);
+    }
+
+    /* 最新上架：只有這張有 accentPulse（§0 第 3 條）。下一本上架時把 animation 搬過去 */
+    .link-book.book-mingbian {
+      border: 1px solid rgba(140, 115, 80, 0.2);
+      border-left: 4px solid #9c4682;
+      animation: accentPulse 3.2s infinite ease-in-out;
+      background: #fdfaf4 !important;
+    }
+
+    .link-book.book-mingbian:hover {
+      border-color: rgba(156,70,130, 0.35);
+      border-left-color: #9c4682;
+      box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 16px 34px -14px rgba(156,70,130, 0.4);
     }
 
     .link-book.book-series {
@@ -485,6 +508,12 @@
       background: #7a50d8;
       color: #ffffff;
       box-shadow: 0 2px 6px rgba(122,80,216, 0.3);
+    }
+
+    .book-tag.tag-mingbian {
+      background: #9c4682;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(156,70,130, 0.3);
     }
 
     /* 3. 星等與發光金星 */
@@ -633,8 +662,8 @@
     .tool-feature { background: #f9f3e6; border-color: rgba(37, 120, 111, 0.3); }
 
     @keyframes accentPulse {
-      0%, 100% { border-left-color: #7a50d8; }
-      50%      { border-left-color: #a688ea; }
+      0%, 100% { border-left-color: #9c4682; }
+      50%      { border-left-color: #c277ac; }
     }
 
     @keyframes gemShine {
@@ -1340,9 +1369,42 @@
         </div>
       </article>
 
+      <!-- 🔍 《明辨》次要書卡 -->
+      <article class="link-book book-mingbian book-secondary" id="book-mingbian">
+        <div class="book-tag tag-mingbian">✨ 最新上架</div>
+        <div class="book-card-content">
+          <div class="book-cover-wrapper">
+            <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book8.webp" alt="《明辨》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
+          </div>
+          <div class="book-info">
+            <h2>《明辨》</h2>
+            <div class="book-rating">
+              <span class="rating-text">新書上市 · 搶先體驗</span>
+            </div>
+            <div class="book-selling-points">
+              <div class="selling-point"><span>🔍</span> 十個邏輯謬誤，看穿別人怎麼用話術繞過你</div>
+              <div class="selling-point"><span>🧠</span> 看穿自己腦中的偏誤，每節附今天就能做的練習</div>
+            </div>
+            <div class="book-price">
+              <span class="price-label">特惠價</span>
+              <span class="price-amount">
+                <span class="price-original">原價 <span class="price-original-cross">NT$390</span></span>
+                <span class="price-gem">💎</span> NT$299
+                <span class="discount-badge">77折 (省 $91)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="link-actions" aria-label="明辨購買連結">
+          <a href="https://readmoo.com/book/210510318000101" target="_blank" rel="noopener" onclick="trackStoreClick('readmoo', '明辨')" aria-label="在 Readmoo 購買明辨">Readmoo</a>
+          <a href="https://www.pubu.com.tw/ebook/706027?apKey=e08e864a73" target="_blank" rel="noopener" onclick="trackStoreClick('pubu', '明辨')" aria-label="在 Pubu 購買明辨">Pubu</a>
+          <a href="https://www.kobo.com/tw/zh/ebook/BXq4v8w-qzmB3kmH_KVHwA?sId=8279bf42-8d3d-45b9-87e1-548dbae7f90f&amp;ssId=hg4dlbrf47Cfsj6VCzbgz&amp;cPos=3" target="_blank" rel="noopener" onclick="trackStoreClick('kobo', '明辨')" aria-label="在 Kobo 購買明辨">Kobo</a>
+        </div>
+      </article>
+
       <!-- 🏓 《人生友誼賽》次要書卡 -->
       <article class="link-book book-youyi book-secondary" id="book-youyi">
-        <div class="book-tag tag-youyi">✨ 最新上架</div>
+        <div class="book-tag tag-youyi">🏓 輕鬆對打指南</div>
         <div class="book-card-content">
           <div class="book-cover-wrapper">
             <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book7.webp" alt="《人生友誼賽》書封" class="book-cover" loading="lazy" decoding="async" width="90" height="135" />
@@ -1556,7 +1618,7 @@
             </div>
             <div class="book-selling-points" style="font-size: 0.82rem; color: rgba(68, 53, 39, 0.84); line-height: 1.5;">
               <div class="selling-point" style="margin-bottom: 2px;"><span>🛒</span> 一鍵把 7 冊全加入購物車，不漏書</div>
-              <div class="selling-point"><span>✨</span> 已含最新《人生友誼賽》與《續航》</div>
+              <div class="selling-point"><span>✨</span> 已含《人生友誼賽》與《續航》</div>
             </div>
             <div class="book-price" style="margin-top: 8px;">
               <span class="price-label" style="font-size: 0.75rem; color: rgba(68, 53, 39, 0.64);">系列售價</span>
