@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《借力》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《借力》讀者專屬：40 支原理動畫，一節一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 book-quiz.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#4f6499; --c:#4a5f93;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em;word-break:keep-all}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:6px}
+
+  /* 先放縮圖，點了才載入播放器：40 支一起載入會拖慢整頁 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#2b231b}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(68,53,39,.88);display:grid;place-items:center;transition:background-color .15s ease}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdfaf4;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:#4f6499}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  .try{font-size:14px;border-left:2px solid var(--gilt);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--gilt)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/book5.webp" alt="《借力》封面" width="96" height="144">
+    <div>
+      <h1>《借力》讀者專屬影片</h1>
+      <p class="lead">一節一支，共 40 支動畫，每支約一分鐘。書裡教你怎麼做，影片講為什麼有效：每支用一個研究，說明書中工具背後的原理。讀到哪一節，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《借力》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="40 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive「動畫影片編輯/Book05_借力/讀者專屬頁/產生讀者專屬頁.py」產生，不要手改 */
+const VIDEOS = [{"n": "01", "id": "PYTJ3_oKNBo", "dur": "1:00", "topic": "景氣差時畢業，收入要十年才追平", "sec": "1.1 什麼是順勢", "part": "第 1 章　認清趨勢：順勢而為的起點", "chapter": "1.1 什麼是順勢：站上浪潮，不用力也被推著跑", "try": "看清 → 清空 → 順應", "tryRef": "1.1【解方】"}, {"n": "02", "id": "F2trSSqtDUc", "dur": "1:00", "topic": "性格跟工作合得來，收入比較高", "sec": "1.2 知己知彼", "part": "第 1 章　認清趨勢：順勢而為的起點", "chapter": "1.2 知己知彼：先看清自己的位置與實力，再選趨勢", "try": "認牌 → 選勢 → 紮根", "tryRef": "1.2【性格多樣性與你的「戰略制高點」】"}, {"n": "03", "id": "kHamoXrPs4w", "dur": "1:04", "topic": "熱門歌曲，有一部分是跟出來的", "sec": "1.3 表象趨勢的陷阱", "part": "第 1 章　認清趨勢：順勢而為的起點", "chapter": "1.3 表象趨勢的陷阱：別把時間與金錢押錯方向", "try": "覺察 → 儲蓄 → 配置", "tryRef": "1.3【沉澱慾望的簡單系統】"}, {"n": "04", "id": "buFJBsZEVVo", "dur": "1:02", "topic": "大師記得多，是因為懂得多", "sec": "1.4 培養知識點", "part": "第 1 章　認清趨勢：順勢而為的起點", "chapter": "1.4 培養知識點：唯有學足，才不徒勞無功", "try": "空杯 → 外包 → 行動", "tryRef": "1.4【忘記偏見，善用你的「第二大腦」】"}, {"n": "05", "id": "uUZAKmU_hcc", "dur": "1:01", "topic": "最早進場的開創者，將近一半失敗", "sec": "1.5 風口與時機", "part": "第 1 章　認清趨勢：順勢而為的起點", "chapter": "1.5 風口與時機：準備好了，站上風口豬也會飛", "try": "蓄能 → 積糧 → 共振", "tryRef": "1.5【內部蓄能與外部週期的完美共振】"}, {"n": "06", "id": "37o1otM2rlo", "dur": "1:16", "topic": "擲硬幣實驗：不做決定，就是選了現狀", "sec": "2.1 內耗的真相", "part": "第 2 章　消除精神內耗：奪回決策力", "chapter": "2.1 內耗的真相：猶豫不決如何讓你錯失良機", "try": "寫下 → 設定 → 關閉", "tryRef": "2.1【今天就能放下／借力的小動作】"}, {"n": "07", "id": "p4oxIIGh4RQ", "dur": "1:08", "topic": "想證明什麼，就只問什麼", "sec": "2.2 過濾潛在念頭", "part": "第 2 章　消除精神內耗：奪回決策力", "chapter": "2.2 過濾潛在念頭：別為負面想法找證據", "try": "左欄 → 右欄 → 劃掉", "tryRef": "2.2【今天就能放下／借力的小動作】"}, {"n": "08", "id": "8fOJ4T7Sxq4", "dur": "1:03", "topic": "比輸會難過，比贏不會更快樂", "sec": "2.3 遠離慾望與攀比", "part": "第 2 章　消除精神內耗：奪回決策力", "chapter": "2.3 遠離慾望與攀比：看穿這是一種反向趨勢", "try": "認清 → 內錨 → 累積", "tryRef": "2.3【心智框架】"}, {"n": "09", "id": "89ezVfGfF30", "dur": "0:59", "topic": "先想反方理由，就不被數字牽著走", "sec": "2.4 逆向思維", "part": "第 2 章　消除精神內耗：奪回決策力", "chapter": "2.4 逆向思維：多問「如何失敗」再反著做", "try": "列清單 → 設紅線 → 輕裝", "tryRef": "2.4【心智框架】"}, {"n": "10", "id": "cMexYnkbvzs", "dur": "1:02", "topic": "越想壓下的痛，退得越慢", "sec": "2.5 臣服與不排斥", "part": "第 2 章　消除精神內耗：奪回決策力", "chapter": "2.5 臣服與不排斥：像洋流隨起伏前進，把挫折化為養份", "try": "呼吸 → 接受 → 下一步", "tryRef": "2.5【今天就能放下／借力的小動作】"}, {"n": "11", "id": "1z7na1lo_-E", "dur": "1:03", "topic": "以為想完了，其實才剛開始", "sec": "3.1 複利曲線", "part": "第 3 章　複利的力量：持續累積不中斷", "chapter": "3.1 複利曲線：前期緩慢、突破向上的累積之道", "try": "寫下 → 最低版 → 滾動", "tryRef": "3.1【今天就能放下／借力的小動作】"}, {"n": "12", "id": "Xyiaw07QdCA", "dur": "1:04", "topic": "計畫好的放縱，讓人撐得更久", "sec": "3.2 守住複利", "part": "第 3 章　複利的力量：持續累積不中斷", "chapter": "3.2 守住複利：適度獎勵自己，降低意志力消耗、避免情緒中斷", "try": "小目標 → 獎勵 → 最低", "tryRef": "3.2【解方】"}, {"n": "13", "id": "RIpxn5_cq8w", "dur": "1:00", "topic": "貨幣幻覺：帳面變大就覺得賺", "sec": "3.3 從儲蓄到投資", "part": "第 3 章　複利的力量：持續累積不中斷", "chapter": "3.3 從儲蓄到投資：像種子生根發芽，耐心與紀律", "try": "預備金 → 盤點 → 定期", "tryRef": "3.3【今天就能放下／借力的小動作】"}, {"n": "14", "id": "S5W8nPetGvE", "dur": "1:02", "topic": "多數股票，一生贏不了國庫券", "sec": "3.4 指數 ETF 與股債平衡", "part": "第 3 章　複利的力量：持續累積不中斷", "chapter": "3.4 指數 ETF 與股債平衡：長期持有、免於盯盤焦慮", "try": "指數 → 股債 → 再平衡", "tryRef": "3.4【解方】"}, {"n": "15", "id": "wBIq7IWnilA", "dur": "1:01", "topic": "同一個指數，多數人多付了費用", "sec": "3.5 每年再平衡", "part": "第 3 章　複利的力量：持續累積不中斷", "chapter": "3.5 每年再平衡：用最低操作守住資產目標", "try": "列出 → 挑選 → 整合", "tryRef": "3.5【今天就能放下／借力的小動作】"}, {"n": "16", "id": "1hkhDL4Ihf0", "dur": "1:06", "topic": "覺得自己比較窮，就多買彩券", "sec": "4.1 匱乏心態的代價", "part": "第 4 章　防禦力：擺脫匱乏、建立安全邊際", "chapter": "4.1 匱乏心態的代價：羨慕如何讓你輕信錯誤資訊", "try": "覺察 → 轉回 → 基石", "tryRef": "4.1【解方】"}, {"n": "17", "id": "SSYmt8TdGkQ", "dur": "1:07", "topic": "先問是真的嗎，就分得出真假", "sec": "4.2 看穿龐氏與詐騙", "part": "第 4 章　防禦力：擺脫匱乏、建立安全邊際", "chapter": "4.2 看穿龐氏與詐騙：用正確知識當最穩的防禦", "try": "第一問 → 第二問 → 遠離", "tryRef": "4.2【解方】"}, {"n": "18", "id": "u5vccXYpR3o", "dur": "1:00", "topic": "將近一半的人，30 天湊不出兩千美元", "sec": "4.3 安全邊際", "part": "第 4 章　防禦力：擺脫匱乏、建立安全邊際", "chapter": "4.3 安全邊際：儲蓄、緊急金與保險給的選擇自由", "try": "儲蓄 → 預備金 → 保險", "tryRef": "4.3【解方】"}, {"n": "19", "id": "85rKbUCA9Fc", "dur": "0:56", "topic": "意外之財，花得特別快", "sec": "4.4 打破被動收入迷思", "part": "第 4 章　防禦力：擺脫匱乏、建立安全邊際", "chapter": "4.4 打破被動收入迷思：先主動灌溉，才有被動收成", "try": "主動 → 指數 → 不斷", "tryRef": "4.4【解方】"}, {"n": "20", "id": "OKwtWtXZ5uA", "dur": "1:01", "topic": "拒絕邀約，對方沒你想的在意", "sec": "4.5 守住內在領域與人際界線", "part": "第 4 章　防禦力：擺脫匱乏、建立安全邊際", "chapter": "4.5 守住內在領域與人際界線：他人無責任對你負責，確立界線不被操控", "try": "時限 → 挑一個 → 說出口", "tryRef": "4.5【今天就能放下／借力的小動作】"}, {"n": "21", "id": "qzftTWsM62Y", "dur": "1:09", "topic": "AI 的能力邊界是鋸齒狀的", "sec": "5.1 擁抱 AI", "part": "第 5 章　借科技之勢：AI 與第二大腦", "chapter": "5.1 擁抱 AI：補知識點、整理重點、事半功倍", "try": "過濾網 → 翻譯官 → 沙盒", "tryRef": "5.1【解方】"}, {"n": "22", "id": "tP0L_IFhAUI", "dur": "0:59", "topic": "以為只有電腦在聽，就敢說真話", "sec": "5.2 ChatGPT 口語教練", "part": "第 5 章　借科技之勢：AI 與第二大腦", "chapter": "5.2 ChatGPT 口語教練：模擬對話訓練、Notion 記錄反覆精修", "try": "沙盒 → 反饋 → 累積", "tryRef": "5.2【解方】"}, {"n": "23", "id": "YXSGrXZuiqA", "dur": "1:00", "topic": "睡前寫下待辦，睡得比較快", "sec": "5.3 第二大腦", "part": "第 5 章　借科技之勢：AI 與第二大腦", "chapter": "5.3 第二大腦：把記憶外包給 Notion 與雲端，大腦只管思考", "try": "放捷徑 → 三秒 → 忘掉", "tryRef": "5.3【今天就能放下／借力的小動作】"}, {"n": "24", "id": "IZpSPUXNdAo", "dur": "1:02", "topic": "家電省下的時間，改變了一個世代", "sec": "5.4 投資好工具與系統化", "part": "第 5 章　借科技之勢：AI 與第二大腦", "chapter": "5.4 投資好工具與系統化：別吝嗇花錢買時間（iPad／外送等）", "try": "工具 → 外包 → 自動", "tryRef": "5.4【解方】"}, {"n": "25", "id": "DwTNfdUivWI", "dur": "1:00", "topic": "從終點倒著排，動力更高", "sec": "5.5 上帝視角佈局", "part": "第 5 章　借科技之勢：AI 與第二大腦", "chapter": "5.5 上帝視角佈局：用時間軸與全局思維拆解人生短中長期目標", "try": "終點 → 反推 → 拆解", "tryRef": "5.5【解方】"}, {"n": "26", "id": "RRlI95DlTQE", "dur": "1:03", "topic": "窗外看得到樹，術後恢復比較快", "sec": "6.1 恢復堡壘", "part": "第 6 章　精力管理：把能量留給對的事", "chapter": "6.1 恢復堡壘：打造專屬休息空間（床/光線/椅子/門）", "try": "床與光 → 桌面 → 門", "tryRef": "6.1【解方】"}, {"n": "27", "id": "puhc5IlzuDE", "dur": "1:02", "topic": "睡一晚，找到捷徑的人多一倍", "sec": "6.2 睡眠的超能力", "part": "第 6 章　精力管理：把能量留給對的事", "chapter": "6.2 睡眠的超能力：記憶整理與情緒穩定的關鍵", "try": "睡眠模式 → 放遠 → 默念", "tryRef": "6.2【今天就能放下／借力的小動作】"}, {"n": "28", "id": "Zy2ryrw4KlI", "dur": "1:01", "topic": "待過雜亂的房間，比較快放棄", "sec": "6.3 斷捨離", "part": "第 6 章　精力管理：把能量留給對的事", "chapter": "6.3 斷捨離：清理物品、數位干擾與消耗精力的人際", "try": "物品 → 數位 → 人際", "tryRef": "6.3【解方】"}, {"n": "29", "id": "8PhDMzyYUgU", "dur": "1:03", "topic": "快樂的人，深談比較多", "sec": "6.4 精力 CP 值", "part": "第 6 章　精力管理：把能量留給對的事", "chapter": "6.4 精力 CP 值：把能量投在長期價值與豐盛體驗、拒絕無效社交", "try": "評估 → 家人 → 買時間", "tryRef": "6.4【解方】"}, {"n": "30", "id": "9Wb_GSlZOyI", "dur": "1:03", "topic": "留一點緊急額度，失手後回得來", "sec": "6.5 小習慣與彈性習慣", "part": "第 6 章　精力管理：把能量留給對的事", "chapter": "6.5 小習慣與彈性習慣：把大目標鑲嵌進日常、保持彈性", "try": "迷你版 → 標準版 → 挑戰版", "tryRef": "6.5【解方】"}, {"n": "31", "id": "jv71BjVQ_xw", "dur": "1:00", "topic": "想到錢，就嚐不出巧克力的滋味", "sec": "7.1 活在當下", "part": "第 7 章　安住當下：正念與心智重塑", "chapter": "7.1 活在當下：放下懊悔與焦慮，用五感體驗現在", "try": "看 → 聽 → 嚐", "tryRef": "7.1【解方】"}, {"n": "32", "id": "HtxBTQA_G5A", "dur": "0:55", "topic": "接納負面情緒，心理比較健康", "sec": "7.2 正念觀照", "part": "第 7 章　安住當下：正念與心智重塑", "chapter": "7.2 正念觀照：不評斷、不涉入，讓情緒成為成長動力", "try": "呼吸 → 定位 → 命名", "tryRef": "7.2【解方】"}, {"n": "33", "id": "kcTvhnDCqRI", "dur": "1:02", "topic": "寧可電自己，也不想獨處", "sec": "7.3 放空與發呆的藝術", "part": "第 7 章　安住當下：正念與心智重塑", "chapter": "7.3 放空與發呆的藝術：讓大腦休息、激發靈感", "try": "睡前 → 通勤 → 發呆", "tryRef": "7.3【解方】"}, {"n": "34", "id": "9uQTTMQQSw4", "dur": "1:00", "topic": "最折磨人的，是猜不透", "sec": "7.4 接受不確定與感恩", "part": "第 7 章　安住當下：正念與心智重塑", "chapter": "7.4 接受不確定與感恩：放鬆執著、尋求支持、珍惜擁有", "try": "畫線 → 不可控 → 可控", "tryRef": "7.4【解方】"}, {"n": "35", "id": "5Zv7osQMAnI", "dur": "1:03", "topic": "正念呼吸，讓人放下沉沒成本", "sec": "7.5 無我與冥想", "part": "第 7 章　安住當下：正念與心智重塑", "chapter": "7.5 無我與冥想：放空思緒、連結能量，減輕現實的痛苦", "try": "籃子 → 放入 → 放下", "tryRef": "7.5【解方】"}, {"n": "36", "id": "09DmEJZNcWk", "dur": "0:55", "topic": "原諒自己的拖延，下次比較不拖", "sec": "8.1 停止自我否定", "part": "第 8 章　順勢人生的終局：肯定自我與終身學習", "chapter": "8.1 停止自我否定：相信自己獨特的靈魂與創造力", "try": "寫下 → 畫叉 → 丟掉", "tryRef": "8.1【今天就能放下／借力的小動作】"}, {"n": "37", "id": "SF5T2MDB_zY", "dur": "1:06", "topic": "遊戲化挑戰，每天多走九百步", "sec": "8.2 人生遊戲化", "part": "第 8 章　順勢人生的終局：肯定自我與終身學習", "chapter": "8.2 人生遊戲化：把挑戰當沉浸式遊戲，享受升級過關", "try": "選魔王 → 改名 → 通關", "tryRef": "8.2【今天就能放下／借力的小動作】"}, {"n": "38", "id": "lZrM7QtawUg", "dur": "1:00", "topic": "學有挑戰的新技能，記憶變好", "sec": "8.3 終身學習", "part": "第 8 章　順勢人生的終局：肯定自我與終身學習", "chapter": "8.3 終身學習：跨領域、提早累積，用認知升級換自由", "try": "選書 → 省時間 → 讀", "tryRef": "8.3【今天就能放下／借力的小動作】"}, {"n": "39", "id": "Sc_vM9UUurg", "dur": "1:02", "topic": "以為要教人，就學得更好", "sec": "8.4 經驗傳承", "part": "第 8 章　順勢人生的終局：肯定自我與終身學習", "chapter": "8.4 經驗傳承：把碎片記憶與經驗數位化、像導師般傳承", "try": "開一頁 → 三分鐘 → 解法", "tryRef": "8.4【今天就能放下／借力的小動作】"}, {"n": "40", "id": "K7WpyDhDHik", "dur": "0:57", "topic": "放下達不到的，投入走得動的", "sec": "8.5 順勢而活", "part": "第 8 章　順勢人生的終局：肯定自我與終身學習", "chapter": "8.5 順勢而活：把握當下、隨勢而行的從容人生", "try": "上坡 → 下坡 → 阻礙", "tryRef": "8.5【解方】"}];
+const PLAYLIST = "PLSS2MNhUy9f4";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0]; }
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 40 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 支">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li>' + esc(v.chapter) + '</li></ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 ' + esc(v.sec) + '：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      /* 預覽版：影片還沒上傳，直接播 Drive 裡的成品 */
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'jieli-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   （與其他頁同一份；這頁只有書封走 jsDelivr）
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@7631055693f4cb949ae20810db76b618d638e670/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
