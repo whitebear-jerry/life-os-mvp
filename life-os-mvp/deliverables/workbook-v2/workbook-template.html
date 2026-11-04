@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Life OS 21 天人生降噪工作本 v2 模板</title>
+    <style id="workbook-theme">
+      :root {
+        --ink: #17201a;
+        --muted: #667066;
+        --line: #dce3d9;
+        --paper: #fbfaf6;
+        --panel: #ffffff;
+        --soft: #f3f6ee;
+        --green: #2f6b4f;
+        --gold: #c48935;
+        --rose: #a04f55;
+      }
+    </style>
+    <style>
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      main {
+        width: min(980px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 40px 0 72px;
+      }
+
+      .cover,
+      .day-page,
+      .review-page {
+        min-height: 920px;
+        margin: 0 0 28px;
+        padding: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        page-break-after: always;
+      }
+
+      .cover {
+        display: grid;
+        align-content: center;
+        gap: 22px;
+        background: linear-gradient(135deg, #ffffff 0%, #eef5eb 100%);
+      }
+
+      .kicker {
+        margin: 0;
+        color: var(--green);
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      h1 { max-width: 760px; font-size: 4rem; }
+      h2 { font-size: 2rem; }
+      h3 { font-size: 1.15rem; }
+      p { line-height: 1.7; color: var(--muted); }
+
+      .meta-grid,
+      .prompt-grid,
+      .score-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .meta-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .meta-box,
+      .prompt-box,
+      .score-box {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .quote {
+        margin: 22px 0;
+        padding: 16px 18px;
+        border-left: 5px solid var(--gold);
+        border-radius: 8px;
+        background: #fff8eb;
+        color: #244432;
+        font-weight: 900;
+      }
+
+      .author-note,
+      .flowchart {
+        margin: 16px 0;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+      }
+
+      .author-note strong,
+      .flowchart strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--green);
+      }
+
+      .author-note p,
+      .flowchart p {
+        margin: 0;
+      }
+
+      .flowchart p {
+        color: var(--ink);
+        font-weight: 750;
+      }
+
+      .practice-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .write-line {
+        min-height: 74px;
+        margin-top: 10px;
+        border: 1px dashed #b8c5b5;
+        border-radius: 8px;
+        background: #fbfcf8;
+      }
+
+      .write-line.large {
+        min-height: 142px;
+      }
+
+      .score-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .score-box {
+        min-height: 76px;
+        text-align: center;
+        color: var(--muted);
+        font-weight: 900;
+      }
+
+      .day-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 88px;
+        min-height: 38px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 900;
+        background: var(--green);
+      }
+
+      @media print {
+        body { background: #fff; }
+        main { width: 100%; padding: 0; }
+        .cover,
+        .day-page,
+        .review-page {
+          min-height: 100vh;
+          margin: 0;
+          border: none;
+          border-radius: 0;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .practice-grid,
+        .meta-grid,
+        .score-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="cover">
+        <p class="kicker">Life OS Workbook v2</p>
+        <h1>21 天人生降噪工作本</h1>
+        <p>從信念校準、逆境除錯到 Life OS 系統建立。每天 10 分鐘，把腦中的雜訊移出來，把真正重要的事放回人生中央。</p>
+        <div class="meta-grid">
+          <div class="meta-box"><strong>使用者</strong><div class="write-line"></div></div>
+          <div class="meta-box"><strong>開始日</strong><div class="write-line"></div></div>
+          <div class="meta-box"><strong>完成日</strong><div class="write-line"></div></div>
+        </div>
+      </section>
+
+      <section class="review-page">
+        <p class="kicker">Day 0 / Baseline</p>
+        <h2>開始前基線測驗</h2>
+        <p>先記錄現在的狀態，21 天後才知道自己真正改變了什麼。</p>
+        <div class="prompt-grid">
+          <div class="prompt-box"><h3>我現在最大的內耗來源</h3><div class="write-line large"></div></div>
+          <div class="prompt-box"><h3>我最想在 21 天後變清楚的事</h3><div class="write-line large"></div></div>
+          <div class="prompt-box"><h3>今天能量分數</h3><div class="score-grid"><div class="score-box">1</div><div class="score-box">2</div><div class="score-box">3</div><div class="score-box">4</div><div class="score-box">5</div></div></div>
+        </div>
+      </section>
+
+      <section class="day-page">
+        <span class="day-label">Day 1</span>
+        <h2>大腦清倉</h2>
+        <div class="quote">大腦是處理器，不是倉庫。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>哈囉，我是白熊。大腦是用來思考，而非死記的硬碟。瑣事塞滿腦海只會讓記憶體發燙。今天請將腦中雜事毫無保留寫下，徹底卸載焦慮，還給大腦清爽的運作空間，找回專注力！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>準備紙筆或筆記軟體 → 閉上眼睛掃描思緒 → 毫無保留全數寫下 → 確認腦海清空 → 感受大腦的輕盈</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我現在腦袋裡一直掛念的是</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>今天最小下一步</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 2</span>
+        <h2>願望捕捉</h2>
+        <div class="quote">願望不清楚，努力就會到處漏電。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>歡迎來到第二天。大腦是個超級搜尋引擎，但你得先給它明確的指令。別擔心現實限制，勇敢寫下你腦中閃過的第一個直覺願望。大膽想像，這是重繪人生畫布的第一步！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>靜下心來 → 捕捉直覺 → 寫下願望 → 放下限制 → 確認目標</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我想要</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>這件事對我重要，因為</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 3</span>
+        <h2>三次為什麼</h2>
+        <div class="quote">真正的願望，通常藏在第三個為什麼後面。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>今天請看著願望，連續問三次「為什麼想要？」層層追問後，你會發現表面慾望的背後，藏著對自由或愛的深層渴望。找出這份初衷，它將成為你最強的驅動力。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>審視願望 → 第一次為什麼 → 第二次為什麼 → 第三次為什麼 → 挖掘核心初衷</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>為什麼 1 / 2 / 3</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我的底層需求是</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 4</span>
+        <h2>關鍵字改寫</h2>
+        <div class="quote">大腦會替你搜尋你反覆相信的東西。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>檢查大腦關鍵字。若總想「不可能」，大腦就會下載災難劇本。請刪除負面詞彙，改寫成「這樣也好」。保持意念純淨，宇宙物流才能精準送達好運。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>覺察負面詞 → 暫停災難小劇場 → 刪除不可能 → 換上正向字眼 → 下達新指令</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>舊關鍵字</h3><div class="write-line"></div></div><div class="prompt-box"><h3>新關鍵字</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 5</span>
+        <h2>微行動確認</h2>
+        <div class="quote">行動，是願望訂單的確認鍵。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>準備行動吧！別再依賴會耗盡的意志力。請把目標縮小到「不做都很蠢」的微習慣，例如只換上跑鞋。這種無痛開關能騙過大腦防禦，幫你輕鬆開啟自動導航。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>確立核心目標 → 拆解最小行動 → 確認無痛開關 → 執行微習慣 → 建立神經叢</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>今天 2 分鐘可以做的是</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>完成後我會怎麼獎勵自己</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 6</span>
+        <h2>事實與腦補</h2>
+        <div class="quote">先拍事實，再處理劇情。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>嗨，我是白熊。你感到的痛苦，通常只有兩成是事實，剩下八成是大腦在加戲。今天讓我們練習剝離主觀妄想，把注意力拉回客觀真實，停止不必要的內耗吧！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>遭遇事件 → 覺察內心小劇場 → 剝離情緒形容詞 → 寫下客觀事實</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>攝影機拍到的事實</h3><div class="write-line"></div></div><div class="prompt-box"><h3>我腦中追加的劇情</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="review-page">
+        <span class="day-label">Day 7</span>
+        <h2>第一週復盤</h2>
+        <div class="author-note"><strong>作者旁白</strong><p>恭喜來到第七天！成長的力道往往來自停頓與反思。回顧這週，別急著批判自己，請溫柔地盤點你擁有的資源與微小改變，為這七天的堅持投下一張肯定的選票吧。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>暫停腳步 → 回顧本週練習 → 肯定微小進步 → 調整下週心態</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我看見的模式</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>下一週我最想練的是</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 8</span>
+        <h2>攝影機思維</h2>
+        <div class="quote">把形容詞刪掉，事情就會變小。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>今天要交給你一個除錯工具：攝影機。當覺得被針對時，問自己「監視器拍到了什麼？」剝除他故意針對我的恐懼劇本，只留下中性動作，你會發現事情其實很單純。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>啟動攝影機 → 濾除恐懼劇本 → 觀察中性動作 → 恢復理性平靜</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>客觀描述</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我可以做的下一步</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 9</span>
+        <h2>情緒暫停鍵</h2>
+        <div class="quote">情緒不是敵人，它是提醒你有需求。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>面對焦慮，壓抑只會讓能量淤塞。請在失控前，在心裡大喊「卡！」按下暫停鍵。試著對情緒說聲「歡迎」，溫柔傾聽它的保護意圖，你會發現阻力瞬間化為了動力。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>負面情緒湧現 → 內心大喊暫停 → 對情緒說歡迎 → 傾聽並轉化動力</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我現在的情緒在保護什麼</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我可以先做的安撫動作</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 10</span>
+        <h2>玩家視角</h2>
+        <div class="quote">你不是被劇情困住，是忘了自己是玩家。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>覺得卡關了嗎？試著把地球當成一場體驗遊戲。刁難你的人只是推進劇情的 NPC，而逆境是升級關卡。切換成第三人稱的玩家視角看自己，別太入戲，放輕鬆才能玩得精彩。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>遭遇逆境關卡 → 切換第三人稱 → 視難題為 NPC → 賺取經驗升級</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>這一關正在測試我</h3><div class="write-line"></div></div><div class="prompt-box"><h3>通關動作</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 11</span>
+        <h2>條件溝通</h2>
+        <div class="quote">沒有界線的善良，會耗掉你的專業。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>職場中，沒界線的善良是對自己的殘忍。今天請切換成商人模式，戒掉無條件的答應。學會對要求說：「我可以幫忙，但前提是...」這不是冷血，而是健康的價值交換。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>面對不合理要求 → 盤點自身籌碼 → 提出附帶條件 → 達成價值交換</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我可以幫忙，但前提是</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我需要對方提供</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 12</span>
+        <h2>退回罪惡感</h2>
+        <div class="quote">別人的功課，不一定是你的責任。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>勒索者常利用罪惡感來操控你。今天來建立護城河：想像罪惡感是個包裹，在心裡告訴對方：「這是你的情緒，不是我的責任，我退還給你。」守住底線，做回自己的主人。</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>覺察勒索迷霧 → 想像罪惡感包裹 → 劃清心理界線 → 在心中退回包裹</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>這件事真正的責任人是</h3><div class="write-line"></div></div><div class="prompt-box"><h3>我的退件句</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 13</span>
+        <h2>能量審計</h2>
+        <div class="quote">別讓隱形吸管偷走你的電力。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>總覺心力交瘁嗎？那是你的心靈電池正在「隱形漏水」。今天我們進行能量審計，盤點偷偷消耗你的人事物。請勇敢拔掉隱形吸管，把最寶貴的電力與頻寬留給自己！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>檢視一週疲憊來源 → 列出耗能人事物清單 → 評估沉沒成本與價值 → 擬定物理或數位隔離 → 奪回被吸走的能量</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我的漏電清單</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>明天先隔離一項</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="review-page">
+        <span class="day-label">Day 14</span>
+        <h2>第二週復盤</h2>
+        <div class="author-note"><strong>作者旁白</strong><p>恭喜完成第二週！復盤不是自我批判法庭，而是溫柔的系統除錯。請客觀檢視這週的行動與能量狀態。即使跌倒也沒關係，順手抓一把沙，給持續進步的自己一個溫暖的擁抱吧！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>找個安靜舒適的角落 → 寫下本週的三個亮點 → 檢視跌倒或卡關處 → 提煉為下週的升級肥料 → 真誠地讚美與擁抱自己</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>最有效的除錯工具</h3><div class="write-line"></div></div><div class="prompt-box"><h3>我想繼續保留的界線</h3><div class="write-line large"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 15</span>
+        <h2>第二大腦 Inbox</h2>
+        <div class="quote">先卸載，再前進。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>今天要為大腦安裝外接硬碟。打開筆記軟體建立 Inbox 收集匣，把四散靈感與待辦全丟進去。讓你停止被瑣事追趕，輕鬆成為開啟上帝視角的人生統帥！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>建立數位 Inbox 頁面 → 捕捉腦中一閃而過的靈感 → 丟入未完成的待辦雜事 → 確保大腦不留暫存檔 → 獲得掌控一切的安全感</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我的 Inbox 放在哪裡</h3><div class="write-line"></div></div><div class="prompt-box"><h3>今天要倒進 Inbox 的事項</h3><div class="write-line large"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 16</span>
+        <h2>巨石拆解</h2>
+        <div class="quote">不要搬整座山，先修眼前第一格階梯。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>遇到大目標就想拖延？今天來練「巨石拆解法」，將專案切分為十分鐘能完成的微小行動。把巨石變成好入口的小蛋糕，騙過大腦防禦機制，你就能輕鬆吃下夢想，終結分析癱瘓！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>寫下一個龐大的專案目標 → 拆分為中型的戰略任務 → 繼續向下細化為微小行動 → 確認每步不超過十分鐘 → 排入清單準備無腦執行</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>大目標</h3><div class="write-line"></div></div><div class="prompt-box"><h3>三個 15 分鐘行動</h3><div class="write-line large"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 17</span>
+        <h2>情境標籤</h2>
+        <div class="quote">任務有情境，大腦才不用重新開機。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>今天為微行動貼上如 @手機 的情境標籤，降低大腦切換成本。未來在排隊等車空檔，就能見縫插針解決瑣事。將時間碎屑轉為推動夢想的水力發電，成為自己的時間魔法師！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>檢視拆解好的微小行動 → 依據執行條件貼上標籤 → 將同情境的任務分類批次 → 遇到零碎空檔立刻拔刀 → 享受清空待辦的成就感</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>手機可做</h3><div class="write-line"></div></div><div class="prompt-box"><h3>電腦深度工作</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 18</span>
+        <h2>心靈 NAS</h2>
+        <div class="quote">你的心靈需要權限管理。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>心靈是珍貴的私人伺服器。今天請畫出人際同心圓，設定存取權限。面對情緒勒索者，請果斷在防火牆上封鎖 IP。拒絕未經同意的情緒寫入，管好自己就是最大的善良！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>繪製人際關係三層同心圓 → 給予核心伴侶與摯友最高權限 → 辨識消耗能量的情緒吸血鬼 → 果斷啟動零信任封鎖 IP → 確保心靈大門的絕對清淨</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>Root 最高權限</h3><div class="write-line"></div></div><div class="prompt-box"><h3>訪客與封鎖名單</h3><div class="write-line large"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 19</span>
+        <h2>番茄單工</h2>
+        <div class="quote">一次只處理一件事，是對大腦的尊重。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>多工處理是效率謊言。今天請啟動番茄鐘，設立廿五分鐘無擾結界。一次只專注做一件事，安撫內心的分心衝動。拒絕切換任務，你就能進入精神時光屋，享受極致的心流！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>決定唯一要專注的單一任務 → 啟動 25 分鐘番茄鐘計時器 → 關閉手機與所有多餘通知 → 安撫大腦不中斷結界 → 享受休息時間的多巴胺獎勵</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>接下來 25 分鐘唯一任務</h3><div class="write-line"></div></div><div class="prompt-box"><h3>干擾清單與隔離方式</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="day-page">
+        <span class="day-label">Day 20</span>
+        <h2>45 天合約</h2>
+        <div class="quote">慢慢來，比較快。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>今天來施展跨時空魔法！請寫下短期的自我承諾合約。這並非死板考績，而是與未來成功的你簽訂的盟約。向未來借東風，帶著底氣堅定簽名，讓潛意識啟動導航，打贏人生賽局！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>觀想未來成功達標的具體畫面 → 寫下未來 45 天的自我承諾 → 拒絕懷疑並蓋上信任的印章 → 堅定地簽上自己的姓名 → 將合約貼在每天能看見的地方</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我的 45 天微習慣</h3><div class="write-line"></div></div><div class="prompt-box"><h3>簽名與承諾</h3><div class="write-line"></div></div></div>
+      </section>
+      <section class="review-page">
+        <span class="day-label">Day 21</span>
+        <h2>Life OS 系統宣言</h2>
+        <div class="quote">善良要有防火牆，心才不會被亂寫入。</div>
+        <div class="author-note"><strong>作者旁白</strong><p>恭喜畢業！請以宇宙觀光客的灑脫啟動 Life OS。人生並非苦役，我們只是來遊玩的旅客。跌倒了就抓一把沙，放下對結果的執著，帶著初心，從容享受這趟奇蹟旅程！</p></div>
+        <div class="flowchart"><strong>今日流程</strong><p>審視這 21 天建立的系統模塊 → 感謝過去與現在努力的自己 → 切換為宇宙觀光客的遊玩視角 → 宣讀 Life OS 系統宣言 → 帶著微笑與底氣重新出發</p></div>
+        <div class="practice-grid"><div class="prompt-box"><h3>我的 Life OS 使用說明</h3><div class="write-line large"></div></div><div class="prompt-box"><h3>我完成了以下改變</h3><div class="write-line"></div></div></div>
+      </section>
+    </main>
+  </body>
+</html>

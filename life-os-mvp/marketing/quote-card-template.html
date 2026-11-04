@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>白熊金句圖卡模板</title>
+  <style>
+    html,
+    body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(90deg, rgba(184, 153, 104, 0.45), rgba(184, 153, 104, 0.05), rgba(184, 153, 104, 0.45)) 50% 92% / 760px 2px no-repeat,
+        radial-gradient(circle at 50% 16%, rgba(255, 250, 241, 0.92), rgba(244, 239, 229, 0) 34%),
+        #F4EFE5;
+      color: #5D4632;
+      font-family: "Songti TC", "STSong", "Noto Serif TC", serif;
+      text-align: center;
+    }
+
+    .card {
+      width: 820px;
+    }
+
+    .brand {
+      display: inline-block;
+      padding: 12px 34px;
+      margin-bottom: 70px;
+      background: #5D4632;
+      color: #fffaf1;
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .quote {
+      font-size: 66px;
+      font-weight: 700;
+      line-height: 1.36;
+      letter-spacing: 0;
+    }
+
+    .bear {
+      width: 200px;
+      margin: 24px auto;
+      display: block;
+      opacity: 0.95;
+    }
+
+    .footer {
+      color: #5D4632;
+      font-size: 34px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">金句</div>
+    <div class="quote">{{QUOTE}}</div>
+    <img src="{{BEAR_SRC}}" class="bear" alt="{{BEAR_ALT}}" />
+    <div class="footer">《降噪人生》</div>
+  </main>
+</body>
+</html>

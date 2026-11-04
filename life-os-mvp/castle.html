@@ -1,0 +1,3611 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>白熊人生戰役：深淵降噪之城 | Castlevania Action</title>
+  <meta name="description" content="白熊人生攻略的橫向卷軸動作冒險遊戲，選擇你的代表動物，揮舞武器消滅怪物！">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a12;
+      color: #ffffff;
+      font-family: 'Press Start 2P', 'Consolas', monospace;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ===== CHARACTER SELECT SCREEN ===== */
+    #charSelectScreen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, #1a1030 0%, #0a0a12 70%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn { 0%{opacity:0} 100%{opacity:1} }
+    .char-title {
+      font-size: clamp(0.7rem, 2.5vw, 1.2rem);
+      color: #ffd89c;
+      text-shadow: 0 0 20px rgba(255,216,156,0.5);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .char-subtitle {
+      font-size: clamp(0.42rem, 1.5vw, 0.55rem);
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 450px;
+      padding: 0 16px;
+      margin-bottom: 20px;
+    }
+    .char-card {
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(255,216,156,0.2);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .char-card:hover, .char-card:active {
+      background: rgba(255,216,156,0.1);
+      border-color: #ffd89c;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255,216,156,0.2);
+    }
+    .char-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+    .char-name { font-size: 0.55rem; color: #ffd89c; display: block; margin-bottom: 4px; }
+    .char-desc { font-size: 0.38rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .char-back {
+      margin-top: 10px; font-size: 0.5rem; color: rgba(255,255,255,0.4);
+      background: none; border: 1px solid rgba(255,255,255,0.2);
+      padding: 8px 16px; border-radius: 6px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .char-back:hover { color: #ffd89c; border-color: #ffd89c; }
+
+    /* ===== STAGE SELECT SCREEN ===== */
+    #stageSelectScreen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, #1b0f20 0%, #0a0a12 70%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.5s ease;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 600px;
+      padding: 8px 16px;
+      margin-bottom: 20px;
+      max-height: 58vh;
+      overflow-y: auto;
+    }
+    @media (max-width: 600px) {
+      .char-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .stage-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+    }
+    .stage-card {
+      background: rgba(255,255,255,0.03);
+      border: 2px solid rgba(255,216,156,0.15);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stage-card:hover, .stage-card:active {
+      border-color: #ba4dff;
+      background: rgba(186, 77, 255, 0.08);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(186, 77, 255, 0.25);
+    }
+    .stage-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.01);
+    }
+    .stage-card.locked:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.01);
+    }
+    .stage-name { font-size: 0.52rem; color: #ffd89c; font-weight: bold; }
+    .stage-req { font-size: 0.35rem; color: #ba4dff; font-weight: bold; }
+    .stage-monsters { font-size: 0.33rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
+
+    /* ===== RESPONSIVE GAME LAYOUT ===== */
+    #gameLayout {
+      display: none;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px;
+      gap: 16px;
+    }
+
+    /* ===== DESKTOP GUIDE SIDEBAR ===== */
+    #desktopGuide {
+      width: 320px;
+      background: rgba(15, 15, 27, 0.95);
+      border: 3px solid #ffd89c;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      font-size: 0.38rem;
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+    .guide-title {
+      font-size: 0.55rem;
+      color: #ffd89c;
+      text-align: center;
+      border-bottom: 2px solid rgba(255,216,156,0.3);
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 10px rgba(255,216,156,0.3);
+    }
+    .guide-section {
+      border: 1px solid rgba(255,216,156,0.2);
+      border-radius: 6px;
+      padding: 10px;
+      background: rgba(255,255,255,0.02);
+    }
+    .guide-section-title {
+      color: #ffd89c;
+      font-size: 0.42rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: bold;
+    }
+    .guide-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .guide-row:last-child { margin-bottom: 0; }
+    kbd {
+      background: #1a1a2e;
+      border: 1px solid #ffd89c;
+      border-radius: 4px;
+      box-shadow: 0 2px 0 #ffd89c;
+      color: #ffd89c;
+      padding: 2px 6px;
+      font-family: inherit;
+      font-size: 0.35rem;
+      display: inline-block;
+      margin: 1px;
+    }
+    .guide-skill-item {
+      margin-top: 8px;
+      border-top: 1px dashed rgba(255,216,156,0.15);
+      padding-top: 6px;
+    }
+    .guide-skill-name {
+      color: #ba4dff;
+      font-size: 0.4rem;
+      font-weight: bold;
+    }
+    .guide-skill-desc {
+      font-size: 0.33rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    /* ===== GAME CONTAINER ===== */
+    #gameContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      height: 100%;
+      position: relative;
+      background: #0a0a12;
+      border: 3px solid #ffd89c;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      overflow: hidden;
+    }
+
+    /* ===== HUD ===== */
+    #hud {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: rgba(10,10,18,0.95);
+      border-bottom: 2px solid #ffd89c;
+      font-size: 0.45rem;
+      gap: 8px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .hud-left { display: flex; align-items: center; gap: 8px; }
+    .hud-avatar { font-size: 1.2rem; }
+    .hud-bars { display: flex; flex-direction: column; gap: 3px; }
+    .hud-bar-row { display: flex; align-items: center; gap: 4px; }
+    .hud-bar-label { width: 22px; text-align: right; font-size: 0.35rem; color: rgba(255,255,255,0.6); }
+    .hud-bar-outer {
+      width: 80px; height: 6px;
+      background: #1a1a2e; border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 2px; overflow: hidden;
+    }
+    .hud-bar-inner { height: 100%; transition: width 0.3s ease; border-radius: 2px; }
+    .hp-fill { background: linear-gradient(90deg, #ff4d4d, #ff8888); }
+    .xp-fill { background: linear-gradient(90deg, #4ef072, #aaffcc); }
+    .hud-level { color: #ffd89c; font-size: 0.45rem; }
+    .hud-weapons {
+      display: flex; gap: 4px; align-items: center;
+    }
+    .weapon-slot {
+      width: 28px; height: 28px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.03);
+    }
+    .weapon-slot.active {
+      border-color: #ffd89c;
+      background: rgba(255,216,156,0.15);
+      box-shadow: 0 0 8px rgba(255,216,156,0.3);
+    }
+    .weapon-slot:hover { border-color: rgba(255,216,156,0.5); }
+    .hud-right { display: flex; align-items: center; gap: 8px; }
+    .hud-btn {
+      font-size: 0.4rem; padding: 4px 8px;
+      background: none; border: 1px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.6); border-radius: 4px; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .hud-btn:hover { border-color: #ffd89c; color: #ffd89c; }
+
+    /* ===== CANVAS ===== */
+    #gameCanvas {
+      display: block;
+      background: #0a0a12;
+      image-rendering: pixelated;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* ===== MOBILE CONTROLS ===== */
+    #mobileControls {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; width: 100%; height: 140px;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .m-dpad {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      pointer-events: auto;
+      display: flex; gap: 6px;
+    }
+    .m-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.7);
+      pointer-events: auto;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .m-btn:active, .m-btn.pressed {
+      background: rgba(255,216,156,0.25);
+      border-color: #ffd89c;
+    }
+    .m-actions {
+      position: absolute;
+      bottom: 20px; right: 20px;
+      display: flex; gap: 8px;
+      pointer-events: auto;
+      align-items: center;
+    }
+    .m-action {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,216,156,0.4);
+      background: rgba(255,216,156,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.35rem;
+      color: #ffd89c;
+      font-family: inherit;
+      pointer-events: auto;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+      text-align: center;
+    }
+    .m-action:active, .m-action.pressed {
+      background: rgba(255,216,156,0.3);
+      box-shadow: 0 0 12px rgba(255,216,156,0.4);
+    }
+    .m-skill-btn {
+      border-color: #ba4dff;
+      background: rgba(186,77,255,0.08);
+      color: #e0a3ff;
+      width: 58px; height: 58px;
+    }
+    .m-skill-btn:active, .m-skill-btn.pressed {
+      background: rgba(186,77,255,0.25);
+      box-shadow: 0 0 12px rgba(186,77,255,0.4);
+    }
+
+    /* ===== OVERLAYS ===== */
+    #levelUpOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      display: none; align-items: center; justify-content: center;
+      z-index: 500; pointer-events: none;
+    }
+    .lvup-text {
+      font-size: clamp(1.2rem, 5vw, 2.5rem);
+      color: #ffd89c;
+      text-shadow: 0 0 30px #ffd89c, 0 0 60px rgba(255,216,156,0.5);
+      animation: lvupPulse 1.5s ease forwards;
+    }
+    @keyframes lvupPulse {
+      0% { transform: scale(0.3); opacity: 0; }
+      30% { transform: scale(1.3); opacity: 1; }
+      70% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    #pauseOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      z-index: 600;
+    }
+    .pause-title { font-size: 1rem; color: #ffd89c; }
+    .pause-btn {
+      font-size: 0.5rem; padding: 10px 24px;
+      background: rgba(255,216,156,0.1); border: 2px solid #ffd89c;
+      color: #ffd89c; border-radius: 8px; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .pause-btn:hover { background: rgba(255,216,156,0.25); }
+
+    /* ===== RESPONSIVE HUD / GRID ===== */
+    @media (max-width: 1000px) {
+      #desktopGuide { display: none !important; }
+      #gameLayout { padding: 0; max-width: 800px; }
+      #gameContainer { border: none; border-radius: 0; }
+    }
+    @media (max-width: 600px) {
+      #hud { font-size: 0.35rem; padding: 4px 6px; }
+      .hud-bar-outer { width: 55px; }
+      .weapon-slot { width: 24px; height: 24px; font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CHARACTER SELECT -->
+  <div id="charSelectScreen">
+    <div class="char-title">🏰 深淵降噪之城</div>
+    <div class="char-subtitle">選擇你的冒險代表動物</div>
+    <div class="char-grid">
+      <div class="char-card" id="card_bear" onclick="selectCharacter('bear')">
+        <span class="char-emoji">🐻</span>
+        <span class="char-name">賢者白熊</span>
+        <span class="char-desc">職業：大賢者 (Sage)<br>主動：雷霆之怒 (落雷)<br>奧術魔法追蹤法杖</span>
+        <span id="rec_bear" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
+      </div>
+      <div class="char-card" id="card_monkey" onclick="selectCharacter('monkey')">
+        <span class="char-emoji">🐵</span>
+        <span class="char-name">影武小猴</span>
+        <span class="char-desc">職業：影武者 (Ninja)<br>主動：影分身衝 (無敵)<br>極速忍刀劈砍</span>
+        <span id="rec_monkey" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
+      </div>
+      <div class="char-card" id="card_bunny" onclick="selectCharacter('bunny')">
+        <span class="char-emoji">🐰</span>
+        <span class="char-name">龍槍小兔</span>
+        <span class="char-desc">職業：龍之槍兵 (Lancer)<br>主動：矛盾之突刺<br>矛盾之矛長距貫穿</span>
+        <span id="rec_bunny" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
+      </div>
+      <div class="char-card" id="card_cat" onclick="selectCharacter('cat')">
+        <span class="char-emoji">🐱</span>
+        <span class="char-name">白魔小貓</span>
+        <span class="char-desc">職業：白魔導士 (Healer)<br>主動：神聖治癒術 (HP盾)<br>心形魔導追踪短杖</span>
+        <span id="rec_cat" style="display:none; font-size:0.32rem; color:#ffd89c; background: rgba(255,216,156,0.15); border:1px solid #ffd89c; border-radius:4px; padding:2px 6px; margin-top:6px; font-family:inherit;">⚔️ 推薦</span>
+      </div>
+    </div>
+    <button class="char-back" onclick="location.href='link.html'">← 返回冒險者公會</button>
+  </div>
+
+  <!-- STAGE SELECT -->
+  <div id="stageSelectScreen" style="display: none;">
+    <div class="char-title">🗺️ 選擇冒險關卡</div>
+    <div class="char-subtitle" id="stageSelectSubtitle">當前冒險者等級：LV.1</div>
+    <div class="stage-grid" id="stageGrid">
+      <!-- Stage cards dynamically generated -->
+    </div>
+    <button class="char-back" onclick="backToCharSelect()">← 返回選擇角色</button>
+  </div>
+
+  <!-- GAME LAYOUT -->
+  <div id="gameLayout">
+    <!-- Desktop Keyboard Guide Sidebar -->
+    <div id="desktopGuide">
+      <div class="guide-title">🏰 冒險手冊</div>
+      
+      <div class="guide-section">
+        <div class="guide-section-title">⌨️ 鍵盤操作指南</div>
+        <div class="guide-row"><span>向左移動</span><kbd>A</kbd> 或 <kbd>←</kbd></div>
+        <div class="guide-row"><span>向右移動</span><kbd>D</kbd> 或 <kbd>→</kbd></div>
+        <div class="guide-row"><span>跳躍動作</span><kbd>Space</kbd> 或 <kbd>W</kbd></div>
+        <div class="guide-row"><span>下跳平台</span><kbd>S</kbd> 或 <kbd>↓</kbd></div>
+        <div class="guide-row"><span>普通攻擊</span><kbd>J</kbd> 或 <kbd>X</kbd></div>
+        <div class="guide-row"><span>主動技能 🌟</span><kbd>K</kbd> 或 <kbd>C</kbd></div>
+        <div class="guide-row"><span>切換武器</span><kbd>Q</kbd> / <kbd>E</kbd> 或 <kbd>1-5</kbd></div>
+        <div class="guide-row"><span>暫停/選單</span><kbd>ESC</kbd> 或 <kbd>P</kbd></div>
+      </div>
+
+      <div class="guide-section">
+        <div class="guide-section-title">🛡️ 轉職主角群</div>
+        
+        <div class="guide-skill-item" style="border-top:none; padding-top:0;">
+          <div class="guide-skill-name">🐻 賢者白熊 (Sage)</div>
+          <div class="guide-skill-desc">【技能：雷霆之怒】召喚 3 道毀滅性垂直天罰落雷貫穿全屏，雷暴閃電造成高達 2.8 倍超狂暴擊與擊退判定！</div>
+        </div>
+
+        <div class="guide-skill-item">
+          <div class="guide-skill-name">🐵 影武小猴 (Ninja)</div>
+          <div class="guide-skill-desc">【技能：影分身擊】無敵前衝撕裂沿路敵人！支援二段跳。</div>
+        </div>
+
+        <div class="guide-skill-item">
+          <div class="guide-skill-name">🐰 龍槍小兔 (Lancer)</div>
+          <div class="guide-skill-desc">【技能：矛盾之突刺】前衝刺出巨型金色矛盾矛尖能量，長距離線性穿透！</div>
+        </div>
+
+        <div class="guide-skill-item">
+          <div class="guide-skill-name">🐱 白魔小貓 (White Mage)</div>
+          <div class="guide-skill-desc">【技能：神聖治癒術】**補血！** 瞬間回復 45% 血量，並召喚旋轉聖光愛心護盾無敵 2 秒！</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME CONTAINER -->
+    <div id="gameContainer">
+      <!-- HUD -->
+      <div id="hud">
+        <div class="hud-left">
+          <span class="hud-avatar" id="hudAvatar">🐻</span>
+          <div class="hud-bars">
+            <div class="hud-bar-row">
+              <span class="hud-bar-label">HP</span>
+              <div class="hud-bar-outer"><div class="hud-bar-inner hp-fill" id="hudHpBar" style="width:100%"></div></div>
+              <span id="hudHpText" style="font-size:0.35rem;color:#ff8888;width:50px">100/100</span>
+            </div>
+            <div class="hud-bar-row">
+              <span class="hud-bar-label">XP</span>
+              <div class="hud-bar-outer"><div class="hud-bar-inner xp-fill" id="hudXpBar" style="width:0%"></div></div>
+              <span class="hud-level" id="hudLevel">LV.1</span>
+            </div>
+            <div class="hud-bar-row">
+              <span class="hud-bar-label">SKL</span>
+              <div class="hud-bar-outer"><div class="hud-bar-inner" id="hudSkillBar" style="height:100%;width:100%;background:linear-gradient(90deg, #ba4dff, #e0a3ff);"></div></div>
+              <span id="hudSkillText" style="font-size:0.35rem;color:#ba4dff;width:50px">READY</span>
+            </div>
+          </div>
+        </div>
+        <div id="hudClimate" style="display:none; font-size:0.32rem; font-weight:bold; padding:3px 8px; border-radius:6px; font-family:inherit; text-align:center; box-shadow:0 0 10px rgba(0,0,0,0.4); max-width:260px;"></div>
+        <div class="hud-weapons" id="hudWeapons">
+          <div class="weapon-slot active" data-w="0" onclick="switchWeapon(0)" title="黑漆忍刀">🗡️</div>
+          <div class="weapon-slot" data-w="1" onclick="switchWeapon(1)" title="白魔導杖">🔮</div>
+          <div class="weapon-slot" data-w="2" onclick="switchWeapon(2)" title="矛盾之矛">🔱</div>
+          <div class="weapon-slot" data-w="3" onclick="switchWeapon(3)" title="賢者法杖">🪄</div>
+          <div class="weapon-slot" data-w="4" onclick="switchWeapon(4)" title="複利大劍">🪓</div>
+        </div>
+        <div class="hud-right">
+          <button class="hud-btn" id="hudMute" onclick="toggleMute()">🔊</button>
+          <button class="hud-btn" onclick="togglePause()">⏸️</button>
+          <button class="hud-btn" onclick="exitGame()">🚪</button>
+        </div>
+      </div>
+      <canvas id="gameCanvas"></canvas>
+      <!-- Mobile -->
+      <div id="mobileControls">
+        <div class="m-dpad">
+          <div class="m-btn" id="mLeft">◀</div>
+          <div class="m-btn" id="mRight">▶</div>
+        </div>
+        <div class="m-actions">
+          <div class="m-action m-skill-btn" id="mSkill">SKILL</div>
+          <div class="m-action" id="mAtk">ATK</div>
+          <div class="m-action" id="mJump">JUMP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL UP OVERLAY -->
+  <div id="levelUpOverlay"><div class="lvup-text" id="lvupText">LEVEL UP! 🌟</div></div>
+  <!-- PAUSE -->
+  <div id="pauseOverlay">
+    <div class="pause-title">⏸️ PAUSED</div>
+    <button class="pause-btn" onclick="togglePause()">繼續冒險</button>
+    <button class="pause-btn" onclick="exitGame()">返回公會</button>
+  </div>
+
+<script>
+// ============================================================
+// 🏰 白熊人生戰役：深淵降噪之城 — Complete Metroidvania Engine
+// ============================================================
+
+// --- CONSTANTS ---
+const TILE = 32;
+const GRAVITY = 0.42; 
+const MAX_FALL = 12;
+const FRICTION = 0.82;
+
+// --- STAGE DEFINITIONS ---
+const STAGES = [
+  {
+    name: '1. 幽邃古堡外圍',
+    reqLvl: 1,
+    levelReq: 'LV.1 - 10',
+    color: '#2a2a3a',
+    borderColor: '#3a3a4a',
+    lineColor: '#1a1a28',
+    bgStart: '#0a0a1a', bgEnd: '#0a0a12',
+    monstersText: '👾 史萊姆, 毒蝸牛, 魔像',
+    monsters: ['slime', 'snail', 'golem'],
+    particleType: 'castle'
+  },
+  {
+    name: '2. 降噪水晶礦坑',
+    reqLvl: 10,
+    levelReq: 'LV.10 - 20',
+    color: '#241434',
+    borderColor: '#4a156d',
+    lineColor: '#12051c',
+    bgStart: '#11052c', bgEnd: '#090115',
+    monstersText: '👾 噪音獸, 邪眼, 毒蝸牛',
+    monsters: ['noise', 'eye', 'snail'],
+    particleType: 'crystal'
+  },
+  {
+    name: '3. 資訊迷霧森林',
+    reqLvl: 20,
+    levelReq: 'LV.20 - 30',
+    color: '#1a3322',
+    borderColor: '#2e5c3b',
+    lineColor: '#0f2014',
+    bgStart: '#081c15', bgEnd: '#040d0a',
+    monstersText: '👾 幽靈, 法師, 史萊姆',
+    monsters: ['ghost', 'wizard', 'slime'],
+    particleType: 'mist'
+  },
+  {
+    name: '4. 熔岩代碼深淵',
+    reqLvl: 30,
+    levelReq: 'LV.30 - 40',
+    color: '#3d1212',
+    borderColor: '#631d1d',
+    lineColor: '#240a0a',
+    bgStart: '#1d0505', bgEnd: '#0d0101',
+    monstersText: '👾 飛龍, 騎士, 魔像',
+    monsters: ['dragon', 'knight', 'golem'],
+    particleType: 'lava'
+  },
+  {
+    name: '5. 命運之天界神殿',
+    reqLvl: 40,
+    levelReq: 'LV.40 - 50',
+    color: '#4a3f1b',
+    borderColor: '#ffd89c',
+    lineColor: '#2b230f',
+    bgStart: '#1a170f', bgEnd: '#0f0e0a',
+    monstersText: '👾 死神, 法師, 騎士',
+    monsters: ['reaper', 'wizard', 'knight'],
+    particleType: 'temple'
+  },
+  {
+    name: '6. 劇毒酸雨荒沼',
+    reqLvl: 50,
+    levelReq: 'LV.50 - 60',
+    color: '#122b22',
+    borderColor: '#1abc9c',
+    lineColor: '#0c1a14',
+    bgStart: '#081a15', bgEnd: '#030a08',
+    monstersText: '👾 史萊姆, 毒蝸牛, 噪音獸 (酸雨威脅)',
+    monsters: ['slime', 'snail', 'noise'],
+    particleType: 'acid'
+  },
+  {
+    name: '7. 冰河極光寒域',
+    reqLvl: 60,
+    levelReq: 'LV.60 - 70',
+    color: '#133a4a',
+    borderColor: '#9be2ff',
+    lineColor: '#0c242e',
+    bgStart: '#071822', bgEnd: '#030d14',
+    monstersText: '👾 魔像, 幽靈, 飛龍 (飄雪冰凍)',
+    monsters: ['golem', 'ghost', 'dragon'],
+    particleType: 'snow'
+  },
+  {
+    name: '8. 雷霆充能裂谷',
+    reqLvl: 70,
+    levelReq: 'LV.70 - 80',
+    color: '#2b0c3a',
+    borderColor: '#e04df5',
+    lineColor: '#1a0724',
+    bgStart: '#12031a', bgEnd: '#080112',
+    monstersText: '👾 法師, 騎士, 死神 (電光雷暴)',
+    monsters: ['wizard', 'knight', 'reaper'],
+    particleType: 'lightning'
+  },
+  {
+    name: '9. 混沌虛無邊境',
+    reqLvl: 80,
+    levelReq: 'LV.80 - 90',
+    color: '#300f24',
+    borderColor: '#f368e0',
+    lineColor: '#1c0815',
+    bgStart: '#14040f', bgEnd: '#0a0208',
+    monstersText: '👾 飛龍, 死神, 噪音獸 (虛無空洞)',
+    monsters: ['dragon', 'reaper', 'noise'],
+    particleType: 'void'
+  },
+  {
+    name: '10. 終焉超脫之界',
+    reqLvl: 90,
+    levelReq: 'LV.90 - 99',
+    color: '#111111',
+    borderColor: '#ffffff',
+    lineColor: '#000000',
+    bgStart: '#000000', bgEnd: '#000000',
+    monstersText: '👾 所有頂級魔物 (七彩霓虹)',
+    monsters: ['reaper', 'wizard', 'dragon'],
+    particleType: 'rainbow'
+  }
+];
+
+let activeStageIdx = 0;
+
+// --- MONSTER PNG IMAGE LOADING & CACHE ---
+const MONSTER_IMAGES = {};
+const MONSTER_SRC = {
+  slime: 'assets/monster_slime.png',
+  snail: 'assets/monster_snail.png',
+  golem: 'assets/monster_golem.png',
+  noise: 'assets/monster_noise.png',
+  eye: 'assets/monster_eye.png',
+  ghost: 'assets/monster_ghost.png',
+  wizard: 'assets/monster_wizard.png',
+  knight: 'assets/monster_knight.png',
+  dragon: 'assets/monster_dragon.png',
+  reaper: 'assets/monster_reaper.png',
+};
+
+function preloadMonsterImages() {
+  Object.keys(MONSTER_SRC).forEach(key => {
+    const img = new Image();
+    img.src = MONSTER_SRC[key];
+    img.onload = () => {
+      MONSTER_IMAGES[key] = img;
+    };
+  });
+}
+preloadMonsterImages();
+
+// --- CHARACTERS ---
+const CHARACTERS = {
+  bear: { 
+    emoji:'🐻', name:'賢者白熊', color:'#f2f2f7', hpMul:1.4, spdMul:0.9, atkMul:1.3, 
+    canDoubleJump:false, jumpPow:11.5,
+    skillName: '雷霆之怒', skillCD: 300,
+    skillDesc: '召喚 3 道毀滅性垂直天罰落雷貫穿全屏，雷暴閃電造成高達 2.8 倍超狂暴擊與擊退判定！'
+  },
+  monkey: { 
+    emoji:'🐵', name:'影武小猴', color:'#965a38', hpMul:0.9, spdMul:1.35, atkMul:1.0, 
+    canDoubleJump:true,  jumpPow:10.5,
+    skillName: '影分身擊', skillCD: 180,
+    skillDesc: '向前無敵極速衝刺，揮舞無影分身撕裂路徑上的所有敵人和蠟燭！'
+  },
+  bunny: { 
+    emoji:'🐰', name:'龍槍小兔', color:'#fbfbfb', hpMul:0.85,spdMul:1.15,atkMul:1.1, 
+    canDoubleJump:false, jumpPow:12.5,
+    skillName: '矛盾之突刺', skillCD: 160,
+    skillDesc: '前衝並刺出巨型金色矛頭能量，超長距離線性穿透打擊！'
+  },
+  cat: { 
+    emoji:'🐱', name:'白魔小貓', color:'#ffa94d', hpMul:0.95,spdMul:1.05,atkMul:1.2, 
+    canDoubleJump:false, jumpPow:11.0,
+    skillName: '神聖治癒術', skillCD: 300,
+    skillDesc: '回復 45% 血量，並召喚旋轉聖光愛心護盾獲得無敵 2 秒！'
+  }
+};
+
+// --- WEAPONS ---
+const WEAPONS = [
+  { name:'黑漆忍刀',     emoji:'🗡️', range:42, dmgMul:1.0, speed:10, arc:90,  color:'#a29bfe', trail:'#e0a3ff', type:'melee' },
+  { name:'白魔導杖',     emoji:'🔮', range:160,dmgMul:0.75,speed:12, arc:0,   color:'#ff85a2', trail:'#ffb3c6', type:'ranged', homing: true },
+  { name:'矛盾之矛',     emoji:'🔱', range:65, dmgMul:1.15,speed:14, arc:15,  color:'#f1c40f', trail:'#ffeaa7', type:'melee', isSpear: true },
+  { name:'賢者法杖',     emoji:'🪄', range:200,dmgMul:1.3, speed:16, arc:0,   color:'#00ffff', trail:'#004466', type:'ranged', homing: true },
+  { name:'人生複利大劍', emoji:'🪓', range:55, dmgMul:2.0, speed:28, arc:180, color:'#ff4d4d', trail:'#ff8800', type:'melee' }
+];
+
+// --- MAP DATA ---
+const MAP_W = 80;
+const MAP_H = 18;
+function generateMap() {
+  const m = [];
+  for (let y = 0; y < MAP_H; y++) {
+    m[y] = [];
+    for (let x = 0; x < MAP_W; x++) {
+      m[y][x] = 0;
+    }
+  }
+  // Ground
+  for (let x = 0; x < MAP_W; x++) {
+    m[MAP_H-1][x] = 1;
+    m[MAP_H-2][x] = 1;
+  }
+  // Walls
+  for (let y = 0; y < MAP_H; y++) { m[y][0] = 1; m[y][MAP_W-1] = 1; }
+  // Ceiling
+  for (let x = 0; x < MAP_W; x++) { m[0][x] = 1; m[1][x] = 1; }
+
+  // Platforms - Layer 1 (lower)
+  const plats1 = [[5,13,7],[15,12,5],[23,13,6],[32,12,4],[40,13,8],[52,12,5],[60,13,6],[70,12,4]];
+  plats1.forEach(([px,py,pw]) => { for(let i=0;i<pw;i++) m[py][px+i]=1; });
+
+  // Platforms - Layer 2 (mid)
+  const plats2 = [[8,9,5],[18,8,4],[28,9,5],[36,8,6],[46,9,4],[55,8,5],[64,9,4],[72,8,5]];
+  plats2.forEach(([px,py,pw]) => { for(let i=0;i<pw;i++) m[py][px+i]=1; });
+
+  // Platforms - Layer 3 (high)
+  const plats3 = [[12,5,4],[25,5,3],[38,4,5],[50,5,4],[65,4,4]];
+  plats3.forEach(([px,py,pw]) => { for(let i=0;i<pw;i++) m[py][px+i]=1; });
+
+  // Small steps
+  for (let x = 2; x < 5; x++) m[14][x] = 1;
+
+  // Add intermediate step blocks to guarantee smooth navigating of all high gaps
+  const extraSteps = [
+    [13,11],[21,11],[30,11],[34,14],[44,11],[50,11],[58,11],[68,11],[70,14],
+    [10,12],[22,12],[36,11],[54,12],[66,11],[75,11]
+  ];
+  extraSteps.forEach(([sx, sy]) => {
+    if (sx >= 0 && sx < MAP_W && sy >= 0 && sy < MAP_H) {
+      m[sy][sx] = 1;
+    }
+  });
+
+  // Spikes or Lava in pits
+  [20,21,44,45,68,69].forEach(x => m[MAP_H-3][x] = 4);
+
+  // Portal
+  m[MAP_H-4][MAP_W-4] = 3;
+  m[MAP_H-5][MAP_W-4] = 3;
+
+  return m;
+}
+
+function generateCandles(map) {
+  const candles = [];
+  const cx = [7,14,22,30,35,42,48,55,62,71,10,20,27,37,47,58,66,74,13,26,39,51,66];
+  const cy = [11,10,11,10,6,11,7,10,11,10,7,7,3,2,3,7,2,6,3,3,2,3,2];
+  for (let i = 0; i < cx.length; i++) {
+    candles.push({ x: cx[i]*TILE+TILE/2, y: cy[i]*TILE+TILE/2, alive: true, drop: Math.random()<0.5?'heart':'coin' });
+  }
+  return candles;
+}
+
+function generateEnemies() {
+  const enemies = [];
+  const stage = STAGES[activeStageIdx];
+  
+  // Deploy monsters based on active stage
+  const defs = [
+    [6, 14, 0, 4],
+    [10, 11, 1, 3],
+    [16, 11, 0, 3],
+    [24, 12, 2, 5], 
+    [32, 12, 0, 4], 
+    [38, 7,  1, 4],   
+    [42, 8,  2, 4], 
+    [48, 12, 1, 4], 
+    [54, 11, 2, 4], 
+    [62, 12, 1, 3],
+    [66, 3,  2, 4], 
+    [74, 12, 2, 3], 
+  ];
+  
+  // Define stage scaling multipliers for HP, DEF, ATK & XP (JRPG Tier Progression)
+  const STAGE_SCALING = [
+    { mul: 1.0,  xpMul: 1.0 },   // Stage 1 (LV 1-10)
+    { mul: 1.5,  xpMul: 1.5 },   // Stage 2 (LV 10-20)
+    { mul: 2.0,  xpMul: 2.0 },   // Stage 3 (LV 20-30)
+    { mul: 2.7,  xpMul: 2.7 },   // Stage 4 (LV 30-40)
+    { mul: 3.5,  xpMul: 3.5 },   // Stage 5 (LV 40-50)
+    { mul: 4.5,  xpMul: 4.5 },   // Stage 6 (LV 50-60)
+    { mul: 5.6,  xpMul: 5.6 },   // Stage 7 (LV 60-70)
+    { mul: 7.0,  xpMul: 7.0 },   // Stage 8 (LV 70-80)
+    { mul: 8.5,  xpMul: 8.5 },   // Stage 9 (LV 80-90)
+    { mul: 10.0, xpMul: 10.0 },  // Stage 10 (LV 90-99)
+  ];
+  
+  const sc = STAGE_SCALING[activeStageIdx] || { mul: 1.0, xpMul: 1.0 };
+  const mul = sc.mul;
+  const xpMul = sc.xpMul;
+  
+  // Get JRPG player level dynamic adaptive scaling factor!
+  const pInfo = getLevelInfo(userXP);
+
+  defs.forEach(([ex,ey,mIdx,pw],i) => {
+    const type = stage.monsters[mIdx];
+    let hp = 30;
+    let maxHp = 30;
+    let atk = 8;
+    let spd = 0.8;
+    let xpVal = 8;
+    let w = 28;
+    let h = 24;
+    let def = 2;
+
+    if (type === 'slime') {
+      hp = 30; atk = 8; spd = 0.8; xpVal = 8; w = 28; h = 24; def = 2;
+    } else if (type === 'snail') {
+      hp = 45; atk = 10; spd = 0.5; xpVal = 12; w = 32; h = 28; def = 4;
+    } else if (type === 'golem') {
+      hp = 120; atk = 22; spd = 0.4; xpVal = 35; w = 48; h = 48; def = 12;
+    } else if (type === 'noise') {
+      hp = 60; atk = 14; spd = 0.9; xpVal = 20; w = 36; h = 36; def = 6;
+    } else if (type === 'eye') {
+      hp = 40; atk = 12; spd = 1.1; xpVal = 15; w = 24; h = 24; def = 3;
+    } else if (type === 'ghost') {
+      hp = 50; atk = 13; spd = 0.7; xpVal = 18; w = 32; h = 32; def = 5;
+    } else if (type === 'wizard') {
+      hp = 70; atk = 16; spd = 1.0; xpVal = 25; w = 32; h = 40; def = 8;
+    } else if (type === 'knight') {
+      hp = 90; atk = 18; spd = 0.6; xpVal = 30; w = 36; h = 44; def = 10;
+    } else if (type === 'dragon') {
+      hp = 180; atk = 26; spd = 0.8; xpVal = 60; w = 56; h = 56; def = 15;
+    } else if (type === 'reaper') {
+      hp = 250; atk = 32; spd = 0.7; xpVal = 100; w = 48; h = 52; def = 20;
+    }
+
+    const isBoss = (i === defs.length - 1);
+    if (isBoss) {
+      w = Math.floor(w * 1.5);
+      h = Math.floor(h * 1.5);
+      hp = Math.floor(hp * 2.5);
+      atk = Math.floor(atk * 1.5);
+      def = Math.floor(def * 2.0);
+      spd = spd * 1.3;
+    }
+
+    // Scale speed by activeStageIdx (higher stage = faster monsters!)
+    spd = spd * (1 + activeStageIdx * 0.12);
+
+    // Apply exact stage multipliers for JRPG progression!
+    hp = Math.floor(hp * mul * (1 + (pInfo.level - 1) * 0.15));
+    def = Math.floor(def * mul * (1 + (pInfo.level - 1) * 0.08));
+    
+    // Smooth ATK scaling based on player.maxHp to avoid one-shots, incorporating exact stage multipliers!
+    // Using a base divisor of 350 so that an ordinary monster ATK is smooth but Bosses are highly threatening.
+    let scaledAtk = Math.max(1, Math.floor(player.maxHp * (atk / 350) * mul));
+    
+    // Clamp single hit damage: normal monster max 35% player maxHp, Boss max 65% player maxHp
+    const maxDamagePct = isBoss ? 0.65 : 0.35;
+    atk = Math.min(scaledAtk, Math.floor(player.maxHp * maxDamagePct));
+    
+    // XP reward is perfectly proportional to difficulty multiplier!
+    xpVal = Math.floor(xpVal * xpMul);
+
+    enemies.push({
+      id: i, x: ex*TILE, y: isBoss ? (ey-1.5)*TILE : (ey-1)*TILE, w, h,
+      type, hp, maxHp: hp, atk, def, spd, xpVal: isBoss ? xpVal * 3 : xpVal,
+      patrolLeft: ex*TILE - pw*TILE/2, patrolRight: ex*TILE + pw*TILE,
+      vx: spd, vy: 0, dir: 1, alive: true,
+      hitTimer: 0, flashTimer: 0,
+      color: type==='slime'?'#44cc66' : type==='knight'?'#8888cc' : '#cc4466',
+      eyeColor: type==='eye'?'#ff0000':'#ffffff',
+      isBoss: isBoss,
+      shootCooldown: Math.random() * 60,
+    });
+  });
+  return enemies;
+}
+
+// --- GAME STATE ---
+let canvas, ctx;
+let gameRunning = false, gamePaused = false, muted = false;
+let charKey = 'bear';
+let charDef = CHARACTERS.bear;
+let weaponIdx = 0;
+
+// Player
+let player = {};
+// Camera
+let camX = 0, camY = 0;
+// Map
+let map = [];
+let candles = [];
+let enemies = [];
+let projectiles = [];
+let particles = [];
+let floaters = [];
+let lightningFlashTimer = 0;
+let items = [];
+
+// Input
+let keys = {};
+let mobileInput = { left:false, right:false, jump:false, attack:false, skill:false };
+
+// LocalStorage sync
+let userXP = 0, userAttrs = {int:5,vit:5,foc:5,agi:5};
+let castleXPEarned = 0;
+
+// Audio
+let audioCtx = null;
+
+// ============================================================
+// LOCALSTORAGE SYNC
+// ============================================================
+let defaultAnimalKey = null;
+function loadFromRPG() {
+  try {
+    const xp = localStorage.getItem('baixiong_adventurer_xp');
+    if (xp !== null) userXP = parseInt(xp) || 0;
+    
+    userAttrs = {
+      int: parseInt(localStorage.getItem('baixiong_adventurer_int') || '5'),
+      vit: parseInt(localStorage.getItem('baixiong_adventurer_vit') || '5'),
+      foc: parseInt(localStorage.getItem('baixiong_adventurer_foc') || '5'),
+      agi: parseInt(localStorage.getItem('baixiong_adventurer_agi') || '5')
+    };
+
+    // Auto-detect JRPG representative animal
+    const savedAnimal = localStorage.getItem('baixiong_adventurer_animal');
+    if (savedAnimal && CHARACTERS[savedAnimal]) {
+      defaultAnimalKey = savedAnimal;
+    }
+  } catch(e) {}
+}
+function saveToRPG() {
+  try {
+    const totalXP = userXP + castleXPEarned;
+    localStorage.setItem('baixiong_adventurer_xp', totalXP.toString());
+  } catch(e) {}
+}
+
+function getLevelInfo(xp) {
+  let level = 1, cumXP = 0;
+  while (level < 99) {
+    const needed = Math.floor(50 + (level - 1) * 22 + Math.pow(level, 1.65) * 2);
+    if (xp < cumXP + needed) return { level, xpInLevel: xp - cumXP, xpNeeded: needed };
+    cumXP += needed;
+    level++;
+  }
+  return { level: 99, xpInLevel: 0, xpNeeded: 1 };
+}
+
+// ==========================================
+// 公會傳奇神裝戰鬥屬性加成公式 (同步 JRPG)
+// ==========================================
+function getGearStats(level) {
+  const stats = {
+    bonusInt: 0,
+    bonusVit: 0,
+    bonusFoc: 0,
+    bonusAgi: 0,
+    bonusMaxHp: 0,
+    bonusXpPct: 0.0,
+    bonusDmgPct: 1.0,
+    bonusCritRate: 0.0
+  };
+  
+  if (level >= 10) stats.bonusInt += 5; // 💻 大腦除錯鍵盤
+  if (level >= 20) stats.bonusFoc += 5; // 📓 Notion 第二大腦
+  if (level >= 30) stats.bonusMaxHp += 50; // 🔋 意志力蓄電池
+  if (level >= 40) stats.bonusAgi += 5; // ☕ NPC 覺醒藥水
+  if (level >= 50) stats.bonusXpPct += 0.20; // 🧱 知識印刷術字模 (+20% XP)
+  if (level >= 60) stats.bonusVit += 5; // 🛡️ 降噪防護力場
+  if (level >= 70) stats.bonusDmgPct += 0.25; // 🪓 白熊極意之斧 (+25% Damage)
+  if (level >= 80) stats.bonusCritRate += 0.15; // 🔮 心靈意識重塑鏡 (+15% Crit Rate)
+  if (level >= 90) { // 👑 人生OS最高核心 (+50% Dmg, +150 Max HP)
+    stats.bonusDmgPct += 0.50;
+    stats.bonusMaxHp += 150;
+  }
+  return stats;
+}
+
+// ============================================================
+// AUDIO ENGINE
+// ============================================================
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+}
+function playJumpSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'square';
+  o.frequency.setValueAtTime(200, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.08);
+  g.gain.setValueAtTime(0.08, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.12);
+}
+function playAttackSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(800, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.06);
+  g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.1);
+}
+function playHitSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'triangle';
+  o.frequency.setValueAtTime(120, audioCtx.currentTime);
+  g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.15);
+}
+function playCandleSFX() {
+  if (muted || !audioCtx) return;
+  const b = audioCtx.createBufferSource();
+  const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.08, audioCtx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * (1 - i/d.length) * 0.15;
+  b.buffer = buf;
+  b.connect(audioCtx.destination);
+  b.start();
+}
+function playLevelUpSFX() {
+  if (muted || !audioCtx) return;
+  const notes = [523, 659, 784, 1047];
+  notes.forEach((f, i) => {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(f, audioCtx.currentTime + i*0.1);
+    g.gain.setValueAtTime(0.08, audioCtx.currentTime + i*0.1);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.1 + 0.3);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(audioCtx.currentTime + i*0.1);
+    o.stop(audioCtx.currentTime + i*0.1 + 0.3);
+  });
+}
+function playPickupSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(880, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.08);
+  g.gain.setValueAtTime(0.06, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.12);
+}
+function playDamageSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'square';
+  o.frequency.setValueAtTime(150, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(60, audioCtx.currentTime + 0.12);
+  g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.15);
+}
+function playSkillSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(300, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.15);
+  g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.2);
+}
+function playEnemyShootSFX() {
+  if (muted || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'triangle';
+  o.frequency.setValueAtTime(400, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.12);
+  g.gain.setValueAtTime(0.04, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.15);
+}
+function playHealSFX() {
+  if (muted || !audioCtx) return;
+  const notes = [523, 659, 784, 880, 1047];
+  notes.forEach((f, i) => {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(f, audioCtx.currentTime + i*0.06);
+    g.gain.setValueAtTime(0.06, audioCtx.currentTime + i*0.06);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.06 + 0.25);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(audioCtx.currentTime + i*0.06);
+    o.stop(audioCtx.currentTime + i*0.06 + 0.25);
+  });
+}
+
+// BGM — simple looping gothic arpeggio
+let bgmInterval = null;
+function startBGM() {
+  if (muted || !audioCtx || bgmInterval) return;
+  const notes = [130.81,164.81,196.00,261.63,196.00,164.81,130.81,98.00];
+  let noteIdx = 0;
+  bgmInterval = setInterval(() => {
+    if (muted || gamePaused) return;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'triangle';
+    o.frequency.value = notes[noteIdx % notes.length];
+    g.gain.setValueAtTime(0.025, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + 0.2);
+    noteIdx++;
+  }, 220);
+}
+function stopBGM() {
+  if (bgmInterval) { clearInterval(bgmInterval); bgmInterval = null; }
+}
+
+// ============================================================
+// CHARACTER SELECT
+// ============================================================
+function selectCharacter(key) {
+  initAudio();
+  charKey = key;
+  charDef = CHARACTERS[key];
+  document.getElementById('charSelectScreen').style.display = 'none';
+  document.getElementById('stageSelectScreen').style.display = 'flex';
+  
+  renderStageSelect();
+}
+
+function renderStageSelect() {
+  loadFromRPG();
+  const info = getLevelInfo(userXP);
+  document.getElementById('stageSelectSubtitle').innerHTML = `當前冒險者等級：LV.${info.level}<br>選擇關卡開啟冒險`;
+  
+  const grid = document.getElementById('stageGrid');
+  grid.innerHTML = '';
+  
+  STAGES.forEach((st, idx) => {
+    const isLocked = info.level < st.reqLvl;
+    const card = document.createElement('div');
+    card.className = 'stage-card' + (isLocked ? ' locked' : '');
+    
+    card.innerHTML = `
+      <div class="stage-name">${st.name}</div>
+      <div class="stage-req">${isLocked ? '🔒 鎖定 (' + st.levelReq + ')' : st.levelReq}</div>
+      <div class="stage-monsters">${st.monstersText}</div>
+    `;
+    
+    if (!isLocked) {
+      card.onclick = () => selectStage(idx);
+    } else {
+      card.onclick = () => {
+        playDamageSFX();
+        alert('⚠️ 您當前的冒險者等級 (LV.' + info.level + ') 不足！\n請先前往冒險者公會修煉至 ' + st.levelReq + ' 以解鎖本關卡。');
+      };
+    }
+    grid.appendChild(card);
+  });
+}
+
+function selectStage(idx) {
+  activeStageIdx = idx;
+  document.getElementById('stageSelectScreen').style.display = 'none';
+  document.getElementById('gameLayout').style.display = 'flex';
+  document.getElementById('hudAvatar').textContent = charDef.emoji;
+  startGame();
+}
+
+function backToCharSelect() {
+  document.getElementById('stageSelectScreen').style.display = 'none';
+  document.getElementById('charSelectScreen').style.display = 'flex';
+}
+
+// ============================================================
+// PROCEDURAL MATERIAL TEXTURES GENERATION (V4 Realistic Textures)
+// ============================================================
+function initProceduralPatterns() {
+  STAGES.forEach((stage, idx) => {
+    const pCanvas = document.createElement('canvas');
+    pCanvas.width = TILE;
+    pCanvas.height = TILE;
+    const pCtx = pCanvas.getContext('2d');
+
+    // Fill base stage color
+    pCtx.fillStyle = stage.color;
+    pCtx.fillRect(0, 0, TILE, TILE);
+
+    const type = stage.particleType;
+    if (type === 'crystal') {
+      pCtx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      pCtx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+      pCtx.beginPath();
+      pCtx.moveTo(0, 0); pCtx.lineTo(TILE, 0); pCtx.lineTo(TILE/2, TILE/2); pCtx.closePath(); pCtx.fill();
+      pCtx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE); pCtx.lineTo(TILE, TILE); pCtx.lineTo(TILE/2, TILE/2); pCtx.closePath(); pCtx.fill();
+      pCtx.strokeStyle = 'rgba(186, 77, 255, 0.35)';
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(2, 2); pCtx.lineTo(TILE-2, TILE-2);
+      pCtx.moveTo(TILE-2, 2); pCtx.lineTo(2, TILE-2);
+      pCtx.stroke();
+      pCtx.fillStyle = '#ffffff';
+      pCtx.fillRect(TILE/2 - 1, 4, 2, 2);
+      pCtx.fillRect(4, TILE/2 - 1, 2, 2);
+    } else if (type === 'mist') {
+      // Mossy old stone texture
+      for (let i = 0; i < 40; i++) {
+        pCtx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 2 + Math.random()*4, 2 + Math.random()*4);
+      }
+      pCtx.fillStyle = 'rgba(46, 117, 59, 0.35)'; // moss spots
+      pCtx.fillRect(0, 0, TILE, 3);
+      pCtx.fillRect(0, TILE-3, TILE, 3);
+      pCtx.fillRect(4, 4, 5, 5);
+      pCtx.fillRect(TILE-8, TILE/2, 4, 6);
+    } else if (type === 'lava') {
+      // Obsidian stone with magma veins
+      pCtx.fillStyle = '#1c1212';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 15; i++) {
+        pCtx.fillStyle = '#2d1a1a';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 4, 4);
+      }
+      pCtx.strokeStyle = '#ff5722'; // orange vein
+      pCtx.lineWidth = 1.5;
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE/2);
+      pCtx.lineTo(TILE/3, TILE/3);
+      pCtx.lineTo(TILE*2/3, TILE*2/3);
+      pCtx.lineTo(TILE, TILE/2);
+      pCtx.stroke();
+      pCtx.fillStyle = '#ffeb3b'; // glowing core
+      pCtx.fillRect(TILE/3, TILE/3, 2, 2);
+      pCtx.fillRect(TILE*2/3, TILE*2/3, 2, 2);
+    } else if (type === 'temple') {
+      // Sacred gold-veined polished marble
+      pCtx.fillStyle = '#faf8f5';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      pCtx.strokeStyle = 'rgba(212, 175, 55, 0.35)'; // gold vein
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE);
+      pCtx.bezierCurveTo(TILE/4, TILE/2, TILE*3/4, TILE/2, TILE, 0);
+      pCtx.stroke();
+      pCtx.strokeStyle = 'rgba(120, 120, 120, 0.15)'; // grey vein
+      pCtx.beginPath();
+      pCtx.moveTo(0, TILE/3);
+      pCtx.lineTo(TILE/2, 0);
+      pCtx.stroke();
+    } else if (type === 'acid') {
+      // Acid eroded slime marsh block
+      pCtx.fillStyle = '#1e332a';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 12; i++) {
+        pCtx.fillStyle = 'rgba(0,0,0,0.18)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 4, 4);
+      }
+      pCtx.fillStyle = 'rgba(26, 188, 156, 0.3)'; // toxic stains
+      pCtx.fillRect(0, 0, 7, 7);
+      pCtx.fillRect(TILE-7, TILE-7, 7, 7);
+      pCtx.fillRect(TILE/2-2, TILE/2-2, 5, 5);
+    } else if (type === 'snow') {
+      // Glacial ice with frozen frosting top
+      pCtx.fillStyle = '#154157';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 10; i++) {
+        pCtx.fillStyle = 'rgba(255,255,255,0.15)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 2, 2);
+      }
+      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.12)'; // ice crack
+      pCtx.beginPath();
+      pCtx.moveTo(TILE/3, 0); pCtx.lineTo(TILE*2/3, TILE);
+      pCtx.stroke();
+      pCtx.fillStyle = '#ffffff'; // snow frost top
+      pCtx.fillRect(0, 0, TILE, 4);
+      pCtx.fillRect(3, 4, 3, 2);
+    } else if (type === 'lightning') {
+      // High-voltage lightning basalt
+      pCtx.fillStyle = '#1f132b';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      for (let i = 0; i < 18; i++) {
+        pCtx.fillStyle = '#0f0717';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 3, 3);
+      }
+      pCtx.strokeStyle = '#00e5ff'; // cyan lightning spark
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(TILE/2, 0);
+      pCtx.lineTo(TILE/3, TILE/2);
+      pCtx.lineTo(TILE*2/3, TILE/2);
+      pCtx.lineTo(TILE/2, TILE);
+      pCtx.stroke();
+    } else if (type === 'void') {
+      // Swirling cosmic void particle block
+      pCtx.fillStyle = '#1c071d';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      const radGrd = pCtx.createRadialGradient(TILE/2, TILE/2, 1, TILE/2, TILE/2, TILE/2);
+      radGrd.addColorStop(0, 'rgba(243, 104, 224, 0.2)');
+      radGrd.addColorStop(1, 'rgba(0,0,0,0)');
+      pCtx.fillStyle = radGrd;
+      pCtx.beginPath();
+      pCtx.arc(TILE/2, TILE/2, TILE/2, 0, Math.PI*2);
+      pCtx.fill();
+    } else if (type === 'rainbow') {
+      // Dynamic shift obsidian
+      pCtx.fillStyle = '#111111';
+      pCtx.fillRect(0, 0, TILE, TILE);
+      const patGrd = pCtx.createLinearGradient(0, 0, TILE, TILE);
+      patGrd.addColorStop(0, 'rgba(255, 118, 117, 0.12)');
+      patGrd.addColorStop(0.3, 'rgba(253, 203, 110, 0.12)');
+      patGrd.addColorStop(0.5, 'rgba(85, 239, 196, 0.12)');
+      patGrd.addColorStop(0.7, 'rgba(116, 185, 255, 0.12)');
+      patGrd.addColorStop(1, 'rgba(162, 155, 254, 0.12)');
+      pCtx.fillStyle = patGrd;
+      pCtx.fillRect(1, 1, TILE-2, TILE-2);
+    } else {
+      // Old Castle basalt brick textures
+      for (let i = 0; i < 35; i++) {
+        pCtx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.05)';
+        pCtx.fillRect(Math.random()*TILE, Math.random()*TILE, 2 + Math.random()*3, 2 + Math.random()*3);
+      }
+      pCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      pCtx.fillRect(0, TILE/2, TILE, 1);
+    }
+
+    stage.pattern = ctx.createPattern(pCanvas, 'repeat');
+  });
+}
+
+// ============================================================
+// GAME INIT
+// ============================================================
+function startGame() {
+  canvas = document.getElementById('gameCanvas');
+  ctx = canvas.getContext('2d');
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  initProceduralPatterns(); // Initialize realistic procedural textures
+  loadFromRPG();
+  const info = getLevelInfo(userXP);
+
+  // Set default starting weapon based on animal class!
+  if (charKey === 'bear') weaponIdx = 3;       // Bear Sage starts with Sage Wand
+  else if (charKey === 'monkey') weaponIdx = 0; // Monkey Ninja starts with Ninja Katana
+  else if (charKey === 'bunny') weaponIdx = 2;  // Bunny Dragoon starts with Contradiction Spear
+  else if (charKey === 'cat') weaponIdx = 1;    // Cat Healer starts with Healing Staff
+
+  // Init player
+  const gear = getGearStats(info.level);
+  const baseHp = Math.floor((80 + info.level * 4 + (userAttrs.vit + gear.bonusVit) * 6) * charDef.hpMul) + gear.bonusMaxHp;
+  player = {
+    x: 3*TILE, y: (MAP_H-4)*TILE,
+    w: 22, h: 30,
+    vx: 0, vy: 0,
+    dir: 1, // 1=right, -1=left
+    onGround: false,
+    jumps: 0, maxJumps: charDef.canDoubleJump ? 2 : 1,
+    hp: baseHp, maxHp: baseHp,
+    attacking: false, atkTimer: 0, atkCooldown: 0,
+    invincible: 0,
+    speed: 3.2 * charDef.spdMul + (userAttrs.agi + gear.bonusAgi) * 0.08,
+    baseDmg: 12 + info.level * 1.5 + (userAttrs.int + gear.bonusInt) * 0.8,
+    // Skill systems
+    skillCooldown: 0,
+    dashing: false, dashTimer: 0,
+    pendingSlam: false,
+    hasShield: 0,
+    slowTimer: 0,
+    hasKey: false
+  };
+
+  map = generateMap();
+  candles = generateCandles(map);
+  enemies = generateEnemies();
+  projectiles = [];
+  particles = [];
+  floaters = [];
+  items = [];
+  
+
+  castleXPEarned = 0;
+  camX = 0; camY = 0;
+  updateWeaponUI();
+
+  // Detect mobile
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.getElementById('mobileControls').style.display = 'block';
+    setupMobileControls();
+  }
+
+  gameRunning = true;
+  gamePaused = false;
+  startBGM();
+  updateHUD();
+  requestAnimationFrame(gameLoop);
+}
+
+function resizeCanvas() {
+  if (!canvas) return;
+  const container = canvas.parentElement;
+  const hudH = document.getElementById('hud').offsetHeight;
+  const w = Math.min(container.clientWidth, 800);
+  const h = container.clientHeight - hudH;
+  canvas.width = w;
+  canvas.height = Math.max(h, 300);
+}
+
+// ============================================================
+// INPUT
+// ============================================================
+document.addEventListener('keydown', e => {
+  keys[e.key.toLowerCase()] = true;
+  keys[e.code] = true;
+  if (e.key === 'Escape') togglePause();
+  if (e.key >= '1' && e.key <= '5') switchWeapon(parseInt(e.key)-1);
+  if (e.key === 'q') switchWeapon((weaponIdx-1+5)%5);
+  if (e.key === 'e') switchWeapon((weaponIdx+1)%5);
+  if (e.key === 'k' || e.key === 'c') triggerSkill();
+});
+document.addEventListener('keyup', e => {
+  keys[e.key.toLowerCase()] = false;
+  keys[e.code] = false;
+});
+
+function isLeft()   { return keys['a'] || keys['arrowleft']  || mobileInput.left; }
+function isRight()  { return keys['d'] || keys['arrowright'] || mobileInput.right; }
+function isJump()   { return keys[' '] || keys['w'] || keys['arrowup'] || keys['Space'] || mobileInput.jump; }
+function isAttack() { return keys['j'] || keys['x'] || mobileInput.attack; }
+function isDown()   { return keys['s'] || keys['arrowdown']; }
+
+let jumpPressed = false;
+let atkPressed = false;
+
+// ============================================================
+// MOBILE CONTROLS
+// ============================================================
+function setupMobileControls() {
+  function bind(id, field) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('touchstart', e => { 
+      e.preventDefault(); 
+      if (field === 'skill') {
+        triggerSkill();
+      } else {
+        mobileInput[field]=true; 
+      }
+      el.classList.add('pressed'); 
+    }, {passive:false});
+    el.addEventListener('touchend', e => { e.preventDefault(); mobileInput[field]=false; el.classList.remove('pressed'); }, {passive:false});
+    el.addEventListener('touchcancel', e => { mobileInput[field]=false; el.classList.remove('pressed'); });
+  }
+  bind('mLeft','left'); bind('mRight','right'); bind('mJump','jump'); bind('mAtk','attack'); bind('mSkill','skill');
+}
+
+// ============================================================
+// WEAPON SWITCH
+// ============================================================
+function switchWeapon(idx) {
+  weaponIdx = Math.max(0, Math.min(4, idx));
+  updateWeaponUI();
+}
+function updateWeaponUI() {
+  document.querySelectorAll('.weapon-slot').forEach((el,i) => {
+    el.classList.toggle('active', i === weaponIdx);
+  });
+}
+
+// ============================================================
+// COLLISION HELPERS
+// ============================================================
+function tileAt(tx, ty) {
+  if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return 1;
+  return map[ty][tx];
+}
+function isSolid(tx, ty) { return tileAt(tx, ty) === 1; }
+
+function rectOverlap(a, b) {
+  return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+}
+
+// ============================================================
+// ACTIVE SKILLS EMISSION
+// ============================================================
+function triggerSkill() {
+  if (!gameRunning || gamePaused || player.hp <= 0) return;
+  if (player.skillCooldown > 0) return;
+
+  const baseCD = charDef.skillCD;
+  player.skillCooldown = Math.max(60, Math.floor(baseCD * (1 - userAttrs.agi * 0.02)));
+
+  // Play skill SFX
+  playSkillSFX();
+
+  if (charKey === 'bear') {
+    // 🐻 Bear Sage Skill: Sage's Light Wrath (holy beams)
+    executeBearSlam(); 
+  } else if (charKey === 'monkey') {
+    // 🐵 Monkey Ninja Skill: Shadow Clone Dash
+    player.dashing = true;
+    player.dashTimer = 18;
+    player.vx = player.dir * 12;
+    player.vy = 0;
+    player.invincible = Math.max(player.invincible, 20); // Invincible during dash
+  } else if (charKey === 'bunny') {
+    // 🐰 Bunny Dragoon Skill: Spear of Contradiction Thrust
+    const dmg = Math.floor(calcDmg() * 1.8);
+    projectiles.push({
+      x: player.x + player.w/2,
+      y: player.y + player.h/2 - 6,
+      vx: player.dir * 8.5,
+      vy: 0,
+      w: 120, h: 16,
+      dmg: dmg,
+      color: '#f1c40f',
+      trail: '#ffffff',
+      life: 15,
+      homing: false,
+      piercing: true,
+      isSpearWave: true, 
+      hitEnemies: []
+    });
+    // Lunge dash recoil
+    player.vx = player.dir * 6;
+  } else if (charKey === 'cat') {
+    // 🐱 Cat White Mage Skill: Holy Healing & Divine Shield
+    const healVal = Math.floor(player.maxHp * 0.45);
+    player.hp = Math.min(player.maxHp, player.hp + healVal);
+    floaters.push({
+      x: player.x + player.w/2, y: player.y - 10,
+      text: '+' + healVal + 'HP ❤️', color: '#ff85a2', life: 50, vy: -2
+    });
+    
+    // Shield barriers
+    player.invincible = 120; // 2 seconds invincibility
+    player.hasShield = 120;
+    playHealSFX();
+  }
+}
+
+function executeBearSlam() {
+  const dmg = Math.floor(calcDmg() * 2.8); // V3 Buffed to 2.8x!
+  // Summon 3 holy magic columns of electric lightning
+  const positions = [player.x + player.w/2, player.x + player.w/2 - 80, player.x + player.w/2 + 80];
+  positions.forEach(pos => {
+    projectiles.push({
+      x: pos,
+      y: (MAP_H * TILE) / 2, // Centered vertically in map
+      vx: 0, vy: 0,
+      w: 36, h: MAP_H * TILE, // Full screen height
+      dmg: dmg,
+      color: '#00ffff',
+      trail: '#ffffff',
+      life: 25,
+      homing: false,
+      piercing: true,
+      isMagicBeam: true,
+      hitEnemies: []
+    });
+    
+    // Sparkles
+    for (let i = 0; i < 12; i++) {
+      particles.push({
+        x: pos + (Math.random()-0.5)*30, y: Math.random() * (MAP_H * TILE),
+        vx: (Math.random()-0.5)*3, vy: (Math.random()-0.5)*3,
+        life: 15 + Math.random()*15, color: Math.random() > 0.5 ? '#ffffff' : '#00ffff', size: 3
+      });
+    }
+  });
+  
+  // Camera shake
+  camX += (Math.random()-0.5)*20;
+  camY += (Math.random()-0.5)*20;
+}
+
+// ============================================================
+// ENVIRONMENT STAGE PARTICLES EMISSION
+// ============================================================
+function spawnStageParticles() {
+  if (Math.random() > 0.15) return;
+  const stage = STAGES[activeStageIdx];
+  const screenW = canvas.width;
+  const screenH = canvas.height;
+  const px = camX + Math.random() * screenW;
+  const py = camY + Math.random() * screenH;
+
+  if (stage.particleType === 'crystal') {
+    // glowing crystal dust
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.4, vy: -0.2 - Math.random() * 0.3,
+      life: 50 + Math.random() * 40,
+      color: Math.random() > 0.5 ? '#af52de' : '#00ffff',
+      size: 2 + Math.random() * 3,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'mist') {
+    // mist clouds
+    particles.push({
+      x: px, y: py,
+      vx: 0.1 + Math.random() * 0.3, vy: (Math.random() - 0.5) * 0.1,
+      life: 100 + Math.random() * 80,
+      color: 'rgba(230, 240, 255, 0.08)',
+      size: 15 + Math.random() * 20,
+      isMist: true,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'lava') {
+    // lava sparks
+    particles.push({
+      x: px, y: camY + screenH - 5,
+      vx: (Math.random() - 0.5) * 0.8, vy: -1.2 - Math.random() * 1.5,
+      life: 40 + Math.random() * 30,
+      color: Math.random() > 0.4 ? '#ff9500' : '#ff3b30',
+      size: 2 + Math.random() * 2.5,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'temple') {
+    // sacred golden stardust
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      life: 60 + Math.random() * 40,
+      color: '#ffd89c',
+      size: 3 + Math.random() * 2,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'acid') {
+    // toxic green rain threads
+    particles.push({
+      x: camX + Math.random() * screenW, y: camY - 10,
+      vx: -1.5 - Math.random() * 1.0, vy: 4.5 + Math.random() * 2.0,
+      life: 80,
+      color: 'rgba(26, 188, 156, 0.45)',
+      size: 1.5,
+      isAcid: true,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'snow') {
+    // gentle swaying snow
+    particles.push({
+      x: camX + Math.random() * screenW, y: camY - 10,
+      vx: (Math.random() - 0.5) * 0.3, vy: 0.8 + Math.random() * 0.8,
+      life: 200,
+      color: '#ffffff',
+      size: 1.5 + Math.random() * 2.5,
+      isSnow: true,
+      snowOffset: Math.random() * 100,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'lightning') {
+    // electric spark sparks
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5,
+      life: 15 + Math.random() * 15,
+      color: Math.random() > 0.5 ? '#ffffff' : '#00f6ff',
+      size: 2.5 + Math.random() * 2,
+      isStageEnv: true
+    });
+    // Random background lightning flash
+    if (Math.random() < 0.04) {
+      lightningFlashTimer = 12;
+      playEnemyShootSFX();
+    }
+  } else if (stage.particleType === 'void') {
+    // expanding void circles
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      life: 100,
+      color: '#f368e0',
+      size: 4 + Math.random() * 4,
+      isVoid: true,
+      isStageEnv: true
+    });
+  } else if (stage.particleType === 'rainbow') {
+    // pastel rainbow floaters
+    const rainbowColors = ['#ff7675', '#fdcb6e', '#55efc4', '#81ecec', '#74b9ff', '#a29bfe', '#fd79a8'];
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.5, vy: -0.3 - Math.random() * 0.5,
+      life: 70 + Math.random() * 40,
+      color: rainbowColors[Math.floor(Math.random() * rainbowColors.length)],
+      size: 2.5 + Math.random() * 3,
+      isStageEnv: true
+    });
+  } else {
+    // castle beams
+    particles.push({
+      x: px, y: py,
+      vx: (Math.random() - 0.5) * 0.2, vy: -0.1,
+      life: 80,
+      color: 'rgba(255, 255, 255, 0.04)',
+      size: 2,
+      isStageEnv: true
+    });
+  }
+}
+
+// ============================================================
+// PHYSICS & PLAYER UPDATE
+// ============================================================
+function updatePlayer() {
+  // Ninja's Shadow Dash
+  if (player.dashing) {
+    player.dashTimer--;
+    player.vx = player.dir * 12;
+    player.vy = 0;
+
+    if (player.dashTimer % 2 === 0) {
+      particles.push({
+        x: player.x + player.w/2, y: player.y + player.h/2,
+        vx: 0, vy: 0,
+        life: 15, color: 'rgba(186, 77, 255, 0.4)', size: 8
+      });
+    }
+
+    const dashHitbox = { x: player.x - 6, y: player.y - 6, w: player.w + 12, h: player.h + 12 };
+    const dmg = Math.floor(calcDmg() * 0.7);
+    enemies.forEach(en => {
+      if (!en.alive) return;
+      if (rectOverlap(dashHitbox, en)) {
+        damageEnemy(en, dmg);
+      }
+    });
+    candles.forEach(c => {
+      if (!c.alive) return;
+      const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+      if (rectOverlap(dashHitbox, candleRect)) {
+        breakCandle(c);
+      }
+    });
+
+    if (player.dashTimer <= 0) {
+      player.dashing = false;
+      player.vx *= 0.3;
+    }
+  } else {
+    // Stage 10 Rainbow: slower acceleration during slide
+    let accel = (activeStageIdx === 9) ? 0.35 : 0.6;
+    if (isLeft()) { player.vx -= accel; player.dir = -1; }
+    if (isRight()) { player.vx += accel; player.dir = 1; }
+  }
+
+  // Stage 10 Rainbow: ice slide inertia!
+  let currentFriction = (activeStageIdx === 9) ? 0.94 : FRICTION;
+  player.vx *= currentFriction;
+
+  // Climate Speed Debuffs & Ice Slow Debuff!
+  let speedScale = 1.0;
+  if (activeStageIdx === 6) speedScale = 0.7;      // Stage 7 Snow
+  else if (activeStageIdx === 7) speedScale = 0.85; // Stage 8 Lightning
+  
+  if (player.slowTimer > 0) {
+    player.slowTimer--;
+    speedScale *= 0.5;
+  }
+  const maxSpd = player.speed * speedScale;
+
+  if (player.vx > maxSpd) player.vx = maxSpd;
+  if (player.vx < -maxSpd) player.vx = -maxSpd;
+  if (Math.abs(player.vx) < 0.1) player.vx = 0;
+
+  // Jump
+  const jumpDown = isJump();
+  if (jumpDown && !jumpPressed && !player.dashing) {
+    if (player.jumps < player.maxJumps) {
+      let jumpPower = charDef.jumpPow;
+      if (activeStageIdx === 6) jumpPower = charDef.jumpPow * 0.85; // Stage 7 Snow
+      
+      player.vy = -jumpPower;
+      player.jumps++;
+      player.onGround = false;
+      playJumpSFX();
+      
+      if (player.jumps > 1) {
+        for (let i = 0; i < 6; i++) {
+          particles.push({
+            x: player.x+player.w/2, y: player.y+player.h,
+            vx: (Math.random()-0.5)*3, vy: Math.random()*2,
+            life: 15, color: '#ffd89c', size: 3
+          });
+        }
+      }
+    }
+  }
+  jumpPressed = jumpDown;
+
+  // Gravity
+  if (!player.dashing) {
+    let gravScale = 1.0;
+    if (activeStageIdx === 8) gravScale = 0.7; // Stage 9 Void Low Gravity
+    player.vy += GRAVITY * gravScale;
+    if (player.vy > MAX_FALL) player.vy = MAX_FALL;
+  }
+
+  // Void HP drain tick every 3s (180 frames)
+  if (activeStageIdx === 8 && gameRunning && !gamePaused) {
+    if (!player.voidTickTimer) player.voidTickTimer = 0;
+    player.voidTickTimer++;
+    if (player.voidTickTimer >= 180) {
+      player.voidTickTimer = 0;
+      player.hp = Math.max(1, player.hp - 1);
+      floaters.push({
+        x: player.x + player.w/2, y: player.y - 15,
+        text: '-1 HP 🌌', color: '#f368e0', life: 35, vy: -1.2
+      });
+      playDamageSFX();
+    }
+  }
+
+  // Horizontal collisions
+  player.x += player.vx;
+  const lx = Math.floor(player.x / TILE);
+  const rx = Math.floor((player.x + player.w - 1) / TILE);
+  const ty = Math.floor(player.y / TILE);
+  const by = Math.floor((player.y + player.h - 1) / TILE);
+  for (let cy = ty; cy <= by; cy++) {
+    if (player.vx > 0 && isSolid(rx, cy)) { player.x = rx * TILE - player.w; player.vx = 0; }
+    if (player.vx < 0 && isSolid(lx, cy)) { player.x = (lx+1) * TILE; player.vx = 0; }
+  }
+
+  // Vertical collisions
+  player.y += player.vy;
+  const lx2 = Math.floor(player.x / TILE);
+  const rx2 = Math.floor((player.x + player.w - 1) / TILE);
+  const ty2 = Math.floor(player.y / TILE);
+  const by2 = Math.floor((player.y + player.h - 1) / TILE);
+  player.onGround = false;
+  
+  for (let cx = lx2; cx <= rx2; cx++) {
+    if (player.vy > 0 && isSolid(cx, by2)) {
+      player.y = by2 * TILE - player.h;
+      player.vy = 0;
+      player.onGround = true;
+      player.jumps = 0;
+      
+      if (player.pendingSlam) {
+        player.pendingSlam = false;
+        executeBearSlam();
+      }
+    }
+    if (player.vy < 0 && isSolid(cx, ty2)) {
+      player.y = (ty2+1) * TILE;
+      player.vy = 0;
+    }
+  }
+
+  // Spikes (or Lava pits)
+  const spkX = Math.floor((player.x + player.w/2) / TILE);
+  const spkY = Math.floor((player.y + player.h - 1) / TILE);
+  if (tileAt(spkX, spkY) === 4 && player.invincible <= 0) {
+    const scale = 1 + activeStageIdx * 0.65; // V4 Hardcore Trap Scaling
+    const hazardDmg = Math.floor(20 * scale);
+    playerTakeDamage(hazardDmg);
+    player.vy = -8;
+  }
+
+  // Portal check
+  const ptX = Math.floor((player.x + player.w/2) / TILE);
+  const ptY = Math.floor((player.y + player.h/2) / TILE);
+  if (tileAt(ptX, ptY) === 3) {
+    saveToRPG();
+    gameRunning = false;
+    stopBGM();
+    playLevelUpSFX();
+    setTimeout(() => {
+      alert('🎉 恭喜通關「' + STAGES[activeStageIdx].name + '」！\n獲得 ' + castleXPEarned + ' XP！\n返回冒險者公會...');
+      location.href = 'link.html';
+    }, 300);
+    return;
+  }
+
+  // Combat Attacking
+  const atkDown = isAttack();
+  if (atkDown && !atkPressed && player.atkCooldown <= 0 && !player.dashing) {
+    player.attacking = true;
+    player.atkTimer = WEAPONS[weaponIdx].speed;
+    player.atkCooldown = WEAPONS[weaponIdx].speed + 4;
+    playAttackSFX();
+
+    const wpn = WEAPONS[weaponIdx];
+    if (wpn.type === 'ranged') {
+      projectiles.push({
+        x: player.x + player.w/2 + player.dir * 10,
+        y: player.y + player.h/2 - 4,
+        vx: player.dir * (wpn === WEAPONS[1] ? 5.5 : 7), // White mage wand shoots slightly slower
+        vy: wpn === WEAPONS[3] ? Math.sin(Date.now()*0.01)*1.5 : 0, 
+        w: wpn===WEAPONS[3]?12:16, h: wpn===WEAPONS[3]?12:4,
+        dmg: calcDmg(),
+        color: wpn.color,
+        trail: wpn.trail,
+        life: 60,
+        homing: wpn.homing,
+      });
+    } else if (wpn.isSpear) {
+      // 🔱 Spear linear piercing thrust
+      const range = wpn.range;
+      const hx = player.dir > 0 ? player.x + player.w : player.x - range;
+      const hy = player.y + player.h/2 - 6;
+      const hw = range;
+      const hh = 12;
+      const hitbox = { x: hx, y: hy, w: hw, h: hh };
+      const dmg = calcDmg();
+      
+      // Spear thrust wind particles
+      for (let i = 0; i < 4; i++) {
+        particles.push({
+          x: hx + (player.dir > 0 ? i * 15 : range - i * 15),
+          y: hy + 6,
+          vx: player.dir * 1, vy: 0,
+          life: 12, color: wpn.color, size: 4
+        });
+      }
+
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        if (rectOverlap(hitbox, en)) {
+          damageEnemy(en, dmg);
+        }
+      });
+      candles.forEach(c => {
+        if (!c.alive) return;
+        const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+        if (rectOverlap(hitbox, candleRect)) {
+          breakCandle(c);
+        }
+      });
+    } else {
+      // Regular melee (swords, whips, greatswords)
+      const range = wpn.range;
+      const hx = player.dir > 0 ? player.x + player.w : player.x - range;
+      const hy = player.y - 4;
+      const hw = range;
+      const hh = player.h + 8;
+      const hitbox = { x: hx, y: hy, w: hw, h: hh };
+      const dmg = calcDmg();
+
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        if (rectOverlap(hitbox, en)) {
+          damageEnemy(en, dmg);
+        }
+      });
+      candles.forEach(c => {
+        if (!c.alive) return;
+        const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+        if (rectOverlap(hitbox, candleRect)) {
+          breakCandle(c);
+        }
+      });
+    }
+  }
+  atkPressed = atkDown;
+
+  if (player.atkTimer > 0) player.atkTimer--;
+  else player.attacking = false;
+  if (player.atkCooldown > 0) player.atkCooldown--;
+  if (player.invincible > 0) player.invincible--;
+  if (player.skillCooldown > 0) {
+    let decVal = 1;
+    if (activeStageIdx === 7) { // Stage 8 Lightning: CD charging speed +45%
+      if (!player.skillCDFraction) player.skillCDFraction = 0;
+      player.skillCDFraction += 0.45;
+      if (player.skillCDFraction >= 1) {
+        decVal += Math.floor(player.skillCDFraction);
+        player.skillCDFraction -= Math.floor(player.skillCDFraction);
+      }
+    }
+    player.skillCooldown = Math.max(0, player.skillCooldown - decVal);
+  }
+  if (player.hasShield > 0) player.hasShield--;
+
+  // Respawn
+  if (player.y > MAP_H * TILE + 100) {
+    playerTakeDamage(30);
+    player.x = 3*TILE; player.y = (MAP_H-4)*TILE;
+    player.vx = 0; player.vy = 0;
+  }
+}
+
+function calcDmg() {
+  const wpn = WEAPONS[weaponIdx];
+  const info = getLevelInfo(userXP + castleXPEarned);
+  const gear = getGearStats(info.level);
+  
+  // Dynamic baseDmg based on current level and gear stats
+  const currentBaseDmg = 12 + info.level * 1.5 + (userAttrs.int + gear.bonusInt) * 0.8;
+  let dmg = currentBaseDmg * wpn.dmgMul * charDef.atkMul * gear.bonusDmgPct;
+  
+  // Stage 6 Acid rain: reduce ATK by 25%
+  if (activeStageIdx === 5) {
+    dmg *= 0.75;
+  }
+
+  // Stage 10 Rainbow: Crit Rate +35%
+  let critChance = 0.1 + (userAttrs.foc + gear.bonusFoc) * 0.015 + gear.bonusCritRate;
+  if (activeStageIdx === 9) {
+    critChance += 0.35;
+  }
+
+  if (Math.random() < critChance) dmg *= 1.8;
+  return Math.floor(dmg + Math.random() * 6);
+}
+
+function damageEnemy(en, dmg) {
+  // Knight shields front ranged shots
+  if (en.type === 'knight' && en.dir !== player.dir && WEAPONS[weaponIdx].type === 'ranged') {
+    floaters.push({
+      x: en.x + en.w/2, y: en.y - 5,
+      text: 'BLOCK🛡️', color: '#8888cc', life: 35, vy: -1.5
+    });
+    playHitSFX();
+    return;
+  }
+
+  // Apply monster defense! en.def reduces incoming damage. Since en.def is scaled by 10, we divide by 10 to get the reduction.
+  const finalDmg = Math.max(1, dmg - Math.floor((en.def || 0) / 10));
+
+  en.hp -= finalDmg;
+  en.hitTimer = 8;
+  en.flashTimer = 12;
+  en.vx = -en.dir * 3;
+  playHitSFX();
+
+  floaters.push({
+    x: en.x + en.w/2, y: en.y - 5,
+    text: '-' + finalDmg, color: '#ffdd44', life: 40, vy: -2
+  });
+
+  if (en.hp <= 0) {
+    en.alive = false;
+    const info = getLevelInfo(userXP + castleXPEarned);
+    const gear = getGearStats(info.level);
+    const baseXP = en.xpVal;
+    const xpGain = Math.floor(baseXP * (1.0 + gear.bonusXpPct));
+    castleXPEarned += xpGain;
+    const spark = gear.bonusXpPct > 0 ? '✨' : '';
+    floaters.push({
+      x: en.x + en.w/2, y: en.y - 20,
+      text: '+' + xpGain + 'XP' + spark, color: '#4ef072', life: 50, vy: -1.5
+    });
+    for (let i = 0; i < 12; i++) {
+      particles.push({
+        x: en.x+en.w/2, y: en.y+en.h/2,
+        vx: (Math.random()-0.5)*5, vy: (Math.random()-0.5)*5,
+        life: 25, color: en.color, size: 4
+      });
+    }
+    checkLevelUp();
+  }
+}
+
+function breakCandle(c) {
+  c.alive = false;
+  playCandleSFX();
+  for (let i = 0; i < 8; i++) {
+    particles.push({
+      x: c.x, y: c.y,
+      vx: (Math.random()-0.5)*4, vy: (Math.random()-1)*3,
+      life: 20, color: '#ffd89c', size: 3
+    });
+  }
+  items.push({
+    x: c.x - 6, y: c.y - 6, w: 12, h: 12,
+    type: c.drop, vy: -2, life: 300
+  });
+}
+
+function playerTakeDamage(dmg) {
+  if (player.invincible > 0) return;
+  // Stage 6 Acid rain: reduce DEF by 25% (increase dmg taken by 25%)
+  if (activeStageIdx === 5) {
+    dmg = Math.floor(dmg * 1.25);
+  }
+  player.hp = Math.max(0, player.hp - dmg);
+  player.invincible = 45;
+  playDamageSFX();
+  floaters.push({
+    x: player.x + player.w/2, y: player.y - 5,
+    text: '-' + dmg, color: '#ff4d4d', life: 40, vy: -2
+  });
+  if (player.hp <= 0) {
+    gameRunning = false;
+    stopBGM();
+    setTimeout(() => {
+      saveToRPG();
+      alert('💀 你被擊敗了！\n本次冒險獲得 ' + castleXPEarned + ' XP 已存檔。');
+      location.href = 'link.html';
+    }, 500);
+  }
+}
+
+function checkLevelUp() {
+  const oldInfo = getLevelInfo(userXP);
+  const newInfo = getLevelInfo(userXP + castleXPEarned);
+  if (newInfo.level > oldInfo.level) {
+    playLevelUpSFX();
+    
+    // Dynamic HP boost/restore on level up with gear alignment!
+    const newGear = getGearStats(newInfo.level);
+    const newBaseHp = Math.floor((80 + newInfo.level * 4 + (userAttrs.vit + newGear.bonusVit) * 6) * charDef.hpMul) + newGear.bonusMaxHp;
+    player.maxHp = newBaseHp;
+    player.hp = newBaseHp; // fully heal!
+    
+    const overlay = document.getElementById('levelUpOverlay');
+    overlay.style.display = 'flex';
+    const txt = document.getElementById('lvupText');
+    txt.textContent = 'LEVEL UP! LV.' + newInfo.level + ' 🌟';
+    txt.style.animation = 'none';
+    void txt.offsetHeight;
+    txt.style.animation = 'lvupPulse 1.5s ease forwards';
+    setTimeout(() => { overlay.style.display = 'none'; }, 1600);
+  }
+}
+
+// ============================================================
+// UPDATE ENEMIES AI & PROJECTILES
+// ============================================================
+function updateEnemies() {
+  enemies.forEach(en => {
+    if (!en.alive) return;
+
+    if (en.type === 'ghost') {
+      // Zone 5 Ghost: slowly chases the player ignoring all blocks!
+      const dx = player.x - en.x;
+      const dy = player.y - en.y;
+      const angle = Math.atan2(dy, dx);
+      en.x += Math.cos(angle) * en.spd;
+      en.y += Math.sin(angle) * en.spd;
+      en.dir = dx < 0 ? -1 : 1;
+
+      // Hard boundary limits for Ghost (prevent going out of bounds)
+      const minX = TILE;
+      const maxX = MAP_W * TILE - TILE - en.w;
+      const minY = TILE * 2;
+      const maxY = MAP_H * TILE - TILE * 2 - en.h;
+      if (en.x < minX) en.x = minX;
+      if (en.x > maxX) en.x = maxX;
+      if (en.y < minY) en.y = minY;
+      if (en.y > maxY) en.y = maxY;
+    } else {
+      if (en.hitTimer > 0) {
+        en.hitTimer--;
+      } else {
+        if (en.type === 'knight') {
+          const pDist = Math.abs((player.x + player.w/2) - (en.x + en.w/2));
+          if (pDist < 120 && Math.abs(player.y - en.y) < 40) {
+            en.vx = en.spd * 2.8; 
+            en.dir = player.x < en.x ? -1 : 1;
+          } else {
+            en.vx = en.spd;
+          }
+        }
+        
+        en.x += en.vx * en.dir;
+
+        // Hard boundary limits for normal enemies (prevent going out of bounds)
+        const minX = TILE;
+        const maxX = MAP_W * TILE - TILE - en.w;
+        if (en.x < minX) {
+          en.x = minX;
+          en.dir = 1; // Reverse patrol direction
+        } else if (en.x > maxX) {
+          en.x = maxX;
+          en.dir = -1; // Reverse patrol direction
+        }
+
+        if (en.x <= en.patrolLeft) { en.dir = 1; }
+        if (en.x + en.w >= en.patrolRight) { en.dir = -1; }
+      }
+
+      if (en.type !== 'eye' && en.type !== 'dragon' && en.type !== 'reaper') {
+        en.vy += GRAVITY * 0.7;
+        en.y += en.vy;
+        const by = Math.floor((en.y + en.h) / TILE);
+        const mx = Math.floor((en.x + en.w/2) / TILE);
+        if (isSolid(mx, by)) {
+          en.y = by * TILE - en.h;
+          en.vy = 0;
+        }
+      } else {
+        en.y += Math.sin(Date.now() * 0.003 + en.id) * 0.5;
+      }
+    }
+    
+    // Shoot emitters
+    if (en.type === 'noise') {
+      en.shootCooldown--;
+      if (en.shootCooldown <= 0) {
+        en.shootCooldown = 120 + Math.random() * 60;
+        
+        if (activeStageIdx >= 5) {
+          // V3 upgraded: 3-way sonic circles
+          for (let angleOffset of [-0.35, 0, 0.35]) {
+            projectiles.push({
+              x: en.x + en.w/2 + en.dir * 16,
+              y: en.y + en.h/2,
+              vx: Math.cos(angleOffset) * en.dir * 3.5,
+              vy: Math.sin(angleOffset) * 3.5,
+              w: 24, h: 24,
+              dmg: en.atk,
+              color: '#4df0ff',
+              trail: '#004466',
+              life: 80,
+              homing: false,
+              isSonic: true,
+              isEnemy: true
+            });
+          }
+        } else {
+          projectiles.push({
+            x: en.x + en.w/2 + en.dir * 16,
+            y: en.y + en.h/2,
+            vx: en.dir * 3.5,
+            vy: 0,
+            w: 24, h: 24,
+            dmg: en.atk,
+            color: '#4df0ff',
+            trail: '#004466',
+            life: 80,
+            homing: false,
+            isSonic: true,
+            isEnemy: true
+          });
+        }
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'eye') {
+      en.shootCooldown--;
+      const pDist = Math.abs((player.x + player.w/2) - (en.x + en.w/2));
+      if (en.shootCooldown <= 0 && pDist < 80 && player.y > en.y) {
+        en.shootCooldown = 90 + Math.random() * 35;
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h,
+          vx: 0,
+          vy: 5.5 + activeStageIdx * 0.4,
+          w: 6, h: 20,
+          dmg: en.atk,
+          color: '#ff3b30',
+          trail: '#ff9500',
+          life: 40,
+          homing: false,
+          isLaser: true,
+          isEnemy: true
+        });
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'wizard') {
+      en.shootCooldown--;
+      const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
+      if (en.shootCooldown <= 0 && distToPlayer < 350) {
+        en.shootCooldown = 140 + Math.random() * 60;
+        
+        // V9 upgraded elemental magic spell selection!
+        const rand = Math.random();
+        let color = '#ba4dff';
+        let trail = '#5856d6';
+        let isFire = false;
+        let isLightning = false;
+        let isIce = false;
+        let pSpd = 2.2;
+
+        if (rand < 0.33) {
+          // 火焰魔法 (Fire): orange fireball, fast, deals high damage
+          color = '#ff9500';
+          trail = '#ff3b30';
+          isFire = true;
+          pSpd = 3.5;
+        } else if (rand < 0.66) {
+          // 閃電魔法 (Lightning): electric bolt, extremely fast
+          color = '#00ffff';
+          trail = '#5ac8fa';
+          isLightning = true;
+          pSpd = 4.8;
+        } else {
+          // 冰凍魔法 (Ice): slow cyan ice crystal orb, slows player speed by 50%
+          color = '#5ac8fa';
+          trail = '#ffffff';
+          isIce = true;
+          pSpd = 1.8;
+        }
+        
+        if (activeStageIdx >= 7) {
+          // V3 upgraded: 2 homing elemental magic orbs!
+          for (let offset of [-12, 12]) {
+            projectiles.push({
+              x: en.x + en.w/2 + offset,
+              y: en.y + en.h/2,
+              vx: en.dir * (pSpd * 0.8),
+              vy: (Math.random() - 0.5) * 1.5,
+              w: 12, h: 12,
+              dmg: en.atk,
+              color,
+              trail,
+              life: 120,
+              homing: true,
+              isEnemyOrb: true,
+              isEnemy: true,
+              isFire,
+              isLightning,
+              isIce
+            });
+          }
+        } else {
+          projectiles.push({
+            x: en.x + en.w/2,
+            y: en.y + en.h/2,
+            vx: en.dir * pSpd,
+            vy: 0,
+            w: 12, h: 12,
+            dmg: en.atk,
+            color,
+            trail,
+            life: 120,
+            homing: true,
+            isEnemyOrb: true,
+            isEnemy: true,
+            isFire,
+            isLightning,
+            isIce
+          });
+        }
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'dragon') {
+      en.shootCooldown--;
+      const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
+      if (en.shootCooldown <= 0 && distToPlayer < 400) {
+        en.shootCooldown = (100 + Math.random() * 40) - activeStageIdx * 4;
+        const dx = player.x + player.w/2 - (en.x + en.w/2);
+        const dy = player.y + player.h/2 - (en.y + en.h/2);
+        const angle = Math.atan2(dy, dx);
+        const fSpd = 4.5 + activeStageIdx * 0.45;
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h/2,
+          vx: Math.cos(angle) * fSpd,
+          vy: Math.sin(angle) * fSpd,
+          w: 14, h: 14,
+          dmg: en.atk,
+          color: '#ff9500',
+          trail: '#ff3b30',
+          life: 95,
+          homing: false,
+          isFireball: true,
+          isEnemy: true
+        });
+        playEnemyShootSFX();
+      }
+    } else if (en.type === 'reaper') {
+      en.shootCooldown--;
+      const distToPlayer = Math.hypot((player.x + player.w/2) - (en.x + en.w/2), (player.y + player.h/2) - (en.y + en.h/2));
+      if (en.shootCooldown <= 0 && distToPlayer < 400) {
+        en.shootCooldown = (150 + Math.random() * 50) - activeStageIdx * 6;
+        projectiles.push({
+          x: en.x + en.w/2,
+          y: en.y + en.h/2,
+          vx: (player.x < en.x ? -1 : 1) * (3 + activeStageIdx * 0.3),
+          vy: -1,
+          w: 22 + activeStageIdx, h: 22 + activeStageIdx,
+          dmg: Math.floor(en.atk * 1.25),
+          color: '#8e44ad',
+          trail: '#000000',
+          life: 140,
+          homing: false,
+          isScythe: true,
+          isEnemy: true
+        });
+        const tpRange = 80 + activeStageIdx * 15;
+        en.x += (Math.random() - 0.5) * tpRange * 2;
+        en.x = Math.max(en.patrolLeft, Math.min(en.patrolRight, en.x));
+        playEnemyShootSFX();
+      }
+    }
+
+    if (en.flashTimer > 0) en.flashTimer--;
+
+    if (player.invincible <= 0 && rectOverlap(player, en)) {
+      playerTakeDamage(en.atk);
+      player.vy = -5;
+      player.vx = (player.x < en.x ? -1 : 1) * 4;
+    }
+  });
+}
+
+function updateProjectiles() {
+  projectiles.forEach((p, i) => {
+    if (p.homing) {
+      let closest = null, dist = 999;
+      if (p.isEnemy) {
+        closest = player;
+        dist = Math.hypot(player.x - p.x, player.y - p.y);
+      } else {
+        enemies.forEach(en => {
+          if (!en.alive) return;
+          const d = Math.hypot(en.x - p.x, en.y - p.y);
+          if (d < dist) { dist = d; closest = en; }
+        });
+      }
+      
+      if (closest && dist < 300) {
+        const dx = closest.x + closest.w/2 - p.x;
+        const dy = closest.y + closest.h/2 - p.y;
+        const a = Math.atan2(dy, dx);
+        p.vx += Math.cos(a) * 0.45;
+        p.vy += Math.sin(a) * 0.45;
+        const sp = Math.hypot(p.vx, p.vy);
+        const limitSpeed = p.isEnemy ? 3.5 : 6;
+        if (sp > limitSpeed) { p.vx = p.vx/sp*limitSpeed; p.vy = p.vy/sp*limitSpeed; }
+      }
+    }
+    
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life--;
+
+    if (p.life % 2 === 0) {
+      particles.push({
+        x: p.x, y: p.y, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
+        life: 8, color: p.trail, size: 2
+      });
+    }
+
+    if (p.isEnemy) {
+      if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, player) && player.invincible <= 0) {
+        let finalDmg = p.dmg;
+        
+        // Apply V9 elemental magic status effects to player!
+        if (p.isIce) {
+          player.slowTimer = 180; // 3 seconds speed reduction by 50%
+          floaters.push({
+            x: player.x + player.w/2, y: player.y - 12,
+            text: '❄️FREEZE! 速度減半', color: '#5ac8fa', life: 60, vy: -1.5
+          });
+        } else if (p.isLightning) {
+          finalDmg = Math.floor(finalDmg * 1.25); // Lightning shocks and does 1.25x damage
+          floaters.push({
+            x: player.x + player.w/2, y: player.y - 12,
+            text: '⚡SHOCK! 雷擊', color: '#00ffff', life: 60, vy: -1.5
+          });
+        } else if (p.isFire) {
+          finalDmg = Math.floor(finalDmg * 1.15); // Fire burns and does 1.15x damage
+          floaters.push({
+            x: player.x + player.w/2, y: player.y - 12,
+            text: '🔥BURN! 灼燒', color: '#ff3b30', life: 60, vy: -1.5
+          });
+        }
+
+        playerTakeDamage(finalDmg);
+        player.vy = -3;
+        player.vx = (player.x < p.x ? -1 : 1) * 3;
+        p.life = 0;
+      }
+    } else {
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        if (rectOverlap({x:p.x-p.w/2,y:p.y-p.h/2,w:p.w,h:p.h}, en)) {
+          if (p.piercing) {
+            if (!p.hitEnemies.includes(en.id)) {
+              p.hitEnemies.push(en.id);
+              damageEnemy(en, p.dmg);
+            }
+          } else {
+            damageEnemy(en, p.dmg);
+            p.life = 0;
+            if (p.homing) {
+              for (let j = 0; j < 8; j++) {
+                particles.push({
+                  x: p.x, y: p.y,
+                  vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4,
+                  life: 15, color: p.color, size: 4
+                });
+              }
+            }
+          }
+        }
+      });
+
+      candles.forEach(c => {
+        if (!c.alive) return;
+        const candleRect = { x: c.x - 8, y: c.y - 12, w: 16, h: 24 };
+        const projRect = { x: p.x - p.w/2, y: p.y - p.h/2, w: p.w, h: p.h };
+        if (rectOverlap(projRect, candleRect)) {
+          breakCandle(c);
+          if (!p.piercing) p.life = 0;
+        }
+      });
+    }
+
+    const tx = Math.floor(p.x / TILE);
+    const ty = Math.floor(p.y / TILE);
+    if (isSolid(tx, ty) && !p.piercing) p.life = 0;
+  });
+  projectiles = projectiles.filter(p => p.life > 0);
+}
+
+function updateParticles() {
+  particles.forEach(p => {
+    if (p.isSnow) {
+      p.x += p.vx + Math.sin((p.life + p.snowOffset) * 0.03) * 0.45;
+      p.y += p.vy;
+    } else {
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+    if (p.isVoid) {
+      p.size += 0.15;
+    }
+    if (!p.isStageEnv) {
+      p.vy += 0.08; 
+    }
+    p.life--; 
+  });
+  particles = particles.filter(p => p.life > 0);
+}
+
+function updateFloaters() {
+  floaters.forEach(f => { f.y += f.vy; f.life--; });
+  floaters = floaters.filter(f => f.life > 0);
+}
+
+function updateItems() {
+  items.forEach(it => {
+    // Keys are immune to gravity & physics updates, staying statically locked at scanned floor heights!
+    if (it.type !== 'key') {
+      it.vy += 0.3;
+      it.y += it.vy;
+      const by = Math.floor((it.y + it.h) / TILE);
+      const mx = Math.floor((it.x + it.w/2) / TILE);
+      if (isSolid(mx, by)) { it.y = by * TILE - it.h; it.vy = 0; }
+    }
+    it.life--;
+    
+    if (rectOverlap(player, it)) {
+      if (it.type === 'heart') {
+        player.hp = Math.min(player.maxHp, player.hp + 20);
+        floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+20HP', color: '#ff8888', life: 35, vy: -1.5 });
+      } else {
+        const info = getLevelInfo(userXP + castleXPEarned);
+        const gear = getGearStats(info.level);
+        const baseXP = 3;
+        const xpGain = Math.floor(baseXP * (1.0 + gear.bonusXpPct));
+        castleXPEarned += xpGain;
+        const spark = gear.bonusXpPct > 0 ? '✨' : '';
+        floaters.push({ x: player.x+player.w/2, y: player.y-10, text: '+' + xpGain + 'XP' + spark, color: '#ffd89c', life: 35, vy: -1.5 });
+      }
+      playPickupSFX();
+      it.life = 0;
+    }
+  });
+  items = items.filter(it => it.life > 0);
+}
+
+// ============================================================
+// CAMERA
+// ============================================================
+function updateCamera() {
+  const targetX = player.x + player.w/2 - canvas.width/2;
+  const targetY = player.y + player.h/2 - canvas.height/2;
+  camX += (targetX - camX) * 0.08;
+  camY += (targetY - camY) * 0.08;
+  camX = Math.max(0, Math.min(MAP_W * TILE - canvas.width, camX));
+  camY = Math.max(0, Math.min(MAP_H * TILE - canvas.height, camY));
+}
+
+// ============================================================
+// RENDERING
+// ============================================================
+function render() {
+  const stage = STAGES[activeStageIdx];
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.save();
+  ctx.translate(-Math.round(camX), -Math.round(camY));
+
+  // Dynamic Background gradient by Stage theme
+  const grd = ctx.createLinearGradient(camX, camY, camX, camY + canvas.height);
+  grd.addColorStop(0, stage.bgStart);
+  grd.addColorStop(0.5, '#0c0c16');
+  grd.addColorStop(1, stage.bgEnd);
+  ctx.fillStyle = grd;
+  ctx.fillRect(camX, camY, canvas.width, canvas.height);
+
+  // High fidelity lightning storm full-screen flash overlay
+  if (lightningFlashTimer > 0) {
+    ctx.fillStyle = `rgba(255, 255, 255, ${lightningFlashTimer / 12 * 0.4})`;
+    ctx.fillRect(camX, camY, canvas.width, canvas.height);
+    lightningFlashTimer--;
+  }
+
+  // BG decorations - gothic cathedral grand pillars & arches
+  ctx.save();
+  ctx.globalAlpha = 0.09;
+  ctx.fillStyle = stage.borderColor;
+  ctx.strokeStyle = stage.borderColor;
+  for (let wx = 4; wx < MAP_W; wx += 8) {
+    const pillarX = wx * TILE;
+    const pillarW = TILE * 1.5;
+    const baseHeight = MAP_H * TILE;
+    
+    // Draw pillar column
+    ctx.fillRect(pillarX, 0, pillarW, baseHeight);
+    
+    // Draw columns groove details (light/dark lines)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pillarX + 4, 0); ctx.lineTo(pillarX + 4, baseHeight);
+    ctx.moveTo(pillarX + pillarW - 4, 0); ctx.lineTo(pillarX + pillarW - 4, baseHeight);
+    ctx.stroke();
+    
+    // Connect columns with beautiful arcs/arches
+    ctx.strokeStyle = stage.borderColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    // Outer arch
+    ctx.arc(pillarX + TILE * 4, 3 * TILE, TILE * 3.5, Math.PI, 0);
+    // Inner arch
+    ctx.arc(pillarX + TILE * 4, 3 * TILE, TILE * 3.0, Math.PI, 0);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Tiles grids with stage customized styling
+  const startX = Math.max(0, Math.floor(camX / TILE));
+  const endX = Math.min(MAP_W, Math.ceil((camX + canvas.width) / TILE) + 1);
+  const startY = Math.max(0, Math.floor(camY / TILE));
+  const endY = Math.min(MAP_H, Math.ceil((camY + canvas.height) / TILE) + 1);
+
+  for (let y = startY; y < endY; y++) {
+    for (let x = startX; x < endX; x++) {
+      const t = map[y][x];
+      if (t === 1) {
+        // V4 realistic procedural material textures
+        if (stage.pattern) {
+          ctx.fillStyle = stage.pattern;
+        } else {
+          ctx.fillStyle = stage.color;
+        }
+        ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
+        
+        // Draw brick outline and division lines
+        ctx.strokeStyle = stage.lineColor;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x*TILE, y*TILE, TILE, TILE);
+        
+        ctx.beginPath();
+        ctx.moveTo(x*TILE, y*TILE+TILE/2);
+        ctx.lineTo(x*TILE+TILE, y*TILE+TILE/2);
+        ctx.stroke();
+        if (y % 2 === 0) {
+          ctx.beginPath(); ctx.moveTo(x*TILE+TILE/2, y*TILE); ctx.lineTo(x*TILE+TILE/2, y*TILE+TILE/2); ctx.stroke();
+        } else {
+          ctx.beginPath(); ctx.moveTo(x*TILE+TILE/2, y*TILE+TILE/2); ctx.lineTo(x*TILE+TILE/2, y*TILE+TILE); ctx.stroke();
+        }
+
+        // High fidelity: Top & Left 3D Highlights
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x*TILE, y*TILE + TILE);
+        ctx.lineTo(x*TILE, y*TILE);
+        ctx.lineTo(x*TILE + TILE, y*TILE);
+        ctx.stroke();
+        
+        // High fidelity: Bottom & Right dark shadow edges
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+        ctx.beginPath();
+        ctx.moveTo(x*TILE, y*TILE + TILE);
+        ctx.lineTo(x*TILE + TILE, y*TILE + TILE);
+        ctx.lineTo(x*TILE + TILE, y*TILE);
+        ctx.stroke();
+
+        // High fidelity: Random cracks (e.g. (x+y)%5 === 0)
+        if ((x + y) % 5 === 0) {
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x*TILE + TILE/4, y*TILE + TILE/4);
+          ctx.lineTo(x*TILE + TILE/2, y*TILE + TILE/3);
+          ctx.lineTo(x*TILE + TILE/3, y*TILE + TILE/2 + 2);
+          ctx.lineTo(x*TILE + TILE*0.7, y*TILE + TILE*0.7);
+          ctx.stroke();
+        }
+      } else if (t === 4) {
+        // Red bubbling Lava pits on Stage 4 Lava Code Abyss or other hot places
+        if (stage.particleType === 'lava') {
+          ctx.fillStyle = '#ff3b30';
+          ctx.fillRect(x*TILE, y*TILE + 12, TILE, TILE - 12);
+          ctx.fillStyle = '#ff9500';
+          const rip = Math.sin(Date.now() * 0.015 + x) * 2;
+          ctx.fillRect(x*TILE, y*TILE + 10 + rip, TILE, 3);
+        } else {
+          // Normal spikes
+          ctx.fillStyle = '#888888';
+          for (let s = 0; s < 4; s++) {
+            const sx = x*TILE + s*8;
+            ctx.beginPath();
+            ctx.moveTo(sx, y*TILE+TILE);
+            ctx.lineTo(sx+4, y*TILE+8);
+            ctx.lineTo(sx+8, y*TILE+TILE);
+            ctx.fill();
+          }
+        }
+      } else if (t === 3) {
+        const glowAlpha = 0.5 + Math.sin(Date.now() * 0.005) * 0.3;
+        ctx.fillStyle = `rgba(77, 240, 255, ${glowAlpha})`;
+        ctx.fillRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
+        ctx.strokeStyle = '#4df0ff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x*TILE+4, y*TILE+2, TILE-8, TILE-4);
+        
+        ctx.fillStyle = '#ffffff';
+        const sp = Date.now() * 0.01;
+        ctx.fillRect(x*TILE + 8 + Math.sin(sp)*6, y*TILE + 8 + Math.cos(sp)*8, 3, 3);
+        ctx.fillRect(x*TILE + 20 + Math.cos(sp)*4, y*TILE + 16 + Math.sin(sp+1)*6, 2, 2);
+
+        // Draw exit label!
+        ctx.fillStyle = '#4df0ff';
+        ctx.font = 'bold 8px monospace';
+        ctx.fillText('EXIT 🚪', x*TILE - 4, y*TILE - 6);
+      }
+    }
+  }
+
+  // Candles
+  candles.forEach(c => {
+    if (!c.alive) return;
+    const sx = c.x - camX, sy = c.y - camY;
+    if (sx < -30 || sx > canvas.width+30 || sy < -30 || sy > canvas.height+30) return;
+
+    ctx.fillStyle = '#666666';
+    ctx.fillRect(c.x-2, c.y, 4, 10);
+    ctx.fillStyle = '#ddcc88';
+    ctx.fillRect(c.x-3, c.y-8, 6, 8);
+    
+    const flicker = Math.sin(Date.now() * 0.02 + c.x) * 1.5;
+    ctx.fillStyle = '#ff8800';
+    ctx.beginPath();
+    ctx.arc(c.x, c.y - 11 + flicker, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffdd00';
+    ctx.beginPath();
+    ctx.arc(c.x, c.y - 12 + flicker, 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Items drops
+  items.forEach(it => {
+    const bob = Math.sin(Date.now()*0.005+it.x)*2;
+    const sx = it.x - camX, sy = it.y - camY;
+    
+    if (it.type === 'heart') {
+      ctx.fillStyle = '#ff4444';
+      ctx.font = '12px serif';
+      ctx.fillText('❤️', sx-2, sy+10+bob);
+
+    } else {
+      ctx.fillStyle = '#ffd89c';
+      ctx.beginPath();
+      ctx.arc(sx+6, sy+6+bob, 5, 0, Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = '#aa8844';
+      ctx.font = '7px monospace';
+      ctx.fillText('$', sx+3, sy+9+bob);
+    }
+  });
+
+  // Enemies (Using JRPG preloaded PNG graphics!)
+  enemies.forEach(en => {
+    if (!en.alive) return;
+    const sx = en.x - camX, sy = en.y - camY;
+    if (sx < -60 || sx > canvas.width+60 || sy < -60 || sy > canvas.height+60) return;
+
+    // Draw Boss HP Bar and label if it is the guardian Boss!
+    if (en.isBoss) {
+      ctx.save();
+      // Draw Crown
+      ctx.fillStyle = '#ffee00';
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      ctx.font = 'bold 9px monospace';
+      ctx.textAlign = 'center';
+      ctx.strokeText('👑BOSS', sx + en.w/2, sy - 14);
+      ctx.fillText('👑BOSS', sx + en.w/2, sy - 14);
+
+      // Draw custom HP bar above head
+      ctx.fillStyle = '#333333';
+      ctx.fillRect(sx + en.w/2 - 25, sy - 8, 50, 4);
+      const hpPct = Math.max(0, en.hp / en.maxHp);
+      ctx.fillStyle = '#ff3b30'; // Red boss health
+      ctx.fillRect(sx + en.w/2 - 25, sy - 8, 50 * hpPct, 4);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(sx + en.w/2 - 25, sy - 8, 50, 4);
+      ctx.restore();
+    }
+
+    const img = MONSTER_IMAGES[en.type];
+    if (img && img.complete) {
+      ctx.save();
+      let bx = en.x;
+      let by = en.y;
+      let bw = en.w;
+      let bh = en.h;
+
+      // Apply Boss neon red aura drop shadow!
+      if (en.isBoss) {
+        ctx.shadowColor = '#ff3b30';
+        ctx.shadowBlur = 15;
+      }
+
+      if (en.type === 'slime') {
+        const squish = Math.sin(Date.now() * 0.006 + en.id) * 2;
+        by += squish;
+        bh -= squish;
+      } else if (en.type === 'eye' || en.type === 'ghost' || en.type === 'reaper' || en.type === 'dragon') {
+        by += Math.sin(Date.now() * 0.004 + en.id) * 3; 
+      }
+
+      if (en.dir < 0) {
+        ctx.translate(bx + bw, by);
+        ctx.scale(-1, 1);
+        bx = 0; by = 0;
+      } else {
+        ctx.translate(bx, by);
+        bx = 0; by = 0;
+      }
+
+      if (en.flashTimer > 0) {
+        ctx.drawImage(img, bx, by, bw, bh);
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.65)';
+        ctx.fillRect(bx, by, bw, bh);
+      } else {
+        ctx.drawImage(img, bx, by, bw, bh);
+      }
+      ctx.restore();
+    } else {
+      ctx.save();
+      if (en.flashTimer > 0 && en.flashTimer % 4 < 2) { ctx.globalAlpha = 0.4; }
+      ctx.fillStyle = en.color;
+      ctx.fillRect(en.x, en.y, en.w, en.h);
+      ctx.restore();
+    }
+
+    // Draw normal health bar (only if it is not the boss, which has its own bar above)
+    if (!en.isBoss && en.hp < en.maxHp) {
+      ctx.fillStyle = '#333333';
+      ctx.fillRect(en.x, en.y-6, en.w, 3);
+      ctx.fillStyle = '#ff4444';
+      ctx.fillRect(en.x, en.y-6, en.w*(en.hp/en.maxHp), 3);
+    }
+  });
+
+  // Player Animals (Highly detailed custom class vectors!)
+  ctx.save();
+  if (player.invincible > 0 && player.invincible % 4 < 2) {
+    ctx.globalAlpha = 0.4;
+  }
+
+  const cx = player.x + player.w / 2;
+  const cy = player.y + 8; 
+  const pdir = player.dir;
+
+  let bounce = 0;
+  if (Math.abs(player.vx) > 0.5 && player.onGround) {
+    bounce = Math.sin(Date.now() * 0.015) * 1.5;
+  }
+
+  if (charKey === 'bear') {
+    // 🐻 Bear Sage: wizard robes, gold runes
+    const furColor = '#f2f2f7';
+    const robeColor = '#1f3a52';
+    const goldColor = '#ffd89c';
+
+    // Runic magical halo star under Wise Bear Sage's feet
+    ctx.strokeStyle = 'rgba(255, 216, 156, 0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = '#ffd89c';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.ellipse(cx, player.y + player.h - 1, 14, 4, 0, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx - 6, cy - 8, 4, 0, Math.PI * 2);
+    ctx.arc(cx + 6, cy - 8, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffb6c1';
+    ctx.beginPath();
+    ctx.arc(cx - 6, cy - 8, 2, 0, Math.PI * 2);
+    ctx.arc(cx + 6, cy - 8, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Wise Mage Hood covering head
+    ctx.fillStyle = robeColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // head face
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 1.5, cy + 1, 7.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // snout
+    ctx.fillStyle = '#e5e5ea';
+    ctx.beginPath();
+    ctx.ellipse(cx + pdir * 3.5, cy + 3.5, 3.5, 2.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#2c2c2e';
+    ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2.5, 1, 1);
+
+    // Wizard Robe body
+    ctx.fillStyle = robeColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = goldColor;
+    // Runic vertical lines on sage robe
+    ctx.fillRect(cx - 1, player.y + 11 + bounce, 2, 8);
+    ctx.fillRect(cx - 4, player.y + 14 + bounce, 8, 1.5);
+
+    // Eyes
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(cx + pdir * 3 - (pdir > 0 ? 0 : 3), cy - 2, 2, 2.5);
+
+  } else if (charKey === 'monkey') {
+    // 🐵 Monkey Ninja: black face蒙面, tight ninja clothing, purple dynamic muffler
+    const furColor = '#965a38';
+    const skinColor = '#ffd3b6';
+    const ninjaColor = '#2d2d3a';
+
+    // Purple ninja muffler trail in background waving
+    ctx.fillStyle = '#8e44ad';
+    ctx.beginPath();
+    if (pdir > 0) {
+      ctx.moveTo(cx - 4, cy + 4);
+      ctx.quadraticCurveTo(cx - 16 - Math.abs(player.vx)*2, cy + 8 + bounce, cx - 18, cy + 2);
+      ctx.lineTo(cx - 15, cy - 2);
+      ctx.quadraticCurveTo(cx - 8, cy + 2, cx - 4, cy + 1);
+    } else {
+      ctx.moveTo(cx + 4, cy + 4);
+      ctx.quadraticCurveTo(cx + 18 + Math.abs(player.vx)*2, cy + 8 + bounce, cx + 18, cy + 2);
+      ctx.lineTo(cx + 15, cy - 2);
+      ctx.quadraticCurveTo(cx + 8, cy + 2, cx + 4, cy + 1);
+    }
+    ctx.fill();
+
+    // tail
+    ctx.strokeStyle = furColor;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
+    ctx.quadraticCurveTo(cx - pdir * 18, player.y + 8 + bounce + Math.sin(Date.now()*0.012)*3, cx - pdir * 20, player.y + 14);
+    ctx.stroke();
+
+    // ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx - 8, cy, 3.5, 0, Math.PI * 2);
+    ctx.arc(cx + 8, cy, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = skinColor;
+    ctx.beginPath();
+    ctx.arc(cx - 8, cy, 1.5, 0, Math.PI * 2);
+    ctx.arc(cx + 8, cy, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ninja mask covering face mouth
+    ctx.fillStyle = skinColor;
+    ctx.beginPath();
+    ctx.arc(cx - 2.5 + pdir * 2, cy, 3.5, 0, Math.PI * 2);
+    ctx.arc(cx + 2.5 + pdir * 2, cy, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Mask cover
+    ctx.fillStyle = ninjaColor;
+    ctx.fillRect(cx - 7.5, cy + 1.5, 15, 6.5);
+
+    // ninja forehead band
+    ctx.fillStyle = '#ffd89c'; // golden badge
+    ctx.fillRect(cx - 8.5, cy - 6, 17, 3);
+    ctx.fillStyle = '#2ecc71';
+    ctx.fillRect(cx - 2, cy - 6, 4, 3);
+
+    // ninja body
+    ctx.fillStyle = ninjaColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+
+    // eyes
+    ctx.fillStyle = '#ffd89c'; // glowing ninja eyes!
+    ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3.5), cy - 2, 2, 2);
+
+  } else if (charKey === 'bunny') {
+    // 🐰 Bunny Lancer: silver chest armor, spear carried on back
+    const furColor = '#fbfbfb';
+    const plateColor = '#bdc3c7';
+
+    // spear carried on back (drawn first in BG)
+    if (!player.attacking) {
+      ctx.strokeStyle = '#666666';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - pdir * 4, player.y + 16);
+      ctx.lineTo(cx + pdir * 8, player.y - 4);
+      ctx.stroke();
+      ctx.fillStyle = '#f1c40f'; // golden contradiction spearhead
+      ctx.beginPath();
+      ctx.moveTo(cx + pdir * 8, player.y - 4);
+      ctx.lineTo(cx + pdir * 12, player.y - 8);
+      ctx.lineTo(cx + pdir * 10, player.y - 12);
+      ctx.fill();
+    }
+
+    // fluffy ball tail in BG
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx - pdir * 8, player.y + player.h - 8 + bounce, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ears
+    const earAngle = Math.abs(player.vx) * 0.04 * -pdir;
+    ctx.save();
+    ctx.translate(cx, cy - 6);
+    ctx.rotate(earAngle);
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.ellipse(-3.5, -8, 2.5, 9, 0, 0, Math.PI * 2);
+    ctx.ellipse(3.5, -8, 2.5, 9, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffc0cb';
+    ctx.beginPath();
+    ctx.ellipse(-3.5, -8, 1.2, 7, 0, 0, Math.PI * 2);
+    ctx.ellipse(3.5, -8, 1.2, 7, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // warrior red headband
+    ctx.fillStyle = '#ff4d4d';
+    ctx.fillRect(cx - 8.5, cy - 1, 17, 2.5);
+
+    // dragoon plate armor body
+    ctx.fillStyle = plateColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    ctx.fillStyle = '#f1c40f'; // golden emblem
+    ctx.fillRect(cx - 3, player.y + 13 + bounce, 6, 5);
+
+    // red eyes
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 3.5, cy, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    // nose
+    ctx.fillStyle = '#ffc0cb';
+    ctx.fillRect(cx + pdir * 4.5 - 0.5, cy + 2, 1, 1);
+
+  } else if (charKey === 'cat') {
+    // 🐱 Cat White Mage: white robe with red triangles decoration
+    const furColor = '#ffa94d';
+    const robeColor = '#ffffff';
+
+    // tail
+    ctx.strokeStyle = furColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - pdir * 6, player.y + 18 + bounce);
+    ctx.quadraticCurveTo(cx - pdir * 14, player.y + 10 + Math.sin(Date.now()*0.015)*4, cx - pdir * 16, player.y + 7);
+    ctx.stroke();
+
+    // ears
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.moveTo(cx - 7, cy - 4); ctx.lineTo(cx - 8, cy - 12); ctx.lineTo(cx - 2, cy - 7);
+    ctx.moveTo(cx + 7, cy - 4); ctx.lineTo(cx + 8, cy - 12); ctx.lineTo(cx + 2, cy - 7);
+    ctx.fill();
+    ctx.fillStyle = '#ffc0cb';
+    ctx.beginPath();
+    ctx.moveTo(cx - 6, cy - 5); ctx.lineTo(cx - 7, cy - 10); ctx.lineTo(cx - 3, cy - 7);
+    ctx.moveTo(cx + 6, cy - 5); ctx.lineTo(cx + 7, cy - 10); ctx.lineTo(cx + 3, cy - 7);
+    ctx.fill();
+
+    // head
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // White Mage hood
+    ctx.fillStyle = robeColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
+    ctx.fill();
+    // Face inner
+    ctx.fillStyle = furColor;
+    ctx.beginPath();
+    ctx.arc(cx + pdir * 1.5, cy + 1, 6.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // White Mage robe body
+    ctx.fillStyle = robeColor;
+    ctx.fillRect(player.x + 3, player.y + 8 + bounce, player.w - 6, player.h - 8 - bounce);
+    
+    // Iconic Red Triangle decoration patterns at robe bottom!
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.moveTo(player.x + 3, player.y + player.h - 4);
+    for (let tx = player.x + 3; tx <= player.x + player.w - 3; tx += 4) {
+      ctx.lineTo(tx + 2, player.y + player.h - 8);
+      ctx.lineTo(tx + 4, player.y + player.h - 4);
+    }
+    ctx.fill();
+
+    // green eyes
+    ctx.fillStyle = '#2ecc71';
+    ctx.fillRect(cx + pdir * 2.5 - (pdir > 0 ? 0 : 3), cy - 1, 2, 2.5);
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(cx + pdir * 2.5 + (pdir > 0 ? 0.5 : -2.5), cy - 0.5, 1, 2.5);
+
+    // whiskers
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    if (pdir > 0) {
+      ctx.moveTo(cx + 4, cy + 2.5); ctx.lineTo(cx + 12, cy + 1.5);
+      ctx.moveTo(cx + 4, cy + 4); ctx.lineTo(cx + 13, cy + 4);
+      ctx.moveTo(cx + 4, cy + 5.5); ctx.lineTo(cx + 11, cy + 6.5);
+    } else {
+      ctx.moveTo(cx - 4, cy + 2.5); ctx.lineTo(cx - 12, cy + 1.5);
+      ctx.moveTo(cx - 4, cy + 4); ctx.lineTo(cx - 13, cy + 4);
+      ctx.moveTo(cx - 4, cy + 5.5); ctx.lineTo(cx - 11, cy + 6.5);
+    }
+    ctx.stroke();
+  }
+
+  // Walking feet
+  ctx.fillStyle = '#2c2c2e';
+  const walkCycle = Math.sin(Date.now() * 0.015) * 3;
+  const fL = player.onGround && Math.abs(player.vx) > 0.5 ? walkCycle : 0;
+  const fR = player.onGround && Math.abs(player.vx) > 0.5 ? -walkCycle : 0;
+  ctx.fillRect(player.x + 2, player.y + player.h - 4 + fL, 7, 4);
+  ctx.fillRect(player.x + player.w - 9, player.y + player.h - 4 + fR, 7, 4);
+
+  ctx.restore();
+
+  // White Mage healing shield bubble visuals!
+  if (player.hasShield > 0) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255, 133, 162, 0.6)';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#ff85a2';
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(cx, player.y + player.h/2 + bounce, 24, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+
+  // Weapon visual arcs (melee sweeping shapes)
+  if (player.attacking) {
+    const wpn = WEAPONS[weaponIdx];
+    if (wpn.type === 'melee' && !wpn.isSpear) {
+      const progress = 1 - player.atkTimer / wpn.speed;
+      const cx = player.x + player.w/2;
+      const cy = player.y + player.h/2 - 4;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.globalAlpha = 0.7 + 0.3 * (1-progress);
+
+      if (wpn === WEAPONS[0]) {
+        // Ninja katana
+        const angle = player.dir * (-0.8 + progress * 1.6);
+        ctx.rotate(angle);
+        ctx.strokeStyle = wpn.color;
+        ctx.lineWidth = 3;
+        ctx.shadowColor = wpn.trail;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(wpn.range * player.dir * 0.75, 0);
+        ctx.stroke();
+      } else if (wpn === WEAPONS[4]) {
+        // Greatsword
+        const startAngle = player.dir > 0 ? -Math.PI/2 : Math.PI/2;
+        const sweepAngle = player.dir * Math.PI * progress;
+        ctx.strokeStyle = wpn.color;
+        ctx.lineWidth = 6;
+        ctx.shadowColor = wpn.trail;
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(0, 0, wpn.range * 0.8, startAngle, startAngle + sweepAngle);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+
+  // Projectiles
+  projectiles.forEach(p => {
+    ctx.save();
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 10;
+    ctx.fillStyle = p.color;
+    ctx.strokeStyle = p.color;
+
+    if (p.isSonic) {
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const rad = 6 + (80 - p.life) * 0.25;
+      ctx.arc(p.x, p.y, rad, -Math.PI/2, Math.PI/2);
+      ctx.stroke();
+    } else if (p.isLaser) {
+      ctx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+    } else if (p.isEnemyOrb) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
+      ctx.fill();
+    } else if (p.isFireball) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 7, 0, Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = '#ffff00';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
+      ctx.fill();
+    } else if (p.isScythe) {
+      ctx.translate(p.x, p.y);
+      const angle = (Date.now() * 0.015) % (Math.PI*2);
+      ctx.rotate(angle);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, 10, -Math.PI/2, Math.PI/3);
+      ctx.stroke();
+      ctx.strokeStyle = '#666666';
+      ctx.beginPath();
+      ctx.moveTo(-4, -4);
+      ctx.lineTo(4, 4);
+      ctx.stroke();
+    } else if (p.isMagicBeam) {
+      // Sage Bear vertical cyan/blue electric lightning bolts
+      ctx.globalAlpha = p.life / 25 * 0.85;
+      
+      // Outer light beam glow
+      const gradient = ctx.createLinearGradient(p.x - p.w/2, p.y - p.h/2, p.x + p.w/2, p.y - p.h/2);
+      gradient.addColorStop(0, 'rgba(0, 240, 255, 0.05)');
+      gradient.addColorStop(0.3, 'rgba(0, 240, 255, 0.35)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)');
+      gradient.addColorStop(0.7, 'rgba(0, 240, 255, 0.35)');
+      gradient.addColorStop(1, 'rgba(0, 240, 255, 0.05)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+      
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+      
+      // Draw actual zigzag lightning jagged path inside the beam for awesome graphics!
+      ctx.strokeStyle = '#ffffff';
+      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 8;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      let curY = p.y - p.h/2;
+      ctx.moveTo(p.x, curY);
+      while (curY < p.y + p.h/2) {
+        curY += 15 + Math.random() * 20;
+        let rx = p.x + (Math.random() - 0.5) * 16;
+        ctx.lineTo(rx, Math.min(curY, p.y + p.h/2));
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0; // reset
+    } else if (p.isSpearWave) {
+      // Lancer Bunny triangular contradiction spearpoint energy thrust waves
+      ctx.globalAlpha = p.life / 15 * 0.8;
+      ctx.fillStyle = '#f1c40f';
+      ctx.beginPath();
+      if (player.dir > 0) {
+        ctx.moveTo(p.x - p.w/2, p.y - p.h/2);
+        ctx.lineTo(p.x + p.w/2, p.y);
+        ctx.lineTo(p.x - p.w/2, p.y + p.h/2);
+      } else {
+        ctx.moveTo(p.x + p.w/2, p.y - p.h/2);
+        ctx.lineTo(p.x - p.w/2, p.y);
+        ctx.lineTo(p.x + p.w/2, p.y + p.h/2);
+      }
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      // White Mage Wand heart shots
+      if (p.homing && weaponIdx === 1) {
+        ctx.fillStyle = '#ff85a2';
+        ctx.font = '10px serif';
+        ctx.fillText('❤️', p.x - 5, p.y + 4);
+      } else if (p.homing) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(p.x-p.w/2, p.y-p.h/2, p.w, p.h);
+      }
+    }
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  });
+
+  // Particles
+  particles.forEach(p => {
+    ctx.save();
+    if (p.isMist) {
+      ctx.globalAlpha = p.life / 180 * 0.15;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
+    } else if (p.isAcid) {
+      ctx.globalAlpha = Math.min(1, p.life / 60) * 0.6;
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = p.size;
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + p.vx * 2.5, p.y + p.vy * 2.5);
+      ctx.stroke();
+    } else if (p.isVoid) {
+      ctx.globalAlpha = Math.min(1, p.life / 100) * 0.4;
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.stroke();
+    } else if (p.isSnow) {
+      ctx.globalAlpha = Math.min(1, p.life / 60) * 0.8;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
+    } else {
+      ctx.globalAlpha = Math.min(1, p.life / 60);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
+    }
+    ctx.restore();
+  });
+  ctx.globalAlpha = 1;
+
+  // Damage floaters
+  floaters.forEach(f => {
+    ctx.globalAlpha = Math.min(1, f.life / 15);
+    ctx.fillStyle = f.color;
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.shadowColor = '#000000';
+    ctx.shadowBlur = 4;
+    ctx.fillText(f.text, f.x, f.y);
+    ctx.shadowBlur = 0;
+  });
+  ctx.globalAlpha = 1;
+  ctx.textAlign = 'start';
+
+  ctx.restore();
+}
+
+// ============================================================
+// HUD UPDATE
+// ============================================================
+function updateHUD() {
+  const totalXP = userXP + castleXPEarned;
+  const info = getLevelInfo(totalXP);
+  document.getElementById('hudHpBar').style.width = (player.hp / player.maxHp * 100) + '%';
+  document.getElementById('hudHpText').textContent = player.hp + '/' + player.maxHp;
+  document.getElementById('hudXpBar').style.width = (info.xpInLevel / info.xpNeeded * 100) + '%';
+  document.getElementById('hudLevel').textContent = 'LV.' + info.level;
+
+  const skillReady = player.skillCooldown <= 0;
+  const maxCD = CHARACTERS[charKey].skillCD;
+  const pct = skillReady ? 100 : (1 - player.skillCooldown / maxCD) * 100;
+  document.getElementById('hudSkillBar').style.width = pct + '%';
+  document.getElementById('hudSkillText').textContent = skillReady ? 'READY' : Math.ceil(player.skillCooldown / 60) + 's';
+  document.getElementById('hudSkillText').style.color = skillReady ? '#ba4dff' : '#aaaaaa';
+
+  // Dynamic V4 Climate Warning HUD Update
+  const climateEl = document.getElementById('hudClimate');
+  if (climateEl) {
+    if (activeStageIdx === 5) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '🌧️ 腐蝕酸雨：攻防-25%';
+      climateEl.style.color = '#1abc9c';
+      climateEl.style.backgroundColor = 'rgba(26, 188, 156, 0.15)';
+      climateEl.style.border = '1px solid #1abc9c';
+    } else if (activeStageIdx === 6) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '❄️ 寒風低溫：速度-30%';
+      climateEl.style.color = '#9be2ff';
+      climateEl.style.backgroundColor = 'rgba(155, 226, 255, 0.15)';
+      climateEl.style.border = '1px solid #9be2ff';
+    } else if (activeStageIdx === 7) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '⚡ 雷磁超載：技能冷卻-45%';
+      climateEl.style.color = '#00e5ff';
+      climateEl.style.backgroundColor = 'rgba(0, 229, 255, 0.15)';
+      climateEl.style.border = '1px solid #00e5ff';
+    } else if (activeStageIdx === 8) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '🌌 虛無吞噬：跳躍+25% | 每3秒-1HP';
+      climateEl.style.color = '#f368e0';
+      climateEl.style.backgroundColor = 'rgba(243, 104, 224, 0.15)';
+      climateEl.style.border = '1px solid #f368e0';
+    } else if (activeStageIdx === 9) {
+      climateEl.style.display = 'block';
+      climateEl.textContent = '🌈 終焉幻象：暴擊率+35% | 方向飄移';
+      climateEl.style.color = '#fdcb6e';
+      climateEl.style.backgroundColor = 'rgba(253, 203, 110, 0.15)';
+      climateEl.style.border = '1px solid #fdcb6e';
+    } else {
+      climateEl.style.display = 'none';
+    }
+  }
+}
+
+// ============================================================
+// GAME LOOP
+// ============================================================
+function gameLoop(timestamp) {
+  if (!gameRunning) return;
+  if (gamePaused) { requestAnimationFrame(gameLoop); return; }
+
+  updatePlayer();
+  updateEnemies();
+  updateProjectiles();
+  updateParticles();
+  spawnStageParticles(); // Stage customized climate floaters
+  updateFloaters();
+  updateItems();
+  updateCamera();
+  render();
+  updateHUD();
+
+  requestAnimationFrame(gameLoop);
+}
+
+// ============================================================
+// PAUSE / MUTE / EXIT
+// ============================================================
+function togglePause() {
+  gamePaused = !gamePaused;
+  document.getElementById('pauseOverlay').style.display = gamePaused ? 'flex' : 'none';
+  if (!gamePaused) startBGM(); else stopBGM();
+}
+function toggleMute() {
+  muted = !muted;
+  document.getElementById('hudMute').textContent = muted ? '🔇' : '🔊';
+  if (muted) stopBGM(); else startBGM();
+}
+function exitGame() {
+  gameRunning = false;
+  stopBGM();
+  saveToRPG();
+  location.href = 'link.html';
+}
+
+// Prevent default scroll on touch
+document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+// Initialize selection screen on start
+function initCharacterSelect() {
+  loadFromRPG();
+  const info = getLevelInfo(userXP);
+  document.querySelector('.char-subtitle').innerHTML = `當前冒險者等級：LV.${info.level}<br>選擇代表角色進入深淵降噪之城`;
+
+  if (defaultAnimalKey) {
+    const recEl = document.getElementById('rec_' + defaultAnimalKey);
+    if (recEl) recEl.style.display = 'inline-block';
+    
+    const cardEl = document.getElementById('card_' + defaultAnimalKey);
+    if (cardEl) {
+      cardEl.style.borderColor = '#ba4dff';
+      cardEl.style.background = 'rgba(186, 77, 255, 0.08)';
+      cardEl.style.boxShadow = '0 0 15px rgba(186, 77, 255, 0.3)';
+    }
+  }
+}
+initCharacterSelect();
+</script>
+</body>
+</html>

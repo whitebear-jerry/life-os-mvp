@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>Slide 7 Demo — 倉鼠 vs 指揮官（含白熊插圖）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2D2520;
+    --brown-deep: #5D4632;
+    --brown-mid: #8B6F47;
+    --brown-light: #D4B896;
+    --paper: #F4EFE5;
+    --gold: #B89968;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #2a2520;
+    font-family: "Noto Serif TC", "Songti SC", serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide {
+    width: 1376px;
+    height: 768px;
+    margin: 24px auto;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 1400px 700px at 70% 110%, rgba(157,138,108,0.22) 0%, transparent 60%),
+      radial-gradient(ellipse 900px 600px at 5% -10%, rgba(93,70,50,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(180,150,110,0.15) 0%, transparent 50%),
+      linear-gradient(180deg, #F6F1E7 0%, #F0E9D8 100%);
+  }
+  /* 紙質紋理 + 水墨暈染 */
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 300px 200px at 15% 25%, rgba(93,70,50,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 400px 250px at 85% 75%, rgba(93,70,50,0.05) 0%, transparent 55%),
+      radial-gradient(circle at 20% 30%, rgba(93,70,50,0.04) 0%, transparent 1.5%),
+      radial-gradient(circle at 75% 60%, rgba(93,70,50,0.05) 0%, transparent 1.8%),
+      radial-gradient(circle at 50% 80%, rgba(93,70,50,0.04) 0%, transparent 1.2%);
+    background-size: 1376px 768px, 1376px 768px, 220px 220px, 280px 280px, 180px 180px;
+    pointer-events: none;
+  }
+  /* 細邊框 + 四角金飾 */
+  .frame {
+    position: absolute;
+    inset: 36px;
+    border: 1px solid rgba(184,153,104,0.4);
+    pointer-events: none;
+  }
+  .corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+  }
+  .corner.tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+  /* 雲紋裝飾 — 改成 SVG 更精緻 */
+  .cloud-svg {
+    position: absolute;
+    color: rgba(184,153,104,0.45);
+    pointer-events: none;
+  }
+  .cloud-svg.tr { top: 70px; right: 90px; }
+  .cloud-svg.bl { bottom: 80px; left: 90px; }
+  /* 白熊水墨插圖 — 主視覺 */
+  .bear {
+    position: absolute;
+    bottom: 36px;
+    left: 36px;
+    width: 460px;
+    height: auto;
+    opacity: 0.95;
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* 內容 */
+  .content {
+    position: absolute;
+    inset: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px 80px;
+    z-index: 2;
+  }
+  .tag {
+    display: inline-block;
+    padding: 10px 38px;
+    background: var(--brown-deep);
+    color: var(--paper);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(93,70,50,0.15);
+  }
+  .ornament {
+    width: 320px;
+    height: 30px;
+    background-image: linear-gradient(90deg, transparent, var(--gold) 25%, var(--gold) 75%, transparent);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    margin: 8px 0 40px;
+  }
+  .ornament::before {
+    content: "❖";
+    color: var(--gold);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    background: linear-gradient(180deg, #F6F1E7 0%, #F0E9D8 100%);
+    padding: 0 14px;
+  }
+  .quote {
+    font-family: "Noto Serif TC", "Songti SC", serif;
+    font-size: 68px;
+    font-weight: 700;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    /* 給左側白熊讓出空間 */
+    margin-left: 260px;
+    text-align: center;
+  }
+  .quote .accent {
+    color: var(--brown-deep);
+    font-weight: 900;
+  }
+  /* 底部 */
+  .signature {
+    position: absolute;
+    bottom: 80px;
+    right: 100px;
+    font-family: "Noto Serif TC", serif;
+    font-size: 24px;
+    color: var(--brown-mid);
+    letter-spacing: 0.35em;
+    z-index: 3;
+  }
+  .signature::before, .signature::after {
+    color: var(--brown-mid);
+  }
+  .signature::before { content: "《"; }
+  .signature::after { content: "》"; }
+
+  @page { size: 1376px 768px; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .slide { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <!-- 邊框 + 四角金飾 -->
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+
+  <!-- 雲紋（右上、左下） -->
+  <svg class="cloud-svg tr" width="120" height="30" viewBox="0 0 120 30" fill="none">
+    <path d="M2 15 Q15 5, 28 15 T54 15 T80 15 T106 15" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    <path d="M10 22 Q23 12, 36 22 T62 22 T88 22 T114 22" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
+  </svg>
+  <svg class="cloud-svg bl" width="120" height="30" viewBox="0 0 120 30" fill="none">
+    <path d="M2 15 Q15 5, 28 15 T54 15 T80 15 T106 15" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    <path d="M10 8 Q23 18, 36 8 T62 8 T88 8 T114 8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
+  </svg>
+
+  <!-- 白熊水墨插圖（左下） -->
+  <img class="bear" src="assets/bear-mountain.png" alt="白熊上山頂">
+
+  <!-- 內容 -->
+  <div class="content">
+    <span class="tag">金　　句</span>
+    <div class="ornament"></div>
+    <p class="quote">
+      別當被瑣事追著跑的<span class="accent">倉&nbsp;鼠</span>，<br>
+      當開啟上帝視角的<span class="accent">指&nbsp;揮&nbsp;官</span>。
+    </p>
+  </div>
+
+  <!-- 底部書名（右側，避開白熊） -->
+  <div class="signature">降噪人生</div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 圖片全走 jsDelivr：先把連線建好，第一張圖省掉 DNS＋TLS 的等待 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <title>白熊話術照妖鏡｜10 句話測你會不會被帶走</title>
+  <meta name="description" content="10 個台灣日常情境，每個都藏了一招話術或偏誤。看你能不能一眼認出來——每題都附《明辨》書中出處。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+    /* 與其他四個工具頁同一套奶茶色（link-page-conversion §3c）；主色是《明辨》梅紫 #9c4682 */
+    :root {
+      --bg: #f6f0e4;
+      --card-bg: rgba(253, 250, 244, 0.86);
+      --card-solid: #fdfaf4;
+      --card-border: rgba(140, 115, 80, 0.22);
+      --paper-2: #f4ecdc;
+      --accent: #9c4682;
+      --accent-tint: rgba(156, 70, 130, 0.12);
+      --accent-line: rgba(156, 70, 130, 0.35);
+      --ok: #0a7d57;
+      --bad: #a04f55;
+      --gold: #8d6524;
+      --text: #443527;
+      --text-muted: #786957;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(156, 70, 130, 0.10) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(160, 140, 100, 0.18) 0px, transparent 50%);
+      color: var(--text);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+      min-height: 100vh;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+    .container { max-width: 760px; margin: 0 auto; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px;
+      background: var(--paper-2); border: 1px solid rgba(140, 115, 80, 0.28); color: #5c4a36;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: background-color .2s ease, transform .2s ease;
+    }
+    /* 其他工具頁 hover 會變白字壓淺底，這裡不要照抄 */
+    .back-btn:hover { background: #ece0c8; transform: translateX(-2px); }
+
+    header { text-align: center; margin: 18px 0 24px; }
+    .badge-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px;
+      background: var(--accent-tint); border: 1px solid var(--accent-line); color: var(--accent);
+      font-size: 0.85rem; font-weight: 700; margin-bottom: 12px;
+    }
+    h1 { font-family: "Outfit", sans-serif; font-size: clamp(1.7rem, 4.6vw, 2.4rem); font-weight: 800; line-height: 1.3; }
+    .subtitle { margin: 10px auto 0; max-width: 34em; color: var(--text-muted); font-size: 0.95rem; }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+      padding: 22px; box-shadow: 0 1px 0 rgba(90, 70, 40, 0.04), 0 14px 32px -18px rgba(90, 70, 40, 0.35);
+      display: grid; gap: 14px; scroll-margin-top: 16px;
+    }
+    .card:focus { outline: none; }
+    .progress-track { height: 6px; border-radius: 999px; background: var(--paper-2); overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); transition: width .3s ease; }
+    .q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted); }
+    .cat-chip { font-size: 0.76rem; font-weight: 700; padding: 1px 9px; border-radius: 999px; border: 1px solid var(--accent-line); color: var(--accent); background: var(--accent-tint); }
+    .scene { font-size: 1rem; line-height: 1.75; }
+    .line {
+      font-size: 1.06rem; font-weight: 700; line-height: 1.7; padding: 12px 16px; border-radius: 10px;
+      background: var(--paper-2); border-left: 4px solid var(--accent);
+    }
+    .line::before { content: "「"; }
+    .line::after { content: "」"; }
+    .prompt { font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.02rem; }
+    .opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .opt {
+      font: inherit; font-size: 1rem; font-weight: 700; color: var(--text); background: var(--card-solid);
+      border: 1.5px solid var(--card-border); border-radius: 10px; min-height: 52px; padding: 10px 12px; cursor: pointer;
+      transition: border-color .15s ease, background-color .15s ease, transform .15s ease;
+    }
+    .opt:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
+    .opt:disabled { cursor: default; }
+    .opt.is-correct { border-color: var(--ok); background: #eef6f0; color: #075c40; box-shadow: inset 0 0 0 1px var(--ok); }
+    .opt.is-wrong { border-color: var(--bad); background: #fbf0ef; color: #8a3f45; box-shadow: inset 0 0 0 1px var(--bad); }
+    .opt.is-dim { opacity: .72; }
+    .explain { border-top: 1px dashed var(--card-border); padding-top: 14px; display: grid; gap: 10px; }
+    .verdict { font-family: "Outfit", sans-serif; font-size: 1.1rem; font-weight: 800; }
+    .verdict.ok { color: var(--ok); }
+    .verdict.bad { color: var(--bad); }
+    .why { font-size: 0.95rem; line-height: 1.75; }
+    .book-def { font-size: 0.88rem; line-height: 1.7; color: var(--text); background: var(--accent-tint); border-radius: 8px; padding: 10px 12px; }
+    .book-def b { color: var(--accent); margin-right: 4px; }
+    .src { font-size: 0.84rem; color: var(--text-muted); }
+    .nav { display: flex; justify-content: flex-end; }
+    .btn {
+      font: inherit; font-size: 1rem; font-weight: 800; color: #ffffff; background: var(--accent); border: 0; border-radius: 10px;
+      min-height: 48px; padding: 10px 24px; cursor: pointer; box-shadow: 0 3px 10px -4px rgba(156, 70, 130, 0.55);
+    }
+    .btn:hover { filter: brightness(1.06); }
+    .intro-list { list-style: none; display: grid; gap: 6px; font-size: 0.94rem; }
+    .intro-list li::before { content: "✓ "; color: var(--accent); font-weight: 800; }
+
+    /* 結果 */
+    .score { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .score b { font-family: "Outfit", sans-serif; font-size: 3.2rem; line-height: 1; color: var(--accent); }
+    .score span { color: var(--text-muted); }
+    .level-title { font-family: "Outfit", sans-serif; font-size: 1.35rem; font-weight: 800; }
+    .msg { font-size: 0.98rem; line-height: 1.75; }
+    .dims { display: grid; gap: 10px; background: var(--paper-2); border-radius: 12px; padding: 14px; }
+    .dims-title { font-weight: 800; font-size: 0.92rem; }
+    .dim-row { display: flex; justify-content: space-between; gap: 10px; font-size: 0.88rem; }
+    .dim-row span:last-child { font-weight: 800; white-space: nowrap; }
+    .dim-bar { height: 8px; border-radius: 999px; background: rgba(140, 115, 80, 0.18); overflow: hidden; margin-top: 4px; }
+    .dim-bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+    .weak { font-size: 0.95rem; line-height: 1.7; border-left: 4px solid var(--accent); padding-left: 12px; }
+    .weak b { color: var(--accent); }
+
+    .book-rec-box { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: start; background: var(--card-solid); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; }
+    .book-rec-cover { width: 72px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 4px; border: 1px solid var(--card-border); box-shadow: 0 4px 12px -6px rgba(90, 70, 40, 0.45); }
+    .book-rec-name { font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.08rem; }
+    .book-rec-price { font-size: 0.9rem; font-weight: 800; color: #0a6b4a; margin: 2px 0 6px; }
+    .nowrap { white-space: nowrap; }
+    .book-rec-reason { font-size: 0.88rem; line-height: 1.65; color: var(--text); }
+    .chapters-title { font-size: 0.84rem; font-weight: 800; margin-top: 8px; color: var(--accent); }
+    .chapters-list { list-style: none; font-size: 0.86rem; line-height: 1.65; }
+    .cta-btn {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px; text-decoration: none;
+      background: var(--accent); color: #ffffff; font-weight: 800; border-radius: 10px; padding: 14px 18px; min-height: 52px;
+      box-shadow: 0 6px 16px -8px rgba(156, 70, 130, 0.6);
+    }
+    .cta-btn:hover { filter: brightness(1.06); }
+    .store-label { font-size: 0.84rem; color: var(--text-muted); }
+    .store-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .store-chip {
+      display: flex; justify-content: center; align-items: center; min-height: 44px; border-radius: 8px; text-decoration: none;
+      font-size: 0.9rem; font-weight: 700; color: var(--accent); background: var(--card-solid); border: 1px solid var(--accent-line);
+    }
+    .store-chip:hover { background: var(--accent-tint); }
+    .after { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.88rem; }
+    .linkish { font: inherit; font-size: 0.9rem; color: var(--text-muted); background: none; border: 0; padding: 8px 0; cursor: pointer; text-decoration: underline; }
+    .goto { color: var(--accent); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent-line); }
+
+    footer { text-align: center; margin-top: 34px; font-size: 0.8rem; color: var(--text-muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 520px) {
+      .card { padding: 18px 16px; }
+      .opts { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; scroll-behavior: auto !important; }
+      .opt:hover { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="link.html" class="back-btn">← 返回白熊書房首頁</a>
+
+    <header>
+      <div class="badge-pill">🪞 判斷力自測 × 話術偵測</div>
+      <h1>這句話，用了哪一招？</h1>
+      <p class="subtitle">10 個台灣日常情境，每個都藏了一招話術或偏誤。看你能不能一眼認出來——每題都附《明辨》書中出處，大約 3 分鐘。</p>
+    </header>
+
+    <section class="card" id="mirror" tabindex="-1" aria-live="polite">
+      <!-- 由 JavaScript 依 MIRROR 產生 -->
+    </section>
+
+    <footer>
+      白熊富足人生演算法 © 2026 ｜ 秉持真實、誠實與複利哲學 ｜
+      <a href="link.html">探索全系列書籍</a>
+    </footer>
+  </div>
+
+<script>
+/* ============================================================
+   🪞 話術照妖鏡：一次一題，選項每次打亂
+   ------------------------------------------------------------
+   資料由 Google Drive「寫作/組合書籍資料/互動導覽/工具/產生話術照妖鏡資料.py」
+   讀「明辨-話術照妖鏡-已查證.json」產生，產生時逐題對照《明辨》全書稿查證。
+   ⚠️ 不要直接手改題目：先改查證檔，再重新產生這一段。
+   ============================================================ */
+const MIRROR = {
+ "categories": {
+  "talk": {
+   "label": "別人的話術",
+   "desc": "別人怎麼用一句很順的話，繞過你的判斷",
+   "chapter": "7",
+   "chapterTitle": "揪出思考的破綻：十個邏輯謬誤"
+  },
+  "bias": {
+   "label": "自己大腦的偏誤",
+   "desc": "就算只有你一個人，大腦也會在你不知情時改寫判斷",
+   "chapter": "8",
+   "chapterTitle": "認知偏誤：大腦騙你的五種方式"
+  },
+  "crowd": {
+   "label": "群體與事後的自我說服",
+   "desc": "人群的壓力，和你事後幫自己找的台階",
+   "chapter": "9",
+   "chapterTitle": "從眾與話術：別人怎麼改寫你的判斷"
+  }
+ },
+ "questions": [
+  {
+   "id": 1,
+   "cat": "talk",
+   "sec": "7.2",
+   "secTitle": "邏輯謬誤其二：稻草人與假兩難",
+   "scene": "週會上你提議：週五下午如果沒有急件，可以讓大家彈性提早一小時下班。同事馬上回：",
+   "line": "所以你的意思是，大家都可以不用認真工作就對了？",
+   "options": [
+    "稻草人",
+    "假兩難",
+    "人身攻擊",
+    "訴諸權威"
+   ],
+   "why": "你說的是「沒有急件時提早一小時」，他把它改寫成「不用認真工作」，再去打這個你根本沒說過的主張。先豎一個假靶子，再把它打倒。",
+   "bookDef": "刻意扭曲、誇大、簡化或曲解對方的觀點，塑造出一個根本不存在、且極易被推翻的假靶子（稻草人），然後猛烈打擊這個假靶子，宣稱自己贏得了勝利。"
+  },
+  {
+   "id": 2,
+   "cat": "talk",
+   "sec": "7.2",
+   "secTitle": "邏輯謬誤其二：稻草人與假兩難",
+   "scene": "家族群組裡，長輩傳了一句：",
+   "line": "年輕人要嘛現在咬牙買房，要嘛就認命一輩子租房被房東剝削。",
+   "options": [
+    "假兩難",
+    "滑坡謬誤",
+    "循環論證",
+    "錯誤類比"
+   ],
+   "why": "買房和租房之間還有很多種安排，這句話把它們全部藏起來，只留兩個極端讓你選。問題被硬拗成非黑即白。",
+   "bookDef": "強行將一個灰色、多元、具有多種可能性的複雜問題，極端化為「非黑即白、非此即彼」的二選一困境，刻意隱藏了中間的灰色地帶與其他替代方案。"
+  },
+  {
+   "id": 3,
+   "cat": "talk",
+   "sec": "7.3",
+   "secTitle": "邏輯謬誤其三：滑坡謬誤與循環論證",
+   "scene": "你週末打了兩小時電動，媽媽說：",
+   "line": "今天打兩小時，明天就會打一整天，接著工作丟了、房租繳不出來，最後流落街頭。",
+   "options": [
+    "滑坡謬誤",
+    "以偏概全",
+    "相關非因果",
+    "假兩難"
+   ],
+   "why": "每一個「就會」都沒有證據撐著，卻一路推到最悲慘的結局。打兩小時電動和流落街頭之間，並沒有必然的因果鏈。",
+   "bookDef": "在缺乏嚴謹因果關係支持下，斷言某個微小的起始事件 A 發生，就必然會像滾雪球一樣引發一連串的連鎖反應，最終導致極端、悲慘或災難性的後果。"
+  },
+  {
+   "id": 4,
+   "cat": "talk",
+   "sec": "7.1",
+   "secTitle": "邏輯謬誤其一：訴諸權威與人身攻擊",
+   "scene": "朋友轉傳一段影片給你：",
+   "line": "這位拿過諾貝爾物理獎的教授都說這支基金一定會漲，你還在猶豫什麼？",
+   "options": [
+    "訴諸權威",
+    "從眾",
+    "人身攻擊",
+    "訴諸情感"
+   ],
+   "why": "他在物理學是權威，但基金漲跌不是他的專業。把一個領域的名氣，直接當成另一個領域的保證，就是訴諸權威。",
+   "bookDef": "盲目相信某個領域的名人、專家在「非其專業領域」的言論，並將其當作絕對的真理。"
+  },
+  {
+   "id": 5,
+   "cat": "bias",
+   "sec": "8.1",
+   "secTitle": "確認偏誤：你只看見你想看見的證據",
+   "scene": "新同事來的第一週，你就認定他很難相處。一個月後回想，你只記得他兩次沒回你訊息，卻完全想不起他三次主動幫你補位。",
+   "line": "",
+   "options": [
+    "確認偏誤",
+    "可得性捷思",
+    "以偏概全",
+    "框架效應"
+   ],
+   "why": "心裡先有了「他很難相處」的結論，大腦就自動留下支持它的證據，把相反的事實默默濾掉，而且你自己不會察覺。",
+   "bookDef": "當你心中已經有了一個結論，大腦會自動去尋找、注意、並記住那些支持這個結論的證據，同時無聲無息地過濾掉相反的事實。"
+  },
+  {
+   "id": 6,
+   "cat": "bias",
+   "sec": "8.3",
+   "secTitle": "框架效應：同一件事換個說法，你的決定就變了",
+   "scene": "超市裡兩盒一模一樣的絞肉，一盒標「九成瘦肉」，另一盒標「含一成脂肪」。你直覺覺得第一盒比較健康，就拿了它。",
+   "line": "",
+   "options": [
+    "框架效應",
+    "訴諸情感",
+    "確認偏誤",
+    "損失規避"
+   ],
+   "why": "九成瘦肉就是一成脂肪，事實完全一樣，只是換了一種說法。帶走你的不是「它是什麼」，而是「它被怎麼說」。",
+   "bookDef": "你的決定，並不是取決於事實本身，而是取決於事實被裝在什麼樣的框裡端到你面前。"
+  },
+  {
+   "id": 7,
+   "cat": "bias",
+   "sec": "8.5",
+   "secTitle": "可得性捷思：越容易想起來的事，你越以為它常發生",
+   "scene": "連看了幾天空難新聞，你開始覺得搭飛機很危險，下週出差硬是把機票退掉，改搭五小時的夜車。",
+   "line": "",
+   "options": [
+    "可得性捷思",
+    "從眾",
+    "損失規避",
+    "確認偏誤"
+   ],
+   "why": "空難的畫面鮮明、一想就想得起來，大腦就把「容易想起來」當成「常常發生」。但你害怕的東西，和真正會傷害你的東西，往往不是同一個。",
+   "bookDef": "試著回想幾個例子，看看有多容易想起來。"
+  },
+  {
+   "id": 8,
+   "cat": "crowd",
+   "sec": "9.1",
+   "secTitle": "阿希從眾實驗：七個人就能讓你懷疑自己的眼睛",
+   "scene": "專案會議上，前面五位同事都說方案 A 沒問題。你明明發現預算算錯了，輪到你時卻也說：",
+   "line": "我也覺得可以。",
+   "options": [
+    "從眾",
+    "訴諸權威",
+    "確認偏誤",
+    "沉沒成本"
+   ],
+   "why": "你手上有資訊，缺的是第一個開口的人。前面的人都說好，壓力會讓你懷疑自己親眼看到的東西。",
+   "bookDef": "那場會議缺的不是資訊——資訊就在小張的筆電裡。缺的是第一個開口的人。"
+  },
+  {
+   "id": 9,
+   "cat": "crowd",
+   "sec": "9.3",
+   "secTitle": "認知失調與沉沒成本：大腦寧可改寫現實，也不肯認賠",
+   "scene": "熱門餐廳已經排了四十分鐘，店員說還要再等一小時。你心想：",
+   "line": "都排到這裡了，現在走掉，前面就白排了。",
+   "options": [
+    "沉沒成本",
+    "從眾",
+    "假兩難",
+    "框架效應"
+   ],
+   "why": "那四十分鐘不管走不走都回不來。該問的是「接下來這一小時值不值得」，而不是「前面已經花了多少」。",
+   "bookDef": "當你發現自己心裡浮出「再試最後一次」「都到這裡了」「不然前面就白費了」的時候，那不是毅力在說話，那是沉沒成本在說話。"
+  },
+  {
+   "id": 10,
+   "cat": "crowd",
+   "sec": "9.5",
+   "secTitle": "後見之明與決策日記：把「好運氣」和「好決策」分開",
+   "scene": "比賽結束後，阿伯說：「我早就知道這隊會輸，看陣容就知道了。」可是賽前他明明說：",
+   "line": "這隊今年贏定了。",
+   "options": [
+    "後見之明",
+    "確認偏誤",
+    "從眾",
+    "達克效應"
+   ],
+   "why": "結果出來之後，大腦會回頭改寫你對「當初」的記憶，讓你以為自己早就料到。",
+   "bookDef": "結果，會回頭改寫你對「當初」的記憶。"
+  }
+ ],
+ "results": {
+  "high": {
+   "min": 9,
+   "title": "看得穿",
+   "msg": "這些招式你大多一眼就看穿。下一步是把這份直覺，變成講得出理由、每次都量得準的一把尺。"
+  },
+  "mid": {
+   "min": 6,
+   "title": "看得出，偶爾會被帶走",
+   "msg": "大部分話術你都認得，但有幾招還是會在你沒注意時得手。下面是你最容易被帶走的那一類。"
+  },
+  "low": {
+   "min": 0,
+   "title": "很容易被帶走",
+   "msg": "你不是不夠聰明，你只是少一把尺。這些招式的共同特徵，就是聽起來很順。"
+  }
+ },
+ "perfect": {
+  "chapter": "6",
+  "chapterTitle": "推理的骨架：什麼樣的推論才站得住"
+ }
+};
+
+(function () {
+  var BOOK = {
+    name: '《明辨》',
+    cover: 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book8.webp',
+    price: '💎 特惠價 NT$299', priceNote: '（77折 · 省 $91）',
+    reason: '看穿別人話裡的破綻，是第一步；看穿自己腦中的偏誤，才是真功夫。全書 11 章、55 節，每一節都有台灣日常案例與今天就能做的練習。',
+    href: 'link.html#book-mingbian',
+    stores: [
+      ['readmoo', '📖 Readmoo', 'https://readmoo.com/book/210510318000101'],
+      ['pubu', '📚 Pubu', 'https://www.pubu.com.tw/ebook/706027?apKey=e08e864a73'],
+      ['kobo', '📕 Kobo', 'https://www.kobo.com/tw/zh/ebook/BXq4v8w-qzmB3kmH_KVHwA?sId=8279bf42-8d3d-45b9-87e1-548dbae7f90f&ssId=hg4dlbrf47Cfsj6VCzbgz&cPos=3']
+    ]
+  };
+  var CAT_ORDER = ['talk', 'bias', 'crowd'];
+  var Q = MIRROR.questions, N = Q.length;
+  var card = document.getElementById('mirror');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var st;
+
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function track(name) { try { if (window.clarity) clarity('event', name); } catch (e) {} }
+  function shuffled(n) {
+    // 正解在資料裡都排第一個，每次作答都要打亂
+    var a = []; for (var i = 0; i < n; i++) a.push(i);
+    for (var j = n - 1; j > 0; j--) { var k = Math.floor(Math.random() * (j + 1)); var t = a[j]; a[j] = a[k]; a[k] = t; }
+    return a;
+  }
+  function reset() { st = { i: -1, pick: null, right: [], order: Q.map(function (q) { return shuffled(q.options.length); }) }; }
+
+  function renderIntro() {
+    return '<ul class="intro-list">' +
+      '<li>每題一個生活情境：主管開會、家族群組、超市、排隊、看球賽</li>' +
+      '<li>四個選項選一個：這裡藏的是哪一招？</li>' +
+      '<li>答完馬上告訴你為什麼，以及出自《明辨》哪一節</li>' +
+      '</ul>' +
+      '<div class="nav"><button class="btn" type="button" data-act="start">開始照照看 ➔</button></div>';
+  }
+
+  function renderQuestion() {
+    var q = Q[st.i], cat = MIRROR.categories[q.cat], done = st.pick !== null;
+    var html = '<div class="progress-track" aria-hidden="true"><div class="progress-fill" style="width:' + Math.round(st.i / N * 100) + '%"></div></div>' +
+      '<div class="q-meta"><span>第 ' + (st.i + 1) + ' / ' + N + ' 題</span><span class="cat-chip">' + esc(cat.label) + '</span></div>' +
+      '<p class="scene">' + esc(q.scene) + '</p>' +
+      (q.line ? '<p class="line">' + esc(q.line) + '</p>' : '') +
+      '<p class="prompt">這裡藏的是哪一招？</p><div class="opts">';
+    st.order[st.i].forEach(function (k) {
+      var cls = 'opt';
+      if (done) cls += k === 0 ? ' is-correct' : (k === st.pick ? ' is-wrong' : ' is-dim');
+      html += '<button class="' + cls + '" type="button" data-k="' + k + '"' + (done ? ' disabled' : '') + '>' + esc(q.options[k]) + '</button>';
+    });
+    html += '</div>';
+    if (done) {
+      var ok = st.pick === 0;
+      html += '<div class="explain">' +
+        '<p class="verdict ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✅ 看穿了！這是「' : '❌ 這招是「') + esc(q.options[0]) + '」</p>' +
+        '<p class="why">' + esc(q.why) + '</p>' +
+        '<p class="book-def"><b>📖 書中原句</b>' + esc(q.bookDef) + '</p>' +
+        '<p class="src">出處：《明辨》' + esc(q.sec) + '〈' + esc(q.secTitle) + '〉</p>' +
+        '<div class="nav"><button class="btn" type="button" data-act="next">' + (st.i + 1 < N ? '下一題 ➔' : '看結果 ➔') + '</button></div>' +
+        '</div>';
+    }
+    return html;
+  }
+
+  function stats() {
+    var by = {};
+    CAT_ORDER.forEach(function (c) { by[c] = { ok: 0, all: 0 }; });
+    Q.forEach(function (q, i) { by[q.cat].all++; if (st.right[i]) by[q.cat].ok++; });
+    return by;
+  }
+
+  function renderResult() {
+    var score = st.right.filter(Boolean).length, by = stats(), R = MIRROR.results;
+    var level = score >= R.high.min ? R.high : score >= R.mid.min ? R.mid : R.low;
+    // 最弱的一類：正確率最低；同分照書的順序（第 7 → 8 → 9 章）
+    var weak = null;
+    CAT_ORDER.forEach(function (c) { var r = by[c].ok / by[c].all; if (r < 1 && (weak === null || r < by[weak].ok / by[weak].all)) weak = c; });
+    var html = '<div class="progress-track" aria-hidden="true"><div class="progress-fill" style="width:100%"></div></div>' +
+      '<p class="score"><b>' + score + '</b><span>／ ' + N + ' 題看穿</span></p>' +
+      '<p class="level-title">' + esc(level.title) + '</p>' +
+      '<p class="msg">' + esc(level.msg) + '</p>' +
+      '<div class="dims"><p class="dims-title">📊 三種招式，你各看穿幾題</p>';
+    CAT_ORDER.forEach(function (c) {
+      var cat = MIRROR.categories[c], b = by[c];
+      html += '<div><div class="dim-row"><span>' + esc(cat.label) + '</span><span>' + b.ok + ' / ' + b.all + '</span></div>' +
+        '<div class="dim-bar"><i style="width:' + Math.round(b.ok / b.all * 100) + '%"></i></div></div>';
+    });
+    html += '</div>';
+    var chap;
+    if (weak) {
+      var w = MIRROR.categories[weak];
+      html += '<p class="weak">你最容易被帶走的是 <b>' + esc(w.label) + '</b>：' + esc(w.desc) + '。</p>';
+      chap = '第 ' + w.chapter + ' 章〈' + w.chapterTitle + '〉';
+    } else {
+      chap = '第 ' + MIRROR.perfect.chapter + ' 章〈' + MIRROR.perfect.chapterTitle + '〉';
+    }
+    html += '<div class="book-rec-box">' +
+      '<img src="' + BOOK.cover + '" alt="《明辨》書封" class="book-rec-cover" width="72" height="108" loading="lazy" decoding="async">' +
+      '<div><p class="book-rec-name">' + BOOK.name + '</p><p class="book-rec-price">' + BOOK.price + '<span class="nowrap">' + BOOK.priceNote + '</span></p>' +
+      '<p class="book-rec-reason">' + esc(BOOK.reason) + '</p>' +
+      '<p class="chapters-title">🔑 ' + (weak ? '先讀這一章：' : '全對的話，接著讀這一章：') + '</p>' +
+      '<ul class="chapters-list"><li>' + esc(chap) + '</li></ul></div></div>' +
+      '<a class="cta-btn" href="' + BOOK.href + '" onclick="trackStoreClick(\'goto\', \'照妖鏡-書卡\')"><span>直達《明辨》：把難題拆開，把假話看穿</span><span>➔</span></a>' +
+      '<p class="store-label">三大電子書城直接解鎖：</p><div class="store-grid">';
+    BOOK.stores.forEach(function (s) {
+      html += '<a class="store-chip" href="' + esc(s[2]) + '" target="_blank" rel="noopener" onclick="trackStoreClick(\'' + s[0] + '\', \'照妖鏡-直接購\')">' + s[1] + '</a>';
+    });
+    html += '</div><div class="after"><button class="linkish" type="button" data-act="restart">再照一次（選項順序會重新打亂）</button>' +
+      '<a class="goto" href="book-quiz.html?book=mingbian">已經讀過《明辨》？做讀後小測驗 →</a></div>';
+    return html;
+  }
+
+  function render() { card.innerHTML = st.i < 0 ? renderIntro() : st.i < N ? renderQuestion() : renderResult(); }
+  function show() {
+    render();
+    try { card.focus({ preventScroll: true }); } catch (e) { card.focus(); }
+    var r = card.getBoundingClientRect();
+    if (r.top < 0 || r.top > window.innerHeight * 0.55) card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  card.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('button') : null;
+    if (!t || !card.contains(t) || t.disabled) return;
+    if (t.hasAttribute('data-k')) {
+      st.pick = Number(t.getAttribute('data-k'));
+      st.right[st.i] = st.pick === 0;
+      render();
+      return;
+    }
+    var act = t.getAttribute('data-act');
+    if (act === 'start' || act === 'restart') { reset(); st.i = 0; track('mirror-start'); show(); }
+    else if (act === 'next') {
+      st.i += 1; st.pick = null;
+      if (st.i >= N) track('mirror-done-' + st.right.filter(Boolean).length);
+      show();
+    }
+  });
+
+  reset();
+  render();
+})();
+
+// 追蹤：失敗也絕不擋住跳轉
+function trackStoreClick(store, book) {
+  try {
+    if (!window.clarity) return;
+    clarity('event', 'click-' + store + '-' + book);
+  } catch (e) {}
+}
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   - 涵蓋靜態 <img>、JS 後來插入的 <img>、以及 CSS 背景圖
+   - 只在載入失敗時才動作，正常情況完全沒有成本
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    // 腳本載入前就已失敗的圖，補救一次
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+
+  // JS 後來才插進 DOM 的圖（閱讀地圖、工具頁的推薦書封都是這種）
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  // CSS 背景圖沒有 error 事件，改用探測：載不起來就把元素的背景換成本地路徑
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
