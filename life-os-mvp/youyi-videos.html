@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《人生友誼賽》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《人生友誼賽》讀者專屬：40 支原理動畫，一節一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與全站同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#7a50d8; --c:#132126; --accent-gold:#f8dd79;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em;word-break:keep-all}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--gilt);margin-right:6px}
+
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#132126}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(19,33,38,.88);display:grid;place-items:center;transition:background-color .15s ease;border:1px solid rgba(248,221,121,.4)}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #f8dd79;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:#7a50d8}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  .try{font-size:14px;border-left:2px solid var(--gilt);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--gilt)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp" alt="《人生友誼賽》封面" width="96" height="144">
+    <div>
+      <h1>《人生友誼賽》讀者專屬影片</h1>
+      <p class="lead">一節一支，共 40 支夜場球譜動畫，每支約一分鐘。書裡教你怎麼換副眼鏡打人生這場球，影片講背後的科學原理：每支用一個研究，說明書中工具背後的機制。讀到哪一節，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《人生友誼賽》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="40 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive 自動產生，不要手改 */
+const VIDEOS = [{"n": "01", "sec": "1.1", "topic": "善意好玩的幽默，壞心情退得快三倍", "dur": "1:17", "part": "第 1 章　視角的魔法：把世界的濾鏡換成快樂", "chapter": "1.1 同一棟破房子，悲觀看是廢墟、快樂看是寶藏", "try": "找看不順眼的角落、重新命名、配一段故事", "tryRef": "範例：浴室鏡子上的水痕，叫做天然水墨壁畫", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "02", "sec": "1.2", "topic": "每天記三件好笑的事，幸福感改善長達三個月", "dur": "0:51", "part": "第 1 章　視角的魔法：把世界的濾鏡換成快樂", "chapter": "1.2 好奇心練習：每天寫一件有趣小事，慢慢換掉負面濾鏡", "try": "通勤路上找場景、寫成幽默觀察、放進標籤", "tryRef": "範例：捷運煞車全車前傾，大家都很有默契地假裝沒事", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "03", "sec": "1.3", "topic": "買前看功能，用後看易用", "dur": "0:55", "part": "第 1 章　視角的魔法：把世界的濾鏡換成快樂", "chapter": "1.3 內在的快樂才是本體，外在只是工具", "try": "挑一項工具、暫停一天、白紙加一枝筆", "tryRef": "範例：今晚想記下的點子：把會議重點畫成一張圖。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "04", "sec": "1.4", "topic": "換一本故事來讀", "dur": "0:55", "part": "第 1 章　視角的魔法：把世界的濾鏡換成快樂", "chapter": "1.4 啟發你的人都不是一帆風順，只是用快樂的眼睛看挑戰", "try": "寫下難關、留給主角兩個選擇、試其中一個", "tryRef": "範例：先請一位同事，當我的第一位試看觀眾。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "05", "sec": "1.5", "topic": "下班後能不能放下工作", "dur": "0:52", "part": "第 1 章　視角的魔法：把世界的濾鏡換成快樂", "chapter": "1.5 快樂與責任的平衡：別讓喜歡的事主導生活", "try": "選一段時間、放心玩、到點關掉", "tryRef": "範例：晚上八點，玩半小時。鬧鐘響就收。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "06", "sec": "2.1", "topic": "把壓力當挑戰的人，推桿動作更穩更靠近洞口", "dur": "0:50", "part": "第 2 章　人生如戲：用看戲的心情面對鳥事", "chapter": "2.1 乒乓球友誼賽：當友誼賽不是生死戰，失誤了也不慌", "try": "收到訊息等三分鐘、核對事實、給出方案", "tryRef": "範例：把它想成一顆下旋球，先看球路再出手", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "07", "sec": "2.2", "topic": "看圖之後讀笑料", "dur": "0:53", "part": "第 2 章　人生如戲：用看戲的心情面對鳥事", "chapter": "2.2 插隊就看戲、詐騙就對戲：讓對方自己尷尬收場", "try": "默念開場、安靜觀察、記一筆", "tryRef": "範例：前面那位站得像早就排好班", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "08", "sec": "2.3", "topic": "丟掉紙後怎麼評價", "dur": "0:57", "part": "第 2 章　人生如戲：用看戲的心情面對鳥事", "chapter": "2.3 日落會落下：把難過的事當一場即將謝幕的短劇", "try": "寫一句、揉紙投球、走下台", "tryRef": "範例：停案很可惜，我今晚先不重播", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "09", "sec": "2.4", "topic": "情緒表達能收能放", "dur": "0:59", "part": "第 2 章　人生如戲：用看戲的心情面對鳥事", "chapter": "2.4 敏捷反應力：把悲傷快速轉成平靜的內在功夫", "try": "提醒重啟、寫事實、做一步", "tryRef": "範例：檔案沒存到，先列三個小標", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "10", "sec": "2.5", "topic": "遠近要看事情大小", "dur": "0:56", "part": "第 2 章　人生如戲：用看戲的心情面對鳥事", "chapter": "2.5 戲如人生：抽離一點，就看見樂趣", "try": "挑一幕、照照鏡子、換句台詞", "tryRef": "範例：投影片偷跑了，我們先退一頁", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "11", "sec": "3.1", "topic": "運動中的自我提示", "dur": "0:55", "part": "第 3 章　情緒排雷：拆掉心裡的未爆彈", "chapter": "3.1 漏氣的輪胎：別讓負面語言像針，悄悄漏光你的精力", "try": "抓三句、配替代詞、看貼紙念", "tryRef": "範例：我累了，喝口水再核對第一欄", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "12", "sec": "3.2", "topic": "慢吐氣的四週試驗", "dur": "0:55", "part": "第 3 章　情緒排雷：拆掉心裡的未爆彈", "chapter": "3.2 大禹治水：疏通內心管道，將情緒轉化為正向的流水", "try": "吸氣、慢吐、留空檔", "tryRef": "範例：先倒杯水，回來再說明交件時間", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "13", "sec": "3.3", "topic": "晨間預期與白天記憶", "dur": "0:55", "part": "第 3 章　情緒排雷：拆掉心裡的未爆彈", "chapter": "3.3 起床第一句話：用一個簡單的開關，設定你一整天的好天氣", "try": "今晚貼卡、下床前念、微笑三秒", "tryRef": "範例：先下床，再看今天要談哪一題", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "14", "sec": "3.4", "topic": "分手後的三天書寫", "dur": "0:53", "part": "第 3 章　情緒排雷：拆掉心裡的未爆彈", "chapter": "3.4 正面重解讀：分手是提早練習分離，每一場謝幕都是成長的彩排", "try": "拿張白紙、找三個養分、摺好帶著", "tryRef": "範例：下次有委屈，想早一點說出口", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "15", "sec": "3.5", "topic": "區分情緒與怒後反應", "dur": "0:58", "part": "第 3 章　情緒排雷：拆掉心裡的未爆彈", "chapter": "3.5 掃雷行動：在情緒地雷引爆前，主動進行心靈的排雷演練", "try": "寫事件、拆感受與需求、選安全動作", "tryRef": "範例：請在十一點前先給我核心數據", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "16", "sec": "4.1", "topic": "旁觀也可能有壓力反應", "dur": "0:53", "part": "第 4 章　人際界線：拉起城堡的護城河與吊橋", "chapter": "4.1 內心堡壘與護城河：在喧囂的外界中，為自己築起安全的屏障", "try": "畫圖、碰圖、默念", "tryRef": "範例：只記下交期，不跟著提高音量", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "17", "sec": "4.2", "topic": "好奇心與日常拒絕", "dur": "0:52", "part": "第 4 章　人際界線：拉起城堡的護城河與吊橋", "chapter": "4.2 難纏的人都是 NPC：用好奇心代替憤怒，把刁難當成解任務", "try": "選情境、記台詞、試條件", "tryRef": "範例：核銷被退件，先問是不是缺收據", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "18", "sec": "4.3", "topic": "額外付出與疲憊", "dur": "0:54", "part": "第 4 章　人際界線：拉起城堡的護城河與吊橋", "chapter": "4.3 把責任還給對方：雷同事的爛攤子，不該成為你超載的背包", "try": "說明、歸還、回位", "tryRef": "範例：我今天排滿，預算請你向主管回報", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "19", "sec": "4.4", "topic": "請求者低估答應機率", "dur": "0:52", "part": "第 4 章　人際界線：拉起城堡的護城河與吊橋", "chapter": "4.4 溫和而堅定的界線：優雅地說不，適度收取手續費也是一種人情", "try": "肯定、說限制、給選項", "tryRef": "範例：行李快滿，我能帶一件，費用先談好", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "20", "sec": "4.5", "topic": "比較正負人際互動", "dur": "0:53", "part": "第 4 章　人際界線：拉起城堡的護城河與吊橋", "chapter": "4.5 遠離有毒關係：人際關係的斷捨離，把有限的能量留給對的人", "try": "回顧、靜音、回覆", "tryRef": "範例：先關通知，明晚有精神再聽語音", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "21", "sec": "5.1", "topic": "買前的期待與興奮，往往大於收到包裹後的滿足", "dur": "0:49", "part": "第 5 章　減法的快樂：東西越少，心越寬", "chapter": "5.1 購物多巴胺的真相：雙頻路由器與閒置閱讀架的懊悔", "try": "移到追蹤清單、設定十四天提醒、寫下具體問題", "tryRef": "範例：雙頻路由器移到追蹤清單，兩週後看還想不想買", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "22", "sec": "5.2", "topic": "從童年追蹤到成年", "dur": "0:52", "part": "第 5 章　減法的快樂：東西越少，心越寬", "chapter": "5.2 延遲滿足：物質做減法、精神做加法", "try": "檢查、處理、挪用", "tryRef": "範例：先預約換電池，再買那本想讀的書", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "23", "sec": "5.3", "topic": "雜物與家的認同感", "dur": "0:54", "part": "第 5 章　減法的快樂：東西越少，心越寬", "chapter": "5.3 物理空間斷捨離：清掉閒置，找回呼吸感", "try": "計時、篩選、留白", "tryRef": "範例：收線、拿走空杯，空出筆記本的位置", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "24", "sec": "5.4", "topic": "英文短回覆的句點", "dur": "0:53", "part": "第 5 章　減法的快樂：東西越少，心越寬", "chapter": "5.4 剛剛好的鈍感：敏感度調到需要才出現", "try": "抓時機、默念、轉回", "tryRef": "範例：收到一句好，先把明早的進度寫完", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "25", "sec": "5.5", "topic": "兩款糖霜的試吃對照", "dur": "0:50", "part": "第 5 章　減法的快樂：東西越少，心越寬", "chapter": "5.5 真正的擁有來自使用：從內在找滿足", "try": "找一件、不等、體驗", "tryRef": "範例：晚餐後泡一杯那盒捨不得喝的茶", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "26", "sec": "6.1", "topic": "第一步與最後一步", "dur": "0:53", "part": "第 6 章　創作與行動：在未知裡踏出第一步", "chapter": "6.1 細火慢燉：重要抉擇別急，給思緒發酵的時間", "try": "約時間、寫利弊、隔天回", "tryRef": "範例：今晚列出工時疑問，明天下午答覆", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "27", "sec": "6.2", "topic": "走路時更會發想嗎", "dur": "0:53", "part": "第 6 章　創作與行動：在未知裡踏出第一步", "chapter": "6.2 創作如烹飪：靈感來自日常積累與觀察", "try": "收起手機、留意一件、存入備忘錄", "tryRef": "範例：記下便當店老闆娘招呼客人的一句話", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "28", "sec": "6.3", "topic": "表現與任務信心", "dur": "0:53", "part": "第 6 章　創作與行動：在未知裡踏出第一步", "chapter": "6.3 萬事起頭難，但只要起頭：踏出第一步，方向才會來", "try": "選一件、做一版、給人看", "tryRef": "範例：把一百字讀書心得傳給一位朋友", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "29", "sec": "6.4", "topic": "同票價，不同意願", "dur": "0:57", "part": "第 6 章　創作與行動：在未知裡踏出第一步", "chapter": "6.4 空想的代價：20年前看好0050卻只想不做，眼睜睜看它漲五倍", "try": "看負擔、定規則、選擇執行", "tryRef": "範例：先寫下可負擔的額度與檢查日", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "30", "sec": "6.5", "topic": "看得見的終點", "dur": "0:53", "part": "第 6 章　創作與行動：在未知裡踏出第一步", "chapter": "6.5 錨釘點：待辦變成看得見的清單，每完成一件說「太棒了」", "try": "挑一件、貼出來、畫紅叉", "tryRef": "範例：寄出客戶提案，就在那張貼紙畫紅叉", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "31", "sec": "7.1", "topic": "咖啡時間怎麼約", "dur": "0:53", "part": "第 7 章　出走與獨處：在未知與安靜裡長出力量", "chapter": "7.1 無計畫的奇幻旅程", "try": "換條小巷、收起導航、沿途觀察", "tryRef": "範例：下班改走市場旁沒走過的巷子", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "32", "sec": "7.2", "topic": "即興演奏時，大腦自我監控區活動顯著降低", "dur": "0:51", "part": "第 7 章　出走與獨處：在未知與安靜裡長出力量", "chapter": "7.2 臨機應變的鍛鍊", "try": "接受臨時變動、問自己現在能做什麼、先說確定的一句", "tryRef": "範例：被臨時點名時，先說出你最確定的一個事實", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "33", "sec": "7.3", "topic": "獨處十五分鐘", "dur": "0:55", "part": "第 7 章　出走與獨處：在未知與安靜裡長出力量", "chapter": "7.3 獨處的超能力", "try": "關燈關螢幕、坐下或躺好、留意起伏", "tryRef": "範例：睡前放下手機，在床上慢慢呼吸十次", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "34", "sec": "7.4", "topic": "兩種坐姿，同一場演講", "dur": "0:55", "part": "第 7 章　出走與獨處：在未知與安靜裡長出力量", "chapter": "7.4 善用人生的工具：身體、心智、心靈", "try": "推開椅子、呼吸伸展、喝杯溫水", "tryRef": "範例：查報表卡住，起身伸展後只看一欄", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "35", "sec": "7.5", "topic": "一天不收通知提示", "dur": "0:55", "part": "第 7 章　出走與獨處：在未知與安靜裡長出力量", "chapter": "7.5 科技當輕盈助手", "try": "群組靜音、關非必要、留緊急聯絡", "tryRef": "範例：家庭急訊照響，團購群組改靜音", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "36", "sec": "8.1", "topic": "回想失誤的書寫實驗", "dur": "0:52", "part": "第 8 章　用愛看自己：接納殘缺，活出鬆弛感", "chapter": "8.1 用愛看自己", "try": "刷牙時、給個微笑、像對摯友", "tryRef": "範例：今天講錯一個數字，但你也把它更正了。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "37", "sec": "8.2", "topic": "同樣脆弱，兩種眼光", "dur": "0:54", "part": "第 8 章　用愛看自己：接納殘缺，活出鬆弛感", "chapter": "8.2 欣賞不完美", "try": "花三分鐘、辨認比較、少看一個", "tryRef": "範例：每看買房貼文就焦慮，先靜音那個帳號。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "38", "sec": "8.3", "topic": "哪種工作休息較能恢復", "dur": "0:55", "part": "第 8 章　用愛看自己：接納殘缺，活出鬆弛感", "chapter": "8.3 為自己而活", "try": "預留時段、暫停回覆、自己做主", "tryRef": "範例：睡前二十分鐘，坐在陽台喝杯茶。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "39", "sec": "8.4", "topic": "主觀財務感受的兩面", "dur": "0:54", "part": "第 8 章　用愛看自己：接納殘缺，活出鬆弛感", "chapter": "8.4 心安的底氣", "try": "獨立分帳、小額開始、留給急用", "tryRef": "範例：房租先留好，發薪後轉五百元進預備金。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}, {"n": "40", "sec": "8.5", "topic": "時間壓力下的助人行為", "dur": "0:56", "part": "第 8 章　用愛看自己：接納殘缺，活出鬆弛感", "chapter": "8.5 慢慢來，優雅地活", "try": "手機離手、餐具放下、閉眼慢嚼", "tryRef": "範例：第一口青菜，先留意它的脆和熱。", "id": "", "thumb": "https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book7.webp"}];
+const PLAYLIST = "";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0].split('：')[0]; }
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 40 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 支">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li><span class="sec">' + esc(v.sec) + '</span>' + esc(v.chapter) + '</li></ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 ' + esc(v.sec) + '：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'youyi-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+})();
+</script>
+</body>
+</html>
