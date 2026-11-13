@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《餘裕》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《餘裕》讀者專屬：40 支原理動畫，一節一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 book-quiz.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#8d6524; --c:#864e2a;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em;word-break:keep-all}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:6px}
+
+  /* 先放縮圖，點了才載入播放器：40 支一起載入會拖慢整頁 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#2b231b}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(68,53,39,.88);display:grid;place-items:center;transition:background-color .15s ease}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdfaf4;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:var(--c)}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  /* 依章換色：跟影片同一套「晨光繪本」色調（yuyu_engine.py 的 TONES：1/4/8 淡天藍、2/3/5 蜜金、6/7 鼠尾草綠，取 deep 色） */
+  .tone-simple{--c:#345870} .tone-happy{--c:#864e2a} .tone-joy{--c:#3e6038}
+  .try{font-size:14px;border-left:2px solid var(--c);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--c)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book9.webp" alt="《餘裕》封面" width="96" height="144">
+    <div>
+      <h1>《餘裕》讀者專屬影片</h1>
+      <p class="lead">一節一支，共 40 支動畫，每支約一分鐘。書裡教你怎麼做，影片講為什麼有效：每支用一個研究，說明書中工具背後的原理。讀到哪一節，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《餘裕》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="40 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive「動畫影片編輯/Book09_餘裕/讀者專屬頁/產生讀者專屬頁.py」產生，不要手改 */
+const VIDEOS = [{"n": "01", "id": "p9lSU-zHzm8", "dur": "0:56", "topic": "工時過了一條線，產量就不再增加", "sec": "1.1 夠了還有餘", "part": "第 1 章　餘裕是什麼：雙寬裕的活法（總論）", "chapter": "1.1 餘裕不是「很多」，是「夠了，還有餘」", "try": "刪掉 3 個一個月沒開的 APP；清出書桌右邊的一角；讓它保持乾淨、留白", "tryRef": "1.1【算一算你的「餘裕空間」】"}, {"n": "02", "id": "NXxv6qoPF8A", "dur": "0:58", "topic": "錢讓生活評價變好，心情卻不太變", "sec": "1.2 雙寬裕", "part": "第 1 章　餘裕是什麼：雙寬裕的活法（總論）", "chapter": "1.2 雙寬裕：心裡的富足 × 手上的餘裕", "try": "開一個子帳戶；取名「安心預備金」；今天先轉進 100 元", "tryRef": "1.2【篩選關係，留下輕鬆真誠的關係】"}, {"n": "03", "id": "d_1LK5DkgoU", "dur": "1:00", "topic": "收入到了某條線，快樂就不太再漲", "sec": "1.3 畫出夠用線", "part": "第 1 章　餘裕是什麼：雙寬裕的活法（總論）", "chapter": "1.3 先定義你的「夠了」：把夠用線畫出來", "try": "拿一張紙，算最低月開銷；住、水電網路、三餐、進修；把數字圈起來，那就是夠用線", "tryRef": "1.3【你的安定，其實早就蓋好了】"}, {"n": "04", "id": "ud-1qT_8PTA", "dur": "0:58", "topic": "標「每天」，貴一點也賣得更好", "sec": "1.4 算總成本", "part": "第 1 章　餘裕是什麼：雙寬裕的活法（總論）", "chapter": "1.4 貧窮思維 vs 富足思維：餘裕的分水嶺", "try": "挑出一個省錢習慣；它耗掉時間或心情嗎？；是的話，今天就停掉", "tryRef": "1.4【解開大象的無形繩索】"}, {"n": "05", "id": "dBhIsmPCq-o", "dur": "0:54", "topic": "說是「最後一顆」，就變得最好吃", "sec": "1.5 最後一顆", "part": "第 1 章　餘裕是什麼：雙寬裕的活法（總論）", "chapter": "1.5 帶不走的單程票：求「夠」，不求「多」", "try": "放下手機，抬頭看雲和樹；或買一杯熱茶，慢慢喝完；這是今天專屬的體驗", "tryRef": "1.5【專注在眼前的每一幕電影】"}, {"n": "06", "id": "lkZciGXnGo0", "dur": "0:49", "topic": "收入的快樂，四年就淡掉大半", "sec": "2.1 享樂適應", "part": "第 2 章　心靈寬裕（上）：富足感的源頭在內心", "chapter": "2.1 幸福不在外物：快樂來自內心的滿足", "try": "找出一個壞掉或用不到的東西；或刪掉 10 個用不到的檔案；感受外物變少、心變輕", "tryRef": "2.1【留下環境與數位的呼吸空間】"}, {"n": "07", "id": "odq6lsIWIfk", "dur": "0:54", "topic": "只滑不互動，心情慢慢往下掉", "sec": "2.2 只滑不互動", "part": "第 2 章　心靈寬裕（上）：富足感的源頭在內心", "chapter": "2.2 跳下比較的跑步機：別人的高光不是你的落後", "try": "察覺哪個帳號讓你焦慮；按下取消追蹤或靜音；把比較的源頭移開", "tryRef": "2.2【雕刻出你自己的輪廓】"}, {"n": "08", "id": "zZSgSlL-1PY", "dur": "0:59", "topic": "想像「如果沒有」，心情反而最好", "sec": "2.3 如果沒有", "part": "第 2 章　心靈寬裕（上）：富足感的源頭在內心", "chapter": "2.3 知足不是將就：看見手心裡已經有的", "try": "手放在枕頭上，感受溫暖；說：我的基本需求滿足了；做 3 次深呼吸", "tryRef": "2.3【站在踏實的地基上】"}, {"n": "09", "id": "V4NKwnNy5D8", "dur": "0:55", "topic": "收到感謝的人，比你想的更開心", "sec": "2.4 說聲謝謝", "part": "第 2 章　心靈寬裕（上）：富足感的源頭在內心", "chapter": "2.4 感恩：讓富足感隨時生成", "try": "空白卡片寫一句好話；貼在早上第一眼的地方；明早微笑著大聲念一遍", "tryRef": "2.4【隨手按下的心靈開關】"}, {"n": "10", "id": "dM3cB7gRCfM", "dur": "1:01", "topic": "自願的幫忙才有好處，被迫的沒有", "sec": "2.5 不勉強答應", "part": "第 2 章　心靈寬裕（上）：富足感的源頭在內心", "chapter": "2.5 把力量拉回自己：不活在別人的期待裡", "try": "想一件勉強答應的瑣事；今天禮貌地拒絕；或設一條明確的底線", "tryRef": "2.5【握回你人生的方向盤】"}, {"n": "11", "id": "EQuE4Y9oFJE", "dur": "0:56", "topic": "大人守不守信，決定孩子等不等", "sec": "3.1 看不見的玻璃蓋", "part": "第 3 章　心靈寬裕（下）：長出不匱乏的底氣", "chapter": "3.1 匱乏感從哪來：跳蚤效應的無形玻璃蓋", "try": "寫下一句限制自己的話；用紅筆畫一個大叉；寫：我隨時可以重新學習", "tryRef": "3.1【跳出罐口後的寬廣視野】"}, {"n": "12", "id": "_lEwbA_UJyk", "dur": "1:00", "topic": "知道答案以後，就覺得自己早知道", "sec": "3.2 後見之明", "part": "第 3 章　心靈寬裕（下）：長出不匱乏的底氣", "chapter": "3.2 接受不完美，和過去和解", "try": "寫下一件還在自責的決定；寫：謝謝 1.0 版本的我；揉掉，丟進垃圾桶", "tryRef": "3.2【接納不完美後的清爽與自由】"}, {"n": "13", "id": "JFpUht1hwoE", "dur": "0:59", "topic": "自我價值綁在外面，代價比較多", "sec": "3.3 不用別人認證", "part": "第 3 章　心靈寬裕（下）：長出不匱乏的底氣", "chapter": "3.3 你的價值，不需要別人認證", "try": "完成一件不錯的事；刻意不發到社群；說：我很棒，我知道就好", "tryRef": "3.3【站在心安的土地上】"}, {"n": "14", "id": "J8C4E_10Vx4", "dur": "0:59", "topic": "被廣告打斷，反而更好看", "sec": "3.4 打斷一下", "part": "第 3 章　心靈寬裕（下）：長出不匱乏的底氣", "chapter": "3.4 內在的富足：快樂可以自己生成", "try": "回想一件卡卡的小事；深呼吸，找出 1 個收穫；寫下來，對自己笑一下", "tryRef": "3.4【安靜房間裡的自給自足】"}, {"n": "15", "id": "dDowg_CSo9w", "dur": "0:59", "topic": "去的地方越多樣，那天心情越好", "sec": "3.5 新的足跡", "part": "第 3 章　心靈寬裕（下）：長出不匱乏的底氣", "chapter": "3.5 你的劇本，不必給誰看", "try": "下週末圈出 2 小時；寫上「我的劇本時間」；去做一件想試的小事", "tryRef": "3.5【自己寫下的精彩分鏡】"}, {"n": "16", "id": "ApTX9H1ah1U", "dur": "0:58", "topic": "花得合個性，比花多少更重要", "sec": "4.1 花錢合個性", "part": "第 4 章　物質寬裕（上）：讓金錢變輕盈", "chapter": "4.1 金錢是資源，不是主人", "try": "檢查過去一週的消費；找出一筆沒感覺的跟風；下次把錢留給自己", "tryRef": "4.1【錢重新變回一個工具】"}, {"n": "17", "id": "VJUODtB5NRk", "dur": "0:59", "topic": "同一塊巧克力，一起吃更好吃", "sec": "4.2 一起經歷", "part": "第 4 章　物質寬裕（上）：讓金錢變輕盈", "chapter": "4.2 把錢花在刀口上：買時間、買體驗", "try": "找一件耗時又累的家事；換成工具，或請人代勞；省下的時間留給自己", "tryRef": "4.2【週末終於是你的了】"}, {"n": "18", "id": "GOIGnkLlwQw", "dur": "0:56", "topic": "通勤越久越不滿意，也沒被補回來", "sec": "4.3 通勤的代價", "part": "第 4 章　物質寬裕（上）：讓金錢變輕盈", "chapter": "4.3 時間比金錢貴：別為省小錢賠掉人生", "try": "想一個省錢的耗時習慣；算出省下的錢與時間；時薪低於 100 元就換掉", "tryRef": "4.3【找回時間主權的奢華體驗】"}, {"n": "19", "id": "0mkKi5jhELc", "dur": "0:53", "topic": "下單那天越冷，冬衣越容易被退", "sec": "4.4 冷天的大衣", "part": "第 4 章　物質寬裕（上）：讓金錢變輕盈", "chapter": "4.4 需要 vs 想要：買得少，但買得好", "try": "打開購物車；挑出一件其實不需要的；按下刪除", "tryRef": "4.4【手邊那件順手的工具】"}, {"n": "20", "id": "FV9uoaW2vaA", "dur": "0:52", "topic": "有氧運動，讓記憶中樞長回來", "sec": "4.5 投資大腦", "part": "第 4 章　物質寬裕（上）：讓金錢變輕盈", "chapter": "4.5 投資自己：最划算的理財是健康與認知", "try": "避開加工食品和炸物；多花 50 元買原型食物；慢慢吃，當成一筆理財", "tryRef": "4.5【擁有拿不走的隨身家當】"}, {"n": "21", "id": "35usLk9oVVU", "dur": "0:59", "topic": "多一筆現金，日子和心情都鬆了", "sec": "5.1 現金緩衝", "part": "第 5 章　物質寬裕（下）：為人生鋪一層緩衝墊", "chapter": "5.1 緩衝墊：意外來的時候，你還有餘裕", "try": "寫下健康、經濟、心理；圈出最薄弱的那一個；寫一個這週能做的小動作", "tryRef": "5.1【風雨來時的避風港】"}, {"n": "22", "id": "6M94PQMfKMI", "dur": "0:55", "topic": "睡不到六小時，比較容易感冒", "sec": "5.2 健康的緩衝墊", "part": "第 5 章　物質寬裕（下）：為人生鋪一層緩衝墊", "chapter": "5.2 健康的緩衝墊：睡眠、飲食、運動三根柱子", "try": "比平常提早 30 分鐘，關掉手機；放到離床至少 2 公尺的地方；閉上眼睛，給身體完整的一覺", "tryRef": "5.2【清晨醒來時的清爽大腦】"}, {"n": "23", "id": "Z-9IgxrVFTs", "dur": "0:52", "topic": "多 9 週的緩衝，換到更好的工作", "sec": "5.3 安心月數", "part": "第 5 章　物質寬裕（下）：為人生鋪一層緩衝墊", "chapter": "5.3 經濟的緩衝墊：先存到「安心月數」", "try": "最低月開銷 × 6；算出現在有幾個月；大字記在備忘錄首頁", "tryRef": "5.3【說出「不」的那個瞬間】"}, {"n": "24", "id": "Kf3Zq3GaeTM", "dur": "0:57", "topic": "寫下解法，睡前腦袋比較安靜", "sec": "5.4 睡前清空", "part": "第 5 章　物質寬裕（下）：為人生鋪一層緩衝墊", "chapter": "5.4 心理的緩衝墊：心安，是最深的底氣", "try": "準備一本筆記本；把焦慮的事全寫成清單；說：大腦可以安心睡了", "tryRef": "5.4【關掉手機後的安寧】"}, {"n": "25", "id": "52-XQHQASqs", "dur": "0:57", "topic": "情緒一激動，就更容易被騙", "sec": "5.5 激動時別決定", "part": "第 5 章　物質寬裕（下）：為人生鋪一層緩衝墊", "chapter": "5.5 守住餘裕：清醒地防詐、不被收割", "try": "檢查你的通訊軟體；找出帶單、致富群組；今天就退出一個", "tryRef": "5.5【話術一聽就散了】"}, {"n": "26", "id": "Bkbu4iP7tE8", "dur": "0:53", "topic": "練習能解釋的，比想像中少", "sec": "6.1 多項八十分", "part": "第 6 章　能力寬裕：多幾樣 80 分的抗風險", "chapter": "6.1 一專多能：多項技能 80 分 ＞ 單一 100 分", "try": "寫下你的主專業；列 2 個練到 80 分就加分的技能；今天看完一支 10 分鐘入門影片", "tryRef": "6.1【立體人才的生存優勢】"}, {"n": "27", "id": "SvxgZY_WRlc", "dur": "0:59", "topic": "理財顧問，常推對自己有利的", "sec": "6.2 看懂合約", "part": "第 6 章　能力寬裕：多幾樣 80 分的抗風險", "chapter": "6.2 別困在知識孤島", "try": "找出一份財務合約；讀核心條款和費用說明；不靠業務，自己看懂", "tryRef": "6.2【知識之間開始互相說話】"}, {"n": "28", "id": "R5OYg7FSqJg", "dur": "0:54", "topic": "經歷越廣的執行長，薪水越高", "sec": "6.3 通才的溢價", "part": "第 6 章　能力寬裕：多幾樣 80 分的抗風險", "chapter": "6.3 廣度換來適應力：面對變化的餘裕", "try": "找一篇無關工作的科普；或一支 10 分鐘知識影片；帶著好奇心看完", "tryRef": "6.3【枯萎竹林外的另一片新綠】"}, {"n": "29", "id": "ULJbhDumvxQ", "dur": "0:58", "topic": "只改擺放位置，選擇就變了", "sec": "6.4 降低阻力", "part": "第 6 章　能力寬裕：多幾樣 80 分的抗風險", "chapter": "6.4 把成長變成低阻力的日常", "try": "挑一本想讀的書；放床頭，翻到第一頁；旁邊放一支筆", "tryRef": "6.4【背景運作中的無聲增長】"}, {"n": "30", "id": "a9hT2jPkUgM", "dur": "1:00", "topic": "能力，比想像中更能帶著走", "sec": "6.5 帶得走的能力", "part": "第 6 章　能力寬裕：多幾樣 80 分的抗風險", "chapter": "6.5 能力，是拿不走的隨身家當", "try": "拿一張小卡；寫下 2 個通用能力；放進皮夾，焦慮時看看", "tryRef": "6.5【隨身攜帶的核心資產】"}, {"n": "31", "id": "t7qSOXTO5lw", "dur": "1:03", "topic": "覺得能掌控，壓力就壓不垮你", "sec": "7.1 有掌控感", "part": "第 7 章　從容：把餘裕過成日常的節奏", "chapter": "7.1 因為有餘裕，所以不慌", "try": "遇到小摩擦，先別嘆氣；默念：我有餘裕，我不慌；做 2 次慢慢的深呼吸", "tryRef": "7.1【事情來了，你先深呼吸】"}, {"n": "32", "id": "Nzd81NKDKl8", "dur": "1:00", "topic": "被催的醫師，誤診變多", "sec": "7.2 慢一點", "part": "第 7 章　從容：把餘裕過成日常的節奏", "chapter": "7.2 不急，反而先到", "try": "寄重要信件前停 60 秒；從頭到尾讀一遍；核對收件人、主旨、附件", "tryRef": "7.2【慢下來，反而不必重做】"}, {"n": "33", "id": "CibpaedcqyQ", "dur": "0:53", "topic": "病床排太滿，就會週期性爆床", "sec": "7.3 留兩成空白", "part": "第 7 章　從容：把餘裕過成日常的節奏", "chapter": "7.3 給自己留白：行事曆的兩成空白", "try": "打開明天的行事曆；插入 30 分鐘「系統緩衝」；不開會，走走、喝杯茶", "tryRef": "7.3【留白不是浪費】"}, {"n": "34", "id": "Oyc_4Kda5ts", "dur": "0:56", "topic": "短暫休息，能把活力找回來", "sec": "7.4 微休息", "part": "第 7 章　從容：把餘裕過成日常的節奏", "chapter": "7.4 鬆與緊之間：懂得休息才走得遠", "try": "手機靜音，放進抽屜；離線 30 分鐘；伸展、聽音樂、和家人聊", "tryRef": "7.4【在鬆緊自如中走得更遠】"}, {"n": "35", "id": "H3X768aDjOk", "dur": "0:55", "topic": "只要看起來快截止，就先做它", "sec": "7.5 急迫的錯覺", "part": "第 7 章　從容：把餘裕過成日常的節奏", "chapter": "7.5 把時間留給真正重要的事", "try": "打開今天的待辦清單；找出一件假急迫的瑣事；拒絕、交出去，或劃掉", "tryRef": "7.5【你的時間，你說了算】"}, {"n": "36", "id": "nzXoEj-VKuc", "dur": "0:55", "topic": "多睡一點，薪水也跟著提高", "sec": "8.1 睡眠的財報", "part": "第 8 章　雙寬裕的活法：夠了，就是最大的自由（收束）", "chapter": "8.1 睡得安穩，是最誠實的財報", "try": "平躺，雙手疊在腹部；吸氣：我的基礎很安全；呼氣：可以安心睡了", "tryRef": "8.1【睡得好，帳就對了】"}, {"n": "37", "id": "GRDgKs6ZGWQ", "dur": "1:02", "topic": "感恩的人，比較沉得住氣", "sec": "8.2 感恩與耐心", "part": "第 8 章　雙寬裕的活法：夠了，就是最大的自由（收束）", "chapter": "8.2 從匱乏到餘裕：你其實已經擁有很多", "try": "坐下來，看看你的房間；寫下 3 個隱形資產；說：謝謝，我已經擁有很多", "tryRef": "8.2【原來早就夠了】"}, {"n": "38", "id": "PX9OpT-ju2M", "dur": "0:59", "topic": "連百萬富翁，都覺得要再多好幾倍", "sec": "8.3 幾倍才夠", "part": "第 8 章　雙寬裕的活法：夠了，就是最大的自由（收束）", "chapter": "8.3 餘裕是一種選擇，不是一個數字", "try": "拿一張小卡；寫：餘裕是主動的選擇；焦慮時拿出來看", "tryRef": "8.3【關掉警報器的清晨】"}, {"n": "39", "id": "vaTAdTMV7jo", "dur": "1:00", "topic": "有人幫忙填表，上大學的人變多", "sec": "8.4 幫你填好表", "part": "第 8 章　雙寬裕的活法：夠了，就是最大的自由（收束）", "chapter": "8.4 把複雜活成簡單", "try": "挑書桌上的一個角落；清空雜物，只留一件工具；在空白裡專心 1 小時", "tryRef": "8.4【自來水清澈流過指縫的瞬間】"}, {"n": "40", "id": "e1aMsBsvUYM", "dur": "0:55", "topic": "比起財富，自主更能預測心理健康", "sec": "8.5 夠了就是自由", "part": "第 8 章　雙寬裕的活法：夠了，就是最大的自由（收束）", "chapter": "8.5 夠了，就是最大的自由", "try": "閉上眼，深呼吸 3 次；右手放在心口；說：我已經足夠完整", "tryRef": "8.5【走出黃金籠子的腳步】"}];
+const PLAYLIST = "PLKSKbgQFJras";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0].split('：')[0]; }
+  var TONE = { 1: 'simple', 4: 'simple', 8: 'simple', 2: 'happy', 3: 'happy', 5: 'happy', 6: 'joy', 7: 'joy' };
+  function tone(v) { return 'tone-' + (TONE[parseInt(v.sec, 10)] || 'happy'); }
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 40 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 支">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part ' + tone(p.items[0]) + '" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video ' + tone(v) + '" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li>' + esc(v.chapter) + '</li></ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 ' + esc(v.sec) + '：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      /* 預覽版：影片還沒上傳，直接播 Drive 裡的成品 */
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'yuyu-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   （與其他頁同一份；這頁只有書封走 jsDelivr）
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>
