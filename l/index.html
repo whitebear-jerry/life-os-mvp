@@ -3,12 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>正在前往 白熊人生攻略...</title>
-  <meta http-equiv="refresh" content="0; url=../link.html">
+  <!-- 沒有 JS 時的退路：meta refresh 帶不了網址參數，所以給 1 秒，讓下面的 JS 一定先跳 -->
+  <meta http-equiv="refresh" content="1; url=../link.html">
   <script>
-    window.location.replace("../link.html");
+    // 保留 ?utm_source=… 與 #book-… 錨點（2026-11-13）：Threads 自介若用 /l/，來源才分得出來
+    window.location.replace("../link.html" + location.search + location.hash);
   </script>
 </head>
 <body>
-  <p>正在前往白熊人生攻略，如果瀏覽器沒有自動跳轉，請點擊 <a href="../link.html">此處</a>。</p>
+  <p>正在前往白熊人生攻略，如果瀏覽器沒有自動跳轉，請點擊 <a id="go" href="../link.html">此處</a>。</p>
+  <script>
+    document.getElementById("go").href = "../link.html" + location.search + location.hash;
+  </script>
 </body>
 </html>
