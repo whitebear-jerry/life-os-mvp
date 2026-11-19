@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《人生主場》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《人生主場》讀者專屬：40 支原理動畫，一節一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 book-quiz.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#a3402c; --c:#2f4b62;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em;word-break:keep-all}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:6px}
+
+  /* 先放縮圖，點了才載入播放器：40 支一起載入會拖慢整頁 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#2b231b}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(68,53,39,.88);display:grid;place-items:center;transition:background-color .15s ease}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdfaf4;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:var(--c)}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  /* 配色取自影片的「主權測繪」：指北針紅 #a3402c 當強調色，地圖墨藍 #2f4b62 當章標題（zhuchang_engine.py 的 RED、BLUE；對比 ≥5.5） */
+  .try{font-size:14px;border-left:2px solid var(--c);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--c)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book10.webp" alt="《人生主場》封面" width="96" height="144">
+    <div>
+      <h1>《人生主場》讀者專屬影片</h1>
+      <p class="lead">一節一支，共 40 支動畫，每支約一分鐘。書裡教你怎麼做，影片講為什麼有效：每支用一個研究，說明書中工具背後的原理。讀到哪一節，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《人生主場》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="40 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive「動畫影片編輯/Book10_人生主場/讀者專屬頁/產生讀者專屬頁.py」產生，不要手改 */
+const VIDEOS = [{"n": "01", "id": "2lCAk5VaL6A", "dur": "0:50", "topic": "在困境裡找到好處，比較不憂鬱", "sec": "1.1 開啟主角視角", "part": "第 1 章　認知主權：打破客場幻覺，奪回心智控制權", "chapter": "1.1 開啟主角視角：痛苦只是劇情，挫折只是考驗", "try": "遇到倒楣事，先停 3 秒；問：這是要考驗我什麼？；寫下事件和收穫", "tryRef": "1.1【💡 今天就能做的小動作】"}, {"n": "02", "id": "0aU_4FFPmi4", "dur": "0:48", "topic": "興趣跟工作對得上，表現更好", "sec": "1.2 隱形護城河掃描", "part": "第 1 章　認知主權：打破客場幻覺，奪回心智控制權", "chapter": "1.2 隱形護城河掃描：在枯燥中發光的天賦耐力", "try": "替 4 種高摩擦任務打分數；1 分痛苦、5 分無感；4 分以上，畫一顆星", "tryRef": "1.2【💡 今天就能做的小動作】"}, {"n": "03", "id": "s_KbMcR2530", "dur": "0:49", "topic": "做跟個性相反的事，比較費力", "sec": "1.3 卸下錯誤重甲", "part": "第 1 章　認知主權：打破客場幻覺，奪回心智控制權", "chapter": "1.3 卸下錯誤重甲：不再用別人的期待壓垮天賦", "try": "寫下做 10 分鐘就被抽乾的事；問：它在考驗我缺的哪項能力；外包、工具化或優雅拒絕", "tryRef": "1.3【💡 今天就能做的小動作】"}, {"n": "04", "id": "ccFAZsEKx00", "dur": "0:50", "topic": "今天做點創作，隔天狀態更好", "sec": "1.4 真正的能量回充", "part": "第 1 章　認知主權：打破客場幻覺，奪回心智控制權", "chapter": "1.4 真正的能量回充：在心流錨點中找回平靜", "try": "手機開飛航，走進書店；不看暢銷榜，看在哪停下；抽一本書讀 5 分鐘", "tryRef": "1.4【💡 今天就能做的小動作】"}, {"n": "05", "id": "gVf1OI6p_1I", "dur": "0:45", "topic": "自我面向越多元，壓力打擊越小", "sec": "1.5 自創專屬身分", "part": "第 1 章　認知主權：打破客場幻覺，奪回心智控制權", "chapter": "1.5 自創專屬身分：打破職稱標籤，合成你的核心價值", "try": "寫下特質、長處、護城河；取一個專屬身分名稱；簽上名字和日期", "tryRef": "1.5【💡 今天就能做的小動作】"}, {"n": "06", "id": "ZqARXMpPJEk", "dur": "0:51", "topic": "多睡將近兩小時，球打得更好", "sec": "2.1 奪回生活主控權", "part": "第 2 章　能量主權：築牢肉身神殿，打造不滅的原力電池", "chapter": "2.1 奪回生活主控權：高手都是先鎖定休整，才安排衝刺", "try": "週末釘死連續 4 小時；寫上：非危及生命恕不響應；有人插隊，就約下週", "tryRef": "2.1【💡 今天就能做的小動作】"}, {"n": "07", "id": "EsbhAx_9Imc", "dur": "0:48", "topic": "滑短影音，比較容易忘了要做的事", "sec": "2.2 驅逐精神雜質", "part": "第 2 章　能量主權：築牢肉身神殿，打造不滅的原力電池", "chapter": "2.2 驅逐精神雜質：別用高頻碎片麻痺乾渴的靈魂", "try": "充電線移出臥室；切成睡眠專注模式；床頭只留夜燈和紙本書", "tryRef": "2.2【💡 今天就能做的小動作】"}, {"n": "08", "id": "yayzLFakDOg", "dur": "0:53", "topic": "在哪裡背的，就在哪裡想得起來", "sec": "2.3 打造神聖結界", "part": "第 2 章　能量主權：築牢肉身神殿，打造不滅的原力電池", "chapter": "2.3 打造神聖結界：建立不被打擾的專屬修煉角", "try": "挑一個干擾最少的角落；清掉一公尺內的雜物；設一個專注啟動訊號", "tryRef": "2.3【💡 今天就能做的小動作】"}, {"n": "09", "id": "6nXGl9K-yB0", "dur": "0:58", "topic": "電腦前的時間，約四成耗在卡住", "sec": "2.4 頂級專注投資", "part": "第 2 章　能量主權：築牢肉身神殿，打造不滅的原力電池", "chapter": "2.4 頂級專注投資：用資源買斷外界對注意力的掠奪", "try": "找出偷走注意力的最大卡點；算一算它多耗你幾次耐心；七天內完成汰換", "tryRef": "2.4【💡 今天就能做的小動作】"}, {"n": "10", "id": "CGZpXNdl_kI", "dur": "0:54", "topic": "讓人拖延的，是怕做錯", "sec": "2.5 擊碎完美主義", "part": "第 2 章　能量主權：築牢肉身神殿，打造不滅的原力電池", "chapter": "2.5 擊碎完美主義：用最低阻力的第一步拿回主動權", "try": "挑一件拖最久的事；想出 3 分鐘的最小動作；立刻按下計時器", "tryRef": "2.5【💡 今天就能做的小動作】"}, {"n": "11", "id": "IDItqLTwqUI", "dur": "0:53", "topic": "只要看起來急，人就先做它", "sec": "3.1 區分真偽主線", "part": "第 3 章　時間主權：從被動應付到絕對主導的時鐘革命", "chapter": "3.1 區分真偽主線：拒絕把精力浪費在別人的支線任務裡", "try": "一年後還會有複利嗎？；不做，天會塌嗎？；答應要犧牲哪條主線？", "tryRef": "3.1【💡 今天就能做的小動作】"}, {"n": "12", "id": "5fD3riOeeHk", "dur": "0:47", "topic": "投入主目標，其他事會自動退後", "sec": "3.2 戰略放棄", "part": "第 3 章　時間主權：從被動應付到絕對主導的時鐘革命", "chapter": "3.2 敢於讓無關緊要的事爛掉：頂級高手的戰略放棄", "try": "寫下 3 件次要的瑣事；允許它們 7 天不管；寫下今天唯一的主戰場", "tryRef": "3.2【💡 今天就能做的小動作】"}, {"n": "13", "id": "moRxGSW7gWU", "dur": "0:56", "topic": "先釐清自己在乎什麼，比較不猶豫", "sec": "3.3 個人決策憲章", "part": "第 3 章　時間主權：從被動應付到絕對主導的時鐘革命", "chapter": "3.3 建立個人決策憲章：不隨外界風吹草動而動搖", "try": "寫一條金錢與投資的底線；寫一條事業選擇的標準；寫一條篩選夥伴的紅線", "tryRef": "3.3【💡 今天就能做的小動作】"}, {"n": "14", "id": "TMTPib5LLvc", "dur": "0:53", "topic": "把擔心寫下來，反而考得更好", "sec": "3.4 逆風局的推演思維", "part": "第 3 章　時間主權：從被動應付到絕對主導的時鐘革命", "chapter": "3.4 逆風局的推演思維：先想最壞結果，便能從容主導", "try": "寫下最壞會損失什麼；寫下第一個自救動作；問：一年後能站起來嗎？", "tryRef": "3.4【💡 今天就能做的小動作】"}, {"n": "15", "id": "_dLu64tQJQA", "dur": "0:51", "topic": "計畫幫得了一個目標，幫不了一堆", "sec": "3.5 每週聚焦戰役", "part": "第 3 章　時間主權：從被動應付到絕對主導的時鐘革命", "chapter": "3.5 每週聚焦戰役：三個核心動作，終結目標焦慮", "try": "列出所有待辦；劃掉八成次要的事；只留 3 個本週動作", "tryRef": "3.5【💡 今天就能做的小動作】"}, {"n": "16", "id": "GEsLpH6pI60", "dur": "0:54", "topic": "給分數，反而削弱興趣", "sec": "4.1 揭穿評分者遊戲", "part": "第 4 章　戰略主權：拒絕盲目內卷，重寫自我生態位", "chapter": "4.1 揭穿評分者遊戲：別在別人的尺規裡爭奪平庸的第一", "try": "寫下最讓你焦慮的尺規；寫上：這是他們的遊戲；親手把它撕碎", "tryRef": "4.1【💡 今天就能做的小動作】"}, {"n": "17", "id": "mXAP7rMkoY0", "dur": "0:50", "topic": "為事情本身而做，走得更遠", "sec": "4.2 定義自己的計分板", "part": "第 4 章　戰略主權：拒絕盲目內卷，重寫自我生態位", "chapter": "4.2 定義自己的計分板：從「被挑選」躍升為「不可替代」", "try": "有沒有解決真實的問題？；有沒有更不可替代？；有沒有問心無愧？", "tryRef": "4.2【💡 今天就能做的小動作】"}, {"n": "18", "id": "GMcyBOC4BVk", "dur": "0:49", "topic": "跨過越多領域，越有機會出大作", "sec": "4.3 拒絕低維度內卷", "part": "第 4 章　戰略主權：拒絕盲目內卷，重寫自我生態位", "chapter": "4.3 拒絕低維度內卷：升維競爭，在無人競爭的荒野開拓", "try": "左圓：熟練但內卷的技能；右圓：冷門但真有需要的領域；交叉處寫下新身分", "tryRef": "4.3【💡 今天就能做的小動作】"}, {"n": "19", "id": "2o1ErMc7A9U", "dur": "0:53", "topic": "同一門課，只對高敏感的女孩有效", "sec": "4.4 打造非對稱優勢", "part": "第 4 章　戰略主權：拒絕盲目內卷，重寫自我生態位", "chapter": "4.4 打造非對稱優勢：把你的特異之處變成專屬護城河", "try": "寫下最常被批評的特質；寫出它在哪裡是超能力；這週在那裡完全釋放", "tryRef": "4.4【💡 今天就能做的小動作】"}, {"n": "20", "id": "uLhA62V9M5c", "dur": "0:48", "topic": "開口談，起薪平均多五千美元", "sec": "4.5 重寫遊戲規則", "part": "第 4 章　戰略主權：拒絕盲目內卷，重寫自我生態位", "chapter": "4.5 重寫遊戲規則：不當客場玩家，只當主場制定者", "try": "寫下最憋屈的被動規則；宣告：我不再遵從它；寫下你的新條款", "tryRef": "4.5【💡 今天就能做的小動作】"}, {"n": "21", "id": "iCJoM96bN1k", "dur": "0:46", "topic": "跟誰相處，影響你有多投入", "sec": "5.1 社交主場重置", "part": "第 5 章　主場社交：磁場篩選與清醒合夥", "chapter": "5.1 社交主場重置：拒絕低效同溫層，只做高維能量交換", "try": "看最近互動最多的 10 人；標上黑、灰、金三色；今天聯絡一位金色的人", "tryRef": "5.1【💡 今天就能做的小動作】"}, {"n": "22", "id": "KSevPbgtirU", "dur": "0:50", "topic": "避開一個有毒的人，勝過多一個明星", "sec": "5.2 設立人際防火牆", "part": "第 5 章　主場社交：磁場篩選與清醒合夥", "chapter": "5.2 設立人際防火牆：對精神吸血鬼果斷亮出閉門羹", "try": "想出最消耗你的那個人；存下三句冷回應；今天設成訊息免打擾", "tryRef": "5.2【💡 今天就能做的小動作】"}, {"n": "23", "id": "XvHleJ4G10Y", "dur": "0:50", "topic": "對上討好、對下刻薄，最惹人厭", "sec": "5.3 吸引而非迎合", "part": "第 5 章　主場社交：磁場篩選與清醒合夥", "chapter": "5.3 吸引而非迎合：用你深耕的專業長出強大引力場", "try": "定義半年後的代表作；90 天砍掉八成無效社交；想巴結時：回去做作品", "tryRef": "5.3【💡 今天就能做的小動作】"}, {"n": "24", "id": "GXE_D2uk8PQ", "dur": "0:52", "topic": "平分股份的新創，估值比較低", "sec": "5.4 構建同盟協議", "part": "第 5 章　主場社交：磁場篩選與清醒合夥", "chapter": "5.4 構建同盟協議：清醒合夥，建立高信任契約網路", "try": "分歧時，誰有最後一票？；有人退出時，怎麼算？；沒有白紙黑字，不投入", "tryRef": "5.4【💡 今天就能做的小動作】"}, {"n": "25", "id": "CGQjO7z4tKE", "dur": "0:48", "topic": "自己選的獨處，跟幸福有關", "sec": "5.5 享受主場孤獨", "part": "第 5 章　主場社交：磁場篩選與清醒合夥", "chapter": "5.5 享受主場孤獨：在無人喝彩的深處，積蓄穿透力", "try": "圈出連續 4 小時；手機飛航，只做一件深水任務；結束時，對自己說：做到了", "tryRef": "5.5【💡 今天就能做的小動作】"}, {"n": "26", "id": "kSIO7bhaMww", "dur": "0:50", "topic": "錢讓人滿意，靠的是掌控感", "sec": "6.1 金錢的終極用途", "part": "第 6 章　資本主權：用財富築起不妥協的尊嚴", "chapter": "6.1 金錢的終極用途：不是炫耀符號，而是購買「拒絕權」", "try": "算出最低限度的月開支；乘以 24，設成目標；開一個獨立帳戶，不動用", "tryRef": "6.1【💡 今天就能做的小動作】"}, {"n": "27", "id": "IztboZRadz0", "dur": "0:47", "topic": "負債越重，心理越難撐", "sec": "6.2 斬斷債務絞索", "part": "第 6 章　資本主權：用財富築起不妥協的尊嚴", "chapter": "6.2 斬斷債務絞索：奪回被未來現金流綁架的自由", "try": "列出所有負債和利率；從利率最高的開始還；關掉分期優先扣款", "tryRef": "6.2【💡 今天就能做的小動作】"}, {"n": "28", "id": "PVxtRP_-ZjE", "dur": "0:54", "topic": "意外常常來，緩衝卻常常不夠", "sec": "6.3 建立反脆弱資產", "part": "第 6 章　資本主權：用財富築起不妥協的尊嚴", "chapter": "6.3 建立反脆弱資產：防禦性儲備與非對稱下注", "try": "左端：安全資產和生活現金；右端：虧光也不影響吃飯的嘗試；清掉看似保本的脆弱產品", "tryRef": "6.3【💡 今天就能做的小動作】"}, {"n": "29", "id": "f5xW7ZWLr88", "dur": "0:47", "topic": "越想時間值多少錢，越覺得時間不夠", "sec": "6.4 打造現金流管道", "part": "第 6 章　資本主權：用財富築起不妥協的尊嚴", "chapter": "6.4 打造現金流管道：讓資產替你呼吸，擺脫時間售賣", "try": "找出重複講解 3 次以上的事；整理成清單、手冊或模板；兩週內上架，標上價格", "tryRef": "6.4【💡 今天就能做的小動作】"}, {"n": "30", "id": "rCLFr_4pUFU", "dur": "0:45", "topic": "越重視物質，幸福感越低", "sec": "6.5 不被金錢異化", "part": "第 6 章　資本主權：用財富築起不妥協的尊嚴", "chapter": "6.5 不被金錢異化：做資本的主人，守住靈魂的獨立", "try": "寫下三條絕不出賣的天條；簽上名字和日期；放進皮夾最深處", "tryRef": "6.5【💡 今天就能做的小動作】"}, {"n": "31", "id": "p4Wtz5CWcxY", "dur": "0:44", "topic": "一直回想的人，憂鬱拖得更久", "sec": "7.1 臣服而非對抗", "part": "第 7 章　動態掌控：高壓風暴中的深層定力", "chapter": "7.1 臣服而非對抗：在既定現實中，尋找最優解", "try": "寫下：這件事已經發生；找出手上最好的一步；三十分鐘內去做", "tryRef": "7.1【💡 今天就能做的小動作】"}, {"n": "32", "id": "CvGNNR3wA1c", "dur": "0:50", "topic": "一直分析，怒氣不會下來", "sec": "7.2 建立情緒熔斷", "part": "第 7 章　動態掌控：高壓風暴中的深層定力", "chapter": "7.2 建立情緒熔斷：阻斷外界刺激向內耗的傳遞鏈", "try": "不舒服時，先停三秒；咬舌尖、扣腳趾、長呼氣；問：從容的主角會怎麼做", "tryRef": "7.2【💡 今天就能做的小動作】"}, {"n": "33", "id": "zN19lEfxsUo", "dur": "0:50", "topic": "看得見灰色地帶的人，過得比較好", "sec": "7.3 灰度思維修煉", "part": "第 7 章　動態掌控：高壓風暴中的深層定力", "chapter": "7.3 灰度思維修煉：打破非黑即白，在混沌中推進", "try": "畫出不能退讓的底線；畫出理想的天花板；中間寫下先試的一小步", "tryRef": "7.3【💡 今天就能做的小動作】"}, {"n": "34", "id": "j1I1pmUYQys", "dur": "1:00", "topic": "車買得越貴，開得越多", "sec": "7.4 快速止損藝術", "part": "第 7 章　動態掌控：高壓風暴中的深層定力", "chapter": "7.4 快速止損藝術：沉沒成本不是成本，轉身即是生機", "try": "寫下已投入多少：沉沒成本；寫下再撐一年要付多少；定一個終審裁判日", "tryRef": "7.4【💡 今天就能做的小動作】"}, {"n": "35", "id": "aQn1Gf8gdpc", "dur": "0:44", "topic": "越照規律走，越覺得有意義", "sec": "7.5 掌控內在節奏", "part": "第 7 章　動態掌控：高壓風暴中的深層定力", "chapter": "7.5 掌控內在節奏：任憑外界狂風暴雨，我自按表操課", "try": "定下每天固定的三件事；寫下：不管心情好壞都做；挑最簡單的一件，現在做", "tryRef": "7.5【💡 今天就能做的小動作】"}, {"n": "36", "id": "1iEBRYZGHfQ", "dur": "0:47", "topic": "累人的，是心思一直繞回祕密", "sec": "8.1 撕碎完美人設", "part": "第 8 章　終極自洽：你才是劇本的唯一終審者", "chapter": "8.1 撕碎完美人設：接納殘缺，活出未經修剪的真實", "try": "寫下最怕被發現的事；向一位信任的人坦白；對鏡子說：這就是我", "tryRef": "8.1【💡 今天就能做的小動作】"}, {"n": "37", "id": "W2ozsF_bJTs", "dur": "0:55", "topic": "覺得時間有限，人會選最親近的人", "sec": "8.2 死亡視角審視", "part": "第 8 章　終極自洽：你才是劇本的唯一終審者", "chapter": "8.2 死亡視角審視：如果生命只剩一年，你在乎什麼", "try": "假設只剩 365 天；寫下：要丟、要做、要說；24 小時內踏出第一步", "tryRef": "8.2【💡 今天就能做的小動作】"}, {"n": "38", "id": "PP-ReMJrbnk", "dur": "0:55", "topic": "成長最快的新創，創辦人平均 45 歲", "sec": "8.3 不向平庸辯解", "part": "第 8 章　終極自洽：你才是劇本的唯一終審者", "chapter": "8.3 不向平庸辯解：走在自己的時區裡，無須證明", "try": "寫下三項不再辯解的特赦；寫上你的時區宣言；簽名，帶在身上", "tryRef": "8.3【💡 今天就能做的小動作】"}, {"n": "39", "id": "2kRWx0HwNDE", "dur": "0:47", "topic": "責怪整個人，跟怒氣綁在一起", "sec": "8.4 成為終審法官", "part": "第 8 章　終極自洽：你才是劇本的唯一終審者", "chapter": "8.4 成為終審法官：生命的最高權力，永遠在你自己手裡", "try": "寫下別人對你的指控；成立的圈起來，去改；其餘的駁回，撕掉", "tryRef": "8.4【💡 今天就能做的小動作】"}, {"n": "40", "id": "1lUnEfj2UMg", "dur": "0:54", "topic": "做過儀式，大腦對犯錯沒那麼大反應", "sec": "8.5 走向人生主場", "part": "第 8 章　終極自洽：你才是劇本的唯一終審者", "chapter": "8.5 走向人生主場：帶著你的工具、方案與決心，登基為王", "try": "寫下接管人生的宣言；簽名、寫日期、按指印；推開窗，說：起步，開拔", "tryRef": "8.5【💡 今天就能做的小動作】"}];
+const PLAYLIST = "PLCuKoInWyPk8";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0].split('：')[0]; }
+  function tone(v) { return ''; }  /* 《人生主場》各章同一色，不分色調 */
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 40 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 支">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part ' + tone(p.items[0]) + '" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video ' + tone(v) + '" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li>' + esc(v.chapter) + '</li></ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 ' + esc(v.sec) + '：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      /* 預覽版：影片還沒上傳，直接播 Drive 裡的成品 */
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'zhuchang-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   （與其他頁同一份；這頁只有書封走 jsDelivr）
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>

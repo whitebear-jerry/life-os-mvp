@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Life OS 工具包｜可列印版</title>
+    <style>
+      :root {
+        --ink: #162018;
+        --muted: #647064;
+        --line: #d9e0d6;
+        --soft: #f4f7ef;
+        --green: #2f6b4f;
+        --gold: #c48935;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: #fbfaf6;
+      }
+
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 72px;
+      }
+
+      section {
+        margin: 0 0 28px;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        break-inside: avoid;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.15;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      h2 {
+        margin-bottom: 12px;
+        font-size: 28px;
+        color: var(--green);
+      }
+
+      h3 {
+        margin: 22px 0 10px;
+        font-size: 18px;
+      }
+
+      p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .cover {
+        min-height: 560px;
+        display: grid;
+        align-content: center;
+        gap: 20px;
+        background: linear-gradient(135deg, #fff, #f4f7ef);
+      }
+
+      .kicker {
+        margin: 0 0 8px;
+        color: var(--gold);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0 18px;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        min-height: 42px;
+        padding: 10px;
+        border: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--green);
+        background: var(--soft);
+      }
+
+      .line {
+        min-height: 56px;
+      }
+
+      .tall {
+        min-height: 92px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .box {
+        min-height: 84px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+      }
+
+      .quote {
+        padding: 16px;
+        border-left: 6px solid var(--gold);
+        background: #fffaf0;
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+
+        main {
+          width: 100%;
+          padding: 0;
+        }
+
+        section {
+          margin: 0;
+          border: 0;
+          border-radius: 0;
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="cover">
+        <div>
+          <p class="kicker">Life OS / 降噪人生</p>
+          <h1>Life OS 工具包</h1>
+          <p>把腦中的雜訊倒出來，找回今天可以做的一小步。</p>
+        </div>
+        <div class="grid">
+          <div class="box">人生降噪一頁表</div>
+          <div class="box">45 天覺醒合約</div>
+          <div class="box">攝影機思維除錯卡</div>
+          <div class="box">心靈 NAS 權限表</div>
+          <div class="box">Life OS 一頁儀表板</div>
+          <div class="box">7 天降噪引導信</div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Freebie</p>
+        <h2>人生降噪一頁表</h2>
+        <p>這張表只做一件事：把最吵、最耗電、最讓你卡住的東西倒出來。</p>
+        <table>
+          <tr><th>問題</th><th>我的答案</th></tr>
+          <tr><td>我現在最大的雜訊是什麼？</td><td class="tall"></td></tr>
+          <tr><td>這個雜訊屬於哪一類？</td><td>□ 願望迷霧　□ 逆境加戲　□ 界線漏電　□ 大腦 RAM 爆滿</td></tr>
+          <tr><td>攝影機拍到的客觀事實是什麼？</td><td class="tall"></td></tr>
+          <tr><td>我今天可以做的最小一步是什麼？</td><td class="line"></td></tr>
+          <tr><td>我需要停止餵養的雜訊是什麼？</td><td class="line"></td></tr>
+          <tr><td>我要放進第二大腦的內容是什麼？</td><td class="line"></td></tr>
+        </table>
+        <p class="quote">我不需要一次解決整個人生。我只需要先把雜訊倒出來，完成今天的一小步。</p>
+      </section>
+
+      <section>
+        <p class="kicker">NT$249 Starter</p>
+        <h2>45 天覺醒合約</h2>
+        <table>
+          <tr><th>欄位</th><th>我的答案</th></tr>
+          <tr><td>今天日期</td><td class="line"></td></tr>
+          <tr><td>今日願望關鍵字</td><td class="line"></td></tr>
+          <tr><td>我真正想要的是</td><td class="tall"></td></tr>
+          <tr><td>今天最小一步</td><td class="line"></td></tr>
+          <tr><td>我願意停止餵養的雜訊</td><td class="line"></td></tr>
+          <tr><td>我今天選擇相信</td><td class="line"></td></tr>
+          <tr><td>晚間簽名</td><td class="line"></td></tr>
+        </table>
+        <h3>7 天檢查</h3>
+        <table>
+          <tr><th>檢查問題</th><th>我的答案</th></tr>
+          <tr><td>我的願望是否更清楚？</td><td class="line"></td></tr>
+          <tr><td>哪個雜訊最常出現？</td><td class="line"></td></tr>
+          <tr><td>下週要調整什麼？</td><td class="line"></td></tr>
+        </table>
+      </section>
+
+      <section>
+        <p class="kicker">Debug</p>
+        <h2>攝影機思維除錯卡</h2>
+        <table>
+          <tr><th>欄位</th><th>我的答案</th></tr>
+          <tr><td>讓我卡住的事件</td><td class="line"></td></tr>
+          <tr><td>攝影機拍到的客觀事實</td><td class="tall"></td></tr>
+          <tr><td>我腦中加演的劇情</td><td class="tall"></td></tr>
+          <tr><td>其他 3 種可能解釋</td><td class="tall"></td></tr>
+          <tr><td>下一個最小除錯行動</td><td class="line"></td></tr>
+        </table>
+      </section>
+
+      <section>
+        <p class="kicker">Boundary</p>
+        <h2>心靈 NAS 權限表</h2>
+        <table>
+          <tr><th>人 / 事 / 資訊源</th><th>目前權限</th><th>耗電</th><th>新權限</th><th>界線句</th></tr>
+          <tr><td class="line"></td><td>完全 / 部分 / 只讀 / 封鎖</td><td>高 / 中 / 低</td><td></td><td></td></tr>
+          <tr><td class="line"></td><td>完全 / 部分 / 只讀 / 封鎖</td><td>高 / 中 / 低</td><td></td><td></td></tr>
+          <tr><td class="line"></td><td>完全 / 部分 / 只讀 / 封鎖</td><td>高 / 中 / 低</td><td></td><td></td></tr>
+          <tr><td class="line"></td><td>完全 / 部分 / 只讀 / 封鎖</td><td>高 / 中 / 低</td><td></td><td></td></tr>
+        </table>
+      </section>
+
+      <section>
+        <p class="kicker">Dashboard</p>
+        <h2>Life OS 一頁儀表板</h2>
+        <table>
+          <tr><th>欄位</th><th>我的答案</th></tr>
+          <tr><td>今日能量 1-10 分</td><td class="line"></td></tr>
+          <tr><td>今天最重要的一件事</td><td class="line"></td></tr>
+          <tr><td>今天要關閉的一個迴圈</td><td class="line"></td></tr>
+          <tr><td>今天要保護的一段時間</td><td class="line"></td></tr>
+        </table>
+        <h3>大腦卸載區</h3>
+        <table>
+          <tr><th>雜訊 / 待辦 / 想法</th><th>放到哪裡</th><th>下一步</th></tr>
+          <tr><td class="line"></td><td></td><td></td></tr>
+          <tr><td class="line"></td><td></td><td></td></tr>
+          <tr><td class="line"></td><td></td><td></td></tr>
+          <tr><td class="line"></td><td></td><td></td></tr>
+          <tr><td class="line"></td><td></td><td></td></tr>
+        </table>
+      </section>
+
+      <section>
+        <p class="kicker">Email Sequence</p>
+        <h2>7 天降噪引導信</h2>
+        <table>
+          <tr><th>Day</th><th>主旨</th><th>練習</th></tr>
+          <tr><td>1</td><td>你不是沒有行動力，你只是大腦太吵了</td><td>把腦中所有正在吵的事寫下來</td></tr>
+          <tr><td>2</td><td>你的大腦每天都在搜尋你最常輸入的關鍵字</td><td>把「我不要」改成「我想要」</td></tr>
+          <tr><td>3</td><td>今天只寫事實，不寫劇本</td><td>把一件煩心事改成攝影機事實</td></tr>
+          <tr><td>4</td><td>不是所有人的情緒，都有權限進入你的系統</td><td>調整一個過高權限</td></tr>
+          <tr><td>5</td><td>把一件事交給系統，不要交給焦慮</td><td>把一件事放進第二大腦</td></tr>
+          <tr><td>6</td><td>今天只問四個問題</td><td>填 Life OS 一頁儀表板</td></tr>
+          <tr><td>7</td><td>不要靠一時動力，簽一個可執行的小合約</td><td>選一個 45 天合約</td></tr>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

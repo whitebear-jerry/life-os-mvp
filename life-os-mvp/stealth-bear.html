@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>白熊特工：降噪大作戰 | Stealth Bear 3D</title>
+  <meta name="description" content="白熊人生演算法 3D 潛行動作遊戲：操控白熊特工，避開守衛視野，從背後消除內耗怪，收集專注金幣！">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <!-- Three.js (r128) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0d0f18;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      touch-action: none;
+    }
+
+    #gameCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    /* ===== HUD OVERLAYS ===== */
+    .hud-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 16px) env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 16px);
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      pointer-events: auto;
+    }
+
+    .level-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .level-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulse 1.5s infinite;
+    }
+
+    .right-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Cash Badge styled just like Stealth Master */
+    .cash-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(20, 40, 25, 0.85), rgba(10, 25, 15, 0.95));
+      border: 1.5px solid #22c55e;
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.35);
+      border-radius: 12px;
+      padding: 6px 14px;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+    }
+    .cash-icon {
+      font-size: 1.2rem;
+    }
+
+    .tool-btn {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.1s, background 0.2s;
+    }
+    .tool-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Bottom Guide & Joystick Container */
+    .bottom-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .guide-tip {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      animation: bounceTip 2s infinite ease-in-out;
+    }
+    .guide-tip span.key {
+      background: rgba(255,255,255,0.2);
+      color: #fbbf24;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 0.75rem;
+    }
+
+    @keyframes bounceTip {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Dynamic Touch Joystick */
+    #joystickZone {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+    }
+
+    .joystick-base {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      margin-left: -60px;
+      margin-top: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 70%, transparent 100%);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+      display: none;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .joystick-knob {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      margin-left: -25px;
+      margin-top: -25px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #cbd5e1 100%);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 255, 255, 0.6);
+      display: none;
+      pointer-events: none;
+      z-index: 7;
+    }
+
+    /* Floating In-Game Toast / Damage Text */
+    .float-text {
+      position: absolute;
+      color: #fbbf24;
+      font-weight: 900;
+      font-size: 1.1rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 12px rgba(251, 191, 36, 0.6);
+      pointer-events: none;
+      z-index: 20;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* ===== MODAL OVERLAYS (Victory / Defeat) ===== */
+    .modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 15, 28, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: auto;
+    }
+    .modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 360px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(16, 185, 129, 0.2);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-backdrop.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-card.defeat {
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(239, 68, 68, 0.3);
+    }
+    .modal-card.defeat .modal-icon {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .modal-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 16px auto;
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .stats-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .stat-val {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #fbbf24;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .btn-secondary:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 3D Canvas -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Touch Joystick Layer -->
+  <div id="joystickZone">
+    <div id="joystickBase" class="joystick-base"></div>
+    <div id="joystickKnob" class="joystick-knob"></div>
+  </div>
+
+  <!-- HUD Overlay -->
+  <div class="hud-layer">
+    <div class="top-bar">
+      <div class="level-badge">
+        <div class="dot"></div>
+        <span>第 1 區：內耗辦公室</span>
+      </div>
+
+      <div class="right-tools">
+        <div class="cash-badge">
+          <span class="cash-icon">💵</span>
+          <span id="cashCount">0</span>
+        </div>
+        <button id="muteBtn" class="tool-btn" title="切換音效">🔊</button>
+        <button id="restartBtn" class="tool-btn" title="重新開始">🔄</button>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="guide-tip">
+        <span>🎮 滑動螢幕移動特工，繞到背後暗殺！</span>
+        <span class="key" style="display:none;" id="pcKeyTip">WASD 移動</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VICTORY MODAL -->
+  <div id="victoryModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-icon">🏆</div>
+      <h2 class="modal-title">心智降噪大成功！</h2>
+      <p class="modal-desc">白熊特工成功清除職場雜音，奪回大腦頻寬！你已準備好進入不內耗的自動自轉人生。</p>
+      
+      <div class="stats-box">
+        <div class="stat-item">
+          <span class="stat-label">擊敗內耗</span>
+          <span id="statKills" class="stat-val">3</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">心富資產</span>
+          <span id="statCash" class="stat-val">$60</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">潛伏評價</span>
+          <span class="stat-val" style="color:#10b981;">S 級</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <a href="link.html#book-noise" class="btn-primary">
+          <span>📘 領取《降噪人生》解方</span>
+          <span>➔</span>
+        </a>
+        <button id="replayBtn" class="btn-secondary">再次挑戰本關</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEFEAT MODAL -->
+  <div id="defeatModal" class="modal-backdrop">
+    <div class="modal-card defeat">
+      <div class="modal-icon">⚠️</div>
+      <h2 class="modal-title">潛伏失敗・正面暴露！</h2>
+      <p class="modal-desc">你踏入了內耗怪的正面警戒視線！記住：對抗內耗不要硬碰硬，請繞到盲區精準借力降噪。</p>
+      
+      <div class="modal-actions">
+        <button id="retryBtn" class="btn-primary" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+          <span>🔄 重新潛入挑戰</span>
+        </button>
+        <a href="link.html" class="btn-secondary">返回白熊書房</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME SCRIPT -->
+  <script>
+    /* ========================================================
+     * 1. WEB AUDIO SYNTHESIZER (零外部檔案依賴，100%立即可發聲)
+     * ======================================================== */
+    class SoundController {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playSlash() {
+        if (this.muted || !this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(450, t);
+        osc.frequency.exponentialRampToValueAtTime(80, t + 0.15);
+        gain.gain.setValueAtTime(0.4, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.16);
+      }
+      playCoin() {
+        if (this.muted || !this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const notes = [987.77, 1318.51]; // B5 -> E6
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t + idx * 0.06);
+          gain.gain.setValueAtTime(0.2, t + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.06 + 0.15);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t + idx * 0.06);
+          osc.stop(t + idx * 0.06 + 0.16);
+        });
+      }
+      playAlert() {
+        if (this.muted || !this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(780, t);
+        osc.frequency.setValueAtTime(950, t + 0.08);
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.26);
+      }
+      playVictory() {
+        if (this.muted || !this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const chord = [523.25, 659.25, 783.99, 1046.50]; // C Major
+        chord.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, t + idx * 0.09);
+          gain.gain.setValueAtTime(0.25, t + idx * 0.09);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.09 + 0.5);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t + idx * 0.09);
+          osc.stop(t + idx * 0.09 + 0.55);
+        });
+      }
+      playDefeat() {
+        if (this.muted || !this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, t);
+        osc.frequency.exponentialRampToValueAtTime(70, t + 0.4);
+        gain.gain.setValueAtTime(0.35, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.42);
+      }
+      toggleMute() {
+        this.muted = !this.muted;
+        return this.muted;
+      }
+    }
+    const sound = new SoundController();
+
+    /* ========================================================
+     * 2. THREE.JS 3D SCENE SETUP & LIGHTING
+     * ======================================================== */
+    const canvas = document.getElementById('gameCanvas');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0c101d);
+    scene.fog = new THREE.FogExp2(0x0c101d, 0.025);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    // Stealth Master isometric angle (tilted down from top)
+    camera.position.set(0, 16, 12);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.65);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+    dirLight.position.set(15, 25, 10);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
+    dirLight.shadow.camera.near = 0.5;
+    dirLight.shadow.camera.far = 60;
+    dirLight.shadow.camera.left = -20;
+    dirLight.shadow.camera.right = 20;
+    dirLight.shadow.camera.top = 25;
+    dirLight.shadow.camera.bottom = -25;
+    scene.add(dirLight);
+
+    // Neon atmospheric spot
+    const cyanLight = new THREE.PointLight(0x00f2fe, 0.8, 25);
+    cyanLight.position.set(-6, 4, -10);
+    scene.add(cyanLight);
+
+    /* ========================================================
+     * 3. MAP BUILDER (Low-Poly Office, Corridors & Boxes)
+     * ======================================================== */
+    const walls = [];      // For collision
+    const cashList = [];   // Cash pickups
+    const enemyList = [];  // Enemies
+    const particleList = [];
+
+    // Floor
+    const floorGeo = new THREE.PlaneGeometry(50, 80);
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x1a2138,
+      roughness: 0.6,
+      metalness: 0.2
+    });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0, 0, -10);
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Tile Grid Lines (Aesthetic)
+    const gridHelper = new THREE.GridHelper(60, 30, 0x2e3c66, 0x1e2744);
+    gridHelper.position.set(0, 0.02, -10);
+    scene.add(gridHelper);
+
+    // Helper: Create Wall
+    function createWall(x, z, width, depth, height = 3.2, color = 0x243254) {
+      const geo = new THREE.BoxGeometry(width, height, depth);
+      const mat = new THREE.MeshStandardMaterial({
+        color: color,
+        roughness: 0.5,
+        metalness: 0.1
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, height / 2, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      scene.add(mesh);
+
+      // Add wall bounding box for collision
+      walls.push({
+        minX: x - width / 2,
+        maxX: x + width / 2,
+        minZ: z - depth / 2,
+        maxZ: z + depth / 2,
+        mesh: mesh
+      });
+      return mesh;
+    }
+
+    // Helper: Create Cardboard Boxes (Cover / Aesthetics like screenshot)
+    function createBox(x, z, size = 1.2, rotY = 0) {
+      const geo = new THREE.BoxGeometry(size, size, size);
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0xc28e57, // Cardboard brown
+        roughness: 0.8
+      });
+      const box = new THREE.Mesh(geo, mat);
+      box.position.set(x, size / 2, z);
+      box.rotation.y = rotY;
+      box.castShadow = true;
+      box.receiveShadow = true;
+      scene.add(box);
+
+      walls.push({
+        minX: x - size / 2,
+        maxX: x + size / 2,
+        minZ: z - size / 2,
+        maxZ: z + size / 2,
+        mesh: box
+      });
+    }
+
+    // Helper: Create Cash Bundle (Green notes like Stealth Master)
+    function createCash(x, z) {
+      const group = new THREE.Group();
+      // Green bundle
+      const noteGeo = new THREE.BoxGeometry(0.7, 0.22, 0.42);
+      const noteMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.4 });
+      const noteMesh = new THREE.Mesh(noteGeo, noteMat);
+      noteMesh.castShadow = true;
+      group.add(noteMesh);
+
+      // White currency band
+      const bandGeo = new THREE.BoxGeometry(0.24, 0.24, 0.44);
+      const bandMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const bandMesh = new THREE.Mesh(bandGeo, bandMat);
+      group.add(bandMesh);
+
+      group.position.set(x, 0.35, z);
+      scene.add(group);
+
+      cashList.push({
+        mesh: group,
+        x: x,
+        z: z,
+        collected: false,
+        baseY: 0.35,
+        rotSpeed: 0.03 + Math.random() * 0.02
+      });
+    }
+
+    // BUILD LEVEL ROOMS & CORRIDORS
+    // Outer boundaries
+    createWall(-11, -12, 1, 46); // Left border
+    createWall(11, -12, 1, 46);  // Right border
+    createWall(0, 11, 23, 1);    // Bottom entrance wall
+    createWall(0, -35, 23, 1);   // Top exit wall
+
+    // Room 1: Starting Chamber (Z: 0 to 10)
+    createWall(-4, 2, 8, 0.8);
+    createWall(5, 4, 6, 0.8);
+    createBox(-2, 5, 1.4, 0.2);
+    createBox(-2, 6.4, 1.1, 0.4);
+
+    // Corridor 1: (Z: -6 to 0)
+    createWall(3.5, -4, 0.8, 10);
+    createWall(-5, -6, 0.8, 8);
+
+    // Room 2: Middle Open Office (Z: -18 to -8)
+    createWall(0, -14, 6, 0.8);
+    createBox(5, -12, 1.3, 0.1);
+    createBox(5, -10.5, 1.0, 0.5);
+    createBox(-7, -15, 1.5, 0.3);
+
+    // Room 3 & Corridor towards Elevator (Z: -32 to -20)
+    createWall(-3.5, -24, 0.8, 12);
+    createWall(4, -26, 0.8, 10);
+    createBox(1, -28, 1.2, 0.2);
+
+    // Cash Pickups scattered
+    createCash(0, 3);
+    createCash(1.5, 1);
+    createCash(0, -2);
+    createCash(-1, -4);
+    createCash(0.5, -6);
+    createCash(-6, -11);
+    createCash(-6, -13);
+    createCash(6, -18);
+    createCash(0, -23);
+    createCash(0, -26);
+
+    // EXIT ELEVATOR (Goal at Z: -32)
+    const elevatorGroup = new THREE.Group();
+    const elePadGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.15, 32);
+    const elePadMat = new THREE.MeshStandardMaterial({
+      color: 0x10b981,
+      emissive: 0x059669,
+      emissiveIntensity: 0.6,
+      roughness: 0.3
+    });
+    const elePad = new THREE.Mesh(elePadGeo, elePadMat);
+    elePad.receiveShadow = true;
+    elevatorGroup.add(elePad);
+
+    // Elevator Glowing Pillars
+    const pilGeo = new THREE.BoxGeometry(0.3, 3, 0.3);
+    const pilMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
+    const p1 = new THREE.Mesh(pilGeo, pilMat); p1.position.set(-1.8, 1.5, -1.8);
+    const p2 = new THREE.Mesh(pilGeo, pilMat); p2.position.set(1.8, 1.5, -1.8);
+    elevatorGroup.add(p1); elevatorGroup.add(p2);
+
+    elevatorGroup.position.set(0, 0.08, -32);
+    scene.add(elevatorGroup);
+
+    /* ========================================================
+     * 4. CHARACTER: AGENT WHITE BEAR (白熊特工)
+     * ======================================================== */
+    const playerGroup = new THREE.Group();
+
+    // Bear Body (Chubby white capsule)
+    const bearBodyGeo = new THREE.CylinderGeometry(0.65, 0.75, 1.2, 20);
+    const bearMat = new THREE.MeshStandardMaterial({
+      color: 0xf8fafc,
+      roughness: 0.35,
+      metalness: 0.05
+    });
+    const bearBody = new THREE.Mesh(bearBodyGeo, bearMat);
+    bearBody.position.y = 0.85;
+    bearBody.castShadow = true;
+    playerGroup.add(bearBody);
+
+    // Bear Head
+    const bearHeadGeo = new THREE.SphereGeometry(0.65, 20, 20);
+    const bearHead = new THREE.Mesh(bearHeadGeo, bearMat);
+    bearHead.position.y = 1.6;
+    bearHead.castShadow = true;
+    playerGroup.add(bearHead);
+
+    // Bear Round Ears
+    const earGeo = new THREE.SphereGeometry(0.22, 16, 16);
+    const earL = new THREE.Mesh(earGeo, bearMat);
+    earL.position.set(-0.52, 2.05, 0);
+    const earR = new THREE.Mesh(earGeo, bearMat);
+    earR.position.set(0.52, 2.05, 0);
+    playerGroup.add(earL); playerGroup.add(earR);
+
+    // Cool Agent Sunglasses
+    const glassesGeo = new THREE.BoxGeometry(0.72, 0.18, 0.2);
+    const glassesMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1, metalness: 0.9 });
+    const glasses = new THREE.Mesh(glassesGeo, glassesMat);
+    glasses.position.set(0, 1.62, 0.58);
+    playerGroup.add(glasses);
+
+    // Nose / Snout
+    const noseGeo = new THREE.SphereGeometry(0.12, 12, 12);
+    const noseMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
+    const nose = new THREE.Mesh(noseGeo, noseMat);
+    nose.position.set(0, 1.5, 0.68);
+    playerGroup.add(nose);
+
+    // Agent Tie (Cyan Blue / Life OS style)
+    const tieGeo = new THREE.BoxGeometry(0.16, 0.55, 0.06);
+    const tieMat = new THREE.MeshStandardMaterial({ color: 0x0284c7 });
+    const tie = new THREE.Mesh(tieGeo, tieMat);
+    tie.position.set(0, 0.9, 0.72);
+    tie.rotation.x = 0.1;
+    playerGroup.add(tie);
+
+    // Katana (降噪太刀)
+    const swordGroup = new THREE.Group();
+    // Blade
+    const bladeGeo = new THREE.BoxGeometry(0.06, 1.1, 0.12);
+    const bladeMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      metalness: 0.95,
+      roughness: 0.15,
+      emissive: 0x00f2fe,
+      emissiveIntensity: 0.3
+    });
+    const blade = new THREE.Mesh(bladeGeo, bladeMat);
+    blade.position.y = 0.55;
+    swordGroup.add(blade);
+    // Hilt / Tsuba
+    const hiltGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.3, 8);
+    const hiltMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+    const hilt = new THREE.Mesh(hiltGeo, hiltMat);
+    hilt.position.y = -0.15;
+    swordGroup.add(hilt);
+
+    swordGroup.position.set(0.75, 0.9, 0.2);
+    swordGroup.rotation.x = Math.PI / 4;
+    swordGroup.rotation.z = -Math.PI / 8;
+    playerGroup.add(swordGroup);
+
+    // Overhead Health/Status Indicator (Stealth Master style green pill)
+    const hpBarGeo = new THREE.BoxGeometry(0.9, 0.12, 0.12);
+    const hpBarMat = new THREE.MeshBasicMaterial({ color: 0x22c55e });
+    const hpBar = new THREE.Mesh(hpBarGeo, hpBarMat);
+    hpBar.position.y = 2.45;
+    playerGroup.add(hpBar);
+
+    playerGroup.position.set(0, 0, 8); // Start position
+    scene.add(playerGroup);
+
+    const player = {
+      mesh: playerGroup,
+      sword: swordGroup,
+      x: 0,
+      z: 8,
+      speed: 8.5,
+      radius: 0.65,
+      moving: false,
+      rotAngle: 0,
+      slashing: false,
+      slashTime: 0
+    };
+
+    /* ========================================================
+     * 5. ENEMY GUARDS (內耗守衛 + 視野光錐 FOV)
+     * ======================================================== */
+    function createEnemy(id, name, startX, startZ, patrolAxis, minP, maxP, startFacing) {
+      const eGroup = new THREE.Group();
+
+      // Guard Body (Red suit like Stealth Master)
+      const bodyGeo = new THREE.CylinderGeometry(0.55, 0.65, 1.2, 16);
+      const bodyMat = new THREE.MeshStandardMaterial({ color: 0xb91c1c, roughness: 0.4 });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.position.y = 0.85;
+      body.castShadow = true;
+      eGroup.add(body);
+
+      // Guard Head + Helmet
+      const headGeo = new THREE.SphereGeometry(0.52, 16, 16);
+      const headMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
+      const head = new THREE.Mesh(headGeo, headMat);
+      head.position.y = 1.55;
+      head.castShadow = true;
+      eGroup.add(head);
+
+      // Flashlight / Weapon
+      const gunGeo = new THREE.BoxGeometry(0.15, 0.15, 0.6);
+      const gunMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
+      const gun = new THREE.Mesh(gunGeo, gunMat);
+      gun.position.set(0.45, 1.1, 0.4);
+      eGroup.add(gun);
+
+      // FOV Vision Cone (70-degree sector projected on ground)
+      const fovAngle = Math.PI * 0.42; // ~75 degrees
+      const fovDistance = 6.8;
+      const fovGeo = new THREE.RingGeometry(0.3, fovDistance, 24, 1, -fovAngle / 2, fovAngle);
+      const fovMat = new THREE.MeshBasicMaterial({
+        color: 0xef4444,
+        transparent: true,
+        opacity: 0.35,
+        side: THREE.DoubleSide
+      });
+      const fovMesh = new THREE.Mesh(fovGeo, fovMat);
+      fovMesh.rotation.x = -Math.PI / 2;
+      fovMesh.rotation.z = Math.PI / 2; // Forward
+      fovMesh.position.set(0, 0.05, 0);
+      eGroup.add(fovMesh);
+
+      // Exclamation Mark Billboard (!)
+      const canvasText = document.createElement('canvas');
+      canvasText.width = 128;
+      canvasText.height = 128;
+      const ctxText = canvasText.getContext('2d');
+      ctxText.fillStyle = '#ef4444';
+      ctxText.font = 'bold 96px sans-serif';
+      ctxText.textAlign = 'center';
+      ctxText.fillText('!', 64, 100);
+      const textTex = new THREE.CanvasTexture(canvasText);
+      const alertGeo = new THREE.PlaneGeometry(0.8, 0.8);
+      const alertMat = new THREE.MeshBasicMaterial({ map: textTex, transparent: true, opacity: 0 });
+      const alertMesh = new THREE.Mesh(alertGeo, alertMat);
+      alertMesh.position.y = 2.6;
+      eGroup.add(alertMesh);
+
+      eGroup.position.set(startX, 0, startZ);
+      scene.add(eGroup);
+
+      const enemy = {
+        id: id,
+        name: name,
+        mesh: eGroup,
+        fovMesh: fovMesh,
+        alertMesh: alertMesh,
+        x: startX,
+        z: startZ,
+        facingAngle: startFacing, // Radians
+        patrolAxis: patrolAxis,   // 'x' or 'z'
+        minP: minP,
+        maxP: maxP,
+        patrolSpeed: 1.8,
+        patrolDir: 1,
+        radius: 0.65,
+        alive: true,
+        alerted: false,
+        fovDistance: fovDistance,
+        fovHalfAngle: fovAngle / 2
+      };
+      enemyList.push(enemy);
+      return enemy;
+    }
+
+    // Spawn 3 Guards with distinct patrol routes
+    // Guard 1: Patrols X axis horizontally in Room 1/Corridor
+    createEnemy(1, "分心怪", 0, -1, 'x', -3.2, 2.5, Math.PI / 2);
+
+    // Guard 2: Inspects filing cabinets in Middle Office
+    createEnemy(2, "焦慮怪", -3.5, -13, 'z', -16.5, -9.5, Math.PI);
+
+    // Guard 3: Guards the final corridor before elevator
+    createEnemy(3, "雜訊主管", 0, -25, 'x', -2.5, 2.5, 0);
+
+    /* ========================================================
+     * 6. CONTROLS: TOUCH VIRTUAL JOYSTICK & KEYBOARD
+     * ======================================================== */
+    const joyZone = document.getElementById('joystickZone');
+    const joyBase = document.getElementById('joystickBase');
+    const joyKnob = document.getElementById('joystickKnob');
+
+    let touchActive = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let joyDeltaX = 0;
+    let joyDeltaY = 0;
+    const JOY_RADIUS = 50;
+
+    // Touch Events
+    joyZone.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      sound.init();
+      const t = e.touches[0];
+      touchActive = true;
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+
+      joyBase.style.display = 'block';
+      joyKnob.style.display = 'block';
+      joyBase.style.left = touchStartX + 'px';
+      joyBase.style.top = touchStartY + 'px';
+      joyKnob.style.left = touchStartX + 'px';
+      joyKnob.style.top = touchStartY + 'px';
+
+      joyDeltaX = 0;
+      joyDeltaY = 0;
+    }, { passive: false });
+
+    joyZone.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      if (!touchActive) return;
+      const t = e.touches[0];
+      let dx = t.clientX - touchStartX;
+      let dy = t.clientY - touchStartY;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist > JOY_RADIUS) {
+        dx = (dx / dist) * JOY_RADIUS;
+        dy = (dy / dist) * JOY_RADIUS;
+      }
+      joyDeltaX = dx / JOY_RADIUS;
+      joyDeltaY = dy / JOY_RADIUS;
+
+      joyKnob.style.left = (touchStartX + dx) + 'px';
+      joyKnob.style.top = (touchStartY + dy) + 'px';
+    }, { passive: false });
+
+    function resetTouch() {
+      touchActive = false;
+      joyDeltaX = 0;
+      joyDeltaY = 0;
+      joyBase.style.display = 'none';
+      joyKnob.style.display = 'none';
+    }
+    joyZone.addEventListener('touchend', resetTouch);
+    joyZone.addEventListener('touchcancel', resetTouch);
+
+    // Mouse drag as fallback joystick on desktop
+    let mouseDown = false;
+    window.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.hud-layer') || e.target.closest('.modal-backdrop')) return;
+      sound.init();
+      mouseDown = true;
+      touchStartX = e.clientX;
+      touchStartY = e.clientY;
+      joyBase.style.display = 'block';
+      joyKnob.style.display = 'block';
+      joyBase.style.left = touchStartX + 'px';
+      joyBase.style.top = touchStartY + 'px';
+      joyKnob.style.left = touchStartX + 'px';
+      joyKnob.style.top = touchStartY + 'px';
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!mouseDown) return;
+      let dx = e.clientX - touchStartX;
+      let dy = e.clientY - touchStartY;
+      const dist = Math.hypot(dx, dy);
+      if (dist > JOY_RADIUS) {
+        dx = (dx / dist) * JOY_RADIUS;
+        dy = (dy / dist) * JOY_RADIUS;
+      }
+      joyDeltaX = dx / JOY_RADIUS;
+      joyDeltaY = dy / JOY_RADIUS;
+      joyKnob.style.left = (touchStartX + dx) + 'px';
+      joyKnob.style.top = (touchStartY + dy) + 'px';
+    });
+    window.addEventListener('mouseup', () => {
+      mouseDown = false;
+      resetTouch();
+    });
+
+    // Keyboard WASD Controls
+    const keys = {};
+    window.addEventListener('keydown', (e) => {
+      sound.init();
+      keys[e.key.toLowerCase()] = true;
+      document.getElementById('pcKeyTip').style.display = 'inline-block';
+    });
+    window.addEventListener('keyup', (e) => {
+      keys[e.key.toLowerCase()] = false;
+    });
+
+    /* ========================================================
+     * 7. COLLISION & LINE-OF-SIGHT RAYCASTING
+     * ======================================================== */
+    function checkWallCollision(newX, newZ, radius) {
+      for (const w of walls) {
+        if (
+          newX + radius > w.minX &&
+          newX - radius < w.maxX &&
+          newZ + radius > w.minZ &&
+          newZ - radius < w.maxZ
+        ) {
+          return true; // Collided
+        }
+      }
+      return false;
+    }
+
+    // Raycast check: Is there a wall between point A and point B?
+    function hasLineOfSight(x1, z1, x2, z2) {
+      const steps = 15;
+      for (let i = 1; i < steps; i++) {
+        const tx = x1 + (x2 - x1) * (i / steps);
+        const tz = z1 + (z2 - z1) * (i / steps);
+        for (const w of walls) {
+          if (tx >= w.minX && tx <= w.maxX && tz >= w.minZ && tz <= w.maxZ) {
+            return false; // Obstructed by wall
+          }
+        }
+      }
+      return true; // Clear vision!
+    }
+
+    /* ========================================================
+     * 8. GAME LOOP & LOGIC
+     * ======================================================== */
+    let gameState = 'PLAYING'; // PLAYING, VICTORY, DEFEAT
+    let cashCount = 0;
+    let killsCount = 0;
+    const cashEl = document.getElementById('cashCount');
+
+    function spawnFloatingText(text, x, y, color = '#fbbf24') {
+      const el = document.createElement('div');
+      el.className = 'float-text';
+      el.style.color = color;
+      el.innerText = text;
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      document.body.appendChild(el);
+
+      requestAnimationFrame(() => {
+        el.style.transform = 'translate(-50%, -120%) scale(1.2)';
+        el.style.opacity = '0';
+      });
+      setTimeout(() => el.remove(), 800);
+    }
+
+    function projectToScreen(pos3D) {
+      const v = pos3D.clone();
+      v.project(camera);
+      return {
+        x: (v.x * 0.5 + 0.5) * window.innerWidth,
+        y: (-(v.y * 0.5) + 0.5) * window.innerHeight
+      };
+    }
+
+    function triggerAssassination(enemy) {
+      enemy.alive = false;
+      killsCount++;
+      sound.playSlash();
+
+      // Slashing animation
+      player.slashing = true;
+      player.slashTime = 0;
+
+      // Enemy death knockback
+      const fallTween = () => {
+        enemy.mesh.rotation.x += 0.15;
+        enemy.mesh.position.y -= 0.05;
+        if (enemy.mesh.position.y > -0.5) {
+          requestAnimationFrame(fallTween);
+        } else {
+          scene.remove(enemy.mesh);
+        }
+      };
+      fallTween();
+
+      // Drop cash on ground
+      createCash(enemy.x, enemy.z);
+      createCash(enemy.x + 0.5, enemy.z + 0.5);
+
+      const sPos = projectToScreen(enemy.mesh.position);
+      spawnFloatingText(`⚔️ 消除${enemy.name}!`, sPos.x, sPos.y, '#10b981');
+    }
+
+    const clock = new THREE.Clock();
+
+    function update() {
+      const delta = Math.min(clock.getDelta(), 0.05);
+
+      if (gameState !== 'PLAYING') {
+        renderer.render(scene, camera);
+        requestAnimationFrame(update);
+        return;
+      }
+
+      // --- 1. Player Input & Movement ---
+      let moveX = 0;
+      let moveZ = 0;
+
+      // Joystick input
+      if (touchActive || mouseDown) {
+        moveX = joyDeltaX;
+        moveZ = joyDeltaY;
+      }
+
+      // Keyboard input override
+      if (keys['w'] || keys['arrowup']) moveZ -= 1;
+      if (keys['s'] || keys['arrowdown']) moveZ += 1;
+      if (keys['a'] || keys['arrowleft']) moveX -= 1;
+      if (keys['d'] || keys['arrowright']) moveX += 1;
+
+      const inputLen = Math.hypot(moveX, moveZ);
+      if (inputLen > 0.05) {
+        player.moving = true;
+        const normX = moveX / inputLen;
+        const normZ = moveZ / inputLen;
+
+        const nextX = player.x + normX * player.speed * delta;
+        const nextZ = player.z + normZ * player.speed * delta;
+
+        // Wall collision slide
+        if (!checkWallCollision(nextX, player.z, player.radius)) {
+          player.x = nextX;
+        }
+        if (!checkWallCollision(player.x, nextZ, player.radius)) {
+          player.z = nextZ;
+        }
+
+        player.mesh.position.x = player.x;
+        player.mesh.position.z = player.z;
+
+        // Smooth rotation
+        player.rotAngle = Math.atan2(normX, normZ);
+        player.mesh.rotation.y = player.rotAngle;
+
+        // Running bobbing animation
+        bearBody.position.y = 0.85 + Math.sin(clock.getElapsedTime() * 15) * 0.06;
+      } else {
+        player.moving = false;
+        bearBody.position.y = 0.85;
+      }
+
+      // Slash Sword animation
+      if (player.slashing) {
+        player.slashTime += delta * 15;
+        player.sword.rotation.x = Math.PI / 4 + Math.sin(player.slashTime) * 1.5;
+        if (player.slashTime >= Math.PI) {
+          player.slashing = false;
+          player.sword.rotation.x = Math.PI / 4;
+        }
+      }
+
+      // --- 2. Camera Follows Bear ---
+      const targetCamX = player.x;
+      const targetCamZ = player.z + 10;
+      camera.position.x += (targetCamX - camera.position.x) * 0.08;
+      camera.position.z += (targetCamZ - camera.position.z) * 0.08;
+      camera.lookAt(player.x, 0.8, player.z);
+
+      // --- 3. Cash Collection ---
+      for (const cash of cashList) {
+        if (cash.collected) continue;
+        cash.mesh.rotation.y += cash.rotSpeed;
+        cash.mesh.position.y = cash.baseY + Math.sin(clock.getElapsedTime() * 4) * 0.08;
+
+        const dist = Math.hypot(player.x - cash.x, player.z - cash.z);
+        if (dist < 1.3) {
+          cash.collected = true;
+          cashCount += 20;
+          cashEl.innerText = cashCount;
+          sound.playCoin();
+
+          const sPos = projectToScreen(cash.mesh.position);
+          spawnFloatingText('+$20', sPos.x, sPos.y, '#fbbf24');
+
+          scene.remove(cash.mesh);
+        }
+      }
+
+      // --- 4. Enemy AI & Stealth Detection ---
+      for (const enemy of enemyList) {
+        if (!enemy.alive) continue;
+
+        // Patrol movement
+        if (!enemy.alerted) {
+          if (enemy.patrolAxis === 'x') {
+            enemy.x += enemy.patrolSpeed * enemy.patrolDir * delta;
+            if (enemy.x > enemy.maxP) { enemy.x = enemy.maxP; enemy.patrolDir = -1; enemy.facingAngle = -Math.PI / 2; }
+            if (enemy.x < enemy.minP) { enemy.x = enemy.minP; enemy.patrolDir = 1; enemy.facingAngle = Math.PI / 2; }
+          } else {
+            enemy.z += enemy.patrolSpeed * enemy.patrolDir * delta;
+            if (enemy.z > enemy.maxP) { enemy.z = enemy.maxP; enemy.patrolDir = -1; enemy.facingAngle = Math.PI; }
+            if (enemy.z < enemy.minP) { enemy.z = enemy.minP; enemy.patrolDir = 1; enemy.facingAngle = 0; }
+          }
+          enemy.mesh.position.x = enemy.x;
+          enemy.mesh.position.z = enemy.z;
+          enemy.mesh.rotation.y = enemy.facingAngle;
+        }
+
+        // Stealth Assassination Check (Player is close & outside front FOV)
+        const distToPlayer = Math.hypot(player.x - enemy.x, player.z - enemy.z);
+
+        // Vector from enemy to player
+        const toPlayerX = player.x - enemy.x;
+        const toPlayerZ = player.z - enemy.z;
+        const angleToPlayer = Math.atan2(toPlayerX, toPlayerZ);
+
+        // Calculate angular difference with enemy facing
+        let angleDiff = Math.abs(angleToPlayer - enemy.facingAngle);
+        while (angleDiff > Math.PI) angleDiff = Math.abs(angleDiff - Math.PI * 2);
+
+        // Inside Vision Cone?
+        const insideCone = (distToPlayer < enemy.fovDistance) && (angleDiff < enemy.fovHalfAngle);
+
+        if (insideCone && hasLineOfSight(enemy.x, enemy.z, player.x, player.z)) {
+          // PLAYER DETECTED!
+          if (!enemy.alerted) {
+            enemy.alerted = true;
+            enemy.alertMesh.material.opacity = 1;
+            enemy.fovMesh.material.color.setHex(0xff0000);
+            sound.playAlert();
+          }
+
+          // Enemy turns and charges player
+          enemy.facingAngle = angleToPlayer;
+          enemy.mesh.rotation.y = enemy.facingAngle;
+          enemy.x += Math.sin(enemy.facingAngle) * 3.5 * delta;
+          enemy.z += Math.cos(enemy.facingAngle) * 3.5 * delta;
+          enemy.mesh.position.x = enemy.x;
+          enemy.mesh.position.z = enemy.z;
+
+          // Caught! Defeat
+          if (distToPlayer < 1.1) {
+            gameState = 'DEFEAT';
+            sound.playDefeat();
+            document.getElementById('defeatModal').classList.add('active');
+            return;
+          }
+        } else {
+          // If approached from behind or flank within melee range -> ASSASSINATE!
+          if (distToPlayer < 1.6) {
+            triggerAssassination(enemy);
+          }
+        }
+      }
+
+      // --- 5. Exit Elevator (Victory) ---
+      const distToExit = Math.hypot(player.x - elevatorGroup.position.x, player.z - elevatorGroup.position.z);
+      if (distToExit < 2.2) {
+        gameState = 'VICTORY';
+        sound.playVictory();
+        document.getElementById('statKills').innerText = killsCount + ' 隻';
+        document.getElementById('statCash').innerText = '$' + cashCount;
+        document.getElementById('victoryModal').classList.add('active');
+        return;
+      }
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(update);
+    }
+
+    // --- Window Resize ---
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // --- UI Buttons ---
+    document.getElementById('muteBtn').addEventListener('click', () => {
+      const isMuted = sound.toggleMute();
+      document.getElementById('muteBtn').innerText = isMuted ? '🔇' : '🔊';
+    });
+
+    function restartGame() {
+      window.location.reload();
+    }
+    document.getElementById('restartBtn').addEventListener('click', restartGame);
+    document.getElementById('retryBtn').addEventListener('click', restartGame);
+    document.getElementById('replayBtn').addEventListener('click', restartGame);
+
+    // Start Loop
+    requestAnimationFrame(update);
+  </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 讀者專屬頁：不放進網站選單，也不讓搜尋引擎收錄。影片在 YouTube 設為「不公開」 -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <title>《明辨》讀者專屬影片｜白熊人生攻略</title>
+  <meta name="description" content="《明辨》讀者專屬：55 支原理動畫，一節一支，講書中工具背後的研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=EB+Garamond:wght@500;600&display=swap">
+
+  <!-- 📊 Microsoft Clarity（含作者本人 noclarity 裝置排除開關） -->
+  <script type="text/javascript">
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('noclarity') === '1') localStorage.setItem('lifeos_noclarity', '1');
+      if (p.get('noclarity') === '0') localStorage.removeItem('lifeos_noclarity');
+      if (localStorage.getItem('lifeos_noclarity') === '1') return;  // 作者本人，不載入
+    } catch (e) {}
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xvw80kojx4");
+  })();
+  </script>
+
+  <style>
+  /* 與 book-quiz.html 同一套奶茶色；固定米色，不跟系統深淺色切換（link-page-conversion §0 第 1 條） */
+  :root{
+    --paper:#f6f0e4; --paper-2:#efe7d6; --card:#fdfaf4; --ink:#443527; --ink-soft:#7a6b58;
+    --rule:#d9cbad; --gilt:#9c4682; --c:#8a3b72;
+    --shadow:0 1px 0 rgba(90,70,40,.05),0 8px 20px -12px rgba(90,70,40,.28);
+    --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --f-body:-apple-system,system-ui,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    --f-num:"EB Garamond","Garamond","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+  h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:4px}
+  .num{font-family:var(--f-num);font-variant-numeric:lining-nums tabular-nums}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:26px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;color:var(--gilt);font-weight:700}
+  .eyebrow a{text-decoration:none}
+  .eyebrow a:hover{text-decoration:underline}
+  .hero{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:center}
+  .hero img{width:96px;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px}
+  .hero h1{font-size:clamp(26px,5vw,36px);font-weight:900;letter-spacing:.03em;word-break:keep-all}
+  .hero .lead{margin-top:8px;color:var(--ink-soft);font-size:14.5px}
+
+  .notice{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:14px}
+  .notice b{font-weight:700}
+  .playall{font-weight:700;color:var(--gilt);text-decoration:none;border-bottom:1px solid var(--rule);justify-self:start}
+  .playall:hover{border-bottom-color:var(--gilt)}
+
+  .index{display:grid;gap:14px}
+  .index a{font-family:var(--f-num);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;min-width:46px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+  .index a:hover{border-color:var(--gilt);color:var(--gilt)}
+
+  .list{display:grid;gap:22px}
+  .video{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:grid;gap:12px;scroll-margin-top:16px}
+  .video-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+  .video-head .n{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--gilt);line-height:1}
+  .video-head h3{font-size:clamp(17px,2.6vw,20px);font-weight:700}
+  .video-head .dur{font-family:var(--f-num);font-size:14px;color:var(--ink-soft)}
+  .part{font-family:var(--f-display);font-size:clamp(17px,2.8vw,20px);font-weight:900;color:var(--c);padding-top:10px;border-top:1px solid var(--rule);scroll-margin-top:16px}
+  .part:first-child{border-top:0;padding-top:0}
+  .index-part{display:grid;gap:6px}
+  .index-part b{font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .index-part div{display:flex;flex-wrap:wrap;gap:8px}
+  .chapters{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13.5px;color:var(--ink-soft)}
+  .chapters .sec{font-family:var(--f-num);font-weight:600;color:var(--c);margin-right:6px}
+
+  /* 先放縮圖，點了才載入播放器：55 支一起載入會拖慢整頁 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#2b231b}
+  .player button{all:unset;position:absolute;inset:0;cursor:pointer;display:block}
+  .player img{width:100%;height:100%;object-fit:cover}
+  .player .play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:12px;
+    background:rgba(68,53,39,.88);display:grid;place-items:center;transition:background-color .15s ease}
+  .player .play::before{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdfaf4;margin-left:4px}
+  .player button:hover .play,.player button:focus-visible .play{background:#9c4682}
+  .player button:focus-visible{outline:3px solid var(--gilt);outline-offset:-3px}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+
+  .try{font-size:14px;border-left:2px solid var(--gilt);padding-left:10px}
+  .try b{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--gilt)}
+  .try span{color:var(--ink-soft)}
+
+  footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12.5px;color:var(--ink-soft);display:grid;gap:4px}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 16px 48px;gap:22px}
+    .hero{grid-template-columns:72px minmax(0,1fr);gap:14px}
+    .hero img{width:72px}
+    .video{padding:16px 14px}
+    .video-head .n{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><a href="link.html">← 白熊人生攻略</a> ｜ 讀者專屬</p>
+
+  <header class="hero">
+    <img src="https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/book8.webp" alt="《明辨》封面" width="96" height="144">
+    <div>
+      <h1>《明辨》讀者專屬影片</h1>
+      <p class="lead">一節一支，共 55 支動畫，每支約一分鐘。書裡教你怎麼做，影片講為什麼有效：每支用一個研究，說明書中工具背後的原理。讀到哪一節，就看哪一支。</p>
+    </div>
+  </header>
+
+  <section class="notice" aria-label="給讀者的話">
+    <p>這一頁是給<b>《明辨》讀者</b>的。影片在 YouTube 設為「不公開」，只有從書裡連進來的你看得到。</p>
+    <p>為了保障每一位買書讀者的權益，請不要轉傳這一頁或影片的連結，謝謝你。</p>
+    <span id="playall"></span>
+  </section>
+
+  <nav class="index" aria-label="影片編號" id="index"></nav>
+
+  <section class="list" id="list" aria-label="55 支影片"></section>
+
+  <footer>
+    <span>富足人生演算法｜白熊 著</span>
+  </footer>
+</main>
+
+<script>
+/* 影片清單：由 Drive「動畫影片編輯/Book08_明辨/讀者專屬頁/產生讀者專屬頁.py」產生，不要手改 */
+const VIDEOS = [{"n": "01", "id": "_Ze4x3DzMOU", "dur": "0:58", "topic": "掛上別人名字，自己的理由就被否決", "sec": "1.1 邏輯不是拿來吵贏的", "part": "第 1 章　邏輯的心法：趨吉避凶的工具，不是辯論的武器", "chapter": "1.1 從「辯解」到「辨別」：邏輯不是拿來吵贏的", "try": "看到想立刻反駁的言論，先不回；默默指出它的一項邏輯謬誤；關掉視窗，寫下明天的一件重要任務", "tryRef": "1.1【今天就能用一次這個工具】"}, {"n": "02", "id": "guAl2PEwZ2g", "dur": "0:59", "topic": "氣頭上的人，七成太早開槍", "sec": "1.2 情緒先退場", "part": "第 1 章　邏輯的心法：趨吉避凶的工具，不是辯論的武器", "chapter": "1.2 讓混濁的水沉澱：情緒先退場，判斷才會準", "try": "遇到讓你火大的訊息，先不回；回覆或決定，延後至少 15 分鐘；手機收進包包，起身去倒杯水", "tryRef": "1.2【今天就能用一次這個工具】"}, {"n": "03", "id": "m4edBJNFjQo", "dur": "0:55", "topic": "說好吃水果，到了當天六成改拿零食", "sec": "1.3 直覺、情緒、理性的雙頭馬車", "part": "第 1 章　邏輯的心法：趨吉避凶的工具，不是辯論的武器", "chapter": "1.3 駕馭雙頭馬車：直覺（黑馬）、情緒（白馬）、理性（騎士）", "try": "先承認想要：黑馬、白馬在說什麼；拉住韁繩：算一筆機會成本帳；用算出來的數字，做協同決定", "tryRef": "1.3【今天就能用一次這個工具】"}, {"n": "04", "id": "0Z3C1nYXfqY", "dur": "1:02", "topic": "硬壓緊張，心跳升得最多", "sec": "1.4 用觀察代替反應", "part": "第 1 章　邏輯的心法：趨吉避凶的工具，不是辯論的武器", "chapter": "1.4 站在橋上看河水：用觀察代替反應", "try": "遇到心煩的事，先不出手；默唸：河水正在流，而我站在橋上；看它流過去，三秒後回到正事", "tryRef": "1.4【今天就能用一次這個工具】"}, {"n": "05", "id": "ju9Rqiux_4o", "dur": "1:04", "topic": "先列理由的人，口味判斷跑偏了", "sec": "1.5 何時該用邏輯、何時該放", "part": "第 1 章　邏輯的心法：趨吉避凶的工具，不是辯論的武器", "chapter": "1.5 邏輯是工具不是萬能藥：何時該用、何時該放", "try": "關掉分析器：不說「你應該……」；給感受：這真的很討厭耶，我陪你；觀察對方的眼神和語氣怎麼變", "tryRef": "1.5【今天就能用一次這個工具】"}, {"n": "06", "id": "jazXuQ1RaZM", "dur": "0:57", "topic": "畫成心智圖，一週後記得較多", "sec": "2.1 心智圖", "part": "第 2 章　拆解問題：把一團亂變成看得見的結構", "chapter": "2.1 心智圖：從核心問題發散出解法", "try": "白紙中間寫：我這週的目標；拉分支：工作、健康、學習、家庭；每根分支，填上具體的細節", "tryRef": "2.1【今天就能用一次這個工具】"}, {"n": "07", "id": "m2himnmQ-3Q", "dur": "1:00", "topic": "故障樹少畫幾支，被刪的原因就像不存在", "sec": "2.2 魚骨圖", "part": "第 2 章　拆解問題：把一團亂變成看得見的結構", "chapter": "2.2 魚骨圖：人機料法環，挖出問題的根", "try": "右邊寫：為什麼時間總是不夠用？；拉出人、機、料、法、環五根大骨；挑一個最容易改的原因，今天就做", "tryRef": "2.2【今天就能用一次這個工具】"}, {"n": "08", "id": "ZNECMiCPD_M", "dur": "0:55", "topic": "寫下反對的理由，高估就變小", "sec": "2.3 SWOT", "part": "第 2 章　拆解問題：把一團亂變成看得見的結構", "chapter": "2.3 SWOT：盤點優勢、劣勢、機會、威脅", "try": "內部：寫下優勢和劣勢；外部：寫下機會和威脅；寫一條 SO 行動，72 小時內執行", "tryRef": "2.3【今天就能用一次這個工具】"}, {"n": "09", "id": "-r7z1dOQExQ", "dur": "1:00", "topic": "一半的犯罪，集中在少數街段", "sec": "2.4 二八法則", "part": "第 2 章　拆解問題：把一團亂變成看得見的結構", "chapter": "2.4 二八法則：抓決定成敗的關鍵 20%", "try": "圈出今天最關鍵的那一件事；替它劃出 90 分鐘，手機翻面；做完之前，絕不切換視窗", "tryRef": "2.4【今天就能用一次這個工具】"}, {"n": "10", "id": "fCHH3oF3DnM", "dur": "1:08", "topic": "排出安靜時間，自評生產力變高", "sec": "2.5 緊急×重要矩陣", "part": "第 2 章　拆解問題：把一團亂變成看得見的結構", "chapter": "2.5 緊急×重要矩陣：別再被「救火」綁架", "try": "專注時段，手機設勿擾 1 小時；明天行事曆，找出空檔 1 小時；寫下：投資我的第二象限", "tryRef": "2.5【今天就能用一次這個工具】"}, {"n": "11", "id": "Oml_9gwln3c", "dur": "0:56", "topic": "先定好評分標準，面試準得多", "sec": "3.1 決策矩陣", "part": "第 3 章　做決策：讓選擇有依據，不靠直覺賭", "chapter": "3.1 決策矩陣：選手機、選工作的加權打分法", "try": "挑兩個選手，列三個指標；分配權重，加起來等於 100%；花 3 分鐘，乘出加權總分", "tryRef": "3.1【今天就能用一次這個工具】"}, {"n": "12", "id": "SAg-ZWllQRE", "dur": "0:57", "topic": "最準的人，一題更新七點八次", "sec": "3.2 假設驗證法", "part": "第 3 章　做決策：讓選擇有依據，不靠直覺賭", "chapter": "3.2 假設驗證法：把「我要財務自由」變成科學流程", "try": "寫下你的目標月支出；自由本金＝月支出 × 12 × 25；盤點年儲蓄，算算需要幾年", "tryRef": "3.2【今天就能用一次這個工具】"}, {"n": "13", "id": "diJkVsf9UuA", "dur": "0:53", "topic": "精心設計的新點子，只有三分之一有效", "sec": "3.3 A／B 測試", "part": "第 3 章　做決策：讓選擇有依據，不靠直覺賭", "chapter": "3.3 A／B 測試：兩個方案並排，讓數據替你決定", "try": "準備兩個主旨：A 版、B 版；收件人隨機分成兩半，各寄一版；看哪一版被打開、回覆得比較快", "tryRef": "3.3【今天就能用一次這個工具】"}, {"n": "14", "id": "YE5z4hqeobI", "dur": "0:57", "topic": "成功也檢討，進步得更多", "sec": "3.4 PDCA 循環", "part": "第 3 章　做決策：讓選擇有依據，不靠直覺賭", "chapter": "3.4 PDCA 循環：計畫→執行→檢核→改善", "try": "P：定下週目標，畫出專注時間；C：週五花 10 分鐘，比對落差；A：定一個下下週的改善動作", "tryRef": "3.4【今天就能用一次這個工具】"}, {"n": "15", "id": "NJ5QcA0PqpM", "dur": "1:00", "topic": "資深投資人的直覺，抓到了大成功", "sec": "3.5 矩陣＋直覺的平衡", "part": "第 3 章　做決策：讓選擇有依據，不靠直覺賭", "chapter": "3.5 數字算完，還是要問心：矩陣＋直覺的平衡", "try": "兩個小選項間糾結時，拿出硬幣；定好正反面，用力彈向空中；落地瞬間，感受你希望是哪一面", "tryRef": "3.5【今天就能用一次這個工具】"}, {"n": "16", "id": "OHFoXk-DuDc", "dur": "0:54", "topic": "每換一次任務，就慢將近一秒", "sec": "4.1 一次只用一種思考", "part": "第 4 章　六頂思考帽：一顆腦，六種角度", "chapter": "4.1 為什麼要戴帽子：一次只用一種思考，討論才不吵架", "try": "白帽：寫下明天 3 個硬性任務；黑帽：想想可能有哪些干擾；藍帽：劃出 2 小時勿擾時間", "tryRef": "4.1【今天就能用一次這個工具】"}, {"n": "17", "id": "IEQbD_sAR-U", "dur": "1:00", "topic": "覺得安全的團隊，更敢說出錯誤", "sec": "4.2 白帽×紅帽", "part": "第 4 章　六頂思考帽：一顆腦，六種角度", "chapter": "4.2 白帽×紅帽：先擺事實，再讓情緒安全地說話", "try": "先別反駁，把指責過濾成事實；啟動紅帽：我知道你一定很累；問一句：這幾天是不是壓力很大", "tryRef": "4.2【今天就能用一次這個工具】"}, {"n": "18", "id": "MQT1ZtHCqEg", "dur": "0:57", "topic": "十個建設，將近九個超支", "sec": "4.3 黑帽×黃帽", "part": "第 4 章　六頂思考帽：一顆腦，六種角度", "chapter": "4.3 黑帽×黃帽：風險與機會，一體兩面", "try": "黃帽：列出學以致用的產值；黑帽：列出時間成本和風險；替風險扣上一條安全帶", "tryRef": "4.3【今天就能用一次這個工具】"}, {"n": "19", "id": "naH23v_7W3c", "dur": "1:00", "topic": "各自想再合併，點子多了一倍多", "sec": "4.4 綠帽×藍帽", "part": "第 4 章　六頂思考帽：一顆腦，六種角度", "chapter": "4.4 綠帽×藍帽：想替代方案、當好主持人", "try": "藍帽設限制：1 小時內、1,000 元內；綠帽發散：3 分鐘想出 5 個方案；藍帽拍板：排進明天的行事曆", "tryRef": "4.4【今天就能用一次這個工具】"}, {"n": "20", "id": "_OcIE_-8ArE", "dur": "0:54", "topic": "資料拆開分給每個人，小組就選錯", "sec": "4.5 家庭會議實戰", "part": "第 4 章　六頂思考帽：一顆腦，六種角度", "chapter": "4.5 實戰：用六頂帽開一場「全家去日本」家庭會議", "try": "白帽：先看冰箱裡有什麼食材；紅帽：說說今天的心情想吃什麼；綠帽：想一個最省力又好吃的方案", "tryRef": "4.5【今天就能用一次這個工具】"}, {"n": "21", "id": "suRD60bWN-g", "dur": "1:03", "topic": "寫下原理之後，覺得自己懂的程度掉了一截", "sec": "5.1 費曼學習法", "part": "第 5 章　學習與消化資訊的工具", "chapter": "5.1 費曼學習法：講到小學生都懂才是真懂", "try": "想一個最近剛學到的新觀念；用兩句話解釋，不准用專業名詞；試試看：三十秒內講不講得清楚", "tryRef": "5.1【今天就能用一次這個工具】"}, {"n": "22", "id": "mBmWX6ZgKKU", "dur": "1:03", "topic": "等過、查過，決定就被帶偏", "sec": "5.2 資訊漏斗", "part": "第 5 章　學習與消化資訊的工具", "chapter": "5.2 資訊漏斗：收集、統整、編修到產出的系統化管線", "try": "直接關掉 80% 的分頁；剩下的，用三句話寫下重點；寫完，立刻關掉那個網頁", "tryRef": "5.2【今天就能用一次這個工具】"}, {"n": "23", "id": "ESnBEh4yoeg", "dur": "1:00", "topic": "先問自己會不會，字謎解得比較多", "sec": "5.3 提問的力量", "part": "第 5 章　學習與消化資訊的工具", "chapter": "5.3 提問的力量：發散與收斂的提問藝術", "try": "找一件讓你卡住的事；發散：智者會給什麼意外的建議？；收斂：24 小時內的 10 分鐘小事", "tryRef": "5.3【今天就能用一次這個工具】"}, {"n": "24", "id": "QZLEuMUzK1g", "dur": "1:03", "topic": "熟悉的解法，擋住了更快的那一個", "sec": "5.4 把記憶外包", "part": "第 5 章　學習與消化資訊的工具", "chapter": "5.4 把記憶外包：保住判斷力的三個控載動作", "try": "5 分鐘，把記掛的事全部寫下；圈出一件做很久、沒問過目標的事；問它：現在還是最好的解法嗎？", "tryRef": "5.4【今天就能用一次這個工具】"}, {"n": "25", "id": "NCqRiCBzfXU", "dur": "1:03", "topic": "把八年的帳攤開，選擇就變了", "sec": "5.5 工具投資學", "part": "第 5 章　學習與消化資訊的工具", "chapter": "5.5 工具投資學：舊筆電變新電腦的效率產值帳", "try": "升級後，每天能省幾分鐘？；省下的時間 × 時薪，幾天回本；回本少於 30 天，今天就下單", "tryRef": "5.5【今天就能用一次這個工具】"}, {"n": "26", "id": "koB-4k1aQZk", "dur": "1:04", "topic": "結論可信，錯的推論也照收", "sec": "6.1 演繹推理", "part": "第 6 章　推理的骨架：什麼樣的推論才站得住", "chapter": "6.1 演繹推理：前提對、形式對，結論就跑不掉", "try": "他的結論是什麼？寫成一句話；要成立，必須先成立哪些前提？；每個前提單獨看，是真的嗎？", "tryRef": "6.1【今天就能用一次這個工具】"}, {"n": "27", "id": "wsg95qbdOBY", "dur": "1:00", "topic": "連專家都把小樣本看得太可靠", "sec": "6.2 歸納推理", "part": "第 6 章　推理的骨架：什麼樣的推論才站得住", "chapter": "6.2 歸納推理：從個案到通則，永遠只有機率沒有保證", "try": "這個結論，根據幾個案例？；這些案例，怎麼來到我眼前？；誰結構上不會出現在我眼前？", "tryRef": "6.2【今天就能用一次這個工具】"}, {"n": "28", "id": "xdI2FO-KZ6c", "dur": "0:57", "topic": "可能性低十倍，仍有四成人選簡單的解釋", "sec": "6.3 溯因推理", "part": "第 6 章　推理的骨架：什麼樣的推論才站得住", "chapter": "6.3 溯因推理：從結果反推原因，你每天都在做", "try": "把現在的解釋寫在最上面；再寫四個，分散在不同層次；最不一樣的兩個：該看到什麼跡象？", "tryRef": "6.3【今天就能用一次這個工具】"}, {"n": "29", "id": "GSTtouFAx_k", "dur": "1:00", "topic": "能推翻規則的那張卡，多數人漏掉", "sec": "6.4 充分與必要條件", "part": "第 6 章　推理的骨架：什麼樣的推論才站得住", "chapter": "6.4 充分條件與必要條件：最貴的一組混淆", "try": "寫下一句「只要……就……」；有它就一定成嗎？想一個反例；沒它就一定不成嗎？再想一個", "tryRef": "6.4【今天就能用一次這個工具】"}, {"n": "30", "id": "sg661bxYi_U", "dur": "1:02", "topic": "刻意測反面，找出規則的人多一倍", "sec": "6.5 可證偽與舉證責任", "part": "第 6 章　推理的骨架：什麼樣的推論才站得住", "chapter": "6.5 可證偽與舉證責任：什麼樣的主張不值得討論", "try": "挑一件你正在投入的事；寫下：到某日看到某結果就認錯；寫完，設一個提醒", "tryRef": "6.5【今天就能用一次這個工具】"}, {"n": "31", "id": "BUycf5vRYO8", "dur": "0:57", "topic": "攻擊人品，跟批評證據一樣有效", "sec": "7.1 訴諸權威與人身攻擊", "part": "第 7 章　揪出思考的破綻：十個邏輯謬誤", "chapter": "7.1 邏輯謬誤其一：訴諸權威與人身攻擊", "try": "挑一篇有爭議的文章；找出最熱門的三則留言；分辨：攻擊人、靠名人、談事實？", "tryRef": "7.1【今天就能用一次這個工具】"}, {"n": "32", "id": "jBKXK2L8-7c", "dur": "0:59", "topic": "只拿現成方案，決策比較容易失敗", "sec": "7.2 稻草人與假兩難", "part": "第 7 章　揪出思考的破綻：十個邏輯謬誤", "chapter": "7.2 邏輯謬誤其二：稻草人與假兩難", "try": "有人丟來二選一，先別回答；停頓三秒鐘；問：有沒有兼顧兩邊的 C 方案？", "tryRef": "7.2【今天就能用一次這個工具】"}, {"n": "33", "id": "1dVEHD1xAaA", "dur": "0:56", "topic": "下一步越近，滑坡越有說服力", "sec": "7.3 滑坡與循環論證", "part": "第 7 章　揪出思考的破綻：十個邏輯謬誤", "chapter": "7.3 邏輯謬誤其三：滑坡謬誤與循環論證", "try": "把滑坡式的擔憂寫下來；在中間畫一條線；寫上煞車：哪一步其實停得住", "tryRef": "7.3【今天就能用一次這個工具】"}, {"n": "34", "id": "hKBJ8nvRNHo", "dur": "0:59", "topic": "只是相關，新聞稿卻寫成因果", "sec": "7.4 相關不等於因果", "part": "第 7 章　揪出思考的破綻：十個邏輯謬誤", "chapter": "7.4 邏輯謬誤其四：訴諸情感與相關不等於因果", "try": "找出一個你深信的幸運物；結果是因為它，還是別的原因？；下一次，換一件試試看", "tryRef": "7.4【今天就能用一次這個工具】"}, {"n": "35", "id": "hIwd6O9JiNA", "dur": "1:00", "topic": "一千人的數據，輸給一個人的故事", "sec": "7.5 以偏概全與錯誤類比", "part": "第 7 章　揪出思考的破綻：十個邏輯謬誤", "chapter": "7.5 邏輯謬誤其五：以偏概全與錯誤類比", "try": "發現自己因為一個例子下判斷；告訴自己：這是一次特例；再觀察兩次，用三次的平均判斷", "tryRef": "7.5【今天就能用一次這個工具】"}, {"n": "36", "id": "GpZOM8RK0Kw", "dur": "0:58", "topic": "能自己挑的時候，多半挑同立場的", "sec": "8.1 確認偏誤", "part": "第 8 章　認知偏誤：大腦騙你的五種方式", "chapter": "8.1 確認偏誤：你只看見你想看見的證據", "try": "挑一件有立場、還沒定案的事；寫三條：成立就推翻我想法的證據；去查證這三條", "tryRef": "8.1【今天就能用一次這個工具】"}, {"n": "37", "id": "YR7WffUy5ks", "dur": "1:06", "topic": "考最差的人，以為自己贏過六成", "sec": "8.2 達克效應", "part": "第 8 章　認知偏誤：大腦騙你的五種方式", "chapter": "8.2 達克效應：越不懂的人，越敢一句話下結論", "try": "把那個單一原因寫在最上面；底下強迫自己補滿四條其他原因；五條各分一個百分比，加起來一百", "tryRef": "8.2【今天就能用一次這個工具】"}, {"n": "38", "id": "GvJJkau1RTs", "dur": "1:02", "topic": "同樣省五美元，願意跑一趟的人差很多", "sec": "8.3 框架效應", "part": "第 8 章　認知偏誤：大腦騙你的五種方式", "chapter": "8.3 框架效應：同一件事換個說法，你的決定就變了", "try": "抄下包裝上最顯眼的宣稱；寫出補數：零脂肪，那糖呢？；還原成絕對數字：基準是誰？", "tryRef": "8.3【今天就能用一次這個工具】"}, {"n": "39", "id": "kBc5xcP6Y2Y", "dur": "0:54", "topic": "同樣的距離，怕多一桿時推得比較準", "sec": "8.4 損失規避", "part": "第 8 章　認知偏誤：大腦騙你的五種方式", "chapter": "8.4 損失規避：怕失去的痛，是得到的兩倍", "try": "挑一件拖了三個月、明知該做的事；先填「做了會失去什麼」；逼自己在「不做會失去什麼」寫滿三條", "tryRef": "8.4【今天就能用一次這個工具】"}, {"n": "40", "id": "WyFD5ejj-tI", "dur": "0:57", "topic": "上新聞的死因，被估得特別多", "sec": "8.5 可得性捷思", "part": "第 8 章　認知偏誤：大腦騙你的五種方式", "chapter": "8.5 可得性捷思：越容易想起來的事，你越以為它常發生", "try": "這個印象，來自哪幾個案例？；它們都來自同一個地方嗎？；我手上有分母嗎？去哪找？", "tryRef": "8.5【今天就能用一次這個工具】"}, {"n": "41", "id": "pba3Ea_plis", "dur": "0:56", "topic": "對手只要 3 個人，從眾就到頂", "sec": "9.1 阿希從眾實驗", "part": "第 9 章　從眾與話術：別人怎麼改寫你的判斷", "chapter": "9.1 阿希從眾實驗：七個人就能讓你懷疑自己的眼睛", "try": "回想最近一次沒說出口的話；寫下想說的那一句，和你擔心什麼；問：那個擔心，後來真的發生了嗎？", "tryRef": "9.1【今天就能用一次這個工具】"}, {"n": "42", "id": "gV_NDSt_yRQ", "dur": "0:52", "topic": "只換一個動詞，記憶就跟著改", "sec": "9.2 偷走詞彙的洗腦術", "part": "第 9 章　從眾與話術：別人怎麼改寫你的判斷", "chapter": "9.2 偷走詞彙的洗腦術：語言的邊界就是思想的邊界", "try": "找一份官方文字，挑出三個抽象名詞；每個詞都翻成：誰，對誰，做了什麼；最後問：結果誰得利、誰承擔", "tryRef": "9.2【今天就能用一次這個工具】"}, {"n": "43", "id": "_7YwpqZFKpo", "dur": "1:01", "topic": "拿 1 美元的人，反而說最好玩", "sec": "9.3 認知失調與沉沒成本", "part": "第 9 章　從眾與話術：別人怎麼改寫你的判斷", "chapter": "9.3 認知失調與沉沒成本：大腦寧可改寫現實，也不肯認賠", "try": "想一件正在投入、心裡有點懷疑的事；寫下到目前為止，投入了多少；問：今天第一次遇到，我還會加入嗎？", "tryRef": "9.3【今天就能用一次這個工具】"}, {"n": "44", "id": "fGP7EJXAoiY", "dur": "1:05", "topic": "自己花了力氣的，看起來特別好", "sec": "9.4 系統正當化", "part": "第 9 章　從眾與話術：別人怎麼改寫你的判斷", "chapter": "9.4 系統正當化：為什麼受苦的人反而替制度辯護", "try": "新人第一天會覺得莫名其妙的一件事；你平常怎麼跟別人解釋它；原因消失了，你還會堅持它嗎？", "tryRef": "9.4【今天就能用一次這個工具】"}, {"n": "45", "id": "mRSuGsm1kpU", "dur": "0:58", "topic": "同一個決定，結果不同，評價就不同", "sec": "9.5 後見之明與決策日記", "part": "第 9 章　從眾與話術：別人怎麼改寫你的判斷", "chapter": "9.5 後見之明與決策日記：把「好運氣」和「好決策」分開", "try": "寫下：我決定什麼、知道的三個事實；寫下：預期的結果，把握大約幾成；寫下：什麼情況會證明我錯了", "tryRef": "9.5【今天就能用一次這個工具】"}, {"n": "46", "id": "jKI1a7Zbtw8", "dur": "1:00", "topic": "看過模型出錯，就不選它了", "sec": "10.1 大腦與 AI 互補", "part": "第 10 章　邏輯 × AI：讓工具幫你想得更清楚", "chapter": "10.1 大腦與 AI 互補：人類負責決策，機器負責運算", "try": "寫下明天最核心的 3 個任務；左邊寫 AI 運算：收集、整理、初稿；右邊寫大腦決策：定義目標、最終拍板", "tryRef": "10.1【今天就能用一次這個工具】"}, {"n": "47", "id": "LvPemcmmmSQ", "dur": "0:52", "topic": "AI 列的參考文獻，不少是編的", "sec": "10.2 NotebookLM 整理素材", "part": "第 10 章　邏輯 × AI：讓工具幫你想得更清楚", "chapter": "10.2 NotebookLM：隱私整理海量素材，生成結構化大綱", "try": "準備 3 到 5 篇想讀卻沒時間讀的長文；放進 NotebookLM，請它整理共通點；點引述標籤跳回原文，一筆一筆核對", "tryRef": "10.2【今天就能用一次這個工具】"}, {"n": "48", "id": "8bQfWDi4cQY", "dur": "0:59", "topic": "具體的目標，勝過一句盡力就好", "sec": "10.3 ChatGPT 拆解目標", "part": "第 10 章　邏輯 × AI：讓工具幫你想得更清楚", "chapter": "10.3 ChatGPT：精準拆解人生目標，生成無痛行動清單", "try": "請 ChatGPT 當教練，先問你的卡點；拆成 3 個 5 分鐘的小行動；關掉瀏覽器，立刻做第一個", "tryRef": "10.3【今天就能用一次這個工具】"}, {"n": "49", "id": "zE-IQ5PvxYU", "dur": "1:02", "topic": "有 AI 助手，寫程式快了一半多", "sec": "10.4 二八法則接 AI 自動化", "part": "第 10 章　邏輯 × AI：讓工具幫你想得更清楚", "chapter": "10.4 邏輯工具接 AI：用二八法則結合 AI，打造你的自動化助理", "try": "找一個每週做 3 次的無聊步驟；畫出：觸發條件、判斷、輸出；去 Make 範本庫找一個現成範例", "tryRef": "10.4【今天就能用一次這個工具】"}, {"n": "50", "id": "9MBcIhvIRf0", "dur": "1:06", "topic": "學會先離開原網站，查證的人變多", "sec": "10.5 AI 時代的查證", "part": "第 10 章　邏輯 × AI：讓工具幫你想得更清楚", "chapter": "10.5 AI 時代的判斷力：如何查證資訊與辨識真偽", "try": "把事實查核網站加進書籤；看到震驚的標題，先複製；丟給查核工具，看完報告再反應", "tryRef": "10.5【今天就能用一次這個工具】"}, {"n": "51", "id": "BBdya6tOCeo", "dur": "1:01", "topic": "收入越高，覺得「夠用」的標準越高", "sec": "11.1 財富自由公式", "part": "第 11 章　邏輯化的人生：把工具活成生活方式", "chapter": "11.1 財富自由公式：能力減去慾望，心富的財務核心心法", "try": "打開上個月的信用卡帳單；找出 3 個沒帶來持久快樂的項目；立刻取消，省下的錢設成自動存股", "tryRef": "11.1【今天就能用一次這個工具】"}, {"n": "52", "id": "9smsQihUEF0", "dur": "1:00", "topic": "剛搬家的人，最容易換掉習慣", "sec": "11.2 習慣是條件句", "part": "第 11 章　邏輯化的人生：把工具活成生活方式", "chapter": "11.2 把重複的決定變成一次設計：習慣是條件句，不是意志力", "try": "挑一件 15 分鐘內做得完的小事；找每天一定會發生的動作當觸發點；寫成「只要我＿，就＿」，貼在看得到的地方", "tryRef": "11.2【今天就能用一次這個工具】"}, {"n": "53", "id": "Je7NUMd31MA", "dur": "1:04", "topic": "把成本標出來，買的人就變少", "sec": "11.3 別再繳智商稅", "part": "第 11 章　邏輯化的人生：把工具活成生活方式", "chapter": "11.3 別再繳智商稅：用時間成本拆解便宜貨的實質代價", "try": "打開購物車，找出湊免運的雜物；挑選時間折成時薪，加上雜物價格；超過 80 元運費，就移出、直接付運費", "tryRef": "11.3【今天就能用一次這個工具】"}, {"n": "54", "id": "JQWKWxh7BMk", "dur": "1:06", "topic": "同一招，要看事情管不管得了", "sec": "11.4 可控與不可控", "part": "第 11 章　邏輯化的人生：把工具活成生活方式", "chapter": "11.4 可控與不可控：一個分類錯了，就會白白痛苦", "try": "把卡住的念頭全部倒出來；分進三欄：可控、可影響、不可控；從第一欄挑一件，五分鐘內做完", "tryRef": "11.4【今天就能用一次這個工具】"}, {"n": "55", "id": "oxkJh5cmpzc", "dur": "1:02", "topic": "關掉通知一週，比較不分心", "sec": "11.5 極簡×邏輯", "part": "第 11 章　邏輯化的人生：把工具活成生活方式", "chapter": "11.5 極簡×邏輯：人生系統的終極簡化與收束", "try": "刪掉 10 個超過一個月沒開的 App；關掉新聞、購物、遊戲的推播通知；接下來 24 小時，體驗沒有小紅點的手機", "tryRef": "11.5【今天就能用一次這個工具】"}];
+const PLAYLIST = "PLCL82waP84LY";
+
+(function () {
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function partName(p) { return p.split('——')[0].split('：')[0]; }
+  if (PLAYLIST) {
+    document.getElementById('playall').outerHTML = '<a class="playall" href="https://www.youtube.com/playlist?list=' + PLAYLIST +
+      '" target="_blank" rel="noopener">在 YouTube 依序播放全部 55 支 →</a>';
+  }
+  var parts = [];
+  VIDEOS.forEach(function (v) {
+    var last = parts[parts.length - 1];
+    if (!last || last.name !== v.part) parts.push({ name: v.part, items: [] });
+    parts[parts.length - 1].items.push(v);
+  });
+  document.getElementById('index').innerHTML = parts.map(function (p, i) {
+    return '<div class="index-part"><b>' + esc(partName(p.name)) + '</b><div>' + p.items.map(function (v) {
+      return '<a href="#v' + v.n + '" class="num" aria-label="第 ' + Number(v.n) + ' 支">' + v.n + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+  document.getElementById('list').innerHTML = parts.map(function (p, i) {
+    return '<h2 class="part" id="p' + (i + 1) + '">' + esc(p.name) + '</h2>' + p.items.map(function (v) {
+      var thumb = v.id ? 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg' : v.thumb;
+      return '<article class="video" id="v' + v.n + '">' +
+        '<div class="video-head"><span class="n">' + v.n + '</span><h3>' + esc(v.topic) + '</h3><span class="dur">' + v.dur + '</span></div>' +
+        '<ul class="chapters"><li>' + esc(v.chapter) + '</li></ul>' +
+        '<div class="player"><button type="button" data-id="' + (v.id || '') + '" data-local="' + esc(v.local || '') + '" data-n="' + v.n +
+          '" aria-label="播放 ' + esc(v.sec) + '：' + esc(v.topic) + '">' +
+          '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>' +
+        '<p class="try"><b>看完試試看</b>' + esc(v.try) + (v.tryRef ? '<span>（' + esc(v.tryRef) + '）</span>' : '') + '</p>' +
+      '</article>';
+    }).join('');
+  }).join('');
+
+  document.getElementById('list').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.player button') : null;
+    if (!b) return;
+    var f;
+    if (b.dataset.id) {
+      f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = b.getAttribute('aria-label').replace('播放 ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+    } else if (b.dataset.local) {
+      /* 預覽版：影片還沒上傳，直接播 Drive 裡的成品 */
+      f = document.createElement('video');
+      f.src = b.dataset.local; f.controls = true; f.autoplay = true; f.playsInline = true;
+    } else return;
+    b.parentNode.replaceChild(f, b);
+    try { if (window.clarity) clarity('event', 'mingbian-video-' + b.dataset.n); } catch (err) {}
+  });
+})();
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   圖片 CDN 退路：jsDelivr 掛掉時自動改用同 repo 的本地 assets/
+   （與其他頁同一份；這頁只有書封走 jsDelivr）
+   ────────────────────────────────────────────────────────────── */
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/whitebear-jerry/life-os-mvp@6d0f0350f19556757ec8ea5353c53879b219660d/assets/';
+  function toLocal(u) {
+    if (!u) return null;
+    var i = u.indexOf(CDN);
+    return i === -1 ? null : 'assets/' + u.slice(i + CDN.length);
+  }
+  function guard(img) {
+    if (!img || img.dataset.cdnFb) return;
+    img.dataset.cdnFb = '1';
+    img.addEventListener('error', function () {
+      var l = toLocal(img.src);
+      if (l) img.src = l;                 // 換本地路徑後不再重試，避免無限迴圈
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var l = toLocal(img.src);
+      if (l) img.src = l;
+    }
+  }
+  [].forEach.call(document.images, guard);
+  if (window.MutationObserver) {
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        [].forEach.call(m.addedNodes, function (n) {
+          if (!n || n.nodeType !== 1) return;
+          if (n.tagName === 'IMG') guard(n);
+          else if (n.querySelectorAll) [].forEach.call(n.querySelectorAll('img'), guard);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  window.__cdnBgFallback = function (el, url) {
+    var probe = new Image();
+    probe.onerror = function () {
+      var l = toLocal(url);
+      if (l) el.style.backgroundImage = "url('" + l + "')";
+    };
+    probe.src = url;
+  };
+})();
+</script>
+</body>
+</html>

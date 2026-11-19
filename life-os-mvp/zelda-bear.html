@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>白熊傳說：眾神的降噪秘笈 | Zelda Retro RPG 經典版</title>
+  <meta name="description" content="任天堂 16-bit 經典薩爾達風格 RPG：多地圖探索（村莊、迷霧森林、古代神殿、心富聖泉）、推石塊解謎、NPC 豐富劇情、Boss 戰、砍草與開寶箱！">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@700;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body {
+      background: #06080e;
+      color: #ffffff;
+      font-family: 'Press Start 2P', 'Noto Sans TC', monospace;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+    }
+
+    /* NES / SNES Outer Arcade Bezel */
+    .retro-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 640px;
+      max-height: 960px;
+      display: flex;
+      flex-direction: column;
+      background: #111520;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.95);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    /* ===== CLASSIC ZELDA TOP HUD BAR ===== */
+    .zelda-hud {
+      background: #000000;
+      border-bottom: 4px solid #2e3440;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 25;
+      height: 60px;
+      position: relative;
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Dynamic Multi-screen Minimap */
+    .hud-minimap {
+      width: 48px;
+      height: 40px;
+      border: 2px solid #4c566a;
+      background: #141720;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 2px;
+      padding: 2px;
+    }
+    .map-cell {
+      background: #232834;
+      border-radius: 1px;
+    }
+    .map-cell.active {
+      background: #a3be8c;
+      box-shadow: 0 0 6px #a3be8c;
+      animation: blinkCell 0.9s infinite;
+    }
+    .map-cell.temple {
+      border: 1px solid #ebcb8b;
+    }
+
+    .hud-rupees {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: #a3be8c;
+    }
+    .rupee-icon {
+      width: 12px;
+      height: 18px;
+      background: #a3be8c;
+      clip-path: polygon(50% 0%, 100% 30%, 100% 70%, 50% 100%, 0% 70%, 0% 30%);
+      box-shadow: 0 0 8px rgba(163, 190, 140, 0.8);
+      display: inline-block;
+    }
+
+    .hud-items {
+      display: flex;
+      gap: 8px;
+    }
+    .item-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .slot-key {
+      font-size: 0.48rem;
+      color: #88c0d0;
+    }
+    .slot-box {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #88c0d0;
+      background: #1e222d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+    }
+
+    .hud-hearts {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .pixel-heart {
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+
+    /* ===== GAME CANVAS VIEWPORT ===== */
+    .canvas-wrapper {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      background: #1c202a;
+      overflow: hidden;
+    }
+
+    #gameCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-crisp-edges;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* Screen Title Toast (Location entrance) */
+    .location-toast {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #ebcb8b;
+      padding: 6px 16px;
+      font-size: 0.65rem;
+      color: #ebcb8b;
+      border-radius: 4px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
+      z-index: 15;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .location-toast.show {
+      opacity: 1;
+    }
+
+    /* CRT Filter */
+    .crt-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ===== RETRO DIALOGUE BOX (Multi-page NPC story) ===== */
+    .dialogue-box {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      background: #000000;
+      border: 4px solid #ffffff;
+      border-radius: 4px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+      z-index: 35;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .dialogue-box.active {
+      display: flex;
+    }
+    .dialogue-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dialogue-speaker {
+      font-size: 0.65rem;
+      color: #ebcb8b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dialogue-text {
+      font-size: 0.68rem;
+      line-height: 1.65;
+      color: #eceff4;
+      min-height: 3.2em;
+    }
+    .dialogue-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.48rem;
+      color: #88c0d0;
+      animation: blink 0.8s infinite;
+    }
+
+    /* ===== MOBILE VIRTUAL GAMEPAD (Nintendo Style) ===== */
+    .gamepad-container {
+      background: #151924;
+      border-top: 4px solid #232834;
+      padding: 10px 20px env(safe-area-inset-bottom, 14px) 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 175px;
+      z-index: 25;
+    }
+
+    /* D-PAD (Cross) */
+    .d-pad {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+    .d-btn {
+      position: absolute;
+      width: 38px;
+      height: 38px;
+      background: #3b4252;
+      border: 2px solid #232834;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d8dee9;
+      font-size: 0.75rem;
+      box-shadow: 0 3px 0 #181b24;
+      cursor: pointer;
+    }
+    .d-btn:active, .d-btn.pressed {
+      background: #4c566a;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #181b24;
+    }
+    .d-btn.up { top: 0; left: 41px; }
+    .d-btn.down { bottom: 0; left: 41px; }
+    .d-btn.left { top: 41px; left: 0; }
+    .d-btn.right { top: 41px; right: 0; }
+    .d-center {
+      position: absolute;
+      top: 41px;
+      left: 41px;
+      width: 38px;
+      height: 38px;
+      background: #3b4252;
+    }
+
+    /* Action Buttons (A & B) */
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transform: rotate(-15deg);
+    }
+    .btn-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+    }
+    .btn-circle:active, .btn-circle.pressed {
+      transform: translateY(3px);
+    }
+    .btn-circle.btn-b {
+      background: #bf616a;
+      border: 3px solid #8f383e;
+      box-shadow: 0 4px 0 #5e262a;
+    }
+    .btn-circle.btn-b:active {
+      box-shadow: 0 1px 0 #5e262a;
+    }
+    .btn-circle.btn-a {
+      background: #d08770;
+      border: 3px solid #9e5b47;
+      box-shadow: 0 4px 0 #6e3d2f;
+      margin-top: -20px;
+    }
+    .btn-circle.btn-a:active {
+      box-shadow: 0 1px 0 #6e3d2f;
+    }
+    .btn-label-sub {
+      font-size: 0.4rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 2px;
+    }
+
+    /* PC Keys Bar */
+    .pc-keys-bar {
+      font-size: 0.5rem;
+      color: #64748b;
+      text-align: center;
+      padding: 3px;
+      background: #0a0d14;
+    }
+
+    /* Item / Quest Victory Modal */
+    .zelda-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 60;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .zelda-modal.active {
+      display: flex;
+    }
+    .modal-frame {
+      background: #000;
+      border: 4px solid #ebcb8b;
+      padding: 20px;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(235, 203, 139, 0.4);
+    }
+    .modal-banner {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      border: 2px solid #ebcb8b;
+    }
+    .modal-item-title {
+      font-size: 0.85rem;
+      color: #ebcb8b;
+      margin-bottom: 8px;
+    }
+    .modal-item-desc {
+      font-size: 0.6rem;
+      line-height: 1.6;
+      color: #d8dee9;
+      margin-bottom: 16px;
+    }
+    .modal-btn {
+      background: #ebcb8b;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 0.65rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+    @keyframes blinkCell {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="retro-container">
+    <!-- CLASSIC ZELDA TOP HUD -->
+    <header class="zelda-hud">
+      <div class="hud-left">
+        <!-- 3x2 Grid Minimap -->
+        <div class="hud-minimap" title="海拉魯/白熊秘境地圖">
+          <div class="map-cell" id="mc-0-0"></div>
+          <div class="map-cell temple" id="mc-1-0" title="降噪神殿"></div>
+          <div class="map-cell" id="mc-2-0"></div>
+          <div class="map-cell active" id="mc-0-1" title="寧靜村莊"></div>
+          <div class="map-cell" id="mc-1-1" title="迷霧森林"></div>
+          <div class="map-cell" id="mc-2-1" title="心富聖泉"></div>
+        </div>
+        <div class="hud-rupees">
+          <span class="rupee-icon"></span>
+          <span>×<span id="rupeeVal">0</span></span>
+        </div>
+      </div>
+
+      <div class="hud-items">
+        <div class="item-slot">
+          <span class="slot-key">B</span>
+          <div class="slot-box" title="退魔降噪之劍">🗡️</div>
+        </div>
+        <div class="item-slot">
+          <span class="slot-key">A</span>
+          <div class="slot-box" id="itemSlotA" title="開寶箱 / 推方塊 / 互動">🛡️</div>
+        </div>
+      </div>
+
+      <div class="hud-hearts" id="heartsContainer">
+        <span class="pixel-heart">❤️</span>
+        <span class="pixel-heart">❤️</span>
+        <span class="pixel-heart">❤️</span>
+      </div>
+    </header>
+
+    <!-- 2D RETRO GAME CANVAS -->
+    <div class="canvas-wrapper">
+      <canvas id="gameCanvas" width="320" height="240"></canvas>
+      <div class="crt-overlay"></div>
+
+      <!-- Location Entrance Toast -->
+      <div class="location-toast" id="locationToast">【進入：寧靜村莊】</div>
+
+      <!-- Dialogue Box -->
+      <div id="dialogueBox" class="dialogue-box">
+        <div class="dialogue-header">
+          <div class="dialogue-speaker"><span id="dialogueIcon">🐻</span><span id="dialogueName">村長白熊</span></div>
+        </div>
+        <div class="dialogue-text" id="dialogueText">勇者白熊！王國陷入了嚴重的內耗雜訊風暴！</div>
+        <div class="dialogue-footer">▼ 按 [A] 鍵繼續</div>
+      </div>
+    </div>
+
+    <!-- PC KEYBOARD HINT BAR -->
+    <div class="pc-keys-bar">
+      操作：[WASD / 方向鍵] 移動 | [J / 空白鍵] 揮劍砍草/攻擊 | [K / E] 互動/推方塊
+    </div>
+
+    <!-- RETRO GAMEPAD CONTROLS (Mobile Friendly) -->
+    <div class="gamepad-container">
+      <!-- 4-way D-Pad -->
+      <div class="d-pad" id="dPad">
+        <div class="d-btn up" data-dir="up">▲</div>
+        <div class="d-btn left" data-dir="left">◀</div>
+        <div class="d-center"></div>
+        <div class="d-btn right" data-dir="right">▶</div>
+        <div class="d-btn down" data-dir="down">▼</div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="btn-circle btn-b" id="btnB">
+          <span>B</span>
+          <span class="btn-label-sub">揮劍</span>
+        </button>
+        <button class="btn-circle btn-a" id="btnA">
+          <span>A</span>
+          <span class="btn-label-sub">互動</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ITEM GET / VICTORY MODAL -->
+    <div id="itemModal" class="zelda-modal">
+      <div class="modal-frame">
+        <img src="assets/zelda-screen.jpg" alt="Zelda Pixel Scene" class="modal-banner" />
+        <h3 class="modal-item-title" id="modalTitle">★ 獲得傳奇秘笈！ ★</h3>
+        <p class="modal-item-desc" id="modalDesc">
+          勇者白熊擊退了內耗魔王，在神殿寶箱中發現了《降噪人生》！<br>
+          大腦 RAM 卸載 + 內耗完全清零！心之容器上限提升！
+        </p>
+        <div style="display:flex; gap:8px; justify-content:center;">
+          <a href="link.html#book-noise" class="modal-btn" id="modalLinkBtn">📘 閱讀《降噪人生》</a>
+          <button class="modal-btn" style="background:#4c566a; color:#fff;" id="continuePlayBtn">繼續冒險</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETRO RPG ENGINE SCRIPT -->
+  <script>
+    /* ========================================================
+     * 1. 8-BIT CHIPTUNE SYNTHESIZER (Web Audio API)
+     * ======================================================== */
+    class RetroAudio {
+      constructor() {
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playSword() {
+        if (!this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(340, t);
+        osc.frequency.exponentialRampToValueAtTime(70, t + 0.12);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.13);
+      }
+      playGrassCut() {
+        if (!this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(480, t);
+        osc.frequency.exponentialRampToValueAtTime(140, t + 0.09);
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.09);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.1);
+      }
+      playRupee() {
+        if (!this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(987.77, t);
+        osc.frequency.setValueAtTime(1318.51, t + 0.06);
+        gain.gain.setValueAtTime(0.2, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.18);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.2);
+      }
+      playHit() {
+        if (!this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, t);
+        osc.frequency.linearRampToValueAtTime(40, t + 0.15);
+        gain.gain.setValueAtTime(0.35, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.16);
+      }
+      playPuzzleSolved() {
+        // Zelda Classic Puzzle Solved Secret Jingle (G5 -> F#5 -> D#5 -> A4 -> G#4 -> E5 -> G#5 -> C6)
+        if (!this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const notes = [783.99, 739.99, 622.25, 440.00, 415.30, 659.25, 830.61, 1046.50];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, t + idx * 0.1);
+          gain.gain.setValueAtTime(0.25, t + idx * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + idx * 0.1 + 0.14);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t + idx * 0.1);
+          osc.stop(t + idx * 0.1 + 0.15);
+        });
+      }
+      playChestFanfare() {
+        // Iconic Zelda Treasure Jingle (4 notes ascending)
+        if (!this.ctx) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const notes = [
+          { f: 440.00, dur: 0.15 },
+          { f: 466.16, dur: 0.15 },
+          { f: 493.88, dur: 0.15 },
+          { f: 523.25, dur: 0.55 }
+        ];
+        let offset = 0;
+        notes.forEach(n => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(n.f, t + offset);
+          gain.gain.setValueAtTime(0.3, t + offset);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + offset + n.dur);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t + offset);
+          osc.stop(t + offset + n.dur + 0.05);
+          offset += n.dur;
+        });
+      }
+    }
+    const audio = new RetroAudio();
+
+    /* ========================================================
+     * 2. PIXEL ART SPRITES (16-Bit Crisp Drawing)
+     * ======================================================== */
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    function drawPixelMatrix(ctx, matrix, colorMap, ox, oy, scale = 2) {
+      for (let r = 0; r < matrix.length; r++) {
+        for (let c = 0; c < matrix[r].length; c++) {
+          const char = matrix[r][c];
+          if (char !== '.' && colorMap[char]) {
+            ctx.fillStyle = colorMap[char];
+            ctx.fillRect(ox + c * scale, oy + r * scale, scale, scale);
+          }
+        }
+      }
+    }
+
+    // Hero: Link White Bear (Front & Walk)
+    const BEAR_PALETTE = {
+      'W': '#ffffff', 'G': '#2e7d32', 'D': '#1b5e20',
+      'B': '#8d6e63', 'Y': '#fdd835', 'K': '#111827'
+    };
+    const SPRITE_BEAR_DOWN = [
+      "....DDDDDDD.....",
+      "...DGGGGGGGD....",
+      "..DGGGGGGGGGD...",
+      ".WW.GGGGGGG.WW..",
+      "WWWW.KK.KK.WWWW.",
+      "WWWWW......WWWWW",
+      ".WWWWWWKWWWWWW..",
+      "..WWWWWWWWWW....",
+      "..DGGGGGGGGGD...",
+      ".DGGGGGGGGGGGD..",
+      ".DGBBBBYBBBBGD..",
+      "..GGGGGGGGGGG...",
+      "..DDDD...DDDD...",
+      "..BBBB...BBBB...",
+      "..BBBB...BBBB...",
+      "................"
+    ];
+    const SPRITE_BEAR_WALK = [
+      "....DDDDDDD.....",
+      "...DGGGGGGGD....",
+      "..DGGGGGGGGGD...",
+      ".WW.GGGGGGG.WW..",
+      "WWWW.KK.KK.WWWW.",
+      "WWWWW......WWWWW",
+      ".WWWWWWKWWWWWW..",
+      "..WWWWWWWWWW....",
+      "..DGGGGGGGGGD...",
+      ".DGGGGGGGGGGGD..",
+      ".DGBBBBYBBBBGD..",
+      "..GGGGGGGGGGG...",
+      ".BBBB.....DDDD..",
+      ".BBBB......BBBB.",
+      "...........BBBB.",
+      "................"
+    ];
+
+    // Bush
+    const BUSH_PALETTE = { 'L': '#7cb342', 'M': '#558b2f', 'D': '#33691e', 'F': '#e91e63' };
+    const SPRITE_BUSH = [
+      "...MMMMMMMM.....",
+      "..MLLLLLLLLMD...",
+      ".MLLLLLFLLLLMD..",
+      "MLLLLLLLLLLLLMD.",
+      "MLLLLLLLLLLLLMD.",
+      "MLLLFLLLLLLLLMD.",
+      "MMLLLLLLLLLLMMD.",
+      ".DMMLLLLLLMMDD..",
+      "..DDMMMMMMDD....",
+      "................"
+    ];
+
+    // Slime
+    const SLIME_PALETTE = { 'P': '#ba68c8', 'L': '#e1bee7', 'D': '#7b1fa2', 'K': '#212121', 'W': '#ffffff' };
+    const SPRITE_SLIME = [
+      ".....PPPP.......",
+      "...PPLLLLPP.....",
+      "..PLLLLLLLLPD...",
+      ".PLLKWLLKWLLPD..",
+      ".PLLKKLLKKLLPD..",
+      "PLLLLLLLLLLLLPD.",
+      "PLLLLLLLLLLLLPD.",
+      "DPLLLLLLLLLLPDD.",
+      ".DDPPPPPPPPDD...",
+      "................"
+    ];
+
+    // Boss: Lord of Overwhelm (內耗大魔王)
+    const BOSS_PALETTE = {
+      'R': '#e53935', 'D': '#b71c1c', 'H': '#ff8a80', 'K': '#000000', 'Y': '#ffeb3b', 'S': '#37474f'
+    };
+    const SPRITE_BOSS = [
+      "..DDDDDDDDDDDD..",
+      ".DRRRRRRRRRRRRD.",
+      "DRRRRRRRRRRRRRRD",
+      "DRRYKRRRRRRKYRRD",
+      "DRRKKRRRRRRKKRRD",
+      "DRRRRRRKKRRRRRRD",
+      "DRRRRRKKKKRRRRRD",
+      ".DRRRRRRRRRRRRD.",
+      ".DSSHSSSSSSHSSD.",
+      "DDSSSSSSSSSSSSDD",
+      "DDSSSSSSSSSSSSDD",
+      ".DDDDDDDDDDDDDD."
+    ];
+
+    // Chest
+    const CHEST_PALETTE = { 'G': '#fbc02d', 'W': '#6d4c41', 'D': '#3e2723', 'K': '#000000' };
+    const SPRITE_CHEST = [
+      "..GGGGGGGGGGGG..",
+      ".GGWWWWWWWWWWGG.",
+      "GWWWWWWWWWWWWWWG",
+      "GGGGGGGKGGGGGGGG",
+      "GWWWWWWWWWWWWWWG",
+      "GWWWWWWWWWWWWWWG",
+      "GGGGGGGGGGGGGGGG"
+    ];
+
+    /* ========================================================
+     * 3. MULTI-MAP WORLD & QUEST SYSTEM
+     * ======================================================== */
+    let currentMapX = 0;
+    let currentMapY = 1; // Start in Village (0, 1)
+
+    let rupees = 0;
+    let hearts = 3;
+    let maxHearts = 3;
+    let templeUnlocked = false; // Unlocked via puzzle in Forest
+    let bossDefeated = false;
+    let gotNoiseBook = false;
+    let gotWealthBlessing = false;
+
+    const MAP_NAMES = {
+      '0,1': '寧靜村莊',
+      '1,1': '迷霧森林',
+      '1,0': '降噪古代神殿',
+      '2,1': '心富聖泉谷'
+    };
+
+    // Hero Object
+    const player = {
+      x: 150,
+      y: 130,
+      w: 16,
+      h: 16,
+      speed: 1.9,
+      dir: 'down',
+      moving: false,
+      walkFrame: 0,
+      slashing: false,
+      slashTimer: 0,
+      invulnerable: 0
+    };
+
+    // Pushable Block in Forest (1, 1)
+    const puzzleBlock = { x: 195, y: 110, w: 20, h: 20, onSwitch: false };
+    const puzzleSwitch = { x: 195, y: 65, w: 20, h: 20 };
+
+    // Dynamic map elements
+    const mapBushes = {
+      '0,1': [
+        { x: 50, y: 80, cut: false }, { x: 70, y: 80, cut: false },
+        { x: 50, y: 160, cut: false }, { x: 70, y: 160, cut: false }
+      ],
+      '1,1': [
+        { x: 70, y: 70, cut: false }, { x: 90, y: 70, cut: false }, { x: 110, y: 70, cut: false },
+        { x: 70, y: 150, cut: false }, { x: 90, y: 150, cut: false }, { x: 230, y: 150, cut: false }
+      ],
+      '2,1': [
+        { x: 60, y: 60, cut: false }, { x: 240, y: 60, cut: false }
+      ],
+      '1,0': []
+    };
+
+    // Enemies per map
+    const mapEnemies = {
+      '0,1': [],
+      '1,1': [
+        { type: 'slime', x: 80, y: 110, w: 14, h: 12, vx: 0.6, vy: 0, hp: 2, flash: 0, alive: true },
+        { type: 'slime', x: 230, y: 100, w: 14, h: 12, vx: -0.6, vy: 0, hp: 2, flash: 0, alive: true }
+      ],
+      '1,0': [
+        { type: 'boss', x: 144, y: 55, w: 32, h: 24, hp: 8, maxHp: 8, vx: 0.8, vy: 0, flash: 0, alive: true, shootTimer: 0 }
+      ],
+      '2,1': []
+    };
+
+    // Boss projectiles
+    const projectiles = [];
+
+    // Chests per map
+    const mapChests = {
+      '0,1': null,
+      '1,1': { x: 250, y: 50, opened: false, content: 'rupees', val: 30 },
+      '1,0': { x: 152, y: 40, opened: false, content: 'noiseBook' },
+      '2,1': { x: 152, y: 50, opened: false, content: 'wealthBlessing' }
+    };
+
+    // Drops & Particles
+    const drops = [];
+    const particles = [];
+
+    // Dialogue State Machine
+    const dialogues = {
+      villageChief: [
+        "勇者白熊！王國被『內耗雜訊風暴』籠罩，大家大腦 RAM 全都滿載當機了！",
+        "請穿過東方的【迷霧森林】，進入北方的【降噪神殿】，解鎖《降噪人生》退魔秘笈！"
+      ],
+      villageChiefDone: [
+        "太不可思議了！你拿到了《降噪人生》！",
+        "大腦已經成功卸載雜音，心靈 NAS 權限全面恢復！你真棒！"
+      ],
+      anxiousBear: [
+        "嗚嗚...我每天被 999 則紅點通知追殺，連睡前都忍不住滑短影音...",
+        "腦袋停不下來...拜託勇者快去神殿找降噪解方！"
+      ],
+      forestSign: [
+        "【古老石碑】：『若欲開啟神殿石門，需將重石推入北方發光符文陣。』"
+      ],
+      fountainFairy: [
+        "歡迎來到【心財同源・80/15/5 水庫聖泉】！",
+        "別用肉身死扛，把心顧好，財富與福氣自然會像泉水般湧現！",
+        "賜予你【心富黃金護符】：生命心之容器上限永久提升！"
+      ]
+    };
+
+    let activeDialogueLines = [];
+    let currentLineIndex = 0;
+
+    function openDialogue(speakerIcon, speakerName, lines) {
+      activeDialogueLines = lines;
+      currentLineIndex = 0;
+      document.getElementById('dialogueIcon').innerText = speakerIcon;
+      document.getElementById('dialogueName').innerText = speakerName;
+      document.getElementById('dialogueText').innerText = activeDialogueLines[0];
+      document.getElementById('dialogueBox').classList.add('active');
+    }
+
+    function advanceDialogue() {
+      currentLineIndex++;
+      if (currentLineIndex < activeDialogueLines.length) {
+        document.getElementById('dialogueText').innerText = activeDialogueLines[currentLineIndex];
+      } else {
+        document.getElementById('dialogueBox').classList.remove('active');
+      }
+    }
+
+    function showToast(text) {
+      const t = document.getElementById('locationToast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function updateMinimapHUD() {
+      // Clear all
+      document.querySelectorAll('.map-cell').forEach(c => c.classList.remove('active'));
+      const curCell = document.getElementById(`mc-${currentMapX}-${currentMapY}`);
+      if (curCell) curCell.classList.add('active');
+    }
+
+    function updateHUD() {
+      document.getElementById('rupeeVal').innerText = rupees;
+      const hContainer = document.getElementById('heartsContainer');
+      hContainer.innerHTML = '';
+      for (let i = 0; i < maxHearts; i++) {
+        const span = document.createElement('span');
+        span.className = 'pixel-heart';
+        span.innerText = i < hearts ? '❤️' : '🖤';
+        hContainer.appendChild(span);
+      }
+      updateMinimapHUD();
+    }
+
+    /* ========================================================
+     * 4. INPUT CONTROLS
+     * ======================================================== */
+    const keys = { up: false, down: false, left: false, right: false };
+
+    window.addEventListener('keydown', (e) => {
+      audio.init();
+      const k = e.key.toLowerCase();
+      if (k === 'w' || k === 'arrowup') keys.up = true;
+      if (k === 's' || k === 'arrowdown') keys.down = true;
+      if (k === 'a' || k === 'arrowleft') keys.left = true;
+      if (k === 'd' || k === 'arrowright') keys.right = true;
+      if (k === 'j' || k === ' ') swingSword();
+      if (k === 'k' || k === 'e') handleAction();
+    });
+
+    window.addEventListener('keyup', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === 'w' || k === 'arrowup') keys.up = false;
+      if (k === 's' || k === 'arrowdown') keys.down = false;
+      if (k === 'a' || k === 'arrowleft') keys.left = false;
+      if (k === 'd' || k === 'arrowright') keys.right = false;
+    });
+
+    // Touch D-Pad
+    document.querySelectorAll('.d-btn').forEach(btn => {
+      const dir = btn.dataset.dir;
+      const start = (e) => {
+        e.preventDefault();
+        audio.init();
+        keys[dir] = true;
+        btn.classList.add('pressed');
+      };
+      const end = (e) => {
+        e.preventDefault();
+        keys[dir] = false;
+        btn.classList.remove('pressed');
+      };
+      btn.addEventListener('touchstart', start, { passive: false });
+      btn.addEventListener('touchend', end);
+      btn.addEventListener('mousedown', start);
+      btn.addEventListener('mouseup', end);
+    });
+
+    const btnB = document.getElementById('btnB');
+    const btnA = document.getElementById('btnA');
+
+    btnB.addEventListener('touchstart', (e) => { e.preventDefault(); audio.init(); swingSword(); }, { passive: false });
+    btnB.addEventListener('mousedown', () => { audio.init(); swingSword(); });
+
+    btnA.addEventListener('touchstart', (e) => { e.preventDefault(); audio.init(); handleAction(); }, { passive: false });
+    btnA.addEventListener('mousedown', () => { audio.init(); handleAction(); });
+
+    /* ========================================================
+     * 5. ACTIONS: SWORD, PUZZLE & CHEST
+     * ======================================================== */
+    function swingSword() {
+      if (player.slashing) return;
+      player.slashing = true;
+      player.slashTimer = 10;
+      audio.playSword();
+
+      let hx = player.x, hy = player.y, hw = 16, hh = 16;
+      if (player.dir === 'up') { hy -= 14; hw = 20; hh = 14; }
+      else if (player.dir === 'down') { hy += 16; hw = 20; hh = 14; }
+      else if (player.dir === 'left') { hx -= 14; hw = 14; hh = 20; }
+      else if (player.dir === 'right') { hx += 16; hw = 14; hh = 20; }
+
+      // Cut bushes on current map
+      const curMapKey = `${currentMapX},${currentMapY}`;
+      const bushes = mapBushes[curMapKey] || [];
+      bushes.forEach(b => {
+        if (!b.cut && hx < b.x + 16 && hx + hw > b.x && hy < b.y + 16 && hy + hh > b.y) {
+          b.cut = true;
+          audio.playGrassCut();
+          for (let i = 0; i < 5; i++) {
+            particles.push({
+              x: b.x + 8, y: b.y + 8,
+              vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 - 1,
+              life: 16, color: '#7cb342'
+            });
+          }
+          if (Math.random() < 0.7) {
+            const isHeart = Math.random() < 0.25;
+            drops.push({
+              x: b.x + 4, y: b.y + 4,
+              type: isHeart ? 'heart' : 'rupee',
+              val: isHeart ? 1 : (Math.random() > 0.8 ? 5 : 1),
+              timer: 0
+            });
+          }
+        }
+      });
+
+      // Hit enemies on current map
+      const enemies = mapEnemies[curMapKey] || [];
+      enemies.forEach(en => {
+        if (en.alive && hx < en.x + en.w && hx + hw > en.x && hy < en.y + en.h && hy + hh > en.y) {
+          en.hp -= 1;
+          en.flash = 10;
+          audio.playHit();
+          // Knockback
+          en.x += (player.dir === 'right' ? 14 : (player.dir === 'left' ? -14 : 0));
+          en.y += (player.dir === 'down' ? 14 : (player.dir === 'up' ? -14 : 0));
+
+          if (en.hp <= 0) {
+            en.alive = false;
+            if (en.type === 'boss') {
+              bossDefeated = true;
+              audio.playPuzzleSolved();
+              drops.push({ x: en.x + 8, y: en.y + 8, type: 'heart', val: 1, timer: 0 });
+            } else {
+              drops.push({ x: en.x, y: en.y, type: 'rupee', val: 5, timer: 0 });
+            }
+          }
+        }
+      });
+    }
+
+    function handleAction() {
+      // 1. Advance Dialogue if open
+      const dBox = document.getElementById('dialogueBox');
+      if (dBox.classList.contains('active')) {
+        advanceDialogue();
+        return;
+      }
+
+      const curMapKey = `${currentMapX},${currentMapY}`;
+
+      // 2. Check Chest on current map
+      const chest = mapChests[curMapKey];
+      if (chest && !chest.opened) {
+        const dist = Math.hypot((player.x + 8) - (chest.x + 8), (player.y + 8) - (chest.y + 8));
+        if (dist < 26) {
+          chest.opened = true;
+          audio.playChestFanfare();
+
+          if (chest.content === 'rupees') {
+            rupees += chest.val;
+            updateHUD();
+            showToast(`★ 獲得 ${chest.val} 盧比！★`);
+          } else if (chest.content === 'noiseBook') {
+            gotNoiseBook = true;
+            maxHearts = Math.max(maxHearts, 4);
+            hearts = maxHearts;
+            updateHUD();
+            document.getElementById('modalTitle').innerText = "★ 降噪古代神殿大功告成！ ★";
+            document.getElementById('modalDesc').innerHTML = `
+              擊敗了雜訊領主，奪回了傳奇《降噪人生》！<br>
+              心智 RAM 全面卸載，心之容器擴充至 4 顆！<br>
+              向東前往【心富聖泉谷】尋求終極水庫秘笈！
+            `;
+            document.getElementById('modalLinkBtn').href = "link.html#book-noise";
+            document.getElementById('modalLinkBtn').innerText = "📘 閱讀《降噪人生》";
+            document.getElementById('itemModal').classList.add('active');
+          } else if (chest.content === 'wealthBlessing') {
+            gotWealthBlessing = true;
+            maxHearts = 5;
+            hearts = 5;
+            updateHUD();
+            document.getElementById('modalTitle').innerText = "★ 心財同源・水庫覺醒！ ★";
+            document.getElementById('modalDesc').innerHTML = `
+              沐浴於 80/15/5 水庫聖泉中，領悟了《心富》精髓！<br>
+              心之容器擴充至 5 顆（全滿神力）！少做多得自轉達成！
+            `;
+            document.getElementById('modalLinkBtn').href = "link.html#book-xinfu";
+            document.getElementById('modalLinkBtn').innerText = "💎 閱讀《心富》";
+            document.getElementById('itemModal').classList.add('active');
+          }
+          return;
+        }
+      }
+
+      // 3. Check NPCs
+      if (curMapKey === '0,1') {
+        // Village Chief (near x: 150, y: 70)
+        if (Math.hypot((player.x + 8) - 150, (player.y + 8) - 70) < 30) {
+          openDialogue("🐻", "村長白熊", gotNoiseBook ? dialogues.villageChiefDone : dialogues.villageChief);
+          return;
+        }
+        // Anxious Bear (near x: 80, y: 120)
+        if (Math.hypot((player.x + 8) - 80, (player.y + 8) - 120) < 28) {
+          openDialogue("🧸", "焦慮的小熊", dialogues.anxiousBear);
+          return;
+        }
+      } else if (curMapKey === '1,1') {
+        // Ancient Stone Tablet (near x: 195, y: 150)
+        if (Math.hypot((player.x + 8) - 195, (player.y + 8) - 150) < 28) {
+          openDialogue("📜", "古老石碑", dialogues.forestSign);
+          return;
+        }
+      } else if (curMapKey === '2,1') {
+        // Fountain Fairy (near x: 160, y: 90)
+        if (Math.hypot((player.x + 8) - 160, (player.y + 8) - 90) < 35) {
+          openDialogue("🧚‍♀️", "聖泉水庫精靈", dialogues.fountainFairy);
+          return;
+        }
+      }
+    }
+
+    /* ========================================================
+     * 6. PUSH BLOCK PUZZLE IN FOREST
+     * ======================================================== */
+    function checkPushBlock() {
+      if (currentMapX !== 1 || currentMapY !== 1) return;
+      if (puzzleBlock.onSwitch) return;
+
+      const px = player.x + 8, py = player.y + 8;
+      const bx = puzzleBlock.x + 10, by = puzzleBlock.y + 10;
+      const dist = Math.hypot(px - bx, py - by);
+
+      if (dist < 18) {
+        // Push in player direction
+        if (player.dir === 'up' && py > by) puzzleBlock.y -= 1.2;
+        if (player.dir === 'down' && py < by) puzzleBlock.y += 1.2;
+        if (player.dir === 'left' && px > bx) puzzleBlock.x -= 1.2;
+        if (player.dir === 'right' && px < bx) puzzleBlock.x += 1.2;
+
+        // Check switch trigger
+        const switchDist = Math.hypot((puzzleBlock.x + 10) - (puzzleSwitch.x + 10), (puzzleBlock.y + 10) - (puzzleSwitch.y + 10));
+        if (switchDist < 10) {
+          puzzleBlock.onSwitch = true;
+          puzzleBlock.x = puzzleSwitch.x;
+          puzzleBlock.y = puzzleSwitch.y;
+          templeUnlocked = true;
+          audio.playPuzzleSolved();
+          showToast("★ 轟隆隆！北方神殿石門已開啟！★");
+        }
+      }
+    }
+
+    /* ========================================================
+     * 7. MAP BOUNDARIES & ROOM TRANSITIONS
+     * ======================================================== */
+    function checkMapTransitions() {
+      // East Exit
+      if (player.x > canvas.width - 16) {
+        if (currentMapX < 2 && currentMapY === 1) {
+          currentMapX++;
+          player.x = 18;
+          onEnterNewMap();
+        } else {
+          player.x = canvas.width - 16;
+        }
+      }
+      // West Exit
+      else if (player.x < 12) {
+        if (currentMapX > 0 && currentMapY === 1) {
+          currentMapX--;
+          player.x = canvas.width - 20;
+          onEnterNewMap();
+        } else {
+          player.x = 12;
+        }
+      }
+      // North Exit
+      else if (player.y < 24) {
+        if (currentMapX === 1 && currentMapY === 1) {
+          if (templeUnlocked) {
+            currentMapY = 0; // Enter Temple (1, 0)
+            player.y = canvas.height - 30;
+            onEnterNewMap();
+          } else {
+            player.y = 24;
+            showToast("⚠️ 神殿石門深鎖！需解開森林石塊機關！");
+          }
+        } else {
+          player.y = 24;
+        }
+      }
+      // South Exit
+      else if (player.y > canvas.height - 24) {
+        if (currentMapX === 1 && currentMapY === 0) {
+          currentMapY = 1; // Exit Temple back to Forest
+          player.y = 30;
+          onEnterNewMap();
+        } else {
+          player.y = canvas.height - 24;
+        }
+      }
+    }
+
+    function onEnterNewMap() {
+      updateMinimapHUD();
+      const name = MAP_NAMES[`${currentMapX},${currentMapY}`] || '未知區域';
+      showToast(`【進入：${name}】`);
+    }
+
+    /* ========================================================
+     * 8. MAIN RETRO GAME LOOP
+     * ======================================================== */
+    function gameLoop() {
+      // Movement
+      let dx = 0, dy = 0;
+      if (keys.up) { dy -= 1; player.dir = 'up'; }
+      if (keys.down) { dy += 1; player.dir = 'down'; }
+      if (keys.left) { dx -= 1; player.dir = 'left'; }
+      if (keys.right) { dx += 1; player.dir = 'right'; }
+
+      if (dx !== 0 || dy !== 0) {
+        player.moving = true;
+        const len = Math.hypot(dx, dy);
+        player.x += (dx / len) * player.speed;
+        player.y += (dy / len) * player.speed;
+        player.walkFrame++;
+      } else {
+        player.moving = false;
+      }
+
+      checkPushBlock();
+      checkMapTransitions();
+
+      // Slashing timer
+      if (player.slashing) {
+        player.slashTimer--;
+        if (player.slashTimer <= 0) player.slashing = false;
+      }
+
+      // Invulnerable timer
+      if (player.invulnerable > 0) player.invulnerable--;
+
+      // Update Enemies on current map
+      const curMapKey = `${currentMapX},${currentMapY}`;
+      const enemies = mapEnemies[curMapKey] || [];
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        en.x += en.vx;
+        if (en.x < 50 || en.x > 250) en.vx *= -1;
+        if (en.flash > 0) en.flash--;
+
+        // Boss Shoot Orbs
+        if (en.type === 'boss') {
+          en.shootTimer++;
+          if (en.shootTimer > 90) {
+            en.shootTimer = 0;
+            projectiles.push({
+              x: en.x + 16, y: en.y + 20,
+              vx: (player.x - en.x) * 0.02, vy: (player.y - en.y) * 0.02,
+              life: 120
+            });
+          }
+        }
+
+        // Damage Player
+        if (player.invulnerable === 0) {
+          const dist = Math.hypot((player.x + 8) - (en.x + en.w / 2), (player.y + 8) - (en.y + en.h / 2));
+          if (dist < 14) {
+            hearts--;
+            player.invulnerable = 40;
+            audio.playHit();
+            updateHUD();
+            if (hearts <= 0) {
+              hearts = maxHearts;
+              currentMapX = 0; currentMapY = 1; // Respawn at Village
+              player.x = 150; player.y = 130;
+              updateHUD();
+              showToast("💀 內耗倒下！在寧靜村莊重生！");
+            }
+          }
+        }
+      });
+
+      // Update Boss Projectiles
+      for (let i = projectiles.length - 1; i >= 0; i--) {
+        const p = projectiles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+        if (player.invulnerable === 0) {
+          if (Math.hypot((player.x + 8) - p.x, (player.y + 8) - p.y) < 10) {
+            hearts--;
+            player.invulnerable = 35;
+            audio.playHit();
+            updateHUD();
+            projectiles.splice(i, 1);
+            continue;
+          }
+        }
+        if (p.life <= 0) projectiles.splice(i, 1);
+      }
+
+      // Update Drops
+      drops.forEach((d, idx) => {
+        d.timer++;
+        const dist = Math.hypot((player.x + 8) - (d.x + 4), (player.y + 8) - (d.y + 4));
+        if (dist < 14) {
+          if (d.type === 'rupee') {
+            rupees += d.val;
+            audio.playRupee();
+          } else {
+            hearts = Math.min(maxHearts, hearts + 1);
+            audio.playRupee();
+          }
+          updateHUD();
+          drops.splice(idx, 1);
+        }
+      });
+
+      // Update Particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        p.life--;
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+
+      // Render Map & Objects
+      renderWorld();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    /* ========================================================
+     * 9. WORLD RENDERING
+     * ======================================================== */
+    function renderWorld() {
+      const curMapKey = `${currentMapX},${currentMapY}`;
+
+      // --- MAP (0, 1): 寧靜村莊 ---
+      if (curMapKey === '0,1') {
+        ctx.fillStyle = '#4caf50'; // Bright peaceful green
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Path to East
+        ctx.fillStyle = '#d7ccc8';
+        ctx.fillRect(130, 120, canvas.width - 130, 24);
+
+        // Village Chief Wooden House
+        ctx.fillStyle = '#795548';
+        ctx.fillRect(120, 25, 60, 40);
+        ctx.fillStyle = '#5d4037'; // Roof
+        ctx.fillRect(115, 15, 70, 12);
+        ctx.fillStyle = '#ffb74d'; // Window glow
+        ctx.fillRect(130, 35, 12, 12);
+        ctx.fillRect(158, 35, 12, 12);
+        ctx.fillStyle = '#3e2723'; // Door
+        ctx.fillRect(144, 45, 12, 20);
+
+        // Village Chief NPC Sprite
+        drawPixelMatrix(ctx, SPRITE_BEAR_DOWN, { ...BEAR_PALETTE, 'G': '#3f51b5' }, 145, 65, 1.1);
+
+        // Anxious Bear NPC Sprite
+        drawPixelMatrix(ctx, SPRITE_BEAR_DOWN, { ...BEAR_PALETTE, 'G': '#ff9800' }, 75, 115, 1.0);
+
+        // Village Wishing Well
+        ctx.fillStyle = '#78909c';
+        ctx.fillRect(60, 45, 20, 16);
+        ctx.fillStyle = '#0288d1';
+        ctx.fillRect(63, 49, 14, 8);
+
+        // Fences
+        ctx.fillStyle = '#8d6e63';
+        for (let x = 20; x < 100; x += 12) ctx.fillRect(x, 100, 8, 4);
+      }
+
+      // --- MAP (1, 1): 迷霧森林 ---
+      else if (curMapKey === '1,1') {
+        ctx.fillStyle = '#2e7d32'; // Deep forest green
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Crossroads (West to Village, East to Spring, North to Temple)
+        ctx.fillStyle = '#8d6e63';
+        ctx.fillRect(0, 120, canvas.width, 22);
+        ctx.fillRect(145, 0, 30, canvas.height);
+
+        // North Temple Stone Gate
+        ctx.fillStyle = templeUnlocked ? '#4caf50' : '#d32f2f';
+        ctx.fillRect(140, 2, 40, 10);
+        if (!templeUnlocked) {
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '8px sans-serif';
+          ctx.fillText('🔒 封印石門', 135, 24);
+        }
+
+        // Ancient Puzzle Switch (Plate on ground)
+        ctx.fillStyle = puzzleBlock.onSwitch ? '#4caf50' : '#f57f17';
+        ctx.fillRect(puzzleSwitch.x, puzzleSwitch.y, puzzleSwitch.w, puzzleSwitch.h);
+        ctx.fillStyle = '#fff9c4';
+        ctx.fillRect(puzzleSwitch.x + 4, puzzleSwitch.y + 4, 12, 12);
+
+        // Pushable Stone Block
+        ctx.fillStyle = '#616161';
+        ctx.fillRect(puzzleBlock.x, puzzleBlock.y, puzzleBlock.w, puzzleBlock.h);
+        ctx.fillStyle = '#9e9e9e';
+        ctx.fillRect(puzzleBlock.x + 2, puzzleBlock.y + 2, puzzleBlock.w - 4, puzzleBlock.h - 4);
+
+        // Forest Trees
+        ctx.fillStyle = '#1b5e20';
+        ctx.fillRect(20, 20, 36, 40);
+        ctx.fillRect(260, 20, 40, 40);
+        ctx.fillRect(20, 170, 40, 40);
+        ctx.fillRect(260, 170, 40, 40);
+      }
+
+      // --- MAP (1, 0): 降噪古代神殿 (Dungeon & Boss) ---
+      else if (curMapKey === '1,0') {
+        ctx.fillStyle = '#1e222d'; // Dark stone dungeon
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Dungeon Grid Tiles
+        ctx.strokeStyle = '#282e3d';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < canvas.width; x += 32) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += 32) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+        }
+
+        // Torches with flame
+        ctx.fillStyle = '#ff7043';
+        const flameBob = Math.sin(Date.now() * 0.02) * 2;
+        ctx.fillRect(40, 30 + flameBob, 6, 8);
+        ctx.fillRect(274, 30 + flameBob, 6, 8);
+
+        // Boss Health Bar
+        const boss = mapEnemies['1,0'][0];
+        if (boss && boss.alive) {
+          ctx.fillStyle = '#000';
+          ctx.fillRect(100, 14, 120, 8);
+          ctx.fillStyle = '#e53935';
+          ctx.fillRect(102, 16, (boss.hp / boss.maxHp) * 116, 4);
+          ctx.fillStyle = '#ffcdd2';
+          ctx.font = '6px sans-serif';
+          ctx.fillText('BOSS: 內耗雜訊領主', 118, 10);
+        }
+      }
+
+      // --- MAP (2, 1): 心富聖泉谷 ---
+      else if (curMapKey === '2,1') {
+        ctx.fillStyle = '#388e3c';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Path from West
+        ctx.fillStyle = '#bcaaa4';
+        ctx.fillRect(0, 120, 120, 22);
+
+        // Sacred Fountain (80/15/5 水庫聖泉)
+        ctx.fillStyle = '#00acc1';
+        ctx.beginPath();
+        ctx.arc(160, 100, 36, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#e0f7fa';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Fountain Water Sparkle
+        ctx.fillStyle = '#ffffff';
+        const spk = Math.sin(Date.now() * 0.01) * 6;
+        ctx.fillRect(160 + spk, 96, 4, 4);
+        ctx.fillRect(150, 104 + spk, 3, 3);
+
+        // Fountain Fairy NPC
+        ctx.font = '16px sans-serif';
+        ctx.fillText('🧚‍♀️', 152, 90);
+      }
+
+      // Draw Bushes
+      const bushes = mapBushes[curMapKey] || [];
+      bushes.forEach(b => {
+        if (!b.cut) {
+          drawPixelMatrix(ctx, SPRITE_BUSH, BUSH_PALETTE, b.x, b.y, 1.5);
+        } else {
+          ctx.fillStyle = '#795548';
+          ctx.fillRect(b.x + 4, b.y + 8, 8, 4);
+        }
+      });
+
+      // Draw Chest
+      const chest = mapChests[curMapKey];
+      if (chest) {
+        if (!chest.opened) {
+          drawPixelMatrix(ctx, SPRITE_CHEST, CHEST_PALETTE, chest.x, chest.y, 1.6);
+        } else {
+          ctx.fillStyle = '#4e342e';
+          ctx.fillRect(chest.x, chest.y, 16, 12);
+          ctx.fillStyle = '#ffd54f';
+          ctx.fillRect(chest.x + 2, chest.y - 4, 12, 4);
+        }
+      }
+
+      // Draw Drops
+      drops.forEach(d => {
+        const bob = Math.sin(d.timer * 0.15) * 2;
+        if (d.type === 'rupee') {
+          ctx.fillStyle = d.val > 1 ? '#e91e63' : '#a3be8c';
+          ctx.fillRect(d.x + 2, d.y + bob, 6, 8);
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(d.x + 3, d.y + 2 + bob, 2, 2);
+        } else {
+          ctx.fillText('❤️', d.x, d.y + 8 + bob);
+        }
+      });
+
+      // Draw Enemies
+      const enemies = mapEnemies[curMapKey] || [];
+      enemies.forEach(en => {
+        if (!en.alive) return;
+        if (en.flash > 0) {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(en.x, en.y, en.w, en.h);
+        } else {
+          if (en.type === 'boss') {
+            drawPixelMatrix(ctx, SPRITE_BOSS, BOSS_PALETTE, en.x, en.y, 2.0);
+          } else {
+            drawPixelMatrix(ctx, SPRITE_SLIME, SLIME_PALETTE, en.x, en.y, 1.2);
+          }
+        }
+      });
+
+      // Draw Boss Projectiles
+      ctx.fillStyle = '#f44336';
+      projectiles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw Hero Bear
+      if (player.invulnerable % 6 < 3) {
+        const curSprite = (player.moving && Math.floor(player.walkFrame / 8) % 2 === 1) ? SPRITE_BEAR_WALK : SPRITE_BEAR_DOWN;
+        drawPixelMatrix(ctx, curSprite, BEAR_PALETTE, player.x, player.y, 1.2);
+
+        // Sword Slash Trail
+        if (player.slashing) {
+          ctx.fillStyle = '#64b5f6';
+          if (player.dir === 'down') {
+            ctx.fillRect(player.x - 4, player.y + 16, 24, 6);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(player.x, player.y + 17, 18, 3);
+          } else if (player.dir === 'up') {
+            ctx.fillRect(player.x - 4, player.y - 6, 24, 6);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(player.x, player.y - 5, 18, 3);
+          } else if (player.dir === 'left') {
+            ctx.fillRect(player.x - 8, player.y - 2, 6, 22);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(player.x - 7, player.y + 2, 3, 16);
+          } else if (player.dir === 'right') {
+            ctx.fillRect(player.x + 18, player.y - 2, 6, 22);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(player.x + 19, player.y + 2, 3, 16);
+          }
+        }
+      }
+
+      // Draw Leaf Particles
+      particles.forEach(p => {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, 3, 3);
+      });
+    }
+
+    // Modal Continue button
+    document.getElementById('continuePlayBtn').addEventListener('click', () => {
+      document.getElementById('itemModal').classList.remove('active');
+    });
+
+    // Start Game
+    updateHUD();
+    showToast("【進入：寧靜村莊】");
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+</html>

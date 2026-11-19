@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>EP01 — 大腦 RAM 清倉術（水墨禪意版）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2D2520;
+    --brown-deep: #5D4632;
+    --brown-mid: #8B6F47;
+    --brown-light: #D4B896;
+    --paper: #F4EFE5;
+    --paper-deep: #E8DFCB;
+    --gold: #B89968;
+    --gold-soft: #C9A961;
+    --gray-mist: #9C9388;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #2a2520;
+    font-family: "Noto Serif TC", "Songti SC", serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide {
+    width: 1376px;
+    height: 768px;
+    margin: 24px auto;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 1200px 600px at 80% 110%, rgba(157,138,108,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 800px 500px at 10% -10%, rgba(93,70,50,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 600px 400px at 95% 5%, rgba(180,150,110,0.12) 0%, transparent 55%),
+      linear-gradient(180deg, #F6F1E7 0%, #F0E9D8 100%);
+  }
+  /* 紙質紋理 */
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(93,70,50,0.04) 0%, transparent 1.5%),
+      radial-gradient(circle at 75% 60%, rgba(93,70,50,0.05) 0%, transparent 1.8%),
+      radial-gradient(circle at 50% 80%, rgba(93,70,50,0.04) 0%, transparent 1.2%),
+      radial-gradient(circle at 90% 20%, rgba(93,70,50,0.03) 0%, transparent 1.5%);
+    background-size: 220px 220px, 280px 280px, 180px 180px, 320px 320px;
+    pointer-events: none;
+  }
+  /* 邊框 + 四角金飾 */
+  .frame {
+    position: absolute;
+    inset: 36px;
+    border: 1px solid rgba(184,153,104,0.35);
+    pointer-events: none;
+  }
+  .corner {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+  }
+  .corner.tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+  /* 雲紋裝飾 */
+  .cloud {
+    position: absolute;
+    color: rgba(184,153,104,0.35);
+    font-size: 22px;
+    letter-spacing: 0.3em;
+  }
+  .cloud.right { top: 80px; right: 90px; }
+  .cloud.left { bottom: 90px; left: 90px; }
+  /* 內容容器 */
+  .content {
+    position: absolute;
+    inset: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px 80px;
+    z-index: 2;
+  }
+  .content.start { justify-content: flex-start; padding-top: 80px; }
+  /* 上方標籤 */
+  .tag {
+    display: inline-block;
+    padding: 8px 32px;
+    background: var(--brown-deep);
+    color: var(--paper);
+    font-family: "Noto Serif TC", serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    margin-bottom: 32px;
+  }
+  /* 裝飾分隔線 */
+  .ornament {
+    width: 360px;
+    height: 30px;
+    background-image:
+      linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    margin: 8px 0 36px;
+  }
+  .ornament::before, .ornament::after {
+    content: "❖";
+    color: var(--gold);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    background: var(--paper);
+    padding: 0 12px;
+  }
+  .ornament::before { left: 50%; transform: translate(-50%, -50%); }
+  .ornament::after { display: none; }
+  /* 主文字 */
+  .main {
+    font-family: "Noto Serif TC", "Songti SC", serif;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.55;
+    letter-spacing: 0.04em;
+  }
+  .main.xxl { font-size: 84px; line-height: 1.3; font-weight: 900; }
+  .main.xl  { font-size: 64px; line-height: 1.4; }
+  .main.lg  { font-size: 48px; line-height: 1.5; }
+  .main.md  { font-size: 36px; line-height: 1.6; font-weight: 500; }
+  .accent { color: var(--brown-deep); }
+  .highlight { color: var(--brown-deep); font-weight: 900; }
+  /* 引言（金句頁專用） */
+  .quote-mark {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 120px;
+    color: var(--gold);
+    line-height: 0.5;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  /* 副標 */
+  .subtitle {
+    margin-top: 28px;
+    font-family: "Noto Serif TC", serif;
+    font-size: 30px;
+    color: var(--brown-mid);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  /* 底部署名 */
+  .signature {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Noto Serif TC", serif;
+    font-size: 22px;
+    color: var(--brown-mid);
+    letter-spacing: 0.3em;
+    z-index: 3;
+  }
+  .signature.book::before, .signature.book::after {
+    content: "《";
+    color: var(--brown-mid);
+  }
+  .signature.book::after { content: "》"; }
+  .signature-line {
+    text-align: center;
+  }
+  .signature-line .ep {
+    display: inline-block;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+    letter-spacing: 0.3em;
+    margin-right: 18px;
+    padding-right: 18px;
+    border-right: 1px solid var(--brown-light);
+    color: var(--gray-mist);
+  }
+  /* 條列（含序號） */
+  .ol-zen {
+    list-style: none;
+    counter-reset: zen;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .ol-zen li {
+    counter-increment: zen;
+    font-family: "Noto Serif TC", serif;
+    font-size: 30px;
+    line-height: 1.7;
+    color: var(--ink);
+    padding: 14px 0;
+    border-bottom: 1px dashed rgba(184,153,104,0.4);
+    position: relative;
+    padding-left: 60px;
+  }
+  .ol-zen li::before {
+    content: counter(zen, cjk-decimal) "、";
+    color: var(--brown-deep);
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+    top: 14px;
+  }
+  .ol-zen li:last-child { border-bottom: none; }
+  /* 三步驟卡（直書感） */
+  .step-trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .step-zen {
+    border: 1px solid var(--brown-light);
+    padding: 28px 20px;
+    text-align: center;
+    background: rgba(255,253,247,0.4);
+  }
+  .step-zen .num-zh {
+    font-family: "Noto Serif TC", serif;
+    font-size: 28px;
+    color: var(--brown-deep);
+    font-weight: 700;
+    border-bottom: 1px solid var(--brown-light);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    letter-spacing: 0.3em;
+  }
+  .step-zen .step-title {
+    font-family: "Noto Serif TC", serif;
+    font-size: 28px;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.1em;
+  }
+  .step-zen .step-desc {
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 18px;
+    color: var(--brown-mid);
+    line-height: 1.7;
+  }
+  /* CTA 三平台 */
+  .cta-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .cta-pill {
+    border: 1px solid var(--brown-deep);
+    color: var(--brown-deep);
+    padding: 16px 36px;
+    font-family: "Noto Serif TC", serif;
+    font-size: 24px;
+    letter-spacing: 0.2em;
+    background: rgba(255,253,247,0.5);
+  }
+  /* 下集預告 */
+  .next-box {
+    margin-top: 36px;
+    background: var(--brown-deep);
+    color: var(--paper);
+    padding: 28px 48px;
+    display: inline-flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .next-box .next-label {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    border-right: 1px solid rgba(184,153,104,0.4);
+    padding-right: 24px;
+  }
+  .next-box .next-title {
+    font-family: "Noto Serif TC", serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .next-box .next-sub {
+    font-family: "Noto Serif TC", serif;
+    font-size: 18px;
+    color: var(--brown-light);
+    margin-top: 4px;
+  }
+  /* === Print === */
+  @page { size: 1376px 768px; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .slide { margin: 0; box-shadow: none; page-break-after: always; }
+    .slide:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SLIDE 1：封面 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <span class="cloud left">︵︵︵</span>
+  <div class="content">
+    <span class="tag">第　一　集</span>
+    <div class="ornament"></div>
+    <h1 class="main xxl"><span class="accent">大腦</span>RAM<br>清倉術</h1>
+    <p class="subtitle">你大腦現在跑了幾個 App？</p>
+  </div>
+  <div class="signature signature-line">
+    <span class="ep">EP.01</span>《降噪人生》第 5.1 章
+  </div>
+</section>
+
+<!-- ============ SLIDE 2：痛點場景 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <div class="content">
+    <span class="tag">你是不是這樣</span>
+    <div class="ornament"></div>
+    <ol class="ol-zen">
+      <li>下班躺沙發，<span class="highlight">累得像被卡車輾過</span>，但你沒搬磚也沒運動</li>
+      <li>洗澡洗到一半，突然驚覺：「啊！下午忘記打給客戶」</li>
+      <li>躺床想睡，腦袋像 <span class="highlight">30 個沒關的瀏覽器分頁</span>，越想睡越燙</li>
+    </ol>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 3：不是體力差 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <span class="cloud left">︵︵︵</span>
+  <div class="content">
+    <span class="tag">真　相</span>
+    <div class="ornament"></div>
+    <h2 class="main xl">不是體力差<br><span class="accent">是大腦當機了</span></h2>
+    <p class="subtitle">你的大腦 RAM <span class="highlight">跑滿了</span></p>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 4：蔡加尼克效應 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <div class="content">
+    <span class="tag">心　理　學　發　現</span>
+    <div class="ornament"></div>
+    <h2 class="main xl"><span class="accent">蔡加尼克效應</span></h2>
+    <p class="subtitle" style="font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:0.06em;">Zeigarnik Effect</p>
+    <p class="main md" style="margin-top:36px;max-width:900px;">
+      大腦對「沒做完的事」會保持高度警覺，<br>
+      在你意識不到的地方，<span class="highlight">一直循環播放</span>。
+    </p>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 5：CPU 金句 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <span class="cloud left">︵︵︵</span>
+  <div class="content">
+    <span class="tag">金　　句</span>
+    <div class="ornament"></div>
+    <h2 class="main xl">
+      大腦是用來「<span class="accent">思考</span>」的，<br>
+      不是用來「<span class="accent">記憶</span>」的。
+    </h2>
+    <p class="subtitle" style="margin-top:32px;">— 大　衛 · 艾　倫</p>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 6：第二大腦 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <div class="content">
+    <span class="tag">解　　方</span>
+    <div class="ornament"></div>
+    <h2 class="main xl">幫大腦買個<br><span class="accent">外接硬碟</span></h2>
+    <p class="subtitle" style="margin-top:28px;">它叫做「<span class="highlight">第二大腦</span>」　Second Brain</p>
+    <p class="main md" style="margin-top:28px;color:var(--brown-mid);">
+      Notion ／ Obsidian ／ Evernote ／ 手機備忘錄　皆可<br>
+      <span style="color:var(--brown-deep);font-weight:700;">工具不重要，丟進去最重要</span>
+    </p>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 7：倉鼠 → 指揮官 金句 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <span class="cloud left">︵︵︵</span>
+  <div class="content">
+    <span class="tag">金　　句</span>
+    <div class="ornament"></div>
+    <h2 class="main xl">
+      別當被瑣事追著跑的<span class="accent">倉鼠</span>，<br>
+      當開啟上帝視角的<span class="accent">指揮官</span>。
+    </h2>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 8：三步驟 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <div class="content">
+    <span class="tag">實　　作</span>
+    <div class="ornament"></div>
+    <h2 class="main lg" style="margin-bottom:36px;">三步驟　<span class="accent">五分鐘啟動</span></h2>
+    <div class="step-trio">
+      <div class="step-zen">
+        <div class="num-zh">其　一</div>
+        <div class="step-title">準備外接硬碟</div>
+        <p class="step-desc">打開 Notion / Obsidian / 備忘錄。新建頁面叫「我的第二大腦」。</p>
+      </div>
+      <div class="step-zen">
+        <div class="num-zh">其　二</div>
+        <div class="step-title">徹底傾倒</div>
+        <p class="step-desc">把腦袋掛念的全部丟進去。不分類、不排序、不修飾。寫得越亂越好。</p>
+      </div>
+      <div class="step-zen">
+        <div class="num-zh">其　三</div>
+        <div class="step-title">跟大腦溝通</div>
+        <p class="step-desc">深呼吸告訴自己：「我已經外包記下來了。你可以停止發送警報了。」</p>
+      </div>
+    </div>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 9：現在就做 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <div class="content">
+    <span class="tag">行　動　呼　籲</span>
+    <div class="ornament"></div>
+    <h2 class="main xl">現在，<span class="accent">立刻 →</span></h2>
+    <ol class="ol-zen" style="margin-top:32px;">
+      <li>拿出手機，打開備忘錄</li>
+      <li>寫下這個當下「<span class="highlight">最掛念的 3 件小事</span>」</li>
+      <li>深呼吸告訴自己：「<span class="highlight">我已經外包了</span>」</li>
+    </ol>
+  </div>
+  <div class="signature book">降噪人生</div>
+</section>
+
+<!-- ============ SLIDE 10：CTA + 下集預告 ============ -->
+<section class="slide">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <span class="cloud right">︵︵︵</span>
+  <span class="cloud left">︵︵︵</span>
+  <div class="content">
+    <span class="tag">完　整　方　法</span>
+    <div class="ornament"></div>
+    <h2 class="main lg">收錄於《<span class="accent">降噪人生</span>》第 5.1 章</h2>
+    <div class="cta-row">
+      <span class="cta-pill">Readmoo</span>
+      <span class="cta-pill">Pubu</span>
+      <span class="cta-pill">樂天 Kobo</span>
+    </div>
+    <div class="next-box">
+      <span class="next-label">下　集　EP.02</span>
+      <div>
+        <div class="next-title">心靈防火牆</div>
+        <div class="next-sub">為什麼你越懂事越累？</div>
+      </div>
+    </div>
+  </div>
+  <div class="signature signature-line" style="bottom:42px;">
+    <span class="ep">每週三</span>上新片　訂閱頻道
+  </div>
+</section>
+
+</body>
+</html>
